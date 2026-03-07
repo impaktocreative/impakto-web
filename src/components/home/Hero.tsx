@@ -164,10 +164,12 @@ export default function Hero() {
               initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-normal text-[3rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[4.5rem] xl:text-[5rem] 2xl:text-[6rem] leading-[0.85] tracking-[-0.04em] text-foreground max-w-[15.8ch] lg:max-w-none text-balance"
+              className="font-heading font-normal text-[2.8rem] sm:text-[3.8rem] md:text-[4.5rem] lg:text-[3.6rem] xl:text-[4.2rem] 2xl:text-[4.8rem] leading-[0.95] tracking-[-0.02em] text-foreground max-w-[15ch] lg:max-w-none"
             >
-              <span className="hidden lg:inline lg:-ml-1">
-                Ordenamos tu presencia digital para que tu marca se <span className="italic">vea</span>, se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.
+              <span className="hidden lg:block lg:-ml-1">
+                <span className="block whitespace-nowrap">Ordenamos tu presencia digital</span>
+                <span className="block whitespace-nowrap">para que tu marca se <span className="italic">vea</span>,</span>
+                <span className="block whitespace-nowrap">se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.</span>
               </span>
               <span className="lg:hidden">
                 Ordenamos tu presencia digital para que tu marca se <span className="italic">vea</span>, se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.
