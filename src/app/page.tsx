@@ -1,12 +1,21 @@
+import Hero from "@/components/home/Hero";
+import IntroPanel from "@/components/home/IntroPanel";
+import ValueProposition from "@/components/home/ValueProposition";
+import ServicesOverview from "@/components/home/ServicesOverview";
+import Methodology from "@/components/home/Methodology";
+import IdealClient from "@/components/home/IdealClient";
+import FinalCTA from "@/components/home/FinalCTA";
+
 export default function Home() {
   return (
-    <main className="flex-grow flex items-center justify-center p-8">
-      <div className="text-center">
-        <h1 className="text-4xl text-foreground mb-4">Impakto Creative</h1>
-        <p className="text-lg text-foreground/80 max-w-md mx-auto">
-          Plataforma en desarrollo.
-        </p>
-      </div>
+    <main className="flex-grow pt-[88px]">
+      <Hero />
+      <IntroPanel />
+      <ValueProposition />
+      <ServicesOverview />
+      <Methodology />
+      <IdealClient />
+      <FinalCTA />
     </main>
   );
 }

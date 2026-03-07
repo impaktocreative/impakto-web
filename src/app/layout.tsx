@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Impakto Creative | Agencia de Posicionamiento y Crecimiento",
@@ -14,8 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className="antialiased selection:bg-foreground selection:text-primary min-h-screen flex flex-col">
+      <body className="antialiased selection:bg-foreground selection:text-primary min-h-screen flex flex-col font-sans text-foreground bg-background">
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
