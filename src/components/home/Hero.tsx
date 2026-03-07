@@ -196,7 +196,7 @@ export default function Hero() {
               <Magnetic strength={1}>
                 <Link
                   href="/contacto"
-                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full bg-primary px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-background shadow-[0_10px_26px_rgba(54,53,49,0.14)] transition-all duration-300 hover:bg-foreground hover:text-background hover:scale-[1.03]"
+                  className="relative group inline-flex min-h-[3.3rem] items-center justify-center rounded-full bg-primary px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-background shadow-premium-soft transition-all duration-300 hover:bg-foreground hover:text-background hover:scale-[1.03] hover:shadow-premium-glow"
                 >
                   Agendar una reunión
                 </Link>
@@ -204,7 +204,7 @@ export default function Hero() {
               <Magnetic strength={0.5}>
                 <Link
                   href="/servicios"
-                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-white/70 px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-foreground/78 transition-all duration-300 hover:border-foreground/26 hover:bg-white hover:scale-[1.03]"
+                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-white/70 px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-foreground/78 shadow-sm transition-all duration-300 hover:border-foreground/26 hover:bg-white hover:scale-[1.03] hover:shadow-premium-soft"
                 >
                   Ver servicios
                 </Link>
@@ -219,6 +219,9 @@ export default function Hero() {
             className="relative z-10 hidden lg:flex lg:col-span-4 justify-end xl:pl-8"
           >
             <div className="w-full max-w-[28rem] relative min-h-[17rem]">
+              {/* Premium Subtle Glow Behind Cards */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-[radial-gradient(circle_at_center,rgba(250,241,231,0.8),transparent_70%)] rounded-full blur-2xl pointer-events-none z-[-1]" />
+
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeConversation}
@@ -233,7 +236,7 @@ export default function Hero() {
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     exit={{ opacity: 0, x: -16, y: -6 }}
                     transition={{ duration: 0.38 }}
-                    className="mr-8 rounded-[1.15rem] rounded-bl-[0.3rem] bg-white px-6 py-4 shadow-[0_14px_34px_rgba(54,53,49,0.12)] border border-foreground/8"
+                    className="mr-8 rounded-[1.15rem] rounded-bl-[0.3rem] bg-white/95 backdrop-blur-md px-6 py-4 shadow-premium-deep border border-white/60"
                   >
                     <p className="text-[1rem] text-foreground/78 leading-[1.45]">
                       <TypedText text={conversations[activeConversation].question} />
@@ -245,7 +248,7 @@ export default function Hero() {
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     exit={{ opacity: 0, x: 16, y: -6 }}
                     transition={{ duration: 0.42, delay: 0.42 }}
-                    className="ml-8 rounded-[1.2rem] rounded-br-[0.3rem] bg-white px-6 py-5 shadow-[0_18px_42px_rgba(54,53,49,0.14)] border border-foreground/8"
+                    className="ml-8 rounded-[1.2rem] rounded-br-[0.3rem] bg-white/95 backdrop-blur-md px-6 py-5 shadow-premium-deep border border-white/60"
                   >
                     <p className="text-[0.98rem] text-foreground/76 leading-[1.6]">
                       <TypedText
@@ -259,8 +262,8 @@ export default function Hero() {
               </AnimatePresence>
             </div>
           </motion.div>
-        </div>
-      </div>
-    </section>
+        </div >
+      </div >
+    </section >
   );
 }
