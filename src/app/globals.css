@@ -6,8 +6,8 @@
   --color-accent: #dedcd4;
   --color-background: #faf1e7;
   --color-foreground: #363531;
-  --font-heading: "Season", "The Seasons", "Baskerville", Georgia, serif;
-  --font-sans: "Mundial", system-ui, sans-serif;
+  --font-heading: "Season Serif TRIAL Regular", "Season Serif TRIAL", "Season", "The Seasons", "Baskerville", Georgia, serif;
+  --font-sans: "Inter", "Inter Placeholder", "Mundial", system-ui, sans-serif;
 }
 
 body {

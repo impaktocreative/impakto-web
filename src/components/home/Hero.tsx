@@ -164,7 +164,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-normal text-[2.8rem] sm:text-[3.8rem] md:text-[4.5rem] lg:text-[3.6rem] xl:text-[4.2rem] 2xl:text-[4.8rem] leading-[0.95] tracking-[-0.01em] text-foreground max-w-[15ch] lg:max-w-none"
+              className="font-heading font-[470] text-[48px] leading-[0.95] tracking-[-0.01em] text-foreground max-w-[15ch] lg:max-w-none"
             >
               <span className="hidden lg:block lg:-ml-1">
                 <span className="block whitespace-nowrap">Ordenamos tu presencia digital</span>
@@ -180,7 +180,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.18 }}
-              className="mt-6 lg:mt-8 max-w-[39rem] font-sans text-[1rem] md:text-[1.1rem] text-foreground/60 leading-[1.65]"
+              className="mt-6 lg:mt-8 max-w-[39rem] font-sans text-[18px] font-normal text-foreground/60 leading-[1.65]"
             >
               Ordenamos la comunicación, la estructura digital y la forma en que
               una marca se presenta para que la percepción correcta se traduzca en
