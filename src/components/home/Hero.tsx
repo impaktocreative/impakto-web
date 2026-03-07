@@ -164,12 +164,12 @@ export default function Hero() {
               initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-normal text-[3rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[5rem] xl:text-[6rem] leading-[0.9] tracking-[-0.03em] text-foreground max-w-[15.8ch] lg:max-w-[50vw]"
+              className="font-heading font-normal text-[3rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[5rem] xl:text-[5.5rem] 2xl:text-[6.5rem] leading-[0.85] tracking-[-0.04em] text-foreground max-w-[15.8ch] lg:max-w-none"
             >
-              <span className="hidden lg:block">
-                <span className="block whitespace-nowrap">Ordenamos tu presencia digital</span>
-                <span className="block whitespace-nowrap">para que tu marca se <span className="italic">vea</span>,</span>
-                <span className="block whitespace-nowrap">se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.</span>
+              <span className="hidden lg:block lg:-ml-1">
+                <span className="block">Ordenamos tu presencia digital</span>
+                <span className="block">para que tu marca se <span className="italic">vea</span>,</span>
+                <span className="block">se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.</span>
               </span>
               <span className="lg:hidden">
                 Ordenamos tu presencia digital para que tu marca se <span className="italic">vea</span>, se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.
@@ -180,7 +180,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.18 }}
-              className="mt-7 max-w-[39rem] font-sans text-[1rem] md:text-[1.15rem] text-foreground/62 leading-[1.6]"
+              className="mt-8 lg:mt-10 max-w-[39rem] font-sans text-[1rem] md:text-[1.1rem] text-foreground/60 leading-[1.65]"
             >
               Ordenamos la comunicación, la estructura digital y la forma en que
               una marca se presenta para que la percepción correcta se traduzca en

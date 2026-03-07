@@ -48,8 +48,8 @@ export default function Navbar() {
             </div>
             <div
                 className={`container mx-auto px-6 md:px-12 flex items-center py-3.5 md:py-4.5 transition-all duration-500 ${isScrolled
-                        ? "bg-[#fdfaf6]/96 backdrop-blur-xl border-b border-foreground/8"
-                        : "bg-[#fdfaf6] border-b border-foreground/8"
+                    ? "bg-[#fdfaf6]/96 backdrop-blur-xl border-b border-foreground/8"
+                    : "bg-[#fdfaf6] border-b border-foreground/8"
                     }`}
             >
                 {/* Logo */}
@@ -68,7 +68,7 @@ export default function Navbar() {
                 </motion.div>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-8 ml-10 font-sans" aria-label="Navegación principal">
+                <nav className="hidden md:flex items-center gap-6 lg:gap-10 ml-auto mr-auto font-sans" aria-label="Navegación principal">
                     {navLinks.map((link, index) => (
                         <motion.div
                             key={link.name}
@@ -79,7 +79,7 @@ export default function Navbar() {
                             <Link
                                 href={link.href}
                                 aria-current={pathname === link.href ? "page" : undefined}
-                                className={`text-[0.84rem] tracking-[0.09em] uppercase transition-colors font-medium ${pathname === link.href ? "text-foreground" : "text-foreground/62 hover:text-foreground"}`}
+                                className={`text-[0.75rem] lg:text-[0.84rem] tracking-[0.09em] uppercase transition-colors font-medium ${pathname === link.href ? "text-foreground" : "text-foreground/62 hover:text-foreground"}`}
                             >
                                 {link.name}
                             </Link>
@@ -91,11 +91,11 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.42, delay: 0.14 }}
-                    className="hidden md:block ml-auto"
+                    className="hidden md:block"
                 >
                     <Link
                         href="/contacto"
-                        className="font-sans text-[0.84rem] tracking-[0.1em] uppercase px-5 py-2 rounded-[0.78rem] border border-primary/80 bg-primary text-background shadow-[0_10px_24px_rgba(54,53,49,0.16)] hover:bg-foreground hover:border-foreground hover:text-background transition-all duration-300 hover:-translate-y-[1px]"
+                        className="font-sans text-[0.75rem] lg:text-[0.84rem] tracking-[0.1em] uppercase px-5 py-2 rounded-[0.78rem] border border-primary/80 bg-primary text-background shadow-[0_10px_24px_rgba(54,53,49,0.16)] hover:bg-foreground hover:border-foreground hover:text-background transition-all duration-300 hover:-translate-y-[1px]"
                     >
                         Agendar reunión
                     </Link>
@@ -103,7 +103,7 @@ export default function Navbar() {
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="md:hidden text-foreground"
+                    className="md:hidden text-foreground ml-auto"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
                     aria-expanded={isMobileMenuOpen}
