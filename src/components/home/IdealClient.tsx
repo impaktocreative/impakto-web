@@ -18,18 +18,18 @@ const noFit = [
 
 export default function IdealClient() {
   return (
-    <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+    <section className="py-32 md:py-48 bg-background relative overflow-hidden">
       {/* Decorative gradient blur */}
       <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-accent/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-6 md:px-12">
-        <div className="max-w-4xl mb-16 md:mb-20">
+        <div className="max-w-[50rem] mb-20 md:mb-28">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-heading italic text-4xl md:text-5xl lg:text-[3.5rem] text-foreground mb-8 leading-[1.1] text-balance"
+            className="font-heading italic text-5xl md:text-[4.5rem] lg:text-[5rem] text-foreground mb-10 leading-[1.05] text-balance"
           >
             Trabajamos mejor con marcas y negocios que buscan una construcción seria
             y bien resuelta.
@@ -39,7 +39,7 @@ export default function IdealClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-foreground/60 leading-[1.7] text-lg md:text-[1.15rem] font-light max-w-3xl"
+            className="text-foreground/60 leading-[1.6] text-xl md:text-2xl font-light max-w-[42rem]"
           >
             Nuestros mejores proyectos aparecen cuando existe intención real de
             ordenar la presencia de una marca, elevar su percepción y construir
@@ -53,10 +53,10 @@ export default function IdealClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="glass relative overflow-hidden bg-white/40 p-8 md:p-12 rounded-2xl"
+            className="glass relative overflow-hidden bg-white/40 p-10 md:p-14 rounded-2xl"
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-50" />
-            <h3 className="font-heading text-3xl md:text-4xl mb-8 text-foreground/90">Encaje ideal</h3>
+            <h3 className="font-heading text-4xl md:text-[3rem] mb-10 text-foreground/90 leading-[1.1]">Encaje ideal</h3>
             <ul className="space-y-5">
               {fit.map((item, i) => (
                 <motion.li
@@ -79,9 +79,9 @@ export default function IdealClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="glass bg-foreground/[0.02] p-8 md:p-12 rounded-2xl"
+            className="glass bg-foreground/[0.02] p-10 md:p-14 rounded-2xl"
           >
-            <h3 className="font-heading text-3xl md:text-4xl mb-8 text-foreground/60">Cuando no hay alineación</h3>
+            <h3 className="font-heading text-4xl md:text-[3rem] mb-10 text-foreground/60 leading-[1.1]">Cuando no hay alineación</h3>
             <ul className="space-y-5">
               {noFit.map((item, i) => (
                 <motion.li

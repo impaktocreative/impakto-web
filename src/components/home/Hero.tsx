@@ -141,7 +141,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-background pt-[5.3rem] md:pt-[8.4rem] h-[100svh] min-h-[100svh] border-b border-foreground/7">
+    <section className="relative overflow-hidden bg-background pt-[8rem] md:pt-[12rem] h-[100svh] min-h-[100svh] border-b border-foreground/5">
       <div className="pointer-events-none absolute inset-y-0 left-[4%] hidden xl:block w-px bg-foreground/5" />
       <div className="pointer-events-none absolute inset-y-0 right-[4%] hidden xl:block w-px bg-foreground/5" />
 
@@ -164,7 +164,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-normal text-[2.62rem] sm:text-[3.2rem] md:text-[3.9rem] lg:text-[3.65rem] xl:text-[3.95rem] leading-[0.96] tracking-[-0.01em] text-foreground max-w-[15.8ch] lg:max-w-[50vw]"
+              className="font-heading font-normal text-[3rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[5rem] xl:text-[6rem] leading-[0.9] tracking-[-0.03em] text-foreground max-w-[15.8ch] lg:max-w-[50vw]"
             >
               <span className="hidden lg:block">
                 <span className="block whitespace-nowrap">Ordenamos tu presencia digital</span>
@@ -180,7 +180,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.18 }}
-              className="mt-7 max-w-[39rem] font-sans text-[0.98rem] md:text-[1.05rem] text-foreground/62 leading-[1.56]"
+              className="mt-7 max-w-[39rem] font-sans text-[1rem] md:text-[1.15rem] text-foreground/62 leading-[1.6]"
             >
               Ordenamos la comunicación, la estructura digital y la forma en que
               una marca se presenta para que la percepción correcta se traduzca en
@@ -196,7 +196,7 @@ export default function Hero() {
               <Magnetic strength={1}>
                 <Link
                   href="/contacto"
-                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full bg-primary px-9 py-3 text-sm font-medium uppercase tracking-[0.11em] text-background shadow-[0_10px_26px_rgba(54,53,49,0.14)] transition-all duration-300 hover:bg-foreground hover:text-background hover:scale-[1.03]"
+                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full bg-primary px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-background shadow-[0_10px_26px_rgba(54,53,49,0.14)] transition-all duration-300 hover:bg-foreground hover:text-background hover:scale-[1.03]"
                 >
                   Agendar una reunión
                 </Link>
@@ -204,7 +204,7 @@ export default function Hero() {
               <Magnetic strength={0.5}>
                 <Link
                   href="/servicios"
-                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-transparent px-9 py-3 text-sm font-medium uppercase tracking-[0.11em] text-foreground/78 transition-all duration-300 hover:border-foreground/26 hover:bg-white/40 hover:scale-[1.03]"
+                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-transparent px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-foreground/78 transition-all duration-300 hover:border-foreground/26 hover:bg-white/40 hover:scale-[1.03]"
                 >
                   Ver servicios
                 </Link>

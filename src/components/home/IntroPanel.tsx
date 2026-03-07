@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 
 export default function IntroPanel() {
   return (
-    <section className="py-24 md:py-32 bg-foreground text-background">
+    <section className="py-32 md:py-48 bg-foreground text-background">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -17,7 +17,7 @@ export default function IntroPanel() {
             <span className="text-sm tracking-[0.2em] uppercase text-primary/80 block mb-5 font-medium">
               Manifiesto operativo
             </span>
-            <h2 className="font-heading italic text-4xl md:text-5xl lg:text-[4rem] leading-[1.05] text-primary text-balance">
+            <h2 className="font-heading italic font-light text-5xl md:text-[4.5rem] lg:text-[5.5rem] leading-[0.95] tracking-[-0.02em] text-primary text-balance">
               La percepción de una marca se construye en cada decisión.
             </h2>
           </motion.div>

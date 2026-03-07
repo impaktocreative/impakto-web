@@ -6,14 +6,15 @@
   --color-accent: #dedcd4;
   --color-background: #faf1e7;
   --color-foreground: #363531;
-  --font-heading: var(--font-heading), serif;
-  --font-sans: var(--font-sans), sans-serif;
+  --font-heading: "Baskerville Display", "Baskerville", Georgia, serif;
+  --font-sans: "Mundial", system-ui, sans-serif;
 }
 
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

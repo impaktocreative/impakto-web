@@ -31,15 +31,15 @@ const values = [
 
 export default function ValueProposition() {
   return (
-    <section className="py-24 md:py-32 bg-background">
+    <section className="py-32 md:py-40 bg-background">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="mb-14 md:mb-18 flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-foreground/10 pb-7">
+        <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-foreground/5 pb-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="font-heading italic text-4xl md:text-5xl text-foreground text-balance"
+            className="font-heading italic text-5xl md:text-[4.5rem] text-foreground text-balance"
           >
             Qué aportamos
           </motion.h2>
@@ -48,7 +48,7 @@ export default function ValueProposition() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-sm tracking-[0.16em] uppercase text-foreground/50"
+            className="text-[0.8rem] tracking-[0.2em] uppercase text-primary/70 block pb-2"
           >
             Propuesta de valor
           </motion.span>
@@ -68,7 +68,7 @@ export default function ValueProposition() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative z-10">
                 <p className="text-[11px] tracking-[0.22em] uppercase text-foreground/40 mb-5 group-hover:text-primary transition-colors duration-300">{value.index}</p>
-                <h3 className="font-heading text-3xl md:text-4xl mb-4 text-foreground/90 group-hover:text-foreground transition-colors duration-300">
+                <h3 className="font-heading text-[2rem] md:text-[2.75rem] mb-4 text-foreground/90 group-hover:text-foreground transition-colors duration-300 leading-[1.1]">
                   {value.title}
                 </h3>
                 <p className="text-foreground/70 leading-[1.65] text-lg font-light group-hover:text-foreground/85 transition-colors duration-300">{value.description}</p>
