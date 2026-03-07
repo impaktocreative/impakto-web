@@ -4,9 +4,31 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "Impakto Creative | Agencia de Posicionamiento y Crecimiento",
-  description: "Impakto Creative ayuda a negocios y marcas a comunicar mejor, verse con más solidez y construir una presencia digital más enfocada.",
+  title: {
+    default: "Impakto Creative | Agencia de Posicionamiento y Crecimiento",
+    template: "%s | Impakto Creative",
+  },
+  description:
+    "Impakto Creative ayuda a marcas y negocios a ordenar su presencia digital con estrategia, diseño, estructura y comunicación orientada a resultados.",
   metadataBase: new URL("https://impaktocreative.com"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Impakto Creative | Agencia de Posicionamiento y Crecimiento",
+    description:
+      "Estrategia, diseño y estructura digital para marcas que buscan una presencia más clara, más sólida y mejor resuelta.",
+    url: "https://impaktocreative.com",
+    siteName: "Impakto Creative",
+    locale: "es_AR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Impakto Creative",
+    description:
+      "Agencia de posicionamiento, diseño y estructura digital para marcas con foco en claridad y crecimiento.",
+  },
 };
 
 export default function RootLayout({
@@ -17,6 +39,12 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <body className="antialiased selection:bg-foreground selection:text-primary min-h-screen flex flex-col font-sans text-foreground bg-background">
+        <a
+          href="#contenido-principal"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:bg-foreground focus:text-background focus:px-4 focus:py-2"
+        >
+          Ir al contenido principal
+        </a>
         <Navbar />
         {children}
         <Footer />

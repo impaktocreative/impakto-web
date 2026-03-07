@@ -1,14 +1,53 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Season Serif TRIAL";
+  src: url("/fonts/season-serif-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Season Serif TRIAL";
+  src: url("/fonts/season-serif-regular-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Season Serif TRIAL";
+  src: url("/fonts/season-serif-medium-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Season Serif TRIAL";
+  src: url("/fonts/season-serif-bold-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter Custom";
+  src: url("/fonts/inter-custom.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 @theme {
   --color-primary: #afa385;
   --color-secondary: #9aa490;
   --color-accent: #dedcd4;
   --color-background: #faf1e7;
   --color-foreground: #363531;
-  
-  --font-heading: "Baskerville Display", "Baskerville", Georgia, serif;
-  --font-sans: "Mundial", system-ui, sans-serif;
+  --font-heading: "Season Serif TRIAL", "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Inter Custom", "Manrope", "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
@@ -24,7 +63,19 @@ body {
   color: var(--color-primary);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: normal;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
 }
