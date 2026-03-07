@@ -1,7 +1,25 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
+
+const headingFont = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  weight: ["500", "600", "700", "300", "400"],
+  display: "swap",
+  style: ["normal", "italic"],
+});
+
+const bodyFont = Manrope({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "300"],
+  display: "swap",
+});
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import CustomCursor from "@/components/ui/CustomCursor";
+import SmoothScroll from "@/components/layout/SmoothScroll";
 
 export const metadata: Metadata = {
   title: {
@@ -37,17 +55,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <body className="antialiased selection:bg-foreground selection:text-primary min-h-screen flex flex-col font-sans text-foreground bg-background">
-        <a
-          href="#contenido-principal"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:bg-foreground focus:text-background focus:px-4 focus:py-2"
-        >
-          Ir al contenido principal
-        </a>
-        <Navbar />
-        {children}
-        <Footer />
+    <html lang="es">
+      <body className={`${headingFont.variable} ${bodyFont.variable} antialiased selection:bg-foreground selection:text-primary min-h-screen flex flex-col font-sans text-foreground bg-background`}>
+        <SmoothScroll>
+          <CustomCursor />
+          <a
+            href="#contenido-principal"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:bg-foreground focus:text-background focus:px-4 focus:py-2"
+          >
+            Ir al contenido principal
+          </a>
+          <Navbar />
+          {children}
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );

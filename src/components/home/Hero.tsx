@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
+import Magnetic from "@/components/ui/Magnetic";
 
 type Conversation = {
   question: string;
@@ -190,20 +191,24 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.28 }}
-              className="mt-9 flex flex-col sm:flex-row gap-4"
+              className="mt-9 flex flex-col sm:flex-row gap-4 lg:gap-6 items-start"
             >
-              <Link
-                href="/contacto"
-                className="inline-flex min-h-12 items-center justify-center rounded-[0.85rem] bg-primary px-8 py-3 text-sm font-medium uppercase tracking-[0.11em] text-background shadow-[0_10px_26px_rgba(54,53,49,0.14)] transition-colors hover:bg-foreground hover:text-background"
-              >
-                Agendar una reunión
-              </Link>
-              <Link
-                href="/servicios"
-                className="inline-flex min-h-12 items-center justify-center rounded-[0.85rem] border border-foreground/14 bg-[#fdfaf6] px-8 py-3 text-sm font-medium uppercase tracking-[0.11em] text-foreground/78 transition-colors hover:border-foreground/26 hover:bg-background"
-              >
-                Ver servicios
-              </Link>
+              <Magnetic strength={1}>
+                <Link
+                  href="/contacto"
+                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full bg-primary px-9 py-3 text-sm font-medium uppercase tracking-[0.11em] text-background shadow-[0_10px_26px_rgba(54,53,49,0.14)] transition-all duration-300 hover:bg-foreground hover:text-background hover:scale-[1.03]"
+                >
+                  Agendar una reunión
+                </Link>
+              </Magnetic>
+              <Magnetic strength={0.5}>
+                <Link
+                  href="/servicios"
+                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-transparent px-9 py-3 text-sm font-medium uppercase tracking-[0.11em] text-foreground/78 transition-all duration-300 hover:border-foreground/26 hover:bg-white/40 hover:scale-[1.03]"
+                >
+                  Ver servicios
+                </Link>
+              </Magnetic>
             </motion.div>
           </div>
 
