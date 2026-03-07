@@ -164,7 +164,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-normal text-[2.8rem] sm:text-[3.8rem] md:text-[4.5rem] lg:text-[3.6rem] xl:text-[4.2rem] 2xl:text-[4.8rem] leading-[0.95] tracking-[-0.02em] text-foreground max-w-[15ch] lg:max-w-none"
+              className="font-heading font-normal text-[2.8rem] sm:text-[3.8rem] md:text-[4.5rem] lg:text-[3.6rem] xl:text-[4.2rem] 2xl:text-[4.8rem] leading-[0.95] tracking-[-0.01em] text-foreground max-w-[15ch] lg:max-w-none"
             >
               <span className="hidden lg:block lg:-ml-1">
                 <span className="block whitespace-nowrap">Ordenamos tu presencia digital</span>
@@ -204,7 +204,7 @@ export default function Hero() {
               <Magnetic strength={0.5}>
                 <Link
                   href="/servicios"
-                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-transparent px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-foreground/78 transition-all duration-300 hover:border-foreground/26 hover:bg-white/40 hover:scale-[1.03]"
+                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-white/70 px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-foreground/78 transition-all duration-300 hover:border-foreground/26 hover:bg-white hover:scale-[1.03]"
                 >
                   Ver servicios
                 </Link>
