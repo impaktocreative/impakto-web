@@ -168,11 +168,11 @@ export default function Hero() {
             >
               <span className="hidden lg:block lg:-ml-1">
                 <span className="block whitespace-nowrap">Ordenamos tu presencia digital</span>
-                <span className="block whitespace-nowrap">para que tu marca se <span className="italic">vea</span>,</span>
-                <span className="block whitespace-nowrap">se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.</span>
+                <span className="block whitespace-nowrap">para que tu marca se <span className="font-medium italic">vea</span>,</span>
+                <span className="block whitespace-nowrap">se <span className="font-medium italic">entienda</span> y se <span className="font-medium italic">elija mejor</span>.</span>
               </span>
               <span className="lg:hidden">
-                Ordenamos tu presencia digital para que tu marca se <span className="italic">vea</span>, se <span className="italic">entienda</span> y se <span className="italic">elija mejor</span>.
+                Ordenamos tu presencia digital para que tu marca se <span className="font-medium italic">vea</span>, se <span className="font-medium italic">entienda</span> y se <span className="font-medium italic">elija mejor</span>.
               </span>
             </motion.h1>
 
