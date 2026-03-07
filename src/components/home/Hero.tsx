@@ -164,7 +164,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-[470] text-[48px] leading-[0.95] tracking-[-0.01em] text-foreground max-w-[15ch] lg:max-w-none"
+              className="font-heading font-[470] text-[2.2rem] sm:text-[2.8rem] md:text-[3.2rem] lg:text-[48px] xl:text-[48px] 2xl:text-[48px] leading-[0.95] tracking-[-0.01em] text-foreground max-w-[15ch] lg:max-w-none"
             >
               <span className="hidden lg:block lg:-ml-1">
                 <span className="block whitespace-nowrap">Ordenamos tu presencia digital</span>
