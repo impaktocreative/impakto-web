@@ -70,6 +70,64 @@ body::after {
   text-wrap: balance;
 }
 
+.premium-fade {
+  background: linear-gradient(
+    180deg,
+    rgba(250, 241, 231, 0.7) 0%,
+    rgba(250, 241, 231, 0.35) 42%,
+    rgba(250, 241, 231, 0.08) 100%
+  );
+}
+
+@keyframes premium-sheen {
+  0% {
+    transform: translateX(-130%) skewX(-18deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  45% {
+    transform: translateX(220%) skewX(-18deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(220%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+.premium-sheen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 48%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.48) 52%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: premium-sheen 4.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes float-soft {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-soft {
+  animation: float-soft 4.6s ease-in-out infinite;
+}
+
 ::selection {
   background-color: var(--color-foreground);
   color: var(--color-primary);
