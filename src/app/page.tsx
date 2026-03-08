@@ -9,10 +9,17 @@ import Methodology from "@/components/home/Methodology";
 import IdealClient from "@/components/home/IdealClient";
 import FAQ from "@/components/home/FAQ";
 import FinalCTA from "@/components/home/FinalCTA";
+import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
+  title: "Inicio",
+  description:
+    "Agencia estratégica para marcas que necesitan captar mejor, convertir con claridad y sostener crecimiento con estructura digital.",
   alternates: {
     canonical: "/",
+  },
+  openGraph: {
+    url: "/",
   },
 };
 
@@ -20,7 +27,7 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Impakto Creative",
-  url: "https://impaktocreative.com",
+  url: siteUrl,
   email: "hola@impaktocreative.com",
   telephone: ["+54 9 11 6924-4656", "+1 615 282 9799"],
   address: {
@@ -29,7 +36,7 @@ const organizationSchema = {
     addressCountry: "AR",
   },
   description:
-    "Agencia de estrategia, comunicacion y estructura digital para marcas que buscan una presencia mas clara y solida.",
+    "Agencia de estrategia, comunicación y estructura digital para marcas que buscan una presencia más clara y sólida.",
 };
 
 export default function Home() {

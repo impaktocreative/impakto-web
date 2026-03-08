@@ -470,10 +470,19 @@ export default function ServiciosContent() {
                 Si hoy la marca necesita mejorar captación, conversión o retención, una sesión estratégica permite ordenar el mapa de decisiones y establecer una hoja de ruta concreta.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="btn-tide w-full text-center whitespace-normal sm:w-auto sm:whitespace-nowrap">
+                <Button
+                  asChild
+                  size="lg"
+                  className="btn-tide h-auto min-h-14 w-full border border-white/55 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
+                >
                   <Link href="/contacto">Agendar sesión estratégica</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="w-full border-background/60 bg-white/16 text-background sm:w-auto hover:bg-background hover:text-foreground">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="h-auto min-h-14 w-full border-white/48 bg-white/[0.05] px-6 py-4 text-center leading-tight whitespace-normal text-background shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] hover:bg-white/[0.14] hover:text-background [&::after]:bg-white/16 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
+                >
                   <Link href="/agencia">Conocer el estudio</Link>
                 </Button>
               </div>

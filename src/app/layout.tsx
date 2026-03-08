@@ -5,32 +5,58 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppFloating from "@/components/layout/WhatsAppFloating";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
+import { siteUrl } from "@/lib/site";
+
+const siteName = "Impakto Creative";
+const defaultTitle = `${siteName} | Agencia de Posicionamiento y Crecimiento`;
+const defaultDescription =
+  "Impakto Creative ayuda a marcas y negocios a ordenar su presencia digital con estrategia, diseño, estructura y comunicación orientada a resultados.";
+const shareImage = "/share.jpg";
 
 export const metadata: Metadata = {
   title: {
-    default: "Impakto Creative | Agencia de Posicionamiento y Crecimiento",
+    default: defaultTitle,
     template: "%s | Impakto Creative",
   },
-  description:
-    "Impakto Creative ayuda a marcas y negocios a ordenar su presencia digital con estrategia, diseño, estructura y comunicación orientada a resultados.",
-  metadataBase: new URL("https://impaktocreative.com"),
+  description: defaultDescription,
+  metadataBase: new URL(siteUrl),
+  applicationName: siteName,
+  category: "marketing",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Impakto Creative | Agencia de Posicionamiento y Crecimiento",
-    description:
-      "Estrategia, diseño y estructura digital para marcas que buscan una presencia más clara, más sólida y mejor resuelta.",
-    url: "https://impaktocreative.com",
-    siteName: "Impakto Creative",
+    title: defaultTitle,
+    description: defaultDescription,
+    url: siteUrl,
+    siteName,
     locale: "es_AR",
     type: "website",
+    images: [
+      {
+        url: shareImage,
+        width: 1200,
+        height: 630,
+        alt: "Impakto Creative",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Impakto Creative",
-    description:
-      "Agencia de posicionamiento, diseño y estructura digital para marcas con foco en claridad y crecimiento.",
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [shareImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 

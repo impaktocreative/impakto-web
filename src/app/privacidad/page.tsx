@@ -3,8 +3,13 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Privacidad",
+  description:
+    "Política de privacidad de Impakto Creative sobre tratamiento de datos de contacto y solicitudes de eliminación o modificación.",
   alternates: {
     canonical: "/privacidad",
+  },
+  openGraph: {
+    url: "/privacidad",
   },
 };
 
@@ -19,7 +24,7 @@ export default function PrivacidadPage() {
             Legal
           </p>
           <h1 className="mt-4 font-heading text-[clamp(2rem,4.3vw,4.1rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
-            Politica de privacidad
+            Política de privacidad
           </h1>
         </div>
       </section>
@@ -34,8 +39,8 @@ export default function PrivacidadPage() {
               conversaciones de trabajo solicitadas por el usuario.
             </p>
             <p className="mt-4 text-[1rem] leading-[1.72] text-foreground/70">
-              No compartimos informacion personal con terceros sin consentimiento
-              previo. Para solicitar la modificacion o eliminacion de sus datos,
+              No compartimos información personal con terceros sin consentimiento
+              previo. Para solicitar la modificación o eliminación de sus datos,
               puede escribir a <a className="text-foreground underline underline-offset-4" href="mailto:hola@impaktocreative.com">hola@impaktocreative.com</a>.
             </p>
           </article>

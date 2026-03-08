@@ -1,37 +1,37 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://impaktocreative.com";
   const now = new Date();
 
   return [
-    { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${siteUrl}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     {
-      url: `${base}/agencia`,
+      url: `${siteUrl}/agencia`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${base}/servicios`,
+      url: `${siteUrl}/servicios`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
-      url: `${base}/contacto`,
+      url: `${siteUrl}/contacto`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${base}/privacidad`,
+      url: `${siteUrl}/privacidad`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
-      url: `${base}/terminos`,
+      url: `${siteUrl}/terminos`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.3,

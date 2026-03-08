@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Terminos",
+  title: "Términos",
+  description:
+    "Términos de uso de Impakto Creative para el contenido informativo del sitio y alcance comercial de los servicios.",
   alternates: {
     canonical: "/terminos",
+  },
+  openGraph: {
+    url: "/terminos",
   },
 };
 
@@ -19,7 +24,7 @@ export default function TerminosPage() {
             Legal
           </p>
           <h1 className="mt-4 font-heading text-[clamp(2rem,4.3vw,4.1rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
-            Terminos de uso
+            Términos de uso
           </h1>
         </div>
       </section>
@@ -30,7 +35,7 @@ export default function TerminosPage() {
             <h2 className="font-heading text-[1.9rem] leading-[0.98] tracking-[-0.02em] text-foreground">Alcance informativo</h2>
             <p className="mt-5 text-[1rem] leading-[1.72] text-foreground/70">
               El contenido publicado en este sitio tiene fines informativos y de
-              presentacion de servicios de Impakto Creative.
+              presentación de servicios de Impakto Creative.
             </p>
             <p className="mt-4 text-[1rem] leading-[1.72] text-foreground/70">
               Toda propuesta comercial, alcance final y condiciones de trabajo se

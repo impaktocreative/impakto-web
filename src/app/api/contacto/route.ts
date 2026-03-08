@@ -40,7 +40,7 @@ function validatePayload(payload: ContactPayload) {
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email);
   if (!emailOk) {
-    return "El email ingresado no es valido.";
+    return "El email ingresado no es válido.";
   }
 
   return null;
@@ -59,7 +59,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const body = (await request.json()) as Partial<ContactPayload>;
+  let body: Partial<ContactPayload>;
+  try {
+    body = (await request.json()) as Partial<ContactPayload>;
+  } catch {
+    return NextResponse.json(
+      { message: "No se pudo interpretar el formulario enviado." },
+      { status: 400 }
+    );
+  }
+
   const payload: ContactPayload = {
     nombre: sanitize(body.nombre),
     empresa: sanitize(body.empresa),
@@ -85,7 +94,7 @@ export async function POST(request: Request) {
       <p><strong>Empresa o marca:</strong> ${escapeHtml(payload.empresa)}</p>
       <p><strong>Email:</strong> ${escapeHtml(payload.email)}</p>
       <p><strong>Tipo de necesidad:</strong> ${escapeHtml(payload.tipoProyecto)}</p>
-      <p><strong>Situacion actual:</strong><br/>${escapeHtml(payload.situacion).replace(/\n/g, "<br/>")}</p>
+      <p><strong>Situación actual:</strong><br/>${escapeHtml(payload.situacion).replace(/\n/g, "<br/>")}</p>
       <p><strong>Objetivo principal:</strong><br/>${escapeHtml(payload.objetivo).replace(/\n/g, "<br/>")}</p>
     `,
   };
@@ -115,7 +124,7 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json(
-    { message: "Gracias. Recibimos su mensaje y responderemos por correo con los proximos pasos." },
+    { message: "Gracias. Recibimos su mensaje y responderemos por correo con los próximos pasos." },
     { status: 200 }
   );
 }

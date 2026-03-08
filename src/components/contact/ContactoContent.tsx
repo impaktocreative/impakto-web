@@ -160,7 +160,7 @@ export default function ContactoContent() {
                 <Button
                   asChild
                   size="lg"
-                  className="btn-tide h-auto min-h-14 w-full px-6 py-4 text-center leading-tight whitespace-normal sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
+                  className="btn-tide h-auto min-h-14 w-full border border-white/55 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
                   <Link href="#brief-contacto">Enviar brief inicial</Link>
                 </Button>
@@ -168,7 +168,7 @@ export default function ContactoContent() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-auto min-h-14 w-full border-background/55 bg-white/14 px-6 py-4 text-center leading-tight whitespace-normal text-background sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap hover:bg-background hover:text-foreground"
+                  className="h-auto min-h-14 w-full border-white/48 bg-white/[0.05] px-6 py-4 text-center leading-tight whitespace-normal text-background shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] hover:bg-white/[0.14] hover:text-background [&::after]:bg-white/16 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
                   <Link href="/servicios">Ver servicios estratégicos</Link>
                 </Button>

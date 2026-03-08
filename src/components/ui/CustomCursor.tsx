@@ -7,12 +7,19 @@ export default function CustomCursor() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
     const [isVisible] = useState(
-        () => typeof window !== "undefined" && !window.matchMedia("(pointer: coarse)").matches
+        () =>
+            typeof window !== "undefined" &&
+            !window.matchMedia("(pointer: coarse)").matches &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     );
 
     useEffect(() => {
-        // Only show custom cursor on fine pointers (desktop)
-        if (window.matchMedia("(pointer: coarse)").matches) return;
+        if (
+            window.matchMedia("(pointer: coarse)").matches ||
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+            return;
+        }
 
         const updateMousePosition = (e: MouseEvent) => {
             setMousePosition({ x: e.clientX, y: e.clientY });

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/servicios",
   },
+  openGraph: {
+    url: "/servicios",
+  },
 };
 
 export default function ServiciosPage() {
