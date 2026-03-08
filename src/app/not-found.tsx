@@ -10,7 +10,7 @@ export default function NotFound() {
           Esta pagina no esta disponible.
         </h1>
         <p className="text-foreground/70 text-lg mb-10">
-          Volve al inicio o contactanos para ayudarte a encontrar lo que buscas.
+          Puede volver al inicio o escribirnos para orientar su solicitud.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg">

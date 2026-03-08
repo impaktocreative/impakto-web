@@ -1,20 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #afa385;
-  --color-secondary: #9aa490;
-  --color-accent: #dedcd4;
-  --color-background: #faf1e7;
-  --color-foreground: #363531;
+  --color-primary: #a49a82;
+  --color-secondary: #8e9b93;
+  --color-accent: #d8ddd7;
+  --color-background: #f5f6f2;
+  --color-foreground: #32322f;
+  --color-surface: #fcfcfa;
+  --color-surface-muted: #eef1ec;
+  --color-night: #1f2327;
+  --color-night-soft: #2d3136;
   --font-heading: "Season Serif TRIAL Regular", "Season Serif TRIAL", "Season", "The Seasons", "Baskerville", Georgia, serif;
   --font-sans: "Inter", "Inter Placeholder", "Mundial", system-ui, sans-serif;
   --shadow-premium-soft: 0 4px 12px rgba(54, 53, 49, 0.05), 0 1px 3px rgba(54, 53, 49, 0.02);
   --shadow-premium-deep: 0 24px 48px -12px rgba(54, 53, 49, 0.18), 0 12px 24px -8px rgba(54, 53, 49, 0.12), 0 4px 8px -4px rgba(54, 53, 49, 0.08);
   --shadow-premium-glow: 0 0 40px rgba(175, 163, 133, 0.15), 0 0 20px rgba(175, 163, 133, 0.1);
+  /* Blueprint §4 — easing de lujo unificado */
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body {
   background-color: var(--color-background);
+  background-image:
+    radial-gradient(circle at 8% 0%, rgba(164, 154, 130, 0.1), transparent 28%),
+    radial-gradient(circle at 94% 2%, rgba(142, 155, 147, 0.11), transparent 34%);
   color: var(--color-foreground);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -22,7 +31,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom cursor default */
+/* Custom cursor default — §1 Blueprint */
 @media (pointer: fine) {
   body {
     cursor: none;
@@ -71,12 +80,10 @@ body::after {
 }
 
 .premium-fade {
-  background: linear-gradient(
-    180deg,
-    rgba(250, 241, 231, 0.7) 0%,
-    rgba(250, 241, 231, 0.35) 42%,
-    rgba(250, 241, 231, 0.08) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(245, 246, 242, 0.78) 0%,
+      rgba(245, 246, 242, 0.42) 42%,
+      rgba(245, 246, 242, 0.08) 100%);
 }
 
 @keyframes premium-sheen {
@@ -84,13 +91,16 @@ body::after {
     transform: translateX(-130%) skewX(-18deg);
     opacity: 0;
   }
+
   20% {
     opacity: 0.2;
   }
+
   45% {
     transform: translateX(220%) skewX(-18deg);
     opacity: 0;
   }
+
   100% {
     transform: translateX(220%) skewX(-18deg);
     opacity: 0;
@@ -102,12 +112,10 @@ body::after {
   position: absolute;
   inset: 0;
   width: 48%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.48) 52%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.48) 52%,
+      rgba(255, 255, 255, 0) 100%);
   animation: premium-sheen 4.8s ease-in-out infinite;
   pointer-events: none;
 }
@@ -116,9 +124,11 @@ body::after {
   0% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-3px);
   }
+
   100% {
     transform: translateY(0px);
   }
@@ -132,9 +142,11 @@ body::after {
   0% {
     transform: translate3d(0, 0, 0);
   }
+
   50% {
     transform: translate3d(0, -6px, 0);
   }
+
   100% {
     transform: translate3d(0, 0, 0);
   }
@@ -149,6 +161,26 @@ body::after {
 
 .ambient-orb {
   animation: drift-soft 7.2s ease-in-out infinite;
+}
+
+.premium-grid-light {
+  background-image:
+    linear-gradient(rgba(50, 50, 47, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(50, 50, 47, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.section-glow {
+  position: relative;
+}
+
+.section-glow::before {
+  content: "";
+  position: absolute;
+  inset: -20% 20% auto;
+  height: 220px;
+  background: radial-gradient(circle at center, rgba(164, 154, 130, 0.18), transparent 68%);
+  pointer-events: none;
 }
 
 ::selection {
@@ -171,4 +203,251 @@ textarea,
 select,
 button {
   font: inherit;
+}
+
+/* ============================================================
+   DESIGN SYSTEM BLUEPRINT ADDITIONS
+   ============================================================ */
+
+/* §4 — Image Reveal: scale 1.15 → 1.0 en 1.2s (Blueprint §4)
+   Aplica dentro de un contenedor overflow-hidden */
+.image-reveal-container {
+  overflow: hidden;
+}
+
+.image-reveal-container img,
+.image-reveal-container [data-image-reveal] {
+  transform: scale(1.15);
+  transition: transform 1.2s var(--ease-luxury);
+}
+
+.image-reveal-container.in-view img,
+.image-reveal-container.in-view [data-image-reveal] {
+  transform: scale(1.0);
+}
+
+/* §5 — Button "tide-fill": el pseudo-elemento sube desde abajo
+   El color de hover "inunda" el botón desde translateY(100%) → 0 */
+.btn-tide {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-tide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-foreground);
+  transform: translateY(100%);
+  transition: transform 0.55s var(--ease-luxury);
+  z-index: -1;
+}
+
+.btn-tide:hover::after {
+  transform: translateY(0%);
+}
+
+/* §5 — CTA Link (kicker + hairline que se expande al hover) */
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-foreground);
+  text-decoration: none;
+  transition: color 0.5s ease;
+}
+
+.cta-link::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+  transition: width 0.5s var(--ease-luxury), opacity 0.5s ease;
+  flex-shrink: 0;
+}
+
+.cta-link:hover::after {
+  width: 40px;
+  opacity: 1;
+}
+
+.cta-link:hover {
+  color: var(--color-foreground);
+}
+
+/* §6 — Iluminación Estructural: radial-gradient ambiental estándar
+   Usar en secciones oscuras con fondo bg-foreground */
+.ambient-light-tl {
+  background-image: radial-gradient(circle at 10% 20%, rgba(175, 163, 133, 0.06), transparent 55%);
+}
+
+.ambient-light-br {
+  background-image: radial-gradient(circle at 88% 80%, rgba(154, 164, 144, 0.05), transparent 52%);
+}
+
+.ambient-light-center {
+  background-image: radial-gradient(circle at 50% 50%, rgba(175, 163, 133, 0.04), transparent 65%);
+}
+
+/* §Marquesinas — Logos carousel: fuera de <style jsx> para compatibilidad RSC
+   Mask lateral: logos nacen y mueren en los bordes */
+.logos-scroll-container {
+  mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%);
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%);
+}
+
+.logos-track {
+  animation: logos-marquee 48s linear infinite;
+}
+
+@keyframes logos-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes gold-reflect-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  55% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes cta-flow {
+  0% {
+    background-position: 0% 0%, 0% 0%, 0 0, 0 0;
+  }
+
+  50% {
+    background-position: 100% 20%, 20% 100%, 40px 40px, -40px 40px;
+  }
+
+  100% {
+    background-position: 0% 0%, 0% 0%, 0 0, 0 0;
+  }
+}
+
+@keyframes icon-reflect-pass {
+  0% {
+    transform: translateX(-165%) skewX(-20deg);
+    opacity: 0;
+  }
+
+  14% {
+    opacity: 0.56;
+  }
+
+  26% {
+    transform: translateX(175%) skewX(-20deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(175%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+.cta-flow-bg {
+  background-image:
+    radial-gradient(circle at 18% 35%, rgba(164, 154, 130, 0.2), transparent 42%),
+    radial-gradient(circle at 82% 68%, rgba(142, 155, 147, 0.16), transparent 46%),
+    linear-gradient(rgba(50, 50, 47, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(50, 50, 47, 0.06) 1px, transparent 1px);
+  background-size: auto, auto, 52px 52px, 52px 52px;
+  animation: cta-flow 18s ease-in-out infinite;
+}
+
+.gold-reflect {
+  --reflect-base: var(--color-foreground);
+  --reflect-gold: #b4a789;
+  display: inline-block;
+  color: inherit;
+}
+
+.footer-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.footer-icon {
+  filter: drop-shadow(0 8px 14px rgba(169, 156, 126, 0.2));
+}
+
+.footer-icon-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -24% -46%;
+  background: linear-gradient(
+    108deg,
+    transparent 26%,
+    rgba(255, 255, 255, 0.34) 46%,
+    rgba(255, 240, 210, 0.5) 54%,
+    transparent 74%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: icon-reflect-pass 6.8s var(--ease-luxury) infinite;
+}
+
+.gold-reflect-light {
+  --reflect-base: var(--color-background);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .gold-reflect {
+    background-image: linear-gradient(
+      112deg,
+      var(--reflect-base) 0%,
+      var(--reflect-base) 40%,
+      var(--reflect-gold) 50%,
+      var(--reflect-base) 60%,
+      var(--reflect-base) 100%
+    );
+    background-size: 240% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: gold-reflect-shift 7.2s var(--ease-luxury) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gold-reflect {
+    animation: none;
+    background-position: 50% 50%;
+  }
+
+  .footer-icon-wrap::after {
+    animation: none;
+    opacity: 0;
+  }
 }

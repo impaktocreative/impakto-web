@@ -79,44 +79,44 @@ function TypedText({
 
 const conversations: Conversation[] = [
   {
-    question: "¿Cómo piensan una estrategia cuando una marca está desordenada?",
+    question: "Si la marca necesita reorganizar su presencia, ¿por dónde conviene empezar?",
     answer:
-      "Empezamos por relevar contexto, objetivos y percepción actual. Con ese diagnóstico definimos una **dirección clara** y prioridades reales.",
+      "Iniciamos con diagnóstico de contexto, mensaje, percepción y objetivos. A partir de ese análisis definimos una **dirección estratégica clara**.",
   },
   {
-    question: "¿Cómo trabajan para que todo tenga coherencia?",
+    question: "¿El alcance contempla solo diseño o también estrategia comercial?",
     answer:
-      "Trabajamos comunicación, marca y estructura digital como un solo sistema, para sostener una presencia **sólida y consistente**.",
+      "Trabajamos de forma integral: comunicación, marca y estructura comercial para consolidar una presencia **sólida y coherente**.",
   },
   {
-    question: "¿Qué brindan además de diseño y ejecución?",
+    question: "¿Es posible mejorar conversión sin comprometer identidad de marca?",
     answer:
-      "Brindamos criterio estratégico, acompañamiento y decisiones bien fundamentadas para que cada acción tenga **sentido de negocio**.",
+      "Sí. Estructuramos la comunicación para que la propuesta gane claridad y se traduzca en una conversión **más consistente**.",
   },
   {
-    question: "¿Cómo actúan durante el proceso del proyecto?",
+    question: "¿Qué incluye el enfoque online y offline?",
     answer:
-      "Actuamos por etapas: diagnóstico, dirección e implementación, con seguimiento cercano para avanzar con **claridad y orden**.",
+      "Alineamos todos los puntos de contacto para sostener una percepción **uniforme y confiable** en cada canal.",
   },
   {
-    question: "¿Qué beneficios concretos recibe una marca al trabajar con ustedes?",
+    question: "¿Cómo abordan captación, conversión y retención?",
     answer:
-      "Una marca mejor estructurada para atraer mejor, convertir con más claridad y sostener relaciones **más sólidas** con sus clientes.",
+      "Diseñamos estrategias para atraer mejores oportunidades, convertir con mayor claridad y fortalecer relaciones **de largo plazo**.",
   },
   {
-    question: "¿Usan tecnología e IA dentro de su metodología?",
+    question: "¿Integran IA y herramientas avanzadas en los proyectos?",
     answer:
-      "Sí, cuando aporta valor real. Integramos tecnología y IA como soporte de una **estrategia bien pensada**, no como reemplazo del criterio.",
+      "Sí, siempre bajo criterio estratégico. La tecnología aporta valor cuando está integrada en una **estrategia bien definida**.",
   },
   {
-    question: "¿Con qué tipo de clientes trabajan mejor?",
+    question: "¿El acompañamiento cubre todo el proceso o solo la etapa inicial?",
     answer:
-      "Con marcas que quieren hacer las cosas bien: ordenar su comunicación, elevar percepción y crecer con una base **seria y profesional**.",
+      "Acompañamos cada etapa con asesoramiento continuo para sostener decisiones con mayor **seguridad y claridad**.",
   },
   {
-    question: "¿Podemos avanzar aunque no tengamos todo definido?",
+    question: "¿Se puede iniciar sin un alcance completamente definido?",
     answer:
-      "Sí. Te ayudamos a ordenar el punto de partida, definir alcance y construir una hoja de ruta **firme para crecer**.",
+      "Sí. Definimos prioridades, alcance y hoja de ruta para construir una base **más firme para escalar**.",
   },
 ];
 
@@ -134,21 +134,21 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-background pt-[6.8rem] md:pt-[8.2rem] min-h-[100svh] border-b border-foreground/5">
-      <div className="pointer-events-none absolute inset-y-0 left-[4%] hidden xl:block w-px bg-foreground/5" />
-      <div className="pointer-events-none absolute inset-y-0 right-[4%] hidden xl:block w-px bg-foreground/5" />
+    <section className="relative min-h-[88svh] overflow-hidden border-b border-foreground/5 bg-background pt-[5rem] md:min-h-[100svh] md:pt-[8.2rem]">
+      <div className="pointer-events-none absolute inset-y-0 left-[4%] hidden w-px bg-foreground/5 xl:block" />
+      <div className="pointer-events-none absolute inset-y-0 right-[4%] hidden w-px bg-foreground/5 xl:block" />
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(154,164,144,0.05),transparent_28%),radial-gradient(circle_at_left_center,rgba(175,163,133,0.05),transparent_26%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(142,155,147,0.07),transparent_28%),radial-gradient(circle_at_left_center,rgba(164,154,130,0.07),transparent_26%)]" />
       <AnimatedMeshBackground />
 
-      <div className="container relative z-10 mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16 min-h-[calc(100svh-6.8rem)] md:min-h-[calc(100svh-8.2rem)] py-6 md:py-8 lg:py-10">
-        <div className="grid h-full items-center lg:items-start gap-8 md:gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-18">
-          <div className="relative z-20 lg:pt-4 xl:pt-6 lg:max-w-[50vw] lg:pr-6 xl:pr-8">
+      <div className="container relative z-10 mx-auto max-w-[1320px] px-7 py-5 md:min-h-[calc(100svh-8.2rem)] md:px-12 md:py-8 lg:px-14 lg:py-10 xl:px-16">
+        <div className="grid h-full items-center gap-8 md:gap-10 lg:grid-cols-2 lg:items-center lg:gap-14 xl:gap-18">
+          <div className="relative z-20 lg:max-w-[50vw] lg:pr-6 xl:pr-8">
             <motion.p
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="mb-7 text-xs md:text-sm tracking-[0.2em] uppercase text-foreground/40"
+              className="mb-5 text-[0.66rem] uppercase tracking-[0.19em] text-foreground/40 md:mb-7 md:text-sm"
             >
               Estrategia, diseño y estructura digital
             </motion.p>
@@ -157,37 +157,67 @@ export default function Hero() {
               initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading font-normal text-[2.2rem] sm:text-[2.8rem] md:text-[3.2rem] lg:text-[3.05rem] xl:text-[3.35rem] 2xl:text-[3.55rem] leading-[0.94] tracking-[-0.02em] text-foreground text-balance max-w-[15ch] lg:max-w-[20ch] xl:max-w-[21ch]"
+              className="max-w-[15ch] text-balance font-heading text-[clamp(1.62rem,8.2vw,1.8rem)] font-normal leading-[0.99] tracking-[-0.01em] text-foreground sm:text-[2.8rem] md:text-[3.2rem] lg:max-w-[20ch] lg:text-[3.05rem] xl:max-w-[21ch] xl:text-[3.35rem] 2xl:text-[3.55rem]"
             >
-              <span className="hidden lg:block lg:-ml-1">
-                Construimos estrategias de comunicación para que tu marca <span className="font-semibold">venda más, online y offline</span>.
-              </span>
-              <span className="lg:hidden">
-                Construimos estrategias de comunicación para que tu marca <span className="font-semibold">venda más, online y offline</span>.
-              </span>
+              Construimos estrategias de comunicación para que su marca{" "}
+              <span className="gold-reflect font-medium">venda mejor,</span>{" "}
+              <span className="gold-reflect font-medium">online y offline.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.18 }}
-              className="mt-6 lg:mt-7 max-w-[39rem] lg:max-w-[34rem] font-sans text-[18px] font-normal text-foreground/60 leading-[1.65]"
+              className="mt-4 max-w-[39rem] font-sans text-[clamp(0.84rem,4.35vw,0.9rem)] font-normal leading-[1.52] text-foreground/70 md:mt-6 md:text-[1.12rem] md:leading-[1.68] lg:mt-7 lg:max-w-[34rem]"
             >
-              Alineamos mensaje, dirección y presencia de marca para ayudarte a
-              atraer mejor, convertir con más claridad y sostener relaciones más
-              sólidas con tus clientes.
+              Alineamos mensaje, dirección y presencia de marca para
+              atraer mejores oportunidades, convertir con mayor claridad y sostener
+              relaciones más sólidas con sus clientes.
             </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.24 }}
+              className="mt-4 inline-flex flex-wrap items-center gap-x-2 gap-y-1 border border-foreground/10 bg-white/55 px-3.5 py-1.5 text-[0.54rem] uppercase tracking-[0.09em] text-foreground/58 md:mt-5 md:px-4 md:py-2 md:text-[0.64rem] md:tracking-[0.16em]"
+            >
+              3 pilares de trabajo
+              <span className="text-foreground/35">/</span>
+              Captación
+              <span className="text-foreground/35">/</span>
+              Conversión
+              <span className="text-foreground/35">/</span>
+              Retención
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="mt-5 hidden items-center gap-3 xl:inline-flex"
+            >
+              <span className="h-px w-12 bg-foreground/18" />
+              <Image
+                src="/logos/icono-2.svg"
+                alt=""
+                aria-hidden="true"
+                width={10}
+                height={12}
+                className="h-3.5 w-auto opacity-45"
+              />
+              <span className="h-px w-12 bg-foreground/18" />
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.28 }}
-              className="mt-8 lg:mt-9 flex flex-col sm:flex-row gap-4 lg:gap-6 items-start"
+              className="mt-5 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-start lg:mt-9 lg:gap-6"
             >
               <Magnetic strength={1}>
                 <Link
                   href="/contacto"
-                  className="relative group inline-flex min-h-[3.3rem] items-center justify-center rounded-full bg-primary px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-background shadow-premium-soft transition-all duration-300 hover:bg-foreground hover:text-background hover:scale-[1.03] hover:shadow-premium-glow"
+                  className="relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-background shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
                 >
                   Agendar una reunión
                 </Link>
@@ -195,7 +225,7 @@ export default function Hero() {
               <Magnetic strength={0.5}>
                 <Link
                   href="/servicios"
-                  className="inline-flex min-h-[3.3rem] items-center justify-center rounded-full border border-foreground/14 bg-background/85 px-9 py-3 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-foreground/78 shadow-sm transition-all duration-300 hover:border-foreground/26 hover:bg-background hover:scale-[1.03] hover:shadow-premium-soft"
+                  className="inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full border border-foreground/14 bg-background/85 px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-foreground/78 shadow-sm transition-all duration-300 hover:scale-[1.03] hover:border-foreground/26 hover:bg-background hover:shadow-premium-soft sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
                 >
                   Ver servicios
                 </Link>
@@ -207,10 +237,10 @@ export default function Hero() {
             initial={{ opacity: 0, x: 16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.22 }}
-            className="relative z-10 hidden lg:flex justify-end lg:pt-10 xl:pt-12 lg:pl-4"
+            className="relative z-10 hidden justify-end lg:flex lg:items-center lg:pl-4"
           >
-            <div className="relative ml-auto w-full max-w-[27.25rem] xl:max-w-[28rem] min-h-[18.25rem]">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-[radial-gradient(circle_at_center,rgba(250,241,231,0.8),transparent_70%)] rounded-full blur-2xl pointer-events-none z-[-1]" />
+            <div className="relative ml-auto min-h-[18.25rem] w-full max-w-[27.25rem] xl:max-w-[28rem]">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 z-[-1] h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(245,246,242,0.82),transparent_70%)] blur-2xl" />
 
               <AnimatePresence mode="wait">
                 <motion.div
@@ -226,9 +256,9 @@ export default function Hero() {
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     exit={{ opacity: 0, x: -16, y: -6 }}
                     transition={{ duration: 0.38 }}
-                    className="mr-8 rounded-[1.15rem] rounded-bl-[0.3rem] bg-white/95 backdrop-blur-md px-6 py-4 shadow-premium-deep border border-white/60"
+                    className="mr-8 rounded-[1.15rem] rounded-bl-[0.3rem] border border-white/60 bg-white/95 px-6 py-4 shadow-premium-deep backdrop-blur-md"
                   >
-                    <p className="text-[1rem] text-foreground/78 leading-[1.45]">
+                    <p className="text-[1rem] leading-[1.45] text-foreground/78">
                       <TypedText text={currentConversation.question} />
                     </p>
                   </motion.div>
@@ -238,25 +268,21 @@ export default function Hero() {
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     exit={{ opacity: 0, x: 16, y: -6 }}
                     transition={{ duration: 0.42, delay: 0.42 }}
-                    className="relative ml-8 rounded-[1.2rem] rounded-br-[0.3rem] bg-white/95 backdrop-blur-md px-6 py-5 shadow-premium-deep border border-white/60"
+                    className="relative ml-8 rounded-[1.2rem] rounded-br-[0.3rem] border border-white/60 bg-white/95 px-6 py-5 shadow-premium-deep backdrop-blur-md"
                   >
-                    <span className="absolute -top-3 -left-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-foreground border border-primary/65 shadow-[0_10px_20px_rgba(54,53,49,0.22)]">
-                      <Image src="/logos/icono.svg" alt="Impakto" width={10} height={13} className="h-3.5 w-auto" />
+                    <span className="absolute -left-3 -top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/65 bg-foreground shadow-[0_10px_20px_rgba(54,53,49,0.22)]">
+                      <Image src="/logos/icono-2.svg" alt="Impakto" width={10} height={13} className="h-3.5 w-auto" />
                     </span>
-                    <p className="text-[0.98rem] text-foreground/76 leading-[1.6]">
-                      <TypedText
-                        text={currentConversation.answer}
-                        delay={0.5}
-                        stagger={0.016}
-                      />
+                    <p className="text-[0.98rem] leading-[1.6] text-foreground/76">
+                      <TypedText text={currentConversation.answer} delay={0.5} stagger={0.016} />
                     </p>
                   </motion.div>
                 </motion.div>
               </AnimatePresence>
             </div>
           </motion.div>
-        </div >
-      </div >
-    </section >
+        </div>
+      </div>
+    </section>
   );
 }

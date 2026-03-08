@@ -99,7 +99,9 @@ export default function AgenciaPage() {
             Priorizamos relaciones de trabajo claras, procesos bien orientados y
             una construccion basada en dialogo, analisis y decisiones consistentes.
             Buscamos proyectos con apertura para pensar con profundidad y una
-            intencion real de construir una solucion bien resuelta.
+            intencion real de construir una solucion bien resuelta. Nuestra
+            metodologia integra tres pilares de crecimiento: captacion,
+            conversion y retencion.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button asChild size="lg">

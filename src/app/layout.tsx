@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import WhatsAppFloating from "@/components/layout/WhatsAppFloating";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
           </a>
           <Navbar />
           {children}
+          <WhatsAppFloating />
           <Footer />
         </SmoothScroll>
       </body>

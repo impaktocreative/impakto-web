@@ -4,7 +4,7 @@ import ContactForm from "@/components/contact/ContactForm";
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Inicia una conversacion con Impakto Creative para evaluar tu proyecto y definir una direccion clara.",
+    "Inicie una conversacion con Impakto Creative para evaluar su proyecto y definir una direccion clara.",
   alternates: {
     canonical: "/contacto",
   },
@@ -19,11 +19,11 @@ export default function ContactoPage() {
             Contacto
           </span>
           <h1 className="font-heading italic text-5xl md:text-6xl lg:text-7xl leading-[1.1] text-foreground mb-8">
-            Abramos una conversacion sobre tu proyecto.
+            Iniciemos una conversacion sobre su proyecto.
           </h1>
           <p className="text-lg md:text-xl text-foreground/75 leading-relaxed max-w-3xl">
-            Si tu marca necesita una presencia mas clara, una comunicacion mejor
-            resuelta o una estructura digital mas solida, escribenos para evaluar
+            Si su marca necesita una presencia mas clara, una comunicacion mejor
+            resuelta o una estructura digital mas solida, escribanos para evaluar
             el mejor punto de partida.
           </p>
         </div>
@@ -36,8 +36,8 @@ export default function ContactoPage() {
               Un planteo claro facilita una mejor construccion.
             </h2>
             <p className="text-foreground/75 leading-relaxed mb-8">
-              Cuentanos brevemente sobre tu marca, tu situacion actual y lo que
-              necesitas resolver. Esa informacion nos permite responder con mas
+              Comparta brevemente su marca, su situacion actual y lo que
+              necesita resolver. Esa informacion nos permite responder con mayor
               precision.
             </p>
             <div className="border border-foreground/12 bg-accent/15 p-6 space-y-3">
@@ -47,6 +47,13 @@ export default function ContactoPage() {
               <a href="mailto:hola@impaktocreative.com" className="text-foreground hover:text-primary transition-colors">
                 hola@impaktocreative.com
               </a>
+              <a href="https://wa.me/5491169244656" target="_blank" rel="noreferrer" className="block text-foreground hover:text-primary transition-colors">
+                Argentina (mensajes / WhatsApp): +54 9 11 6924-4656
+              </a>
+              <a href="tel:+16152829799" className="block text-foreground hover:text-primary transition-colors">
+                Exterior: +1 615 282 9799
+              </a>
+              <p className="text-foreground/70">Oficinas en Ciudad de Buenos Aires.</p>
             </div>
           </div>
 

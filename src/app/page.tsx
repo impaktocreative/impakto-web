@@ -22,6 +22,12 @@ const organizationSchema = {
   name: "Impakto Creative",
   url: "https://impaktocreative.com",
   email: "hola@impaktocreative.com",
+  telephone: ["+54 9 11 6924-4656", "+1 615 282 9799"],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Ciudad de Buenos Aires",
+    addressCountry: "AR",
+  },
   description:
     "Agencia de estrategia, comunicacion y estructura digital para marcas que buscan una presencia mas clara y solida.",
 };

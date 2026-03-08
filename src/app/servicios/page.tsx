@@ -135,7 +135,7 @@ export default function ServiciosPage() {
             forma de construirlo.
           </p>
           <Button asChild size="lg">
-            <Link href="/contacto">Hablemos sobre tu proyecto</Link>
+            <Link href="/contacto">Coordinar reunion estrategica</Link>
           </Button>
         </div>
       </section>

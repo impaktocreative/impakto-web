@@ -18,7 +18,7 @@ export default function PrivacidadPage() {
         </p>
         <p className="text-foreground/75 leading-relaxed">
           No compartimos informacion personal con terceros sin consentimiento previo.
-          Para solicitar la modificacion o eliminacion de tus datos, escribe a
+          Para solicitar la modificacion o eliminacion de sus datos, escriba a
           hola@impaktocreative.com.
         </p>
       </div>

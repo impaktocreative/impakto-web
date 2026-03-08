@@ -118,7 +118,7 @@ export default function ContactForm() {
 
       {status === "success" ? (
         <p role="status" aria-live="polite" className="text-sm text-foreground/80">
-          Gracias. Recibimos tu mensaje y te responderemos por email.
+          Gracias. Recibimos su mensaje y responderemos por email.
         </p>
       ) : null}
     </form>
