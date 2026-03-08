@@ -48,7 +48,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Inicio", href: "/" },
     { name: "Estudio", href: "/agencia" },
-    { name: "Capacidades", href: "/servicios" },
+    { name: "Servicios Estratégicos", href: "/servicios" },
   ];
 
   return (

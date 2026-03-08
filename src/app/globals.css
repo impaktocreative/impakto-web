@@ -420,6 +420,17 @@ button {
   --reflect-base: var(--color-background);
 }
 
+.gold-reflect-slow {
+  --reflect-gold: #cbbd9e;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .gold-reflect-slow {
+    background-size: 300% 100%;
+    animation-duration: 11.8s;
+  }
+}
+
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .gold-reflect {
     background-image: linear-gradient(

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Magnetic({
     children,

@@ -100,7 +100,7 @@ export default function Methodology() {
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-            {steps.map((step, i) => (
+            {steps.map((step) => (
               <motion.article
                 key={step.number}
                 variants={STEP_ITEM}

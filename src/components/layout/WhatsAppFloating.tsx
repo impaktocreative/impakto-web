@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MessageCircleMore, X } from "lucide-react";
-import { motion } from "framer-motion";
 
 const contacts = [
   {

@@ -9,17 +9,18 @@ function buildPoint(
   col: number,
   row: number,
   phase: number,
-  pointer: { x: number; y: number; active: boolean }
+  pointer: { x: number; y: number; active: boolean },
+  variant: "hero" | "full"
 ) {
   const u = col / (COLS - 1);
   const v = row / (ROWS - 1);
 
-  const horizon = 30;
+  const horizon = variant === "full" ? 8 : 30;
   const depth = Math.pow(v, 2.08);
   const spread = 92 + depth * 182;
   const x = 50 + (u - 0.5) * spread;
 
-  const baseY = horizon + depth * 72;
+  const baseY = horizon + depth * (variant === "full" ? 90 : 72);
   const waveScale = 0.25 + (1 - v) * 0.88;
   const waveA = Math.sin(u * 10.8 + phase * 0.82 + row * 0.22) * (3.1 * waveScale);
   const waveB = Math.cos(u * 8.1 - phase * 0.54 + row * 0.44) * (2.05 * (0.28 + (1 - v) * 0.72));
@@ -46,7 +47,13 @@ function buildPoint(
   };
 }
 
-export default function AnimatedMeshBackground() {
+export default function AnimatedMeshBackground({
+  variant = "hero",
+  className,
+}: {
+  variant?: "hero" | "full";
+  className?: string;
+}) {
   const [phase, setPhase] = useState(0);
   const [pointer, setPointer] = useState({ x: 0.5, y: 0.72, active: false });
   const pointerTargetRef = useRef({ x: 0.5, y: 0.72, active: false });
@@ -93,19 +100,24 @@ export default function AnimatedMeshBackground() {
 
   const points = useMemo(
     () =>
-      Array.from({ length: ROWS }, (_, row) =>
+        Array.from({ length: ROWS }, (_, row) =>
         Array.from({ length: COLS }, (_, col) =>
-          buildPoint(col, row, phase, pointer)
+          buildPoint(col, row, phase, pointer, variant)
         )
       ),
-    [phase, pointer]
+    [phase, pointer, variant]
   );
+
+  const meshClassName =
+    variant === "full"
+      ? "absolute inset-0 h-full w-full opacity-88"
+      : "absolute inset-x-0 bottom-[-10%] h-[84%] w-full opacity-86";
 
   return (
     <svg
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
-      className="absolute inset-x-0 bottom-[-10%] h-[84%] w-full opacity-86"
+      className={className ? `${meshClassName} ${className}` : meshClassName}
       aria-hidden="true"
     >
       {points.map((row, rowIndex) => (

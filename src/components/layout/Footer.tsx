@@ -53,7 +53,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link href="/" className="text-accent/80 transition-colors hover:text-primary">Inicio</Link></li>
               <li><Link href="/agencia" className="text-accent/80 transition-colors hover:text-primary">Agencia</Link></li>
-              <li><Link href="/servicios" className="text-accent/80 transition-colors hover:text-primary">Servicios</Link></li>
+              <li><Link href="/servicios" className="text-accent/80 transition-colors hover:text-primary">Servicios Estratégicos</Link></li>
               <li><Link href="/contacto" className="text-accent/80 transition-colors hover:text-primary">Contacto</Link></li>
             </ul>
           </motion.div>
