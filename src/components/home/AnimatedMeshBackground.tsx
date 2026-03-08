@@ -2,18 +2,23 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const COLS = 40;
-const ROWS = 26;
+const GRID = {
+  hero: { cols: 36, rows: 22 },
+  full: { cols: 34, rows: 21 },
+  mobile: { cols: 22, rows: 14 },
+};
 
 function buildPoint(
   col: number,
   row: number,
+  cols: number,
+  rows: number,
   phase: number,
   pointer: { x: number; y: number; active: boolean },
   variant: "hero" | "full"
 ) {
-  const u = col / (COLS - 1);
-  const v = row / (ROWS - 1);
+  const u = col / (cols - 1);
+  const v = row / (rows - 1);
 
   const horizon = variant === "full" ? 8 : 30;
   const depth = Math.pow(v, 2.08);
@@ -54,14 +59,44 @@ export default function AnimatedMeshBackground({
   variant?: "hero" | "full";
   className?: string;
 }) {
-  const [phase, setPhase] = useState(0);
-  const [pointer, setPointer] = useState({ x: 0.5, y: 0.72, active: false });
+  const [frameState, setFrameState] = useState({
+    phase: 0,
+    pointer: { x: 0.5, y: 0.72, active: false },
+  });
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const pointerTargetRef = useRef({ x: 0.5, y: 0.72, active: false });
   const pointerSmoothRef = useRef({ x: 0.5, y: 0.72, active: false });
 
   useEffect(() => {
-    let frame = 0;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    const syncQueries = () => {
+      setReduceMotion(reducedMotionQuery.matches);
+      setIsMobile(mobileQuery.matches);
+    };
+
+    syncQueries();
+    reducedMotionQuery.addEventListener("change", syncQueries);
+    mobileQuery.addEventListener("change", syncQueries);
+
+    return () => {
+      reducedMotionQuery.removeEventListener("change", syncQueries);
+      mobileQuery.removeEventListener("change", syncQueries);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      return;
+    }
+
     let raf = 0;
+    let phase = 0;
+    let lastTime = 0;
+    const fpsInterval = 1000 / 30;
+    const supportsFinePointer = window.matchMedia("(pointer: fine)").matches;
 
     const onMouseMove = (event: MouseEvent) => {
       pointerTargetRef.current = {
@@ -75,37 +110,77 @@ export default function AnimatedMeshBackground({
       pointerTargetRef.current.active = false;
     };
 
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
-    window.addEventListener("mouseleave", onMouseLeave);
+    if (supportsFinePointer) {
+      window.addEventListener("mousemove", onMouseMove, { passive: true });
+      window.addEventListener("mouseleave", onMouseLeave);
+    }
 
-    const animate = () => {
-      frame += 1;
+    const animate = (time: number) => {
+      if (document.hidden) {
+        raf = window.requestAnimationFrame(animate);
+        return;
+      }
+
+      if (lastTime && time - lastTime < fpsInterval) {
+        raf = window.requestAnimationFrame(animate);
+        return;
+      }
+
+      const delta = lastTime ? (time - lastTime) / 1000 : 1 / 60;
+      lastTime = time;
+      phase += delta * 0.72;
+
       pointerSmoothRef.current.x +=
         (pointerTargetRef.current.x - pointerSmoothRef.current.x) * 0.09;
       pointerSmoothRef.current.y +=
         (pointerTargetRef.current.y - pointerSmoothRef.current.y) * 0.09;
       pointerSmoothRef.current.active = pointerTargetRef.current.active;
-      setPointer(pointerSmoothRef.current);
-      setPhase(frame * 0.012);
+
+      setFrameState({
+        phase,
+        pointer: { ...pointerSmoothRef.current },
+      });
+
       raf = window.requestAnimationFrame(animate);
     };
 
     raf = window.requestAnimationFrame(animate);
     return () => {
       window.cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseleave", onMouseLeave);
+      if (supportsFinePointer) {
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseleave", onMouseLeave);
+      }
     };
-  }, []);
+  }, [reduceMotion]);
+
+  const grid = useMemo(() => {
+    if (isMobile) {
+      return GRID.mobile;
+    }
+
+    return variant === "full" ? GRID.full : GRID.hero;
+  }, [variant, isMobile]);
+
+  const renderedState = useMemo(() => {
+    if (!reduceMotion) {
+      return frameState;
+    }
+
+    return {
+      phase: 0,
+      pointer: { ...frameState.pointer, active: false },
+    };
+  }, [frameState, reduceMotion]);
 
   const points = useMemo(
     () =>
-        Array.from({ length: ROWS }, (_, row) =>
-        Array.from({ length: COLS }, (_, col) =>
-          buildPoint(col, row, phase, pointer, variant)
+      Array.from({ length: grid.rows }, (_, row) =>
+        Array.from({ length: grid.cols }, (_, col) =>
+          buildPoint(col, row, grid.cols, grid.rows, renderedState.phase, renderedState.pointer, variant)
         )
       ),
-    [phase, pointer, variant]
+    [grid.cols, grid.rows, renderedState.phase, renderedState.pointer, variant]
   );
 
   const meshClassName =
@@ -131,7 +206,7 @@ export default function AnimatedMeshBackground({
         </g>
       ))}
 
-      {Array.from({ length: COLS }, (_, colIndex) => (
+      {Array.from({ length: grid.cols }, (_, colIndex) => (
         <path
           key={`col-${colIndex}`}
           d={points.map((row, rowIndex) => `${rowIndex === 0 ? "M" : "L"}${row[colIndex].x},${row[colIndex].y}`).join(" ")}
