@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 const faqs = [
   {
     question: "Con que tipo de proyectos trabaja Impakto Creative?",
@@ -23,19 +27,50 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section className="py-24 md:py-32 bg-background border-t border-foreground/8">
-      <div className="container mx-auto px-6 md:px-12 max-w-5xl">
-        <h2 className="font-heading italic text-4xl md:text-5xl mb-10">Preguntas frecuentes</h2>
-        <div className="space-y-4">
+    <section className="relative overflow-hidden py-28 md:py-36 bg-background border-t border-foreground/8">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_84%_18%,rgba(175,163,133,0.1),transparent_35%)]" />
+
+      <div className="container relative z-10 mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.75 }}
+            className="lg:col-span-4"
+          >
+            <h2 className="font-heading font-normal text-4xl md:text-[3.8rem] leading-[0.92] tracking-[-0.02em] text-foreground mb-6 text-balance">
+              Preguntas frecuentes
+            </h2>
+            <p className="text-foreground/62 leading-[1.64] text-[1.03rem] max-w-sm">
+              Respuestas directas para entender cómo trabajamos, qué priorizamos y
+              qué esperar del proceso.
+            </p>
+
+            <div className="mt-8 overflow-hidden border border-foreground/10">
+              <div className="aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.22),rgba(54,53,49,0.22)),url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center" />
+            </div>
+          </motion.div>
+
+          <div className="lg:col-span-8 space-y-4">
           {faqs.map((faq) => (
-            <details key={faq.question} className="group border-b border-foreground/12 bg-transparent p-5 open:bg-accent/8">
-              <summary className="cursor-pointer list-none text-lg font-medium text-foreground flex items-center justify-between gap-6">
+            <motion.details
+              key={faq.question}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-70px" }}
+              transition={{ duration: 0.55 }}
+              whileHover={{ y: -2 }}
+              className="group border border-foreground/10 bg-white/45 p-5 md:p-6 open:bg-white/75 transition-colors duration-300"
+            >
+              <summary className="cursor-pointer list-none text-[1.03rem] md:text-[1.08rem] font-medium text-foreground flex items-center justify-between gap-6 leading-[1.5]">
                 {faq.question}
                 <span className="text-foreground/55 group-open:rotate-45 transition-transform">+</span>
               </summary>
-              <p className="mt-4 text-foreground/72 leading-relaxed">{faq.answer}</p>
-            </details>
+              <p className="mt-4 text-foreground/72 leading-[1.66]">{faq.answer}</p>
+            </motion.details>
           ))}
+          </div>
         </div>
       </div>
     </section>

@@ -31,23 +31,24 @@ function buildPoint(
     (1 - v) *
     (1.22 - Math.abs(u - 0.5));
 
-  const dx = u - pointer.x;
-  const dy = v - pointer.y;
-  const radius = 0.23;
+  const dx = pointer.x - u;
+  const dy = pointer.y - v;
+  const radius = 0.24;
   const distance = dx * dx + dy * dy;
   const influence = pointer.active ? Math.exp(-distance / (radius * radius)) : 0;
-  const cursorLift = -influence * 6.5 * (1.08 - v * 0.6);
-  const cursorRipple =
-    Math.sin(phase * 2.1 - dx * 22 + dy * 16) * influence * 2.1 * (1 - v * 0.35);
+  const strength = influence * (0.55 + v * 0.7);
+  const magnetX = dx * strength * 28;
+  const magnetY = dy * strength * 18;
 
   return {
-    x,
-    y: baseY + waveA + waveB + waveC + waveD + crest + cursorLift + cursorRipple,
+    x: x + magnetX,
+    y: baseY + waveA + waveB + waveC + waveD + crest + magnetY,
   };
 }
 
 export default function AnimatedMeshBackground() {
   const [phase, setPhase] = useState(0);
+  const [pointer, setPointer] = useState({ x: 0.5, y: 0.72, active: false });
   const pointerTargetRef = useRef({ x: 0.5, y: 0.72, active: false });
   const pointerSmoothRef = useRef({ x: 0.5, y: 0.72, active: false });
 
@@ -77,6 +78,7 @@ export default function AnimatedMeshBackground() {
       pointerSmoothRef.current.y +=
         (pointerTargetRef.current.y - pointerSmoothRef.current.y) * 0.09;
       pointerSmoothRef.current.active = pointerTargetRef.current.active;
+      setPointer(pointerSmoothRef.current);
       setPhase(frame * 0.012);
       raf = window.requestAnimationFrame(animate);
     };
@@ -93,10 +95,10 @@ export default function AnimatedMeshBackground() {
     () =>
       Array.from({ length: ROWS }, (_, row) =>
         Array.from({ length: COLS }, (_, col) =>
-          buildPoint(col, row, phase, pointerSmoothRef.current)
+          buildPoint(col, row, phase, pointer)
         )
       ),
-    [phase]
+    [phase, pointer]
   );
 
   return (

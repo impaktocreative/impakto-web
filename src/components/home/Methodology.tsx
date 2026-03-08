@@ -3,78 +3,68 @@
 import { motion } from "framer-motion";
 
 const steps = [
-  {
-    number: "01",
-    title: "Diagnostico",
-    description:
-      "Analizamos el contexto, identificamos el punto real del proyecto y definimos que necesita ser resuelto.",
-  },
-  {
-    number: "02",
-    title: "Direccion",
-    description:
-      "Establecemos una base conceptual, verbal y estructural que ordena el trabajo posterior.",
-  },
-  {
-    number: "03",
-    title: "Desarrollo",
-    description:
-      "Disenamos y construimos los elementos necesarios con una logica coherente y bien articulada.",
-  },
-  {
-    number: "04",
-    title: "Implementacion",
-    description:
-      "Llevamos la solucion a su version final con precision visual, tecnica y comunicacional.",
-  },
-  {
-    number: "05",
-    title: "Optimizacion",
-    description:
-      "Ajustamos lo necesario para que la experiencia final responda mejor al uso real y al estandar esperado.",
-  },
+  { number: "01", title: "Diagnóstico", description: "Analizamos contexto, audiencia, percepción actual y objetivos reales." },
+  { number: "02", title: "Dirección", description: "Definimos enfoque estratégico, narrativa y prioridades de implementación." },
+  { number: "03", title: "Desarrollo", description: "Construimos piezas, estructuras y experiencias con un criterio unificado." },
+  { number: "04", title: "Implementación", description: "Llevamos la solución a ejecución cuidando coherencia visual y comercial." },
+  { number: "05", title: "Optimización", description: "Medimos, ajustamos y refinamos para sostener resultados en el tiempo." },
 ];
 
 export default function Methodology() {
   return (
-    <section id="metodo" className="py-32 md:py-48 bg-background border-t border-foreground/5">
-      <div className="container relative z-10 mx-auto px-6 md:px-12">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="max-w-[42rem] mb-20 md:mb-28"
-        >
-          <span className="text-[0.8rem] tracking-[0.2em] uppercase font-medium text-primary mb-6 block">
-            Método de trabajo
-          </span>
-          <h2 className="font-heading italic text-5xl md:text-[4.5rem] mb-8 leading-[1.05] text-foreground text-balance">
-            Una estructura clara mejora el resultado.
-          </h2>
-          <p className="text-xl md:text-2xl text-foreground/60 leading-[1.6] font-light">
-            Cada proyecto se desarrolla con una lógica ordenada. Esa estructura
-            permite tomar mejores decisiones, sostener consistencia y construir
-            resultados con mayor solidez.
-          </p>
-        </motion.div>
+    <section id="metodo" className="relative overflow-hidden py-28 md:py-36 bg-foreground text-background border-t border-white/8">
+      <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.13]" />
+      <div className="ambient-orb pointer-events-none absolute right-10 top-14 h-52 w-52 rounded-full bg-secondary/10 blur-3xl" />
+      <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.75 }}
+            className="lg:col-span-5"
+          >
+            <p className="text-[0.72rem] uppercase tracking-[0.18em] text-primary/82">Método de trabajo</p>
+            <h2 className="mt-4 font-heading text-[2.25rem] md:text-[3.25rem] lg:text-[4rem] leading-[0.91] tracking-[-0.02em] text-background text-balance">
+              Estructura para decidir mejor y ejecutar con precisión.
+            </h2>
+            <p className="mt-7 text-[1.06rem] md:text-[1.16rem] leading-[1.7] text-background/72 max-w-[31rem]">
+              No improvisamos el crecimiento de una marca. Trabajamos con un proceso
+              claro para alinear estrategia, diseño y rendimiento comercial.
+            </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-6">
-          {steps.map((step, i) => (
-            <motion.article
-              key={step.number}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 25 } }}
-              className="group border-t border-foreground/10 pt-8 md:pt-10 bg-transparent"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="mt-10 overflow-hidden border border-white/14"
             >
-              <p className="text-[11px] tracking-[0.25em] uppercase text-foreground/40 mb-5 group-hover:text-primary transition-colors duration-300">Paso {step.number}</p>
-              <h3 className="font-heading text-[1.75rem] md:text-[2rem] mb-4 text-foreground/90 group-hover:text-foreground transition-colors duration-300 leading-[1.1]">{step.title}</h3>
-              <p className="text-foreground/60 leading-[1.65] text-[1rem] font-light group-hover:text-foreground/80 transition-colors duration-300">{step.description}</p>
-            </motion.article>
-          ))}
+              <div className="aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.28),rgba(54,53,49,0.28)),url('https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center transition-transform duration-700 hover:scale-[1.03]" />
+            </motion.div>
+          </motion.div>
+
+          <div className="lg:col-span-7 border border-white/12 bg-white/[0.02]">
+            {steps.map((step, i) => (
+              <motion.article
+                key={step.number}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: i * 0.08 }}
+                whileHover={{ x: 2 }}
+                className="grid grid-cols-[4.8rem_1fr] gap-4 md:gap-6 border-b border-white/12 p-6 md:p-7 last:border-b-0"
+              >
+                <p className="text-[0.72rem] tracking-[0.2em] uppercase text-background/48 pt-1">Paso {step.number}</p>
+                <div>
+                  <h3 className="font-heading text-[1.78rem] md:text-[2.2rem] leading-[1.01] tracking-[-0.01em] text-background/96">
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-[1rem] leading-[1.64] text-background/72">{step.description}</p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

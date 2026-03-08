@@ -3,101 +3,58 @@
 import { motion } from "framer-motion";
 
 const fit = [
-  "Valoran claridad y direccion antes que velocidad sin proceso.",
-  "Buscan una presencia mas solida y consistente en cada punto de contacto.",
-  "Reconocen el valor de decisiones bien pensadas y ejecucion cuidada.",
-  "Priorizan calidad y una relacion profesional sostenida.",
-];
-
-const noFit = [
-  "Proyectos que solo comparan precio.",
-  "Pedidos de tareas sueltas sin estrategia.",
-  "Expectativas de resultados inmediatos sin proceso.",
-  "Busquedas de volumen barato sin direccion.",
+  "Buscan una estrategia de comunicación mejor construida.",
+  "Valoran criterio, proceso y decisiones con fundamento.",
+  "Necesitan crecer con una presencia de marca más sólida.",
+  "Priorizan resultados sostenibles por encima de soluciones rápidas.",
 ];
 
 export default function IdealClient() {
   return (
-    <section className="py-32 md:py-48 bg-background relative overflow-hidden">
-      {/* Decorative gradient blur */}
-      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-accent/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+    <section className="bg-background py-28 md:py-36 border-t border-foreground/7">
+      <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-foreground/10">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.75 }}
+            className="lg:col-span-5 min-h-[24rem] md:min-h-[34rem] bg-[linear-gradient(rgba(175,163,133,0.18),rgba(175,163,133,0.18)),url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center"
+          />
 
-      <div className="container relative z-10 mx-auto px-6 md:px-12">
-        <div className="max-w-[50rem] mb-20 md:mb-28">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-heading italic text-5xl md:text-[4.5rem] lg:text-[5rem] text-foreground mb-10 leading-[1.05] text-balance"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.12 }}
+            className="lg:col-span-7 p-9 md:p-14 lg:p-16"
           >
-            Trabajamos mejor con marcas y negocios que buscan una construcción seria
-            y bien resuelta.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-foreground/60 leading-[1.6] text-xl md:text-2xl font-light max-w-[42rem]"
-          >
-            Nuestros mejores proyectos aparecen cuando existe intención real de
-            ordenar la presencia de una marca, elevar su percepción y construir
-            una base digital sólida con dirección.
-          </motion.p>
-        </div>
+            <p className="text-[0.72rem] uppercase tracking-[0.18em] text-foreground/48">Con quién trabajamos mejor</p>
+            <h2 className="mt-4 font-heading text-[2.3rem] md:text-[3.3rem] lg:text-[4rem] leading-[0.91] tracking-[-0.02em] text-foreground text-balance">
+              Proyectos que quieren hacer las cosas bien, con visión y método.
+            </h2>
+            <p className="mt-6 text-[1.05rem] md:text-[1.1rem] leading-[1.66] text-foreground/66 max-w-[40rem]">
+              Nuestros mejores resultados aparecen cuando hay intención real de
+              ordenar la comunicación, elevar percepción y construir una base
+              comercial más consistente.
+            </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-          <motion.article
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="glass relative overflow-hidden bg-white/40 p-10 md:p-14 rounded-2xl"
-          >
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-50" />
-            <h3 className="font-heading text-4xl md:text-[3rem] mb-10 text-foreground/90 leading-[1.1]">Encaje ideal</h3>
-            <ul className="space-y-5">
+            <ul className="mt-9 grid grid-cols-1 md:grid-cols-2 gap-4">
               {fit.map((item, i) => (
                 <motion.li
                   key={item}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.3 + (i * 0.1) }}
-                  className="border-b border-foreground/5 pb-4 text-foreground/80 font-light leading-relaxed flex items-start gap-3"
+                  transition={{ duration: 0.55, delay: 0.12 + i * 0.07 }}
+                  whileHover={{ y: -3 }}
+                  className="border border-foreground/10 p-4 text-foreground/74 leading-[1.56] bg-background"
                 >
-                  <span className="text-primary mt-1 text-sm">✦</span>
                   {item}
                 </motion.li>
               ))}
             </ul>
-          </motion.article>
-
-          <motion.article
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="glass bg-foreground/[0.02] p-10 md:p-14 rounded-2xl"
-          >
-            <h3 className="font-heading text-4xl md:text-[3rem] mb-10 text-foreground/60 leading-[1.1]">Cuando no hay alineación</h3>
-            <ul className="space-y-5">
-              {noFit.map((item, i) => (
-                <motion.li
-                  key={item}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 + (i * 0.1) }}
-                  className="border-b border-foreground/5 pb-4 text-foreground/50 font-light leading-relaxed flex items-start gap-3"
-                >
-                  <span className="text-foreground/30 mt-1 text-sm">×</span>
-                  {item}
-                </motion.li>
-              ))}
-            </ul>
-          </motion.article>
+          </motion.div>
         </div>
       </div>
     </section>

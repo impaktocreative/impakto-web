@@ -1,35 +1,50 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 const painPoints = [
-  "La marca evoluciono y su presentacion actual ya no la representa.",
-  "El sitio quedo por debajo del nivel real del negocio.",
-  "La comunicacion perdio coherencia entre canales y soportes.",
+  "La marca evolucionó y su presentación actual ya no la representa.",
+  "El sitio quedó por debajo del nivel real del negocio.",
+  "La comunicación perdió coherencia entre canales y soportes.",
   "Existen piezas aisladas, pero falta sistema.",
-  "El equipo necesita una agencia que piense y ejecute con precision.",
+  "El equipo necesita una agencia que piense y ejecute con precisión.",
 ];
 
 export default function PainPoints() {
   return (
-    <section className="py-24 md:py-32 bg-foreground text-background">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-12 md:mb-16">
-            <span className="text-sm tracking-[0.16em] uppercase font-medium text-primary mb-4 block">
-              Contextos clave
-            </span>
-            <h2 className="font-heading italic text-4xl md:text-6xl text-background mb-6 leading-tight">
-              Hay etapas en las que una marca necesita algo mas que ejecucion.
+    <section className="py-28 md:py-36 bg-background border-t border-foreground/7">
+      <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.75 }}
+            className="lg:col-span-5"
+          >
+            <p className="text-[0.72rem] uppercase tracking-[0.18em] text-foreground/48">Contextos clave</p>
+            <h2 className="mt-4 font-heading text-[2.25rem] md:text-[3.2rem] lg:text-[3.95rem] leading-[0.92] tracking-[-0.02em] text-foreground text-balance">
+              Hay etapas en las que una marca necesita algo más que ejecución.
             </h2>
-            <p className="text-lg text-background/75 leading-relaxed max-w-3xl">
-              Muchas empresas llegan a un punto donde su presencia digital deja de
-              acompanar su nivel real. En esos casos, el valor no esta en sumar
-              piezas: esta en ordenar con criterio.
+            <p className="mt-7 text-[1.06rem] md:text-[1.16rem] leading-[1.7] text-foreground/66 max-w-[31rem]">
+              Cuando la presencia digital deja de acompañar el nivel real del negocio,
+              el problema no es de volumen. Es de dirección.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-            {painPoints.map((item) => (
-              <div key={item} className="border-l border-primary/45 bg-transparent py-2 pl-4 pr-2">
-                <p className="text-background/80 leading-relaxed">{item}</p>
-              </div>
+          <div className="lg:col-span-7 border border-foreground/10 bg-background">
+            {painPoints.map((item, index) => (
+              <motion.div
+                key={item}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.55, delay: index * 0.07 }}
+                whileHover={{ x: 4 }}
+                className="border-b border-foreground/10 p-6 md:p-8 last:border-b-0"
+              >
+                <p className="text-foreground/74 leading-[1.66] text-[1.02rem]">{item}</p>
+              </motion.div>
             ))}
           </div>
         </div>

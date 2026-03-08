@@ -20,15 +20,15 @@ const repeated = [...logos, ...logos];
 
 export default function ClientLogosCarousel() {
   return (
-    <section className="border-b border-foreground/7 bg-background/70">
-      <div className="container mx-auto px-6 md:px-12 py-0">
+    <section className="border-b border-foreground/7 bg-background/75">
+      <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16 py-0">
         <div className="relative overflow-hidden">
           <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-14 bg-gradient-to-r from-background to-transparent" />
           <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-14 bg-gradient-to-l from-background to-transparent" />
 
           <div className="logos-track flex w-max items-stretch gap-0 border-x border-foreground/8" aria-label="Logos de clientes">
             {repeated.map((logo, index) => (
-              <div key={`${logo.file}-${index}`} className="flex h-20 w-44 md:h-24 md:w-56 items-center justify-center border-r border-foreground/8 bg-background/45 px-6">
+              <div key={`${logo.file}-${index}`} className="flex h-20 w-44 md:h-24 md:w-56 items-center justify-center border-r border-foreground/8 bg-background/55 px-6">
                 <Image
                   src={encodeURI(`/logos/clientes/${logo.file}`)}
                   alt={logo.name}

@@ -79,44 +79,44 @@ function TypedText({
 
 const conversations: Conversation[] = [
   {
-    question: "Si nuestra marca está desordenada, ¿por dónde empezamos?",
+    question: "¿Cómo piensan una estrategia cuando una marca está desordenada?",
     answer:
-      "Primero relevamos contexto, mensaje, percepción y objetivos. Desde ahí definimos una **dirección clara** para avanzar con criterio.",
+      "Empezamos por relevar contexto, objetivos y percepción actual. Con ese diagnóstico definimos una **dirección clara** y prioridades reales.",
   },
   {
-    question: "¿Trabajan solo diseño o también estrategia comercial?",
+    question: "¿Cómo trabajan para que todo tenga coherencia?",
     answer:
-      "Trabajamos de forma integral: comunicación, marca y estructura comercial para construir una presencia **sólida y coherente**.",
+      "Trabajamos comunicación, marca y estructura digital como un solo sistema, para sostener una presencia **sólida y consistente**.",
   },
   {
-    question: "¿Pueden ayudarnos a vender mejor sin perder identidad?",
+    question: "¿Qué brindan además de diseño y ejecución?",
     answer:
-      "Sí. Ordenamos tu comunicación para que la propuesta se entienda mejor y se traduzca en una venta **más clara y consistente**.",
+      "Brindamos criterio estratégico, acompañamiento y decisiones bien fundamentadas para que cada acción tenga **sentido de negocio**.",
   },
   {
-    question: "¿Qué incluye su enfoque online y offline?",
+    question: "¿Cómo actúan durante el proceso del proyecto?",
     answer:
-      "Alineamos todos los puntos de contacto de la marca para sostener una percepción **uniforme y confiable** en cada canal.",
+      "Actuamos por etapas: diagnóstico, dirección e implementación, con seguimiento cercano para avanzar con **claridad y orden**.",
   },
   {
-    question: "¿Cómo trabajan la captación, conversión y retención?",
+    question: "¿Qué beneficios concretos recibe una marca al trabajar con ustedes?",
     answer:
-      "Diseñamos estrategias para atraer mejores oportunidades, convertir con más claridad y fortalecer relaciones **a largo plazo**.",
+      "Una marca mejor estructurada para atraer mejor, convertir con más claridad y sostener relaciones **más sólidas** con sus clientes.",
   },
   {
-    question: "¿Usan IA y herramientas nuevas en los proyectos?",
+    question: "¿Usan tecnología e IA dentro de su metodología?",
     answer:
-      "Sí, pero siempre con criterio. La tecnología suma cuando está integrada a una **estrategia bien pensada**.",
+      "Sí, cuando aporta valor real. Integramos tecnología y IA como soporte de una **estrategia bien pensada**, no como reemplazo del criterio.",
   },
   {
-    question: "¿Acompañan durante todo el proceso o solo al inicio?",
+    question: "¿Con qué tipo de clientes trabajan mejor?",
     answer:
-      "Acompañamos cada etapa con asesoramiento continuo para que tomes decisiones con más **seguridad y claridad**.",
+      "Con marcas que quieren hacer las cosas bien: ordenar su comunicación, elevar percepción y crecer con una base **seria y profesional**.",
   },
   {
     question: "¿Podemos avanzar aunque no tengamos todo definido?",
     answer:
-      "Sí. Te ayudamos a ordenar prioridades, definir alcance y construir una base **más firme para crecer**.",
+      "Sí. Te ayudamos a ordenar el punto de partida, definir alcance y construir una hoja de ruta **firme para crecer**.",
   },
 ];
 
@@ -160,10 +160,10 @@ export default function Hero() {
               className="font-heading font-normal text-[2.2rem] sm:text-[2.8rem] md:text-[3.2rem] lg:text-[3.05rem] xl:text-[3.35rem] 2xl:text-[3.55rem] leading-[0.94] tracking-[-0.02em] text-foreground text-balance max-w-[15ch] lg:max-w-[20ch] xl:max-w-[21ch]"
             >
               <span className="hidden lg:block lg:-ml-1">
-                Construimos estrategias de comunicación para que tu marca <span className="font-medium">venda mejor</span>, <span className="font-medium">online y offline</span>.
+                Construimos estrategias de comunicación para que tu marca <span className="font-semibold">venda más, online y offline</span>.
               </span>
               <span className="lg:hidden">
-                Construimos estrategias de comunicación para que tu marca <span className="font-medium">venda mejor</span>, <span className="font-medium">online y offline</span>.
+                Construimos estrategias de comunicación para que tu marca <span className="font-semibold">venda más, online y offline</span>.
               </span>
             </motion.h1>
 

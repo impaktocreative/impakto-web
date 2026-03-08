@@ -5,77 +5,79 @@ import { motion } from "framer-motion";
 const values = [
   {
     index: "01",
-    title: "Direccion clara",
+    title: "Dirección clara",
     description:
-      "Ordenamos el enfoque general de la marca para que cada decision visual, verbal y digital responda a una direccion definida.",
+      "Definimos prioridades y enfoque para que la marca avance con una lógica estratégica concreta.",
   },
   {
     index: "02",
-    title: "Diseno con estandar",
+    title: "Sistema coherente",
     description:
-      "Desarrollamos entornos y piezas que transmiten una percepcion solida, cuidada y alineada con el valor real del negocio.",
+      "Alineamos mensaje, diseño y estructura digital para sostener una percepción más sólida y confiable.",
   },
   {
     index: "03",
-    title: "Estructura digital",
+    title: "Impacto comercial",
     description:
-      "Construimos sitios y sistemas que mejoran como la marca se presenta, organiza su informacion y acompana sus objetivos comerciales.",
-  },
-  {
-    index: "04",
-    title: "Comunicacion mejor resuelta",
-    description:
-      "Disenamos contenidos y mensajes con precision para expresar el valor de la marca con mas claridad y consistencia.",
+      "Ordenamos la comunicación para atraer mejor, convertir con más claridad y retener con más consistencia.",
   },
 ];
 
 export default function ValueProposition() {
   return (
-    <section className="py-32 md:py-40 bg-background">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-foreground/5 pb-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+    <section className="bg-background py-28 md:py-36 border-t border-foreground/7">
+      <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="font-heading italic text-5xl md:text-[4.5rem] text-foreground text-balance"
+            transition={{ duration: 0.75 }}
+            className="lg:col-span-6"
           >
-            Qué aportamos
-          </motion.h2>
-          <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-[0.8rem] tracking-[0.2em] uppercase text-primary/70 block pb-2"
+            <p className="text-[0.72rem] uppercase tracking-[0.18em] text-foreground/48">Qué aportamos</p>
+            <h2 className="mt-4 font-heading text-[2.3rem] md:text-[3.35rem] lg:text-[4.2rem] leading-[0.91] tracking-[-0.02em] text-foreground text-balance">
+              Decisiones mejor pensadas. Presencia mejor construida.
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="lg:col-span-6 text-[1.06rem] md:text-[1.15rem] leading-[1.7] text-foreground/66 max-w-[35rem]"
           >
-            Propuesta de valor
-          </motion.span>
+            Una intervención bien estructurada no solo mejora la imagen de marca.
+            También mejora cómo se entiende tu propuesta y cómo responde el mercado.
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.96 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7 }}
+          className="mt-16 grid grid-cols-1 md:grid-cols-3 border border-foreground/10"
+        >
           {values.map((value, index) => (
             <motion.article
               key={value.index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -8, transition: { type: "spring", stiffness: 400, damping: 25 } }}
-              className="group glass relative overflow-hidden bg-accent/5 p-8 md:p-10 transition-colors hover:bg-white/40"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.65, delay: index * 0.1 }}
+              whileHover={{ y: -4 }}
+              className="p-8 md:p-10 border-t md:border-t-0 border-foreground/10 first:border-t-0 md:border-l first:md:border-l-0 bg-background"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              <div className="relative z-10">
-                <p className="text-[11px] tracking-[0.22em] uppercase text-foreground/40 mb-5 group-hover:text-primary transition-colors duration-300">{value.index}</p>
-                <h3 className="font-heading text-[2rem] md:text-[2.75rem] mb-4 text-foreground/90 group-hover:text-foreground transition-colors duration-300 leading-[1.1]">
-                  {value.title}
-                </h3>
-                <p className="text-foreground/70 leading-[1.65] text-lg font-light group-hover:text-foreground/85 transition-colors duration-300">{value.description}</p>
-              </div>
+              <p className="text-[0.7rem] tracking-[0.2em] uppercase text-foreground/45">{value.index}</p>
+              <h3 className="mt-5 font-heading text-[2.05rem] md:text-[2.5rem] leading-[1] tracking-[-0.01em] text-foreground/92">
+                {value.title}
+              </h3>
+              <p className="mt-5 text-[1rem] leading-[1.66] text-foreground/66">{value.description}</p>
             </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
