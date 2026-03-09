@@ -11,6 +11,12 @@ export default function Footer() {
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(169,156,126,0.2)_0%,rgba(164,154,130,0.08)_16%,rgba(31,35,39,0)_52%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_92%_8%,rgba(169,156,126,0.18),transparent_36%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+      <motion.span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-[3px] bg-[linear-gradient(100deg,rgba(194,173,122,0)_8%,rgba(214,191,132,0.2)_26%,rgba(233,214,165,0.95)_50%,rgba(214,191,132,0.2)_74%,rgba(194,173,122,0)_92%)] [background-size:220%_100%]"
+        animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
+        transition={{ duration: 2.3, repeat: Infinity, ease: "linear" }}
+      />
       <motion.div
         aria-hidden="true"
         className="pointer-events-none absolute -right-16 top-2 hidden h-48 w-48 rounded-full bg-primary/22 blur-3xl md:block"

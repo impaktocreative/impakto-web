@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealLine } from "@/components/ui/Reveal";
+import TechNodes from "@/components/ui/TechNodes";
 import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -231,6 +232,7 @@ export default function ServiciosContent() {
         <div className="pointer-events-none absolute inset-0">
           <AnimatedMeshBackground variant="full" className="opacity-[0.52]" />
         </div>
+        <TechNodes className="pointer-events-none absolute inset-0" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_78%,rgba(245,246,242,0),rgba(245,246,242,0.55)_70%,rgba(245,246,242,0.82)_100%)]" />
         <div className="pointer-events-none absolute inset-y-0 right-[7%] hidden w-px bg-gradient-to-b from-transparent via-foreground/14 to-transparent lg:block" />
 
@@ -463,7 +465,7 @@ export default function ServiciosContent() {
                   key={item.stage}
                   variants={ITEM_FAST}
                   whileHover={{ y: -3 }}
-                  className="group relative overflow-hidden rounded-[0.95rem] border border-foreground/10 bg-white/85 p-5 transition-colors duration-300 hover:bg-white md:p-6"
+                className="edge-scan-card group relative overflow-hidden rounded-[0.95rem] border border-foreground/10 bg-white/85 p-5 transition-colors duration-300 hover:bg-white md:p-6"
                 >
                   <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/55 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
                   <div className="flex items-center justify-between gap-4">
@@ -507,7 +509,7 @@ export default function ServiciosContent() {
                 <Button
                   asChild
                   size="lg"
-                  className="btn-tide h-auto min-h-14 w-full border border-white/55 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
+                  className="btn-gold-sweep-light btn-tide h-auto min-h-14 w-full border border-white/55 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
                   <Link href="/contacto">Agendar sesión estratégica</Link>
                 </Button>

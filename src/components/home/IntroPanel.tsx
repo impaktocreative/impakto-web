@@ -58,6 +58,25 @@ export default function IntroPanel() {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,transparent_24%,transparent_72%,rgba(255,255,255,0.04)_100%)]" />
             <div className="absolute -left-[18%] top-[8%] h-[42%] w-[120%] rotate-[12deg] bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.12)_48%,transparent_100%)] opacity-45 blur-md" />
             <div className="absolute inset-0 opacity-[0.18] mix-blend-screen" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 280 280' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 p-px"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, rgba(232,214,165,0) 8%, rgba(232,214,165,0.85) 20%, rgba(232,214,165,0) 33%, rgba(194,173,122,0) 56%, rgba(232,214,165,0.72) 69%, rgba(232,214,165,0) 82%)",
+                WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                WebkitMaskComposite: "xor",
+                maskComposite: "exclude",
+              }}
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 7.6, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 border border-primary/20"
+              animate={{ opacity: [0.28, 0.58, 0.28] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+            />
 
             {/* Número decorativo interno */}
             <div className="absolute top-6 right-6 pointer-events-none select-none">

@@ -70,7 +70,7 @@ export default function FinalCTA() {
               <Button
                 asChild
                 size="lg"
-                className="min-h-[3.55rem] w-full rounded-[0.86rem] px-7 text-[0.52rem] tracking-[0.06em] whitespace-normal text-center leading-[1.28] shadow-[0_18px_30px_-24px_rgba(50,50,47,0.52)] md:px-10 md:text-[0.58rem] md:tracking-[0.08em] md:whitespace-nowrap"
+                className="btn-gold-sweep-primary min-h-[3.55rem] w-full rounded-[0.86rem] px-7 text-[0.52rem] tracking-[0.06em] whitespace-normal text-center leading-[1.28] shadow-[0_18px_30px_-24px_rgba(50,50,47,0.52)] md:px-10 md:text-[0.58rem] md:tracking-[0.08em] md:whitespace-nowrap"
               >
                 <Link href="/contacto" className="text-center leading-tight">
                   Solicitar diagnóstico inicial

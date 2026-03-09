@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import ContactForm from "@/components/contact/ContactForm";
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealLine } from "@/components/ui/Reveal";
+import TechNodes from "@/components/ui/TechNodes";
 import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -57,6 +58,7 @@ export default function ContactoContent() {
         <div className="pointer-events-none absolute inset-0">
           <AnimatedMeshBackground variant="hero" className="opacity-[0.46]" />
         </div>
+        <TechNodes className="pointer-events-none absolute inset-0" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_78%,rgba(245,246,242,0),rgba(245,246,242,0.58)_72%,rgba(245,246,242,0.82)_100%)]" />
         <div className="pointer-events-none absolute inset-y-0 right-[7%] hidden w-px bg-gradient-to-b from-transparent via-foreground/14 to-transparent lg:block" />
 
@@ -184,7 +186,7 @@ export default function ContactoContent() {
                 <Button
                   asChild
                   size="lg"
-                  className="btn-tide h-auto min-h-14 w-full border border-white/60 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
+                  className="btn-gold-sweep-light btn-tide h-auto min-h-14 w-full border border-white/60 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
                   <Link href="#brief-contacto">Solicitar diagnóstico inicial</Link>
                 </Button>

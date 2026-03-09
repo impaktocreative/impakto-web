@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
+import TechNodes from "@/components/ui/TechNodes";
 import Magnetic from "@/components/ui/Magnetic";
 
 type Conversation = {
@@ -140,6 +141,7 @@ export default function Hero() {
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(142,155,147,0.07),transparent_28%),radial-gradient(circle_at_left_center,rgba(164,154,130,0.07),transparent_26%)]" />
       <AnimatedMeshBackground />
+      <TechNodes className="pointer-events-none absolute inset-0" />
 
       <div className="container relative z-10 mx-auto max-w-[1320px] px-7 py-5 md:min-h-[calc(100svh-8.2rem)] md:px-12 md:py-8 lg:px-14 lg:py-10 xl:px-16">
         <div className="grid h-full items-center gap-8 md:gap-10 lg:grid-cols-2 lg:items-center lg:gap-14 xl:gap-18">
@@ -184,7 +186,7 @@ export default function Hero() {
               <Magnetic strength={1}>
                 <Link
                   href="/contacto"
-                  className="btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-background shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
+                  className="btn-gold-sweep-primary btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-background shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
                 >
                   Solicitar diagnóstico inicial
                 </Link>

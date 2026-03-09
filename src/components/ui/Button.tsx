@@ -11,7 +11,7 @@ const buttonVariants = cva(
             variant: {
                 // §5 Blueprint: "tide-fill" — el color sube desde abajo como una marea
                 default:
-                    "btn-premium btn-tide relative overflow-hidden rounded-[0.72rem] bg-foreground text-background transition-colors duration-500 [&::after]:bg-primary hover:text-background",
+                    "btn-premium btn-tide relative overflow-hidden rounded-[0.72rem] bg-foreground text-background transition-colors duration-500 [&::after]:bg-primary",
                 destructive:
                     "btn-premium rounded-[0.72rem] bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors duration-300",
                 outline:

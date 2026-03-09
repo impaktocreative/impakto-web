@@ -275,6 +275,95 @@ button {
   z-index: 1;
 }
 
+@keyframes gold-outline-sweep {
+  0% {
+    background-position: 0 0, 0% 0;
+  }
+
+  100% {
+    background-position: 0 0, 220% 0;
+  }
+}
+
+.btn-gold-outline {
+  border: 1px solid transparent !important;
+  background:
+    linear-gradient(var(--color-primary), var(--color-primary)) padding-box,
+    linear-gradient(
+      105deg,
+      rgba(194, 173, 122, 0.08) 0%,
+      rgba(232, 214, 168, 0.95) 26%,
+      rgba(194, 173, 122, 0.18) 50%,
+      rgba(232, 214, 168, 0.9) 74%,
+      rgba(194, 173, 122, 0.08) 100%
+    ) border-box;
+  background-size: 100% 100%, 220% 100%;
+  animation: gold-outline-sweep 6.6s linear infinite;
+}
+
+@keyframes gold-border-flow {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 220% 0%;
+  }
+}
+
+.btn-gold-sweep-primary,
+.btn-gold-sweep-light {
+  border: 1px solid transparent !important;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 220% 100%;
+  animation: gold-border-flow 3.1s linear infinite;
+}
+
+.btn-gold-sweep-primary {
+  background-image:
+    linear-gradient(var(--color-primary), var(--color-primary)),
+    linear-gradient(
+      100deg,
+      rgba(194, 173, 122, 0.08) 8%,
+      rgba(234, 216, 171, 0.96) 48%,
+      rgba(194, 173, 122, 0.08) 92%
+    );
+}
+
+.btn-gold-sweep-light {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
+    linear-gradient(
+      100deg,
+      rgba(194, 173, 122, 0.06) 8%,
+      rgba(234, 216, 171, 0.9) 50%,
+      rgba(194, 173, 122, 0.06) 92%
+    );
+}
+
+.btn-gold-sweep-light:hover {
+  color: var(--color-primary) !important;
+}
+
+.edge-scan-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.edge-scan-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid rgba(232, 214, 168, 0.55);
+  border-bottom: 1px solid rgba(232, 214, 168, 0.2);
+  opacity: 0.38;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(232, 214, 168, 0.42) 48%, transparent 100%);
+  animation: premium-sheen 6.2s var(--ease-luxury) infinite;
+  pointer-events: none;
+}
+
 @media (hover: hover) {
   .btn-premium:hover {
     transform: translateY(-1px) scale(1.01);

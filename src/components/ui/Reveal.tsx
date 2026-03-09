@@ -29,9 +29,9 @@ export function Reveal({
       initial={
         prefersReducedMotion
           ? { opacity: 0 }
-          : { opacity: 0, y, scale: 0.985, filter: "blur(8px)" }
+          : { opacity: 0, y, scale: 0.985, filter: "blur(8px)", clipPath: "inset(0 0 100% 0)" }
       }
-      whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)", clipPath: "inset(0 0 0% 0)" }}
       viewport={{ once: true, margin }}
       transition={{ duration, delay, ease: EASE_LUXURY }}
       className={className}
