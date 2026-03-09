@@ -29,7 +29,7 @@ const organizationSchema = {
   name: "Impakto Creative",
   url: siteUrl,
   email: "hola@impaktocreative.com",
-  telephone: ["+54 9 11 6924-4656", "+1 615 282 9799"],
+  telephone: ["+54 9 11 7842-1357", "+1 615 282 9799"],
   address: {
     "@type": "PostalAddress",
     addressLocality: "Ciudad de Buenos Aires",

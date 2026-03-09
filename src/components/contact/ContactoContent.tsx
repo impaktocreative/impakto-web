@@ -87,8 +87,8 @@ export default function ContactoContent() {
                     <a href="mailto:hola@impaktocreative.com" className="block transition-colors hover:text-primary">
                       hola@impaktocreative.com
                     </a>
-                    <a href="https://wa.me/5491169244656" target="_blank" rel="noreferrer" className="block transition-colors hover:text-primary">
-                      Argentina (WhatsApp): +54 9 11 6924-4656
+                    <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="block transition-colors hover:text-primary">
+                      Argentina (WhatsApp): +54 9 11 7842-1357
                     </a>
                     <a href="tel:+16152829799" className="block transition-colors hover:text-primary">
                       Exterior: +1 615 282 9799

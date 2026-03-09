@@ -68,9 +68,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/5491169244656" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-primary">
+                <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-primary">
                   <MessageCircleMore size={14} className="opacity-70" />
-                  Argentina (WhatsApp): +54 9 11 6924-4656
+                  Argentina (WhatsApp): +54 9 11 7842-1357
                 </a>
               </li>
               <li>

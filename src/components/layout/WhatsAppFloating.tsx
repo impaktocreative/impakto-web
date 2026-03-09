@@ -8,8 +8,8 @@ const contacts = [
   {
     name: "Rodrigo",
     role: "Argentina",
-    number: "+54 9 11 6924-4656",
-    wa: "5491169244656",
+    number: "+54 9 11 7842-1357",
+    wa: "5491178421357",
     image: "/team/rodrigo.jpg",
   },
   {
