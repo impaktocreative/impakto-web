@@ -10,17 +10,17 @@ const services = [
   {
     title: "Estrategia y posicionamiento",
     description:
-      "Direccion comunicacional y criterio de marca para organizaciones que requieren una base estrategica clara para escalar.",
+      "Dirección comunicacional y criterio de marca para organizaciones que requieren una base estratégica clara para escalar.",
   },
   {
     title: "Diseño y desarrollo web",
     description:
-      "Sitios y plataformas orientados a proyectar autoridad, ordenar la experiencia digital y mejorar desempeno comercial.",
+      "Sitios y plataformas orientados a proyectar autoridad, ordenar la experiencia digital y mejorar desempeño comercial.",
   },
   {
     title: "Comunicación y contenido comercial",
     description:
-      "Mensajes, piezas y materiales desarrollados para expresar valor con precision ejecutiva en cada punto de contacto.",
+      "Mensajes, piezas y materiales desarrollados para expresar valor con precisión ejecutiva en cada punto de contacto.",
   },
   {
     title: "Sistemas digitales y automatización",
@@ -55,7 +55,7 @@ export default function ServicesOverview() {
               Áreas principales de trabajo
             </h2>
             <p className="text-background/80 leading-[1.68] mb-10 text-[1rem] md:text-[1.04rem]">
-              La oferta se organiza en areas definidas para construir presencia,
+              La oferta se organiza en áreas definidas para construir presencia,
               orden y consistencia en distintos niveles del negocio.
             </p>
             <motion.div

@@ -25,10 +25,10 @@ const LIST_ITEM = {
 };
 
 const fit = [
-  "Necesitan una estrategia de comunicacion robusta y bien articulada.",
-  "Valoran criterio, proceso y decisiones respaldadas por analisis.",
-  "Buscan crecer con una presencia de marca solida y consistente.",
-  "Priorizan resultados sostenibles por encima de soluciones tacticas de corto plazo.",
+  "Necesitan una estrategia de comunicación robusta y bien articulada.",
+  "Valoran criterio, proceso y decisiones respaldadas por análisis.",
+  "Buscan crecer con una presencia de marca sólida y consistente.",
+  "Priorizan resultados sostenibles por encima de soluciones tácticas de corto plazo.",
 ];
 
 export default function IdealClient() {
@@ -84,9 +84,9 @@ export default function IdealClient() {
               Proyectos donde nuestra forma de trabajo genera mayor impacto.
             </h2>
             <p className="mt-6 text-[1.05rem] md:text-[1.1rem] leading-[1.72] text-foreground/60 max-w-[40rem]">
-              Los mejores resultados aparecen cuando hay una decision real de
-              ordenar la comunicacion, elevar percepcion y consolidar una base
-              comercial consistente. Tambien trabajamos junto a agencias de
+              Los mejores resultados aparecen cuando hay una decisión real de
+              ordenar la comunicación, elevar percepción y consolidar una base
+              comercial consistente. También trabajamos junto a agencias de
               marketing y equipos internos para integrar capacidades,
               complementar conocimiento y acelerar resultados.
             </p>
