@@ -28,11 +28,11 @@ const STEP_ITEM = {
 };
 
 const steps = [
-  { number: "01", title: "Diagnóstico", description: "Analizamos contexto, audiencia, percepción actual y objetivos reales." },
-  { number: "02", title: "Dirección", description: "Definimos enfoque estratégico, narrativa y prioridades de implementación." },
-  { number: "03", title: "Desarrollo", description: "Construimos piezas, estructuras y experiencias con un criterio unificado." },
-  { number: "04", title: "Implementación", description: "Llevamos la solución a ejecución cuidando coherencia visual y comercial." },
-  { number: "05", title: "Optimización", description: "Medimos, ajustamos y refinamos para sostener resultados en el tiempo." },
+  { number: "01", title: "Diagnostico", description: "Analizamos contexto, audiencia y percepcion actual para detectar donde su marca puede ganar mas traccion." },
+  { number: "02", title: "Direccion", description: "Definimos enfoque estrategico, narrativa y prioridades para que cada frente avance con el mismo criterio." },
+  { number: "03", title: "Desarrollo", description: "Construimos piezas, estructuras y experiencias conectadas entre si para evitar dispersion y retrabajo." },
+  { number: "04", title: "Implementacion", description: "Ejecutamos con orden operativo para que la mejora se vea en la percepcion de marca y en la conversion." },
+  { number: "05", title: "Optimizacion", description: "Medimos, ajustamos y refinamos para sostener resultados y escalar con mas seguridad." },
 ];
 
 export default function Methodology() {
@@ -58,18 +58,18 @@ export default function Methodology() {
           >
             <p className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-primary/75">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
-              Método de trabajo
+              Como trabajamos
             </p>
             {/* §2 Blueprint — tipografía fluida clamp() */}
             <h2
               className="mt-4 font-heading leading-[0.91] tracking-[-0.02em] text-background text-balance"
               style={{ fontSize: "clamp(2.1rem, 3.5vw, 4rem)" }}
             >
-              Estructura para decidir mejor y ejecutar con precisión.
+              Nuestra metodologia: claridad estrategica y ejecucion consistente.
             </h2>
             <p className="mt-7 text-[1.02rem] md:text-[1.12rem] leading-[1.72] text-background/80 max-w-[31rem]">
-              No improvisamos el crecimiento de una marca. Trabajamos con un proceso
-              claro para alinear estrategia, diseño y rendimiento comercial.
+              Este proceso nos permite alinear estrategia, diseno y rendimiento
+              comercial para que su marca crezca con menos friccion y mas consistencia.
             </p>
 
             {/* §4 Blueprint — imagen con scale 1.15→1.0 al entrar en view */}

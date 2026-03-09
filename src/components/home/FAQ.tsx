@@ -80,8 +80,8 @@ export default function FAQ() {
               Preguntas frecuentes
             </h2>
             <p className="text-foreground/62 leading-[1.64] text-[1.03rem] max-w-sm">
-              Respuestas directas para entender cómo trabajamos, qué priorizamos y
-              qué esperar del proceso.
+              Respuestas directas para conocer nuestra forma de trabajo y los
+              beneficios que aporta en cada etapa.
             </p>
 
             <div className="mt-8 overflow-hidden rounded-2xl border border-foreground/10 shadow-[0_20px_34px_-28px_rgba(50,50,47,0.4)]">

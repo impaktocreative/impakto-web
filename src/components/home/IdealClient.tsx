@@ -25,9 +25,9 @@ const LIST_ITEM = {
 };
 
 const fit = [
-  "Buscan una estrategia de comunicacion robusta y bien articulada.",
+  "Necesitan una estrategia de comunicacion robusta y bien articulada.",
   "Valoran criterio, proceso y decisiones respaldadas por analisis.",
-  "Necesitan crecer con una presencia de marca solida y consistente.",
+  "Buscan crecer con una presencia de marca solida y consistente.",
   "Priorizan resultados sostenibles por encima de soluciones tacticas de corto plazo.",
 ];
 
@@ -81,14 +81,14 @@ export default function IdealClient() {
               className="mt-4 font-heading leading-[0.91] tracking-[-0.02em] text-foreground text-balance"
               style={{ fontSize: "clamp(2rem, 3.5vw, 4rem)" }}
             >
-              Proyectos que requieren direccion, criterio y estandar de ejecucion.
+              Proyectos donde nuestra forma de trabajo genera mayor impacto.
             </h2>
             <p className="mt-6 text-[1.05rem] md:text-[1.1rem] leading-[1.72] text-foreground/60 max-w-[40rem]">
-              Los mejores resultados aparecen cuando existe una decision real de
+              Los mejores resultados aparecen cuando hay una decision real de
               ordenar la comunicacion, elevar percepcion y consolidar una base
-              comercial consistente. Tambien trabajamos en conjunto con agencias
-              de marketing y equipos internos para integrar capacidades,
-              complementar conocimiento y elevar resultados.
+              comercial consistente. Tambien trabajamos junto a agencias de
+              marketing y equipos internos para integrar capacidades,
+              complementar conocimiento y acelerar resultados.
             </p>
 
             {/* Lista editorial — filas con hairlines, sin cajas */}

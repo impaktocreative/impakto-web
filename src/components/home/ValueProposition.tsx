@@ -10,19 +10,19 @@ const values = [
     index: "01",
     title: "Dirección clara",
     description:
-      "Definimos prioridades y enfoque para que la marca avance con una lógica estratégica concreta.",
+      "Definimos prioridades y enfoque para que su marca avance con una logica estrategica concreta y medible.",
   },
   {
     index: "02",
     title: "Sistema coherente",
     description:
-      "Alineamos mensaje, diseño y estructura digital para sostener una percepción más sólida y confiable.",
+      "Alineamos mensaje, diseno y estructura digital para sostener una percepcion mas solida y confiable.",
   },
   {
     index: "03",
     title: "Impacto comercial",
     description:
-      "Ordenamos la comunicación para atraer mejor, convertir con más claridad y retener con más consistencia.",
+      "Ordenamos la comunicacion para atraer mejor, convertir con mas claridad y retener con mas consistencia.",
   },
 ];
 
@@ -42,13 +42,13 @@ export default function ValueProposition() {
           >
             <p className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-foreground/45">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
-              Qué aportamos
+              Que obtiene su marca
             </p>
             <h2
               className="mt-4 font-heading leading-[0.91] tracking-[-0.02em] text-foreground text-balance"
               style={{ fontSize: "clamp(2rem, 3.8vw, 4.2rem)" }}
             >
-              Decisiones mejor pensadas. <span className="gold-reflect">Presencia mejor construida.</span>
+              Decisiones mejor pensadas. <span className="gold-reflect">Resultados mejor sostenidos.</span>
             </h2>
           </motion.div>
 
@@ -59,8 +59,8 @@ export default function ValueProposition() {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-6 text-[1.06rem] md:text-[1.15rem] leading-[1.72] text-foreground/62 max-w-[34rem]"
           >
-            Una intervención bien estructurada no solo mejora la imagen de marca.
-            También mejora cómo se comprende su propuesta y cómo responde el mercado.
+            Nuestra forma de trabajo no solo mejora la imagen de marca. Tambien mejora
+            como se entiende su propuesta y como responde el mercado.
           </motion.div>
         </div>
 
