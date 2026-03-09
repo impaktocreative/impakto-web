@@ -295,8 +295,8 @@ a:focus-visible {
 }
 
 .cta-secondary-dark:hover {
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--color-foreground);
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: var(--color-foreground) !important;
 }
 
 /* §6 — Iluminación Estructural: radial-gradient ambiental estándar

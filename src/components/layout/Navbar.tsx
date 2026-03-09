@@ -69,7 +69,7 @@ export default function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
           className={`relative flex items-center px-0 transition-all duration-300 ${
-            isScrolled ? "py-1 md:py-2" : "py-2.5 md:py-4"
+            isScrolled ? "h-[3.95rem] md:h-[4.5rem]" : "h-[4.35rem] md:h-[5.1rem]"
           } ${
             isScrolled ? "border-b border-transparent" : "border-b border-foreground/10"
           }`}
@@ -82,7 +82,7 @@ export default function Navbar() {
               width={14}
               height={18}
               className={`w-auto transition-all duration-300 ${
-                isScrolled ? "h-[1.05rem] md:h-5" : "h-[1.15rem] md:h-6"
+                isScrolled ? "h-[1.05rem] md:h-[1.4rem]" : "h-[1.15rem] md:h-[1.55rem]"
               }`}
             />
             <Image
@@ -92,7 +92,7 @@ export default function Navbar() {
               height={40}
               priority
               className={`w-auto transition-all duration-300 ${
-                isScrolled ? "h-[1.55rem] md:h-7" : "h-[1.65rem] md:h-[1.9rem]"
+                isScrolled ? "h-[1.55rem] md:h-[2rem]" : "h-[1.65rem] md:h-[2.25rem]"
               }`}
             />
           </Link>

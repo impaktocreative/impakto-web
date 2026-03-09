@@ -399,7 +399,7 @@ export default function AgenciaContent() {
                   <Button asChild size="lg" className="btn-tide whitespace-normal text-center sm:whitespace-nowrap">
                     <Link href="/contacto">Agendar una reunión con Rodrigo</Link>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="border-foreground/45 bg-white/55 text-foreground/86 hover:bg-white">
+                  <Button asChild size="lg" variant="outline" className="border-foreground/45 bg-white/55 text-foreground/86 hover:bg-white hover:text-foreground">
                     <Link href="/contacto">Contanos tu proyecto</Link>
                   </Button>
                 </motion.div>

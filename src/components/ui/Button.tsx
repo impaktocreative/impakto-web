@@ -15,7 +15,7 @@ const buttonVariants = cva(
                 destructive:
                     "rounded-[0.72rem] bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors duration-300",
                 outline:
-                    "btn-tide relative overflow-hidden rounded-[0.72rem] border border-foreground/20 bg-background text-foreground transition-colors duration-500 [&::after]:bg-foreground hover:text-background",
+                    "rounded-[0.72rem] border border-foreground/20 bg-background text-foreground transition-colors duration-300 hover:border-foreground/35 hover:bg-foreground/6 hover:text-foreground",
                 secondary:
                     "rounded-[0.72rem] bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors duration-300",
                 ghost: "hover:bg-accent hover:text-accent-foreground transition-colors duration-300",
