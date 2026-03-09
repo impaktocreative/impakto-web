@@ -119,7 +119,7 @@ export default function ServicesOverview() {
 
           <motion.div className="lg:col-span-7 lg:col-start-6" variants={CARDS_STAGGER}>
             <div className="flex flex-col">
-              {services.map((service, i) => (
+              {services.map((service) => (
                 <motion.article
                   key={service.title}
                   variants={CARD_ITEM}

@@ -43,32 +43,35 @@ const STAGGER_FAST_CONTAINER = {
 };
 
 const STAGGER_ITEM_SLOW = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 26, scale: 0.985, filter: "blur(10px)" },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     filter: "blur(0px)",
-    transition: { duration: 0.68, ease: EASE_LUXURY },
+    transition: { duration: 0.8, ease: EASE_LUXURY },
   },
 };
 
 const STAGGER_ITEM_MEDIUM = {
-  hidden: { opacity: 0, y: 22, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 22, scale: 0.99, filter: "blur(6px)" },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     filter: "blur(0px)",
-    transition: { duration: 0.56, ease: EASE_LUXURY },
+    transition: { duration: 0.64, ease: EASE_LUXURY },
   },
 };
 
 const STAGGER_ITEM_FAST = {
-  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 16, scale: 0.992, filter: "blur(4px)" },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     filter: "blur(0px)",
-    transition: { duration: 0.42, ease: EASE_LUXURY },
+    transition: { duration: 0.5, ease: EASE_LUXURY },
   },
 };
 

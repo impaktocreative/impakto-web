@@ -10,6 +10,27 @@ import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+const PROCESS_CONTAINER = {
+  hidden: {},
+  show: {
+    transition: {
+      delayChildren: 0.04,
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const PROCESS_ITEM = {
+  hidden: { opacity: 0, y: 16, scale: 0.992, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.62, ease: EASE_LUXURY },
+  },
+};
+
 const process = [
   {
     step: "01",
@@ -88,7 +109,7 @@ export default function ContactoContent() {
                       hola@impaktocreative.com
                     </a>
                     <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="block transition-colors hover:text-primary">
-                      Argentina (WhatsApp): +54 9 11 7842-1357
+                      Argentina: +54 9 11 7842-1357
                     </a>
                     <a href="tel:+16152829799" className="block transition-colors hover:text-primary">
                       Exterior: +1 615 282 9799
@@ -99,14 +120,17 @@ export default function ContactoContent() {
               </Reveal>
 
               <Reveal delay={0.12}>
-                <div className="mt-8 space-y-4 border-t border-foreground/12 pt-6">
+                <motion.div
+                  className="mt-8 space-y-4 border-t border-foreground/12 pt-6"
+                  variants={PROCESS_CONTAINER}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: "-80px" }}
+                >
                   {process.map((item) => (
                     <motion.article
                       key={item.step}
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-80px" }}
-                      transition={{ duration: 0.55, ease: EASE_LUXURY }}
+                      variants={PROCESS_ITEM}
                       className="grid grid-cols-[2.8rem_1fr] gap-3 rounded-[0.9rem] border border-foreground/10 bg-white/65 p-4"
                     >
                       <p className="font-heading text-[1.7rem] leading-none text-foreground/20">{item.step}</p>
@@ -116,7 +140,7 @@ export default function ContactoContent() {
                       </div>
                     </motion.article>
                   ))}
-                </div>
+                </motion.div>
               </Reveal>
             </div>
 

@@ -18,12 +18,33 @@ const STEPS_CONTAINER = {
 };
 
 const STEP_ITEM = {
-  hidden: { opacity: 0, y: 18, filter: "blur(3px)" },
+  hidden: { opacity: 0, y: 22, scale: 0.99, filter: "blur(5px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.8, ease: EASE_LUXURY },
+  },
+};
+
+const INTRO_CONTAINER = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.05,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const INTRO_ITEM = {
+  hidden: { opacity: 0, y: 24, filter: "blur(7px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.8, ease: EASE_LUXURY },
+    transition: { duration: 0.85, ease: EASE_LUXURY },
   },
 };
 
@@ -50,35 +71,33 @@ export default function Methodology() {
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.85, ease: EASE_LUXURY }}
+            variants={INTRO_CONTAINER}
             className="lg:col-span-5 lg:col-start-8"
           >
-            <p className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-primary/75">
+            <motion.p variants={INTRO_ITEM} className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-primary/75">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Cómo trabajamos
-            </p>
+            </motion.p>
             {/* §2 Blueprint — tipografía fluida clamp() */}
-            <h2
+            <motion.h2
+              variants={INTRO_ITEM}
               className="mt-4 font-heading leading-[0.91] tracking-[-0.02em] text-background text-balance"
               style={{ fontSize: "clamp(2.1rem, 3.5vw, 4rem)" }}
             >
               Nuestra metodología: claridad estratégica y ejecución consistente.
-            </h2>
-            <p className="mt-7 text-[1.02rem] md:text-[1.12rem] leading-[1.72] text-background/80 max-w-[31rem]">
+            </motion.h2>
+            <motion.p variants={INTRO_ITEM} className="mt-7 text-[1.02rem] md:text-[1.12rem] leading-[1.72] text-background/80 max-w-[31rem]">
               Este proceso nos permite alinear estrategia, diseño y rendimiento
               comercial para que su marca crezca con menos fricción y más consistencia.
-            </p>
+            </motion.p>
 
             {/* §4 Blueprint — imagen con scale 1.15→1.0 al entrar en view */}
             <motion.div
+              variants={INTRO_ITEM}
               ref={imageRef}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.85, delay: 0.14, ease: EASE_LUXURY }}
               className="mt-10 image-reveal-container border border-white/14"
             >
               <div

@@ -16,12 +16,33 @@ const FAQ_CONTAINER = {
 };
 
 const FAQ_ITEM = {
-  hidden: { opacity: 0, y: 16, filter: "blur(2px)" },
+  hidden: { opacity: 0, y: 20, scale: 0.992, filter: "blur(4px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: EASE_LUXURY },
+  },
+};
+
+const INTRO_CONTAINER = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.04,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const INTRO_ITEM = {
+  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.7, ease: EASE_LUXURY },
+    transition: { duration: 0.82, ease: EASE_LUXURY },
   },
 };
 
@@ -66,27 +87,27 @@ export default function FAQ() {
       <div className="container relative z-10 mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.75 }}
+            variants={INTRO_CONTAINER}
             className="lg:col-span-4 lg:pr-6 lg:sticky lg:top-28"
           >
-            <p className="mb-4 flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.2em] text-foreground/45">
+            <motion.p variants={INTRO_ITEM} className="mb-4 flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.2em] text-foreground/45">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
               Resolvemos dudas clave
-            </p>
-            <h2 className="font-heading font-normal text-4xl md:text-[3.8rem] leading-[0.92] tracking-[-0.02em] text-foreground mb-6 text-balance">
+            </motion.p>
+            <motion.h2 variants={INTRO_ITEM} className="font-heading font-normal text-4xl md:text-[3.8rem] leading-[0.92] tracking-[-0.02em] text-foreground mb-6 text-balance">
               Preguntas frecuentes
-            </h2>
-            <p className="text-foreground/62 leading-[1.64] text-[1.03rem] max-w-sm">
+            </motion.h2>
+            <motion.p variants={INTRO_ITEM} className="text-foreground/62 leading-[1.64] text-[1.03rem] max-w-sm">
               Respuestas directas para conocer nuestra forma de trabajo y los
               beneficios que aporta en cada etapa.
-            </p>
+            </motion.p>
 
-            <div className="mt-8 overflow-hidden rounded-2xl border border-foreground/10 shadow-[0_20px_34px_-28px_rgba(50,50,47,0.4)]">
+            <motion.div variants={INTRO_ITEM} className="mt-8 overflow-hidden rounded-2xl border border-foreground/10 shadow-[0_20px_34px_-28px_rgba(50,50,47,0.4)]">
               <div className="aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.22),rgba(54,53,49,0.22)),url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center" />
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div

@@ -32,22 +32,24 @@ const STAGGER_FAST = {
 };
 
 const ITEM_MEDIUM = {
-  hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 24, scale: 0.988, filter: "blur(7px)" },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     filter: "blur(0px)",
-    transition: { duration: 0.62, ease: EASE_LUXURY },
+    transition: { duration: 0.74, ease: EASE_LUXURY },
   },
 };
 
 const ITEM_FAST = {
-  hidden: { opacity: 0, y: 14, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 16, scale: 0.992, filter: "blur(4px)" },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     filter: "blur(0px)",
-    transition: { duration: 0.46, ease: EASE_LUXURY },
+    transition: { duration: 0.54, ease: EASE_LUXURY },
   },
 };
 
@@ -442,16 +444,48 @@ export default function ServiciosContent() {
             </Reveal>
           </div>
 
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-90px" }} variants={STAGGER_FAST} className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {stageCtas.map((item) => (
-              <motion.article key={item.stage} variants={ITEM_FAST} whileHover={{ y: -4 }} className="rounded-[1rem] border border-foreground/10 bg-white p-6 shadow-[0_20px_34px_-34px_rgba(42,41,38,0.45)]">
-                <p className="text-[0.58rem] uppercase tracking-[0.2em] text-foreground/42">{item.stage}</p>
-                <p className="mt-3 font-heading text-[1.95rem] leading-[0.94] tracking-[-0.02em] text-foreground/86">{item.need}</p>
-                <Button asChild className="mt-6 w-full text-center whitespace-normal" variant="outline">
-                  <Link href="/contacto">{item.action}</Link>
-                </Button>
-              </motion.article>
-            ))}
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-90px" }}
+            variants={STAGGER_FAST}
+            className="mt-10 rounded-[1.2rem] border border-foreground/10 bg-[linear-gradient(160deg,#ffffff_0%,#f5f7f1_100%)] p-4 shadow-[0_24px_44px_-36px_rgba(42,41,38,0.35)] md:p-5"
+          >
+            <div className="pointer-events-none mb-4 hidden items-center px-3 md:flex">
+              <span className="h-px flex-1 bg-foreground/14" />
+              <span className="mx-3 text-[0.56rem] uppercase tracking-[0.2em] text-foreground/38">Frente prioritario</span>
+              <span className="h-px flex-1 bg-foreground/14" />
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {stageCtas.map((item, i) => (
+                <motion.article
+                  key={item.stage}
+                  variants={ITEM_FAST}
+                  whileHover={{ y: -3 }}
+                  className="group relative overflow-hidden rounded-[0.95rem] border border-foreground/10 bg-white/85 p-5 transition-colors duration-300 hover:bg-white md:p-6"
+                >
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/55 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
+                  <div className="flex items-center justify-between gap-4">
+                    <p className="text-[0.56rem] uppercase tracking-[0.2em] text-foreground/38">Usted hoy dice</p>
+                    <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-foreground/14 px-1.5 text-[0.52rem] uppercase tracking-[0.16em] text-foreground/38">
+                      0{i + 1}
+                    </span>
+                  </div>
+                  <p className="mt-4 border-l border-primary/45 pl-4 font-heading text-[clamp(1.55rem,2.15vw,1.95rem)] leading-[0.98] tracking-[-0.02em] text-foreground/86">
+                    &ldquo;{item.need}&rdquo;
+                  </p>
+                  <p className="mt-4 text-[0.58rem] uppercase tracking-[0.2em] text-foreground/42">{item.stage}</p>
+                  <Button
+                    asChild
+                    className="mt-6 w-full border-foreground/22 bg-white/86 text-center text-foreground hover:border-foreground/34 hover:bg-white"
+                    variant="outline"
+                  >
+                    <Link href="/contacto">{item.action}</Link>
+                  </Button>
+                </motion.article>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
