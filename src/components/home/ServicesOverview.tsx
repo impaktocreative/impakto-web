@@ -69,7 +69,7 @@ export default function ServicesOverview() {
               <div className="h-44 w-full bg-[linear-gradient(rgba(54,53,49,0.35),rgba(54,53,49,0.35)),url('https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center transition-transform duration-700 hover:scale-[1.03]" />
             </motion.div>
             <Button asChild variant="outline" className="hidden lg:inline-flex border-white/26 text-background hover:bg-background hover:text-foreground">
-              <Link href="/servicios">Explorar servicios</Link>
+              <Link href="/servicios">Ver soluciones por objetivo</Link>
             </Button>
           </motion.div>
 
@@ -101,7 +101,7 @@ export default function ServicesOverview() {
 
             <div className="mt-10 lg:hidden">
               <Button asChild variant="outline" className="w-full border-white/26 text-background hover:bg-background hover:text-foreground">
-                <Link href="/servicios">Explorar servicios</Link>
+                <Link href="/servicios">Ver soluciones por objetivo</Link>
               </Button>
             </div>
           </div>

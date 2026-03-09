@@ -281,6 +281,24 @@ button {
   color: var(--color-foreground);
 }
 
+a:focus-visible {
+  outline: 2px solid rgba(164, 154, 130, 0.9);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.cta-secondary-dark {
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.cta-secondary-dark:hover {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-foreground);
+}
+
 /* §6 — Iluminación Estructural: radial-gradient ambiental estándar
    Usar en secciones oscuras con fondo bg-foreground */
 .ambient-light-tl {

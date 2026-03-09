@@ -153,24 +153,24 @@ export default function ContactoContent() {
               <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-[clamp(2rem,3.8vw,3.8rem)] leading-[0.92] tracking-[-0.02em] text-background">
                 Trabajamos mejor con proyectos que valoran criterio, proceso y ejecución.
               </h2>
-              <p className="mt-6 max-w-[44rem] text-[1.04rem] leading-[1.74] text-background/80 md:text-[1.1rem]">
+              <p className="mt-7 max-w-[40rem] text-[1rem] leading-[1.74] text-background/84 md:text-[1.08rem]">
                 Priorizamos relaciones profesionales con objetivos definidos y decisiones oportunas. Esa alineación permite construir soluciones con mayor coherencia, calidad y sostenibilidad.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-stretch">
                 <Button
                   asChild
                   size="lg"
-                  className="btn-tide h-auto min-h-14 w-full border border-white/55 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
+                  className="btn-tide h-auto min-h-14 w-full border border-white/60 bg-white text-center leading-tight whitespace-normal text-foreground shadow-[0_18px_34px_-26px_rgba(0,0,0,0.7)] hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
-                  <Link href="#brief-contacto">Enviar brief inicial</Link>
+                  <Link href="#brief-contacto">Solicitar diagnóstico inicial</Link>
                 </Button>
                 <Button
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-auto min-h-14 w-full border-white/48 bg-white/[0.05] px-6 py-4 text-center leading-tight whitespace-normal text-background shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] hover:bg-white/[0.14] hover:text-background [&::after]:bg-white/16 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
+                  className="cta-secondary-dark h-auto min-h-14 w-full px-6 py-4 text-center leading-tight whitespace-normal sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
-                  <Link href="/servicios">Ver servicios estratégicos</Link>
+                  <Link href="/servicios">Ver soluciones por objetivo</Link>
                 </Button>
               </div>
             </div>

@@ -72,7 +72,7 @@ export default function FinalCTA() {
                 className="min-h-[3.55rem] w-full rounded-[0.86rem] px-7 text-[0.56rem] tracking-[0.08em] whitespace-normal text-center leading-[1.35] shadow-[0_18px_30px_-24px_rgba(50,50,47,0.52)] md:px-10 md:text-[0.68rem] md:tracking-[0.1em] md:whitespace-nowrap"
               >
                 <Link href="/contacto" className="text-center leading-tight">
-                  Coordinar reunión estratégica
+                  Solicitar diagnóstico inicial
                 </Link>
               </Button>
               <Button
@@ -82,7 +82,7 @@ export default function FinalCTA() {
                 className="w-full min-h-[3.35rem] rounded-[0.82rem] px-9 md:px-11 text-[0.64rem] md:text-[0.7rem] tracking-[0.12em]"
               >
                 <Link href="/contacto" className="text-center leading-tight">
-                  Iniciar contacto
+                  Contar el objetivo del proyecto
                 </Link>
               </Button>
             </div>

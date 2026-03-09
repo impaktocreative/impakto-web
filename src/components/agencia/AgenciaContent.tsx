@@ -522,7 +522,7 @@ export default function AgenciaContent() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-white/70 bg-white/14 text-white shadow-[0_10px_24px_-20px_rgba(255,255,255,0.45)] hover:bg-white hover:text-foreground"
+                  className="cta-secondary-dark"
                 >
                   <Link href="/servicios">Explorar servicios estratégicos</Link>
                 </Button>
