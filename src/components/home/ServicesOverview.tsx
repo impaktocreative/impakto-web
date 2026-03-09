@@ -6,6 +6,48 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
+const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const SECTION_STAGGER = {
+  hidden: {},
+  show: {
+    transition: {
+      delayChildren: 0.04,
+      staggerChildren: 0.09,
+    },
+  },
+};
+
+const SECTION_ITEM = {
+  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.82, ease: EASE_LUXURY },
+  },
+};
+
+const CARDS_STAGGER = {
+  hidden: {},
+  show: {
+    transition: {
+      delayChildren: 0.14,
+      staggerChildren: 0.11,
+    },
+  },
+};
+
+const CARD_ITEM = {
+  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.66, ease: EASE_LUXURY },
+  },
+};
+
 const services = [
   {
     title: "Estrategia y posicionamiento",
@@ -39,49 +81,48 @@ export default function ServicesOverview() {
         <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={160} height={200} className="h-36 w-auto" />
       </div>
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-14">
+        <motion.div
+          className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-14"
+          variants={SECTION_STAGGER}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-90px" }}
+        >
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            variants={SECTION_ITEM}
             className="lg:col-span-4 lg:pr-8"
           >
-            <span className="mb-6 flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-primary/82">
+            <motion.span variants={SECTION_ITEM} className="mb-6 flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-primary/82">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Áreas principales
-            </span>
-            <h2 className="font-heading font-normal text-[2.7rem] md:text-[4.2rem] mb-8 text-background leading-[0.92] tracking-[-0.02em] text-balance">
+            </motion.span>
+            <motion.h2 variants={SECTION_ITEM} className="font-heading font-normal text-[2.7rem] md:text-[4.2rem] mb-8 text-background leading-[0.92] tracking-[-0.02em] text-balance">
               Áreas principales de trabajo
-            </h2>
-            <p className="text-background/80 leading-[1.68] mb-10 text-[1rem] md:text-[1.04rem]">
+            </motion.h2>
+            <motion.p variants={SECTION_ITEM} className="text-background/80 leading-[1.68] mb-10 text-[1rem] md:text-[1.04rem]">
               La oferta se organiza en áreas definidas para construir presencia,
               orden y consistencia en distintos niveles del negocio.
-            </p>
+            </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              variants={SECTION_ITEM}
               whileHover={{ scale: 1.01 }}
               className="mb-10 hidden lg:block overflow-hidden border border-white/14"
             >
               <div className="h-44 w-full bg-[linear-gradient(rgba(54,53,49,0.35),rgba(54,53,49,0.35)),url('https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center transition-transform duration-700 hover:scale-[1.03]" />
             </motion.div>
-            <Button asChild variant="outline" className="hidden lg:inline-flex border-white/35 bg-white text-foreground hover:border-white hover:bg-white hover:text-foreground">
+            <motion.div variants={SECTION_ITEM}>
+              <Button asChild variant="outline" className="hidden lg:inline-flex border-white/35 bg-white text-foreground hover:border-white hover:bg-white hover:text-foreground">
               <Link href="/servicios">Ver soluciones por objetivo</Link>
-            </Button>
+              </Button>
+            </motion.div>
           </motion.div>
 
-          <div className="lg:col-span-7 lg:col-start-6">
+          <motion.div className="lg:col-span-7 lg:col-start-6" variants={CARDS_STAGGER}>
             <div className="flex flex-col">
               {services.map((service, i) => (
                 <motion.article
                   key={service.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.15 }}
+                  variants={CARD_ITEM}
                   className="group relative border-b border-white/12 py-11 md:py-16 bg-transparent transition-colors duration-500 hover:bg-white/[0.04] px-6 -mx-6"
                 >
                   <span className="pointer-events-none absolute left-0 top-0 h-full w-px bg-gradient-to-b from-primary/0 via-primary/60 to-primary/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -104,8 +145,8 @@ export default function ServicesOverview() {
                 <Link href="/servicios">Ver soluciones por objetivo</Link>
               </Button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section >
   );

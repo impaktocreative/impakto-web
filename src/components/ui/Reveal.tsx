@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -22,10 +22,16 @@ export function Reveal({
   duration = 0.75,
   margin = "-90px",
 }: RevealProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={
+        prefersReducedMotion
+          ? { opacity: 0 }
+          : { opacity: 0, y, scale: 0.985, filter: "blur(8px)" }
+      }
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
       viewport={{ once: true, margin }}
       transition={{ duration, delay, ease: EASE_LUXURY }}
       className={className}
@@ -43,11 +49,13 @@ type RevealLineProps = {
 };
 
 export function RevealLine({ className, delay = 0, duration = 0.8, margin = "-80px" }: RevealLineProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <motion.span
       aria-hidden="true"
-      initial={{ scaleX: 0, opacity: 0.45 }}
-      whileInView={{ scaleX: 1, opacity: 1 }}
+      initial={prefersReducedMotion ? { opacity: 0 } : { scaleX: 0, opacity: 0.35, y: 2 }}
+      whileInView={{ scaleX: 1, opacity: 1, y: 0 }}
       viewport={{ once: true, margin }}
       transition={{ duration, delay, ease: EASE_LUXURY }}
       className={className}

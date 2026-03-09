@@ -9,6 +9,7 @@ import Methodology from "@/components/home/Methodology";
 import IdealClient from "@/components/home/IdealClient";
 import FAQ from "@/components/home/FAQ";
 import FinalCTA from "@/components/home/FinalCTA";
+import ScrollStage from "@/components/ui/ScrollStage";
 import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -47,15 +48,33 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
       <Hero />
-      <ClientLogosCarousel />
-      <IntroPanel />
-      <ValueProposition />
-      <ServicesOverview />
-      <PainPoints />
-      <Methodology />
-      <IdealClient />
-      <FAQ />
-      <FinalCTA />
+      <ScrollStage>
+        <ClientLogosCarousel />
+      </ScrollStage>
+      <ScrollStage>
+        <IntroPanel />
+      </ScrollStage>
+      <ScrollStage>
+        <ValueProposition />
+      </ScrollStage>
+      <ScrollStage>
+        <ServicesOverview />
+      </ScrollStage>
+      <ScrollStage>
+        <PainPoints />
+      </ScrollStage>
+      <ScrollStage>
+        <Methodology />
+      </ScrollStage>
+      <ScrollStage>
+        <IdealClient />
+      </ScrollStage>
+      <ScrollStage>
+        <FAQ />
+      </ScrollStage>
+      <ScrollStage>
+        <FinalCTA />
+      </ScrollStage>
     </main>
   );
 }

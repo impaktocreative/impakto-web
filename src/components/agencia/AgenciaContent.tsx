@@ -130,9 +130,6 @@ const decisionSignals = [
   { value: "24/7", label: "Compromiso" },
 ];
 
-const HANDSHAKE_PATH =
-  "M26 126 C48 112 63 97 84 90 C95 86 108 87 118 93 C129 101 135 113 147 118 C159 122 170 117 179 108 C188 100 201 94 214 96 C231 99 243 113 257 126 C247 121 234 119 222 123 C210 127 199 136 186 138 C174 140 165 134 156 126 C150 120 143 116 136 118 C127 121 121 130 112 134 C99 140 83 138 71 131 C58 124 45 120 33 124";
-
 const directorBio = [
   "Rodrigo Zarza lidera la dirección creativa del estudio con una mirada que articula estrategia, sensibilidad estética y criterio de negocio.",
   "Su trabajo parte de una lectura profunda de cada marca para diseñar narrativas claras, sistemas visuales consistentes y decisiones con valor de largo plazo.",
@@ -203,8 +200,7 @@ export default function AgenciaContent() {
         </div>
         <div className="pointer-events-none absolute inset-y-0 right-[6%] hidden w-px bg-gradient-to-b from-transparent via-foreground/15 to-transparent lg:block" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <motion.div initial="hidden" animate="show" variants={STAGGER_SLOW_CONTAINER} className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12 xl:gap-14">
-            <div className="lg:col-span-7">
+          <motion.div initial="hidden" animate="show" variants={STAGGER_SLOW_CONTAINER} className="max-w-[50rem]">
               <motion.p variants={STAGGER_ITEM_SLOW} className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] text-foreground/45">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
                 Estudio
@@ -222,38 +218,6 @@ export default function AgenciaContent() {
                 <span className="text-foreground/30">/</span>
                 <span>Acompañamiento estratégico</span>
               </motion.p>
-            </div>
-
-            <motion.div
-              variants={STAGGER_ITEM_SLOW}
-              className="relative hidden lg:col-span-5 lg:flex lg:justify-end"
-              aria-hidden="true"
-            >
-              <div className="relative mt-8 w-full max-w-[29rem] xl:mt-10 xl:max-w-[32rem]">
-                <div className="pointer-events-none absolute inset-0 rounded-[1.4rem] bg-[radial-gradient(circle_at_65%_32%,rgba(191,168,118,0.2),transparent_58%)] blur-2xl" />
-                <svg viewBox="0 0 286 194" className="relative z-10 h-auto w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="handshakeGoldGradient" x1="24" y1="124" x2="260" y2="104" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="rgba(164,154,130,0.28)" />
-                      <stop offset="0.5" stopColor="rgba(194,173,122,0.96)" />
-                      <stop offset="1" stopColor="rgba(142,155,147,0.35)" />
-                    </linearGradient>
-                  </defs>
-
-                  <path d={HANDSHAKE_PATH} stroke="rgba(191,168,118,0.18)" strokeWidth="4" strokeLinecap="round" />
-
-                  <motion.path
-                    d={HANDSHAKE_PATH}
-                    stroke="url(#handshakeGoldGradient)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0, opacity: 0.25 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 3.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  />
-                </svg>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </section>
