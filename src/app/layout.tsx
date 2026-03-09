@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   description: defaultDescription,
   metadataBase: new URL(siteUrl),
   applicationName: siteName,
+  icons: {
+    icon: "/logos/icono.svg",
+    shortcut: "/logos/icono.svg",
+  },
   category: "marketing",
   alternates: {
     canonical: "/",
