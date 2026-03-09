@@ -53,17 +53,11 @@ export default function IntroPanel() {
             className="lg:col-span-5 relative min-h-[24rem] md:min-h-[36rem] border border-white/10 overflow-hidden flex items-end p-8 md:p-12"
           >
             {/* Textura interna del panel */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,rgba(175,163,133,0.12),transparent_60%)]" />
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `
-                  linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)
-                `,
-                backgroundSize: "40px 40px",
-              }}
-            />
+            <div className="absolute inset-0 bg-[linear-gradient(152deg,rgba(255,255,255,0.07)_0%,rgba(255,255,255,0.015)_28%,rgba(255,255,255,0.01)_52%,rgba(255,255,255,0.045)_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(110%_90%_at_14%_86%,rgba(175,163,133,0.22)_0%,rgba(175,163,133,0.06)_44%,transparent_74%),radial-gradient(84%_74%_at_92%_10%,rgba(142,155,147,0.14)_0%,rgba(142,155,147,0.03)_42%,transparent_72%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,transparent_24%,transparent_72%,rgba(255,255,255,0.04)_100%)]" />
+            <div className="absolute -left-[18%] top-[8%] h-[42%] w-[120%] rotate-[12deg] bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.12)_48%,transparent_100%)] opacity-45 blur-md" />
+            <div className="absolute inset-0 opacity-[0.18] mix-blend-screen" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 280 280' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
 
             {/* Número decorativo interno */}
             <div className="absolute top-6 right-6 pointer-events-none select-none">

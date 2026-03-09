@@ -53,9 +53,9 @@ export default function ClientLogosCarousel() {
             {repeated.map((logo, index) => (
               <div
                 key={`${logo.file}-${index}`}
-                className="flex h-[5.3rem] w-44 items-center justify-center border-r border-foreground/8 bg-transparent px-5 md:h-[7.1rem] md:w-60 md:px-4"
+                className="flex h-[6.2rem] w-44 items-center justify-center border-r border-foreground/8 bg-transparent px-5 md:h-[8.1rem] md:w-60 md:px-4"
               >
-                <div className="relative h-11 w-[90%] md:h-[4.35rem] md:w-[95%]">
+                <div className="relative h-[3.25rem] w-[94%] md:h-[5.2rem] md:w-[96%]">
                   <Image
                     src={encodeURI(`/logos/clientes/${logo.file}`)}
                     alt={logo.name}

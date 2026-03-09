@@ -463,9 +463,9 @@ export default function AgenciaContent() {
                     variants={STAGGER_ITEM_FAST}
                     whileHover={{ y: -3 }}
                     transition={{ duration: 0.38, ease: EASE_LUXURY }}
-                    className="flex h-20 items-center justify-center border border-foreground/8 bg-[#fbfcf8] px-4"
+                    className="flex h-[6rem] items-center justify-center border border-foreground/8 bg-[#fbfcf8] px-4"
                   >
-                    <div className="relative h-11 w-full max-w-[156px]">
+                    <div className="relative h-[3.4rem] w-full max-w-[182px]">
                       <Image
                         src={encodeURI(`/logos/clientes/${logo.file}`)}
                         alt={logo.name}

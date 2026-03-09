@@ -74,17 +74,7 @@ export default function Navbar() {
             isScrolled ? "border-b border-transparent" : "border-b border-foreground/10"
           }`}
         >
-          <Link href="/" className="flex items-center gap-2.5">
-            <Image
-              src="/logos/icono-2.svg"
-              alt=""
-              aria-hidden="true"
-              width={14}
-              height={18}
-              className={`w-auto transition-all duration-300 ${
-                isScrolled ? "h-[1.05rem] md:h-[1.4rem]" : "h-[1.15rem] md:h-[1.55rem]"
-              }`}
-            />
+          <Link href="/" className="flex items-center">
             <Image
               src="/logos/logonegro.svg"
               alt="Impakto Creative"

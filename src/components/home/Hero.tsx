@@ -175,39 +175,6 @@ export default function Hero() {
               sostener relaciones más sólidas con sus clientes.
             </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.24 }}
-              className="mt-4 inline-flex flex-wrap items-center gap-x-2 gap-y-1 border border-foreground/10 bg-white/55 px-3.5 py-1.5 text-[0.54rem] uppercase tracking-[0.09em] text-foreground/58 md:mt-5 md:px-4 md:py-2 md:text-[0.64rem] md:tracking-[0.16em]"
-            >
-              3 pilares de trabajo
-              <span className="text-foreground/35">/</span>
-              Captación
-              <span className="text-foreground/35">/</span>
-              Conversión
-              <span className="text-foreground/35">/</span>
-              Retención
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="mt-5 hidden items-center gap-3 xl:inline-flex"
-            >
-              <span className="h-px w-12 bg-foreground/18" />
-              <Image
-                src="/logos/icono-2.svg"
-                alt=""
-                aria-hidden="true"
-                width={10}
-                height={12}
-                className="h-3.5 w-auto opacity-45"
-              />
-              <span className="h-px w-12 bg-foreground/18" />
-            </motion.div>
-
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
