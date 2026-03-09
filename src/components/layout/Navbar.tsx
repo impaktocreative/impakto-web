@@ -123,7 +123,7 @@ export default function Navbar() {
 
           <Link
             href="/contacto"
-            className="hidden md:inline-flex items-center rounded-full border border-foreground/16 px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.15em] text-foreground/76 transition-all duration-300 hover:-translate-y-px hover:border-foreground/35 hover:text-foreground"
+            className="btn-premium hidden md:inline-flex items-center rounded-full border border-foreground/16 px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.15em] text-foreground/76 transition-all duration-300 hover:-translate-y-px hover:border-foreground/35 hover:text-foreground"
           >
             Reunión estratégica
           </Link>
@@ -192,7 +192,7 @@ export default function Navbar() {
                   <Link
                     href="/contacto"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="inline-flex w-full items-center justify-center rounded-full border border-foreground/16 bg-foreground px-6 py-3 text-[0.68rem] uppercase tracking-[0.15em] text-background"
+                    className="btn-premium inline-flex w-full items-center justify-center rounded-full border border-foreground/16 bg-foreground px-6 py-3 text-[0.68rem] uppercase tracking-[0.15em] text-background"
                   >
                     Reunión estratégica
                   </Link>

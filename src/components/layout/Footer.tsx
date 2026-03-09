@@ -86,7 +86,7 @@ export default function Footer() {
               <li className="pt-3">
                 <Link
                   href="/contacto"
-                  className="inline-block rounded-full border border-white/22 px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.14em] transition-all duration-300 hover:border-primary hover:text-primary"
+                  className="btn-premium inline-block rounded-full border border-white/22 px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.14em] transition-all duration-300 hover:border-primary hover:text-primary"
                 >
                   Reunión estratégica
                 </Link>

@@ -69,7 +69,7 @@ export default function FinalCTA() {
               <Button
                 asChild
                 size="lg"
-                className="min-h-[3.55rem] w-full rounded-[0.86rem] px-7 text-[0.56rem] tracking-[0.08em] whitespace-normal text-center leading-[1.35] shadow-[0_18px_30px_-24px_rgba(50,50,47,0.52)] md:px-10 md:text-[0.68rem] md:tracking-[0.1em] md:whitespace-nowrap"
+                className="min-h-[3.55rem] w-full rounded-[0.86rem] px-7 text-[0.53rem] tracking-[0.07em] whitespace-normal text-center leading-[1.3] shadow-[0_18px_30px_-24px_rgba(50,50,47,0.52)] md:px-10 md:text-[0.62rem] md:tracking-[0.09em] md:whitespace-nowrap"
               >
                 <Link href="/contacto" className="text-center leading-tight">
                   Solicitar diagnóstico inicial
@@ -79,7 +79,7 @@ export default function FinalCTA() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="w-full min-h-[3.35rem] rounded-[0.82rem] px-9 md:px-11 text-[0.64rem] md:text-[0.7rem] tracking-[0.12em]"
+                className="w-full min-h-[3.35rem] rounded-[0.82rem] px-9 md:px-11 text-[0.58rem] md:text-[0.62rem] tracking-[0.1em]"
               >
                 <Link href="/contacto" className="text-center leading-tight">
                   Contar el objetivo del proyecto

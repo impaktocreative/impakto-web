@@ -217,7 +217,7 @@ export default function Hero() {
               <Magnetic strength={1}>
                 <Link
                   href="/contacto"
-                  className="relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-background shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
+                  className="btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-background shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
                 >
                   Solicitar diagnóstico inicial
                 </Link>
@@ -225,7 +225,7 @@ export default function Hero() {
               <Magnetic strength={0.5}>
                 <Link
                   href="/servicios"
-                  className="inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full border border-foreground/24 bg-background/92 px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-foreground/88 shadow-sm transition-all duration-300 hover:scale-[1.03] hover:border-foreground/34 hover:bg-background hover:shadow-premium-soft sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
+                  className="btn-premium inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full border border-foreground/24 bg-background/92 px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-foreground/88 shadow-sm transition-all duration-300 hover:scale-[1.03] hover:border-foreground/34 hover:bg-background hover:shadow-premium-soft sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
                 >
                   Ver soluciones por objetivo
                 </Link>

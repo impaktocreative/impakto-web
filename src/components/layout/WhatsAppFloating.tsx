@@ -103,7 +103,7 @@ export default function WhatsAppFloating() {
       <div className="flex items-center justify-end">
         <button
           onClick={() => setIsOpen((open) => !open)}
-          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#2d8f69]/45 bg-[#2f8d68] text-white shadow-[0_18px_26px_-18px_rgba(26,76,57,0.6)] transition-transform duration-300 hover:scale-[1.04] md:-ml-5 md:h-[3.2rem] md:w-[3.2rem]"
+          className="btn-premium inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#2d8f69]/45 bg-[#2f8d68] text-white shadow-[0_18px_26px_-18px_rgba(26,76,57,0.6)] transition-transform duration-300 hover:scale-[1.04] md:-ml-5 md:h-[3.2rem] md:w-[3.2rem]"
           aria-label="Abrir contacto por WhatsApp"
           aria-expanded={isOpen}
         >
