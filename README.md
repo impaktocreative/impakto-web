@@ -1,3 +1,8 @@
+# IMPAKTO CREATIVE - Web Core
+
+> [!IMPORTANT]
+> **FOR ALL AI AGENTS:** Before any change, read [AGENT_GUIDE.md](./AGENT_GUIDE.md), [PROJECT_MAP.md](../PROJECT_MAP.md), and the workspace context anchors [GENERIC_AGENT_GUIDE.md](../GENERIC_AGENT_GUIDE.md), [GENERIC_PROJECT_MAP.md](../GENERIC_PROJECT_MAP.md), [GENERIC_CONTEXT_SKILL.md](../GENERIC_CONTEXT_SKILL.md). This codebase follows ultra-premium design and context-aware workflow rules.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
