@@ -92,22 +92,22 @@ export default function IntroPanel() {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-7 p-9 md:p-14 lg:p-[4.5rem] border border-white/10 border-l-0"
           >
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-primary/75">Nuestra metodologia</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-primary/75">Nuestra metodología</p>
             <h2
               className="mt-5 font-heading leading-[0.92] tracking-[-0.02em] text-background text-balance"
               style={{ fontSize: "clamp(2rem, 3.8vw, 4.1rem)" }}
             >
-              Asi construimos marcas con{" "}
-              <span className="gold-reflect gold-reflect-light">direccion, criterio y consistencia.</span>
+              Así construimos marcas con{" "}
+              <span className="gold-reflect gold-reflect-light">dirección, criterio y consistencia.</span>
             </h2>
             <div className="mt-9 space-y-6 text-[1.02rem] md:text-[1.12rem] leading-[1.72] text-background/80 max-w-[43rem]">
               <p>
                 No trabajamos con acciones sueltas. Integramos estrategia, estructura
-                y comunicacion como un sistema para que cada decision tenga continuidad.
+                y comunicación como un sistema para que cada decisión tenga continuidad.
               </p>
               <p>
                 Ese enfoque permite mejorar la claridad comercial, reducir fricciones
-                internas y sostener una presencia solida en el tiempo.
+                internas y sostener una presencia sólida en el tiempo.
               </p>
             </div>
           </motion.div>

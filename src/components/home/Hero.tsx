@@ -81,17 +81,17 @@ const conversations: Conversation[] = [
   {
     question: "Si la marca necesita reorganizar su presencia, ¿por dónde conviene empezar?",
     answer:
-      "Comenzamos con un diagnostico de contexto, mensaje y objetivos para definir una **direccion estrategica clara** desde el inicio.",
+      "Comenzamos con un diagnóstico de contexto, mensaje y objetivos para definir una **dirección estratégica clara** desde el inicio.",
   },
   {
     question: "¿El alcance contempla solo diseño o también estrategia comercial?",
     answer:
-      "Trabajamos de forma integral: comunicacion, marca y estructura comercial para sostener una presencia **solida y coherente** en cada canal.",
+      "Trabajamos de forma integral: comunicación, marca y estructura comercial para sostener una presencia **sólida y coherente** en cada canal.",
   },
   {
     question: "¿Es posible mejorar conversión sin comprometer identidad de marca?",
     answer:
-      "Si. Ordenamos la comunicacion para que su propuesta gane claridad y se traduzca en una conversion **mas consistente** sin perder identidad.",
+      "Sí. Ordenamos la comunicación para que su propuesta gane claridad y se traduzca en una conversión **más consistente** sin perder identidad.",
   },
   {
     question: "¿Qué incluye el enfoque online y offline?",
@@ -106,17 +106,17 @@ const conversations: Conversation[] = [
   {
     question: "¿Integran IA y herramientas avanzadas en los proyectos?",
     answer:
-      "Si, siempre bajo criterio estrategico. La tecnologia aporta valor cuando esta integrada en una **estrategia bien definida**.",
+      "Sí, siempre bajo criterio estratégico. La tecnología aporta valor cuando está integrada en una **estrategia bien definida**.",
   },
   {
     question: "¿El acompañamiento cubre todo el proceso o solo la etapa inicial?",
     answer:
-      "Acompanamos cada etapa para sostener decisiones con mayor **seguridad y claridad** durante todo el proceso.",
+      "Acompañamos cada etapa para sostener decisiones con mayor **seguridad y claridad** durante todo el proceso.",
   },
   {
     question: "¿Se puede iniciar sin un alcance completamente definido?",
     answer:
-      "Si. Definimos prioridades, alcance y hoja de ruta para construir una base **mas firme para escalar**.",
+      "Sí. Definimos prioridades, alcance y hoja de ruta para construir una base **más firme para escalar**.",
   },
 ];
 
@@ -159,7 +159,7 @@ export default function Hero() {
               transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-[15ch] text-balance font-heading text-[clamp(1.62rem,8.2vw,1.8rem)] font-normal leading-[0.99] tracking-[-0.01em] text-foreground sm:text-[2.8rem] md:text-[3.2rem] lg:max-w-[20ch] lg:text-[3.05rem] xl:max-w-[21ch] xl:text-[3.35rem] 2xl:text-[3.55rem]"
             >
-              Construimos estrategias de comunicacion para que su marca{" "}
+              Construimos estrategias de comunicación para que su marca{" "}
               <span className="gold-reflect font-medium">venda mejor,</span>{" "}
               <span className="gold-reflect font-medium">online y offline.</span>
             </motion.h1>
@@ -170,9 +170,9 @@ export default function Hero() {
               transition={{ duration: 0.9, delay: 0.18 }}
               className="mt-4 max-w-[39rem] font-sans text-[clamp(0.84rem,4.35vw,0.9rem)] font-normal leading-[1.52] text-foreground/70 md:mt-6 md:text-[1.12rem] md:leading-[1.68] lg:mt-7 lg:max-w-[34rem]"
             >
-              Asi trabajamos en Impakto: alineamos mensaje, direccion y presencia de
+              Así trabajamos en Impakto: alineamos mensaje, dirección y presencia de
               marca para atraer mejores oportunidades, convertir con mayor claridad y
-              sostener relaciones mas solidas con sus clientes.
+              sostener relaciones más sólidas con sus clientes.
             </motion.p>
 
             <motion.p
