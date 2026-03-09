@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 export default function CustomCursor() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
     const [isVisible] = useState(
         () =>
             typeof window !== "undefined" &&
@@ -22,7 +23,8 @@ export default function CustomCursor() {
         }
 
         const updateMousePosition = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+            x.set(e.clientX - 5);
+            y.set(e.clientY - 5);
         };
 
         const handleMouseOver = (e: MouseEvent) => {
@@ -47,16 +49,15 @@ export default function CustomCursor() {
             window.removeEventListener("mousemove", updateMousePosition);
             window.removeEventListener("mouseover", handleMouseOver);
         };
-    }, []);
+    }, [x, y]);
 
     if (!isVisible) return null;
 
     return (
         <motion.div
             className="fixed top-0 left-0 h-2.5 w-2.5 rounded-full bg-primary/85 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+            style={{ x, y }}
             animate={{
-                x: mousePosition.x - 5,
-                y: mousePosition.y - 5,
                 scale: isHovering ? 2.9 : 1,
                 opacity: isHovering ? 0.62 : 0.78,
             }}

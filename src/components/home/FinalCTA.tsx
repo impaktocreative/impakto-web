@@ -8,12 +8,13 @@ import Image from "next/image";
 export default function FinalCTA() {
   return (
     <section className="relative overflow-hidden py-28 md:py-36 bg-[#ecefe9] border-t border-foreground/8">
-      <div className="pointer-events-none absolute inset-0 opacity-45">
-        <video className="h-full w-full object-cover" autoPlay muted loop playsInline>
+      <div className="pointer-events-none absolute inset-0 opacity-45 motion-reduce:hidden">
+        <video className="h-full w-full object-cover" autoPlay muted loop playsInline preload="none" aria-hidden="true">
           <source src="https://videos.pexels.com/video-files/3194277/3194277-hd_1920_1080_25fps.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-[linear-gradient(rgba(248,249,246,0.9),rgba(248,249,246,0.82))]" />
       </div>
+      <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(rgba(248,249,246,0.96),rgba(248,249,246,0.9))] motion-reduce:block" />
       <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.08]" />
       <div className="pointer-events-none absolute inset-0 hidden lg:block cta-flow-bg opacity-[0.24]" />
       <div className="pointer-events-none absolute right-[8%] top-10 hidden lg:block opacity-[0.08]">
