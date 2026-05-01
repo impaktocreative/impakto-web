@@ -14,6 +14,7 @@ export async function createClientAction(formData: FormData) {
     phone: formData.get('phone') as string,
     website_url: formData.get('website_url') as string,
     notes: formData.get('notes') as string,
+    cuit: (formData.get('cuit') as string) || null,
   }
 
   const { error } = await supabase.from('clients').insert([data])
