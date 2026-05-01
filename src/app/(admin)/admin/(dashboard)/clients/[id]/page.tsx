@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft, Mail, Phone, Globe, FileText } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { ClientServicesPanel } from './ClientServicesPanel'
 
 export default async function ClientDetailPage({
   params,
@@ -13,28 +14,17 @@ export default async function ClientDetailPage({
   const { id } = await params
   const supabase = await createClient()
 
-  const { data: client } = await supabase
-    .from('clients')
-    .select('*')
-    .eq('id', id)
-    .single()
+  const [{ data: client }, { data: services }, { data: availableServices }] = await Promise.all([
+    supabase.from('clients').select('*').eq('id', id).single(),
+    supabase
+      .from('client_services')
+      .select(`id, domain_name, price_ars, next_payment_date, last_payment_date, status, duration_months, notes, services ( name )`)
+      .eq('client_id', id)
+      .order('next_payment_date', { ascending: true }),
+    supabase.from('services').select('id, name, duration_months, price_ars').order('name'),
+  ])
 
   if (!client) notFound()
-
-  const { data: services } = await supabase
-    .from('client_services')
-    .select(`
-      id,
-      domain_name,
-      price_ars,
-      next_payment_date,
-      last_payment_date,
-      status,
-      notes,
-      services ( name )
-    `)
-    .eq('client_id', id)
-    .order('next_payment_date', { ascending: true })
 
   return (
     <div>
@@ -54,7 +44,7 @@ export default async function ClientDetailPage({
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-xl font-bold">
+              <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
                 {client.brand_name.charAt(0).toUpperCase()}
               </div>
               <div>
@@ -106,59 +96,13 @@ export default async function ClientDetailPage({
           </div>
         </div>
 
-        {/* Services */}
+        {/* Services Panel */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-base font-semibold text-gray-900">Servicios Contratados</h2>
-              <span className="text-sm text-gray-500">{services?.length ?? 0} servicios</span>
-            </div>
-
-            {services && services.length > 0 ? (
-              <div className="divide-y divide-gray-100">
-                {services.map((svc: any) => {
-                  const daysLeft = svc.next_payment_date
-                    ? Math.ceil((new Date(svc.next_payment_date).getTime() - Date.now()) / 86400000)
-                    : null
-
-                  let badgeClass = 'bg-green-100 text-green-700'
-                  if (daysLeft === null) badgeClass = 'bg-gray-100 text-gray-500'
-                  else if (daysLeft <= 0) badgeClass = 'bg-red-100 text-red-700'
-                  else if (daysLeft <= 10) badgeClass = 'bg-yellow-100 text-yellow-700'
-
-                  return (
-                    <div key={svc.id} className="px-6 py-4 flex justify-between items-start">
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">{svc.services?.name}</p>
-                        {svc.domain_name && (
-                          <p className="text-xs text-gray-500 mt-0.5">{svc.domain_name}</p>
-                        )}
-                        {svc.next_payment_date && (
-                          <p className="text-xs text-gray-400 mt-1">
-                            Vence: {format(new Date(svc.next_payment_date), "dd 'de' MMMM, yyyy", { locale: es })}
-                          </p>
-                        )}
-                      </div>
-                      <div className="flex flex-col items-end gap-2">
-                        <span className="text-sm font-medium text-gray-900">
-                          ${Number(svc.price_ars).toLocaleString('es-AR')}
-                        </span>
-                        {daysLeft !== null && (
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badgeClass}`}>
-                            {daysLeft <= 0 ? `Vencido` : `${daysLeft}d`}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            ) : (
-              <div className="px-6 py-10 text-center text-gray-500 text-sm">
-                Este cliente no tiene servicios contratados aún.
-              </div>
-            )}
-          </div>
+          <ClientServicesPanel
+            clientId={id}
+            initialServices={services ?? []}
+            availableServices={availableServices ?? []}
+          />
         </div>
       </div>
     </div>
