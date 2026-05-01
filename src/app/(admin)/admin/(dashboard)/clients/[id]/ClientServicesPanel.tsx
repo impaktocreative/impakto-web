@@ -49,6 +49,15 @@ function AssignServiceForm({
 }) {
   const [state, formAction, isPending] = useActionState(assignServiceAction, null)
   const [selectedService, setSelectedService] = useState<Service | null>(null)
+  const [lastPaymentDate, setLastPaymentDate] = useState(new Date().toISOString().split('T')[0])
+  const [durationMonths, setDurationMonths] = useState<number>(0)
+
+  const computedNextDate = (() => {
+    if (!lastPaymentDate || !durationMonths) return null
+    const d = new Date(lastPaymentDate)
+    d.setMonth(d.getMonth() + durationMonths)
+    return d.toISOString().split('T')[0]
+  })()
 
   useEffect(() => {
     if (state?.success) { onSuccess(); onClose() }
@@ -66,9 +75,10 @@ function AssignServiceForm({
         <select
           name="service_id"
           required
-          onChange={(e) => {
+        onChange={(e) => {
             const s = services.find(x => x.id === e.target.value) || null
             setSelectedService(s)
+            if (s) setDurationMonths(s.duration_months)
           }}
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
         >
@@ -97,23 +107,28 @@ function AssignServiceForm({
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Duración (meses) *</label>
           <input type="number" name="duration_months" required min={1}
-            defaultValue={selectedService?.duration_months ?? ''}
+            value={durationMonths || selectedService?.duration_months || ''}
             key={`dur-${selectedService?.id ?? 'none'}`}
             placeholder="12"
+            onChange={(e) => setDurationMonths(parseInt(e.target.value) || 0)}
             className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Último pago</label>
-          <input type="date" name="last_payment_date" defaultValue={today}
+          <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de último pago</label>
+          <input type="date" name="last_payment_date"
+            value={lastPaymentDate}
+            onChange={(e) => setLastPaymentDate(e.target.value)}
             className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Próximo vencimiento</label>
-          <input type="date" name="next_payment_date"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <input type="text" readOnly
+            value={computedNextDate ?? 'Completá fecha y duración'}
+            className="w-full border border-gray-100 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 cursor-not-allowed" />
+          {computedNextDate && <input type="hidden" name="next_payment_date" value={computedNextDate} />}
         </div>
       </div>
 

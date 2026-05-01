@@ -10,9 +10,16 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
   const price_ars = parseFloat(formData.get('price_ars') as string)
   const duration_months = parseInt(formData.get('duration_months') as string)
   const last_payment_date = (formData.get('last_payment_date') as string) || null
-  const next_payment_date = (formData.get('next_payment_date') as string) || null
   const notes = (formData.get('notes') as string) || null
   const status = (formData.get('status') as string) || 'activo'
+
+  // Always compute next_payment_date from last_payment_date + duration_months
+  let next_payment_date: string | null = null
+  if (last_payment_date && duration_months) {
+    const d = new Date(last_payment_date)
+    d.setMonth(d.getMonth() + duration_months)
+    next_payment_date = d.toISOString().split('T')[0]
+  }
 
   if (!client_id || !service_id || !price_ars || !duration_months) {
     return { success: false, message: 'Servicio, precio y duración son requeridos.' }
