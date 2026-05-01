@@ -14,6 +14,7 @@ type Client = {
   phone?: string | null
   website_url?: string | null
   notes?: string | null
+  cuit?: string | null
 }
 
 function EditClientModal({ client, onClose, onSuccess }: { client: Client; onClose: () => void; onSuccess: () => void }) {
@@ -66,10 +67,18 @@ function EditClientModal({ client, onClose, onSuccess }: { client: Client; onClo
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Sitio Web</label>
-            <input type="text" name="website_url" defaultValue={client.website_url ?? ''}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sitio Web</label>
+              <input type="text" name="website_url" defaultValue={client.website_url ?? ''}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">CUIT</label>
+              <input type="text" name="cuit" defaultValue={(client as any).cuit ?? ''}
+                placeholder="20-12345678-9"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+            </div>
           </div>
 
           <div>
@@ -136,6 +145,7 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">{client.contact_name}</div>
                   {client.phone && <div className="text-sm text-gray-500">{client.phone}</div>}
+                  {(client as any).cuit && <div className="text-xs text-gray-400 font-mono">CUIT: {(client as any).cuit}</div>}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{client.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

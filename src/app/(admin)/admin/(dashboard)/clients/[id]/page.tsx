@@ -68,6 +68,12 @@ export default async function ClientDetailPage({
                   <span>{client.phone}</span>
                 </div>
               )}
+              {client.cuit && (
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <span className="text-gray-400 flex-shrink-0 text-xs font-bold w-[15px] text-center">#</span>
+                  <span className="font-mono text-sm">CUIT: {client.cuit}</span>
+                </div>
+              )}
               {client.website_url && (
                 <div className="flex items-center gap-3 text-sm text-gray-600">
                   <Globe size={15} className="text-gray-400 flex-shrink-0" />

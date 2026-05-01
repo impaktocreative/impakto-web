@@ -71,6 +71,18 @@ export default async function NewClientPage({
               />
             </div>
             <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="cuit">
+                CUIT
+              </label>
+              <input
+                type="text"
+                id="cuit"
+                name="cuit"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="20-12345678-9"
+              />
+            </div>
+            <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="website_url">
                 URL del Sitio Web
               </label>
