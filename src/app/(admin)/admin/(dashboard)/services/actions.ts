@@ -7,13 +7,14 @@ export async function createServiceAction(prevState: any, formData: FormData) {
   const name = formData.get('name') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
   const price_ars = parseFloat(formData.get('price_ars') as string)
+  const description = (formData.get('description') as string) || null
 
   if (!name || !duration_months || !price_ars) {
     return { success: false, message: 'Todos los campos son requeridos.' }
   }
 
   const supabase = await createClient()
-  const { error } = await supabase.from('services').insert({ name, duration_months, price_ars })
+  const { error } = await supabase.from('services').insert({ name, duration_months, price_ars, description })
 
   if (error) return { success: false, message: `Error al guardar: ${error.message}` }
 
@@ -26,6 +27,7 @@ export async function updateServiceAction(prevState: any, formData: FormData) {
   const name = formData.get('name') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
   const price_ars = parseFloat(formData.get('price_ars') as string)
+  const description = (formData.get('description') as string) || null
 
   if (!id || !name || !duration_months || !price_ars) {
     return { success: false, message: 'Todos los campos son requeridos.' }
@@ -34,7 +36,7 @@ export async function updateServiceAction(prevState: any, formData: FormData) {
   const supabase = await createClient()
   const { error } = await supabase
     .from('services')
-    .update({ name, duration_months, price_ars })
+    .update({ name, duration_months, price_ars, description })
     .eq('id', id)
 
   if (error) return { success: false, message: `Error al actualizar: ${error.message}` }

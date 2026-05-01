@@ -10,6 +10,7 @@ type Service = {
   name: string
   duration_months: number
   price_ars: number
+  description?: string | null
 }
 
 function ServiceForm({
@@ -82,6 +83,20 @@ function ServiceForm({
           defaultValue={service?.price_ars}
           placeholder="50000"
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+          Descripción / Observaciones <span className="text-gray-400 font-normal">(opcional)</span>
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          rows={3}
+          defaultValue={service?.description ?? ''}
+          placeholder="Describe el servicio, incluye observaciones o detalles técnicos..."
+          className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-none"
         />
       </div>
 
@@ -177,6 +192,9 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
                   Nombre del Servicio
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Descripción
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Duración (Meses)
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -192,6 +210,9 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
                 <tr key={service.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{service.name}</div>
+                  </td>
+                  <td className="px-6 py-4 max-w-xs">
+                    <div className="text-sm text-gray-500 truncate">{service.description || <span className="italic text-gray-300">—</span>}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">{service.duration_months} meses</div>
@@ -222,7 +243,7 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
               ))}
               {initialServices.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
                     No hay servicios registrados en el catálogo.
                   </td>
                 </tr>
