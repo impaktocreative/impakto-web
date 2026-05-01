@@ -2,7 +2,7 @@
 
 import { useActionState, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { X } from 'lucide-react'
+import { HandCoins, X } from 'lucide-react'
 import { registerPaymentAction } from './payment-actions'
 
 type DashboardItem = {
@@ -54,7 +54,7 @@ function RegisterPaymentModal({
             {item.domain_name && ` (${item.domain_name})`}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Monto ({item.currency}) *</label>
               <input type="number" name="amount" required min={0} step={0.01}
@@ -100,9 +100,12 @@ export function DashboardPayButton({ item }: { item: DashboardItem }) {
     <>
       <button
         onClick={() => setPaying(true)}
-        className="text-blue-600 hover:text-blue-900 font-semibold"
+        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-blue-200 bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-800 transition-colors"
+        aria-label="Registrar pago"
+        title="Registrar pago"
       >
-        Registrar Pago
+        <HandCoins size={14} />
+        <span className="sr-only">Registrar pago</span>
       </button>
       {paying && (
         <RegisterPaymentModal

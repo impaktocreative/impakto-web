@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, useMotionValue } from "framer-motion";
 
 export default function CustomCursor() {
+    const pathname = usePathname();
+    const isAdminPath = pathname.startsWith("/admin");
     const [isHovering, setIsHovering] = useState(false);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -15,6 +18,10 @@ export default function CustomCursor() {
     );
 
     useEffect(() => {
+        if (isAdminPath) {
+            return;
+        }
+
         if (
             window.matchMedia("(pointer: coarse)").matches ||
             window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -49,7 +56,9 @@ export default function CustomCursor() {
             window.removeEventListener("mousemove", updateMousePosition);
             window.removeEventListener("mouseover", handleMouseOver);
         };
-    }, [x, y]);
+    }, [x, y, isAdminPath]);
+
+    if (isAdminPath) return null;
 
     if (!isVisible) return null;
 

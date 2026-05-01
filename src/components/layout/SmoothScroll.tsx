@@ -11,9 +11,26 @@ export default function SmoothScroll({
     children: React.ReactNode;
 }) {
     const pathname = usePathname();
+    const isAdminPath = pathname.startsWith("/admin");
     const lenisRef = useRef<Lenis | null>(null);
 
     useEffect(() => {
+        document.body.classList.toggle("is-admin", isAdminPath);
+
+        return () => {
+            document.body.classList.remove("is-admin");
+        };
+    }, [isAdminPath]);
+
+    useEffect(() => {
+        if (isAdminPath) {
+            if (lenisRef.current) {
+                lenisRef.current.destroy();
+                lenisRef.current = null;
+            }
+            return;
+        }
+
         const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
@@ -45,7 +62,7 @@ export default function SmoothScroll({
             lenis.destroy();
             lenisRef.current = null;
         };
-    }, []);
+    }, [isAdminPath]);
 
     useEffect(() => {
         if (lenisRef.current) {

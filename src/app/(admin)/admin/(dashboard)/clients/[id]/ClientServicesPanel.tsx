@@ -65,8 +65,6 @@ function AssignServiceForm({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
-  const today = new Date().toISOString().split('T')[0]
-
   return (
     <form action={formAction} className="flex flex-col gap-4">
       <input type="hidden" name="client_id" value={clientId} />
@@ -96,7 +94,7 @@ function AssignServiceForm({
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
           <div className="flex gap-2">
@@ -127,7 +125,7 @@ function AssignServiceForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de último pago</label>
           <input type="date" name="last_payment_date"
@@ -210,7 +208,7 @@ function RegisterPaymentForm({
         {clientService.domain_name && ` — ${clientService.domain_name}`}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Monto ({clientService.currency}) *</label>
           <input type="number" name="amount" required min={0} step={0.01}
@@ -288,7 +286,7 @@ function EditServiceForm({
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
           <div className="flex gap-2">
@@ -314,7 +312,7 @@ function EditServiceForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de último pago</label>
           <input type="date" name="last_payment_date"
@@ -380,6 +378,7 @@ export function ClientServicesPanel({
   const [payingService, setPayingService] = useState<ClientService | null>(null)
   const [editingService, setEditingService] = useState<ClientService | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [nowMs] = useState(() => Date.now())
   const [isPending, startTransition] = useTransition()
 
   const handleRemove = (id: string) => {
@@ -412,7 +411,7 @@ export function ClientServicesPanel({
           <div className="divide-y divide-gray-100">
             {initialServices.map((svc) => {
               const daysLeft = svc.next_payment_date
-                ? Math.ceil((new Date(svc.next_payment_date).getTime() - Date.now()) / 86400000)
+                ? Math.ceil((new Date(svc.next_payment_date).getTime() - nowMs) / 86400000)
                 : null
 
               let badgeClass = 'bg-green-100 text-green-700'
@@ -422,7 +421,7 @@ export function ClientServicesPanel({
 
               return (
                 <div key={svc.id} className="px-6 py-4">
-                  <div className="flex justify-between items-start">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start">
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-900">{svc.services?.name}</p>
                       {svc.domain_name && <p className="text-xs text-gray-500 mt-0.5">{svc.domain_name}</p>}
@@ -448,28 +447,34 @@ export function ClientServicesPanel({
                       </div>
                       {svc.notes && <p className="text-xs text-gray-400 mt-1 italic">{svc.notes}</p>}
                     </div>
-                    <div className="flex items-center gap-2 ml-4 flex-shrink-0">
+                    <div className="flex items-center gap-1.5 sm:ml-4 flex-shrink-0">
                       <button
                         onClick={() => setPayingService(svc)}
-                        className="inline-flex items-center gap-1 text-green-700 hover:text-white hover:bg-green-600 border border-green-200 hover:border-green-600 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 bg-white text-green-700 hover:bg-green-600 hover:text-white transition-colors"
+                        aria-label="Registrar pago"
+                        title="Registrar pago"
                       >
                         <CreditCard size={14} />
-                        Pago
+                        <span className="sr-only">Registrar pago</span>
                       </button>
                       <button
                         onClick={() => setEditingService(svc)}
-                        className="inline-flex items-center gap-1 text-gray-600 hover:text-black bg-white hover:bg-gray-50 border border-gray-200 shadow-sm rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                        aria-label="Editar servicio"
+                        title="Editar"
                       >
                         <Pencil size={14} />
-                        Editar
+                        <span className="sr-only">Editar</span>
                       </button>
                       <button
                         onClick={() => handleRemove(svc.id)}
                         disabled={deletingId === svc.id && isPending}
-                        className="inline-flex items-center gap-1 text-red-600 hover:text-red-700 bg-white hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-sm rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all disabled:opacity-50"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-red-200 bg-white text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                        aria-label="Quitar servicio"
+                        title="Quitar"
                       >
-                        <Trash2 size={14} />
-                        {deletingId === svc.id && isPending ? '...' : 'Quitar'}
+                        {deletingId === svc.id && isPending ? <span className="text-xs font-medium">...</span> : <Trash2 size={14} />}
+                        <span className="sr-only">Quitar</span>
                       </button>
                     </div>
                   </div>

@@ -15,7 +15,7 @@ export default async function ClientDetailPage({
   const supabase = await createClient()
 
   const [{ data: client }, { data: services }, { data: availableServices }] = await Promise.all([
-    supabase.from('clients').select('*').eq('id', id).single(),
+    supabase.from('clients').select('id, brand_name, contact_name, email, phone, cuit, website_url, notes, created_at').eq('id', id).single(),
     supabase
       .from('client_services')
       .select(`id, domain_name, price, currency, next_payment_date, last_payment_date, status, duration_months, notes, services ( name )`)

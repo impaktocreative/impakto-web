@@ -8,13 +8,16 @@ export default async function ClientsPage() {
 
   const { data: clients } = await supabase
     .from('clients')
-    .select('*')
+    .select('id, brand_name, contact_name, email, phone, website_url, notes, cuit')
     .order('created_at', { ascending: false })
 
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Clientes</h1>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Clientes</h1>
+          <p className="mt-1 text-sm text-gray-500">Gestioná contactos, datos comerciales y acceso rápido a cada ficha.</p>
+        </div>
         <Link
           href="/admin/clients/new"
           className="bg-black hover:bg-gray-800 text-white font-medium py-2.5 px-5 rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-2"
