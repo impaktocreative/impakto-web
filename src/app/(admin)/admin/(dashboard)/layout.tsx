@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   return (
     <div className="min-h-screen flex bg-gray-100 font-sans text-gray-900">
       {/* Sidebar */}
-      <aside className="w-64 bg-black text-white flex flex-col shadow-xl z-10">
+      <aside className="w-64 bg-black text-white flex flex-col shadow-xl z-10 sticky top-0 h-screen">
         <div className="p-6">
           <h1 className="text-2xl font-bold tracking-tight">Impakto</h1>
           <p className="text-gray-400 text-sm">Admin Panel</p>
@@ -53,8 +53,8 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        <div className="flex-1 overflow-auto p-8">
+      <main className="flex-1 flex flex-col min-h-screen">
+        <div className="flex-1 p-8">
           {children}
         </div>
       </main>
