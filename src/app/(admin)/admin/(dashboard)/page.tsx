@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { format, differenceInDays } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { TestEmailForm } from './TestEmailForm'
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
@@ -92,6 +93,8 @@ export default async function AdminDashboard() {
           </table>
         </div>
       </div>
+
+      <TestEmailForm />
     </div>
   )
 }
