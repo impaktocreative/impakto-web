@@ -7,9 +7,9 @@ export function TestEmailForm() {
   const [state, formAction, isPending] = useActionState(sendTestEmailAction, null)
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mt-8">
-      <div className="px-6 py-5 border-b border-gray-200">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">
+    <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden mt-8">
+      <div className="px-6 py-5 border-b border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-900">
           Prueba de Notificaciones (Email)
         </h3>
         <p className="mt-1 text-sm text-gray-500">
@@ -27,14 +27,14 @@ export function TestEmailForm() {
               name="email"
               id="email"
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-shadow"
               placeholder="tu@email.com"
             />
           </div>
           <button
             type="submit"
             disabled={isPending}
-            className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white font-medium py-2 px-6 rounded-md transition-colors disabled:opacity-50 flex justify-center"
+            className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white font-medium py-2.5 px-6 rounded-xl transition-all shadow-sm hover:shadow disabled:opacity-50 flex justify-center items-center h-[46px]"
           >
             {isPending ? (
               <span className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export function TestEmailForm() {
           </button>
         </form>
         {state && (
-          <div className={`mt-4 p-3 rounded-md text-sm ${state.success ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+          <div className={`mt-4 p-4 rounded-xl text-sm ${state.success ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
             {state.message}
           </div>
         )}

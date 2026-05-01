@@ -42,7 +42,7 @@ export default async function ClientDetailPage({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Info Card */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
                 {client.brand_name.charAt(0).toUpperCase()}

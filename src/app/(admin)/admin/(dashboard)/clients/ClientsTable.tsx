@@ -127,18 +127,18 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
     <>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50/50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marca</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contacto</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sitio Web</th>
-              <th className="relative px-6 py-3"><span className="sr-only">Acciones</span></th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Marca</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Contacto</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Sitio Web</th>
+              <th className="relative px-6 py-4"><span className="sr-only">Acciones</span></th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-100">
             {initialClients.map((client) => (
-              <tr key={client.id} className="hover:bg-gray-50">
+              <tr key={client.id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">{client.brand_name}</div>
                 </td>
@@ -163,24 +163,24 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
                   <div className="flex justify-end gap-2">
                     <Link
                       href={`/admin/clients/${client.id}`}
-                      className="inline-flex items-center gap-1 text-gray-600 hover:text-black border border-gray-200 hover:border-gray-400 rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
+                      className="inline-flex items-center gap-1.5 text-gray-600 hover:text-black bg-white hover:bg-gray-50 border border-gray-200 shadow-sm rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
                     >
-                      <Eye size={13} />
+                      <Eye size={14} />
                       Ver Ficha
                     </Link>
                     <button
                       onClick={() => setEditingClient(client)}
-                      className="inline-flex items-center gap-1 text-gray-600 hover:text-black border border-gray-200 hover:border-gray-400 rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
+                      className="inline-flex items-center gap-1.5 text-gray-600 hover:text-black bg-white hover:bg-gray-50 border border-gray-200 shadow-sm rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
                     >
-                      <Pencil size={13} />
+                      <Pencil size={14} />
                       Editar
                     </button>
                     <button
                       onClick={() => handleDelete(client)}
                       disabled={deletingId === client.id && isPending}
-                      className="inline-flex items-center gap-1 text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 rounded-md px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
+                      className="inline-flex items-center gap-1.5 text-red-600 hover:text-red-700 bg-white hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-sm rounded-lg px-3 py-1.5 text-xs font-medium transition-all disabled:opacity-50"
                     >
-                      <Trash2 size={13} />
+                      <Trash2 size={14} />
                       {deletingId === client.id && isPending ? '...' : 'Eliminar'}
                     </button>
                   </div>

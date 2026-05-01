@@ -183,48 +183,49 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
 
   return (
     <>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Catálogo de Servicios</h1>
+      <div className="max-w-6xl mx-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Catálogo de Servicios</h1>
         <button
           onClick={() => setShowCreate(true)}
-          className="bg-black hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center gap-2"
+          className="bg-black hover:bg-gray-800 text-white font-medium py-2.5 px-5 rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-2"
         >
           <Plus size={20} />
           Nuevo Servicio Base
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-200">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">Servicios Base</h3>
+      <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
+        <div className="px-6 py-5 border-b border-gray-100">
+          <h3 className="text-lg font-semibold text-gray-900">Servicios Base</h3>
           <p className="mt-1 text-sm text-gray-500">
             Tipos de servicios que se pueden asignar a los clientes.
           </p>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead className="bg-gray-50/50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   Nombre del Servicio
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   Descripción
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   Duración (Meses)
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   Precio Base
                 </th>
-                <th className="relative px-6 py-3">
+                <th className="relative px-6 py-4">
                   <span className="sr-only">Acciones</span>
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-100">
               {initialServices.map((service) => (
-                <tr key={service.id} className="hover:bg-gray-50">
+                <tr key={service.id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{service.name}</div>
                   </td>
@@ -241,17 +242,17 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
                     <div className="flex justify-end gap-2">
                       <button
                         onClick={() => setEditingService(service)}
-                        className="inline-flex items-center gap-1 text-gray-600 hover:text-black border border-gray-200 hover:border-gray-400 rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
+                        className="inline-flex items-center gap-1.5 text-gray-600 hover:text-black bg-white hover:bg-gray-50 border border-gray-200 shadow-sm rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
                       >
-                        <Pencil size={13} />
+                        <Pencil size={14} />
                         Editar
                       </button>
                       <button
                         onClick={() => handleDelete(service.id)}
                         disabled={deletingId === service.id && isPending}
-                        className="inline-flex items-center gap-1 text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 rounded-md px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 text-red-600 hover:text-red-700 bg-white hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-sm rounded-lg px-3 py-1.5 text-xs font-medium transition-all disabled:opacity-50"
                       >
-                        <Trash2 size={13} />
+                        <Trash2 size={14} />
                         {deletingId === service.id && isPending ? '...' : 'Eliminar'}
                       </button>
                     </div>
@@ -268,6 +269,7 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
             </tbody>
           </table>
         </div>
+      </div>
       </div>
 
       {/* Modal Crear */}

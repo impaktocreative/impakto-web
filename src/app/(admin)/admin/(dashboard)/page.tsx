@@ -41,58 +41,60 @@ export default async function AdminDashboard() {
   }).length ?? 0
 
   return (
-    <div className="flex flex-col gap-8">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
+    <div className="flex flex-col gap-8 max-w-6xl mx-auto">
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
 
       {/* KPI cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Clientes</p>
-          <p className="text-3xl font-bold text-gray-900 mt-1">{totalClients ?? 0}</p>
+          <p className="text-3xl font-bold text-gray-900 mt-2">{totalClients ?? 0}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Servicios Activos</p>
-          <p className="text-3xl font-bold text-gray-900 mt-1">{activeServices ?? 0}</p>
+          <p className="text-3xl font-bold text-gray-900 mt-2">{activeServices ?? 0}</p>
         </div>
-        <div className={`rounded-lg shadow-sm border p-5 ${expiringSoon > 0 ? 'bg-yellow-50 border-yellow-200' : 'bg-white border-gray-200'}`}>
-          <p className="text-sm font-medium text-gray-500">Por Vencer (10 días)</p>
-          <p className={`text-3xl font-bold mt-1 ${expiringSoon > 0 ? 'text-yellow-700' : 'text-gray-900'}`}>{expiringSoon}</p>
+        <div className={`rounded-2xl shadow-sm ring-1 p-6 transition-all hover:shadow-md ${expiringSoon > 0 ? 'bg-orange-50 ring-orange-500/20' : 'bg-white ring-gray-900/5'}`}>
+          <p className={`text-sm font-medium ${expiringSoon > 0 ? 'text-orange-800' : 'text-gray-500'}`}>Por Vencer (10 días)</p>
+          <p className={`text-3xl font-bold mt-2 ${expiringSoon > 0 ? 'text-orange-900' : 'text-gray-900'}`}>{expiringSoon}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Ingresos Registrados</p>
-          <p className="text-3xl font-bold text-gray-900 mt-1">${totalIncome.toLocaleString('es-AR')}</p>
+          <p className="text-3xl font-bold text-gray-900 mt-2">${totalIncome.toLocaleString('es-AR')}</p>
         </div>
       </div>
 
       {/* Upcoming payments table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-200">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">Próximos Cobros</h3>
-          <p className="mt-1 text-sm text-gray-500">Servicios activos ordenados por fecha de vencimiento.</p>
+      <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
+        <div className="px-6 py-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">Próximos Cobros</h3>
+            <p className="mt-1 text-sm text-gray-500">Servicios activos ordenados por fecha de vencimiento.</p>
+          </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead className="bg-gray-50/50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente / Marca</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Servicio</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vencimiento</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
-                <th className="relative px-6 py-3"><span className="sr-only">Acciones</span></th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente / Marca</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicio</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Vencimiento</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
+                <th className="relative px-6 py-4"><span className="sr-only">Acciones</span></th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-100">
               {upcomingServices?.map((item: any) => {
                 const daysLeft = item.next_payment_date
                   ? differenceInDays(new Date(item.next_payment_date), new Date())
                   : null
-                let badgeClass = 'bg-green-100 text-green-800'
-                if (daysLeft === null) badgeClass = 'bg-gray-100 text-gray-500'
-                else if (daysLeft <= 0) badgeClass = 'bg-red-100 text-red-800'
-                else if (daysLeft <= 10) badgeClass = 'bg-yellow-100 text-yellow-800'
+                let badgeClass = 'bg-green-50 text-green-700 ring-green-600/20'
+                if (daysLeft === null) badgeClass = 'bg-gray-50 text-gray-600 ring-gray-500/10'
+                else if (daysLeft <= 0) badgeClass = 'bg-red-50 text-red-700 ring-red-600/10'
+                else if (daysLeft <= 10) badgeClass = 'bg-orange-50 text-orange-700 ring-orange-600/20'
 
                 return (
-                  <tr key={item.id} className="hover:bg-gray-50">
+                  <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{item.clients?.brand_name}</div>
                       <div className="text-sm text-gray-500">{item.clients?.contact_name}</div>
@@ -104,10 +106,10 @@ export default async function AdminDashboard() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item.next_payment_date ? (
                         <>
-                          <div className="text-sm text-gray-900 mb-1">
+                          <div className="text-sm font-medium text-gray-900 mb-1.5">
                             {format(new Date(item.next_payment_date), "dd 'de' MMMM, yyyy", { locale: es })}
                           </div>
-                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${badgeClass}`}>
+                          <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${badgeClass}`}>
                             {daysLeft! < 0 ? `Vencido hace ${Math.abs(daysLeft!)} días` : daysLeft === 0 ? 'Vence hoy' : `Faltan ${daysLeft} días`}
                           </span>
                         </>

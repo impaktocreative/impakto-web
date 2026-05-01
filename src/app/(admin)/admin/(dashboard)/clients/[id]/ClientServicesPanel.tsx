@@ -26,7 +26,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white rounded-lg shadow-xl w-full max-w-lg mx-4 p-6 max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 p-6 max-h-[90vh] overflow-y-auto ring-1 ring-gray-900/5">
         <div className="flex justify-between items-center mb-5">
           <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors"><X size={20} /></button>
@@ -396,12 +396,12 @@ export function ClientServicesPanel({
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
+        <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center">
           <h2 className="text-base font-semibold text-gray-900">Servicios Contratados</h2>
           <button
             onClick={() => setShowAssign(true)}
-            className="inline-flex items-center gap-1.5 bg-black hover:bg-gray-800 text-white text-xs font-medium py-1.5 px-3 rounded-md transition-colors"
+            className="inline-flex items-center gap-1.5 bg-black hover:bg-gray-800 text-white text-xs font-medium py-2 px-4 rounded-xl transition-all shadow-sm hover:shadow"
           >
             <Plus size={14} />
             Agregar Servicio
@@ -451,24 +451,24 @@ export function ClientServicesPanel({
                     <div className="flex items-center gap-2 ml-4 flex-shrink-0">
                       <button
                         onClick={() => setPayingService(svc)}
-                        className="inline-flex items-center gap-1 text-green-700 hover:text-white hover:bg-green-600 border border-green-200 hover:border-green-600 rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
+                        className="inline-flex items-center gap-1 text-green-700 hover:text-white hover:bg-green-600 border border-green-200 hover:border-green-600 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors"
                       >
-                        <CreditCard size={12} />
+                        <CreditCard size={14} />
                         Pago
                       </button>
                       <button
                         onClick={() => setEditingService(svc)}
-                        className="inline-flex items-center gap-1 text-blue-700 hover:text-white hover:bg-blue-600 border border-blue-200 hover:border-blue-600 rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
+                        className="inline-flex items-center gap-1 text-gray-600 hover:text-black bg-white hover:bg-gray-50 border border-gray-200 shadow-sm rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all"
                       >
-                        <Pencil size={12} />
+                        <Pencil size={14} />
                         Editar
                       </button>
                       <button
                         onClick={() => handleRemove(svc.id)}
                         disabled={deletingId === svc.id && isPending}
-                        className="inline-flex items-center gap-1 text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 rounded-md px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
+                        className="inline-flex items-center gap-1 text-red-600 hover:text-red-700 bg-white hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-sm rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all disabled:opacity-50"
                       >
-                        <Trash2 size={12} />
+                        <Trash2 size={14} />
                         {deletingId === svc.id && isPending ? '...' : 'Quitar'}
                       </button>
                     </div>

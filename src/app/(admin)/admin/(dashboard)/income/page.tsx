@@ -38,26 +38,26 @@ export default async function IncomePage() {
   const monthlyEntriesUSD = Object.entries(byMonthUSD).sort(([a], [b]) => b.localeCompare(a))
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-8">Ingresos</h1>
+    <div className="max-w-6xl mx-auto">
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-8">Ingresos</h1>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Acumulado (ARS)</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Total Acumulado (ARS)</h3>
           <p className="text-3xl font-bold text-gray-900">${totalIncomeARS.toLocaleString('es-AR')}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Acumulado (USD)</h3>
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Total Acumulado (USD)</h3>
           <p className="text-3xl font-bold text-gray-900">USD {totalIncomeUSD.toLocaleString('es-AR')}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Pagos Registrados</h3>
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Pagos Registrados</h3>
           <p className="text-3xl font-bold text-gray-900">{payments?.length ?? 0}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Mes Actual / Último mes</h3>
-          <div className="flex flex-col gap-1">
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Mes Actual / Último mes</h3>
+          <div className="flex flex-col gap-1.5">
             {monthlyEntriesARS[0] && (
               <p className="text-lg font-bold text-gray-900">
                 ${monthlyEntriesARS[0][1].toLocaleString('es-AR')} <span className="text-xs text-gray-400 font-normal">({format(new Date(monthlyEntriesARS[0][0] + '-02'), "MMM yyyy", { locale: es })})</span>
@@ -76,8 +76,8 @@ export default async function IncomePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Monthly breakdown */}
         <div className="lg:col-span-1 flex flex-col gap-6">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
+          <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100">
               <h3 className="text-base font-semibold text-gray-900">Por Mes (ARS)</h3>
             </div>
             {monthlyEntriesARS.length > 0 ? (
@@ -109,8 +109,8 @@ export default async function IncomePage() {
             )}
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
+          <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100">
               <h3 className="text-base font-semibold text-gray-900">Por Mes (USD)</h3>
             </div>
             {monthlyEntriesUSD.length > 0 ? (
@@ -145,23 +145,23 @@ export default async function IncomePage() {
 
         {/* Payment history */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
+          <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100">
               <h3 className="text-base font-semibold text-gray-900">Historial de Pagos</h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-100">
+                <thead className="bg-gray-50/50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Servicio</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicio</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {payments?.map((payment: any) => (
-                    <tr key={payment.id} className="hover:bg-gray-50">
+                <tbody className="divide-y divide-gray-100">
+                  {payments?.map((payment: any, index: number) => (
+                    <tr key={index} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {format(new Date(payment.payment_date), "dd 'de' MMM, yyyy", { locale: es })}
                       </td>
