@@ -7,7 +7,8 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
   const client_id = formData.get('client_id') as string
   const service_id = formData.get('service_id') as string
   const domain_name = (formData.get('domain_name') as string) || null
-  const price_ars = parseFloat(formData.get('price_ars') as string)
+  const price = parseFloat(formData.get('price') as string)
+  const currency = formData.get('currency') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
   const last_payment_date = (formData.get('last_payment_date') as string) || null
   const notes = (formData.get('notes') as string) || null
@@ -21,7 +22,7 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
     next_payment_date = d.toISOString().split('T')[0]
   }
 
-  if (!client_id || !service_id || !price_ars || !duration_months) {
+  if (!client_id || !service_id || !price || !currency || !duration_months) {
     return { success: false, message: 'Servicio, precio y duración son requeridos.' }
   }
 
@@ -30,7 +31,8 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
     client_id,
     service_id,
     domain_name,
-    price_ars,
+    price,
+    currency,
     duration_months,
     last_payment_date,
     next_payment_date,
@@ -60,7 +62,8 @@ export async function editClientServiceAction(prevState: any, formData: FormData
   const id = formData.get('id') as string
   const client_id = formData.get('client_id') as string
   const domain_name = (formData.get('domain_name') as string) || null
-  const price_ars = parseFloat(formData.get('price_ars') as string)
+  const price = parseFloat(formData.get('price') as string)
+  const currency = formData.get('currency') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
   const last_payment_date = (formData.get('last_payment_date') as string) || null
   const notes = (formData.get('notes') as string) || null
@@ -73,14 +76,15 @@ export async function editClientServiceAction(prevState: any, formData: FormData
     next_payment_date = d.toISOString().split('T')[0]
   }
 
-  if (!id || !client_id || !price_ars || !duration_months) {
+  if (!id || !client_id || !price || !currency || !duration_months) {
     return { success: false, message: 'ID, precio y duración son requeridos.' }
   }
 
   const supabase = await createClient()
   const { error } = await supabase.from('client_services').update({
     domain_name,
-    price_ars,
+    price,
+    currency,
     duration_months,
     last_payment_date,
     next_payment_date,

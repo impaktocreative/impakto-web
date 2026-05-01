@@ -8,11 +8,12 @@ import { Plus, X, Trash2, CreditCard, Pencil } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
-type Service = { id: string; name: string; duration_months: number; price_ars: number }
+type Service = { id: string; name: string; duration_months: number; price: number; currency: string }
 type ClientService = {
   id: string
   domain_name?: string | null
-  price_ars: number
+  price: number
+  currency: string
   next_payment_date?: string | null
   last_payment_date?: string | null
   status: string
@@ -97,12 +98,23 @@ function AssignServiceForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Precio (ARS) *</label>
-          <input type="number" name="price_ars" required min={0} step={0.01}
-            defaultValue={selectedService?.price_ars ?? ''}
-            key={selectedService?.id ?? 'none'}
-            placeholder="0"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <label className="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
+          <div className="flex gap-2">
+            <select
+              name="currency"
+              defaultValue={selectedService?.currency ?? 'ARS'}
+              key={`curr-${selectedService?.id ?? 'none'}`}
+              className="w-1/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+            >
+              <option value="ARS">ARS</option>
+              <option value="USD">USD</option>
+            </select>
+            <input type="number" name="price" required min={0} step={0.01}
+              defaultValue={selectedService?.price ?? ''}
+              key={selectedService?.id ?? 'none'}
+              placeholder="0"
+              className="w-2/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Duración (meses) *</label>
@@ -189,6 +201,7 @@ function RegisterPaymentForm({
   return (
     <form action={formAction} className="flex flex-col gap-4">
       <input type="hidden" name="client_service_id" value={clientService.id} />
+      <input type="hidden" name="currency" value={clientService.currency} />
       <input type="hidden" name="duration_months" value={clientService.duration_months} />
       <input type="hidden" name="client_id" value={clientId} />
 
@@ -199,9 +212,9 @@ function RegisterPaymentForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Monto (ARS) *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Monto ({clientService.currency}) *</label>
           <input type="number" name="amount" required min={0} step={0.01}
-            defaultValue={clientService.price_ars}
+            defaultValue={clientService.price}
             className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
         </div>
         <div>
@@ -277,10 +290,20 @@ function EditServiceForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Precio (ARS) *</label>
-          <input type="number" name="price_ars" required min={0} step={0.01}
-            defaultValue={clientService.price_ars}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <label className="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
+          <div className="flex gap-2">
+            <select
+              name="currency"
+              defaultValue={clientService.currency}
+              className="w-1/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+            >
+              <option value="ARS">ARS</option>
+              <option value="USD">USD</option>
+            </select>
+            <input type="number" name="price" required min={0} step={0.01}
+              defaultValue={clientService.price}
+              className="w-2/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Duración (meses) *</label>
@@ -405,7 +428,7 @@ export function ClientServicesPanel({
                       {svc.domain_name && <p className="text-xs text-gray-500 mt-0.5">{svc.domain_name}</p>}
                       <div className="flex items-center gap-3 mt-2 flex-wrap">
                         <span className="text-sm font-semibold text-gray-900">
-                          ${Number(svc.price_ars).toLocaleString('es-AR')}
+                          {svc.currency === 'USD' ? 'USD' : '$'} {Number(svc.price).toLocaleString('es-AR')}
                         </span>
                         {svc.next_payment_date && (
                           <span className="text-xs text-gray-400">

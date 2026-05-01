@@ -9,7 +9,8 @@ type Service = {
   id: string
   name: string
   duration_months: number
-  price_ars: number
+  price: number
+  currency: string
   description?: string | null
 }
 
@@ -69,21 +70,37 @@ function ServiceForm({
         />
       </div>
 
-      <div>
-        <label htmlFor="price_ars" className="block text-sm font-medium text-gray-700 mb-1">
-          Precio Base (ARS)
-        </label>
-        <input
-          type="number"
-          id="price_ars"
-          name="price_ars"
-          required
-          min={0}
-          step={0.01}
-          defaultValue={service?.price_ars}
-          placeholder="50000"
-          className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+            Precio Base
+          </label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            required
+            min={0}
+            step={0.01}
+            defaultValue={service?.price}
+            placeholder="50000"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+        <div>
+          <label htmlFor="currency" className="block text-sm font-medium text-gray-700 mb-1">
+            Moneda
+          </label>
+          <select
+            id="currency"
+            name="currency"
+            defaultValue={service?.currency || 'ARS'}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+          >
+            <option value="ARS">ARS</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
       </div>
 
       <div>
@@ -198,7 +215,7 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
                   Duración (Meses)
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Precio Base (ARS)
+                  Precio Base
                 </th>
                 <th className="relative px-6 py-3">
                   <span className="sr-only">Acciones</span>
@@ -218,7 +235,7 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
                     <div className="text-sm text-gray-900">{service.duration_months} meses</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    ${Number(service.price_ars).toLocaleString('es-AR')}
+                    {service.currency === 'USD' ? 'USD' : '$'} {Number(service.price).toLocaleString('es-AR')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end gap-2">

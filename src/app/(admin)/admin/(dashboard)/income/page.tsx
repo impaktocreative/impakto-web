@@ -8,8 +8,8 @@ export default async function IncomePage() {
   const { data: payments } = await supabase
     .from('payments')
     .select(`
-      id,
       amount,
+      currency,
       payment_date,
       client_services (
         domain_name,
@@ -19,55 +19,71 @@ export default async function IncomePage() {
     `)
     .order('payment_date', { ascending: false })
 
-  const totalIncome = payments?.reduce((acc: number, p: any) => acc + Number(p.amount), 0) ?? 0
+  const totalIncomeARS = payments?.filter(p => p.currency === 'ARS').reduce((acc: number, p: any) => acc + Number(p.amount), 0) ?? 0
+  const totalIncomeUSD = payments?.filter(p => p.currency === 'USD').reduce((acc: number, p: any) => acc + Number(p.amount), 0) ?? 0
 
-  // Group by year-month
-  const byMonth = payments?.reduce((acc: Record<string, number>, p: any) => {
+  // Group by year-month and currency
+  const byMonthARS = payments?.filter(p => p.currency === 'ARS').reduce((acc: Record<string, number>, p: any) => {
+    const key = p.payment_date.slice(0, 7) // "2026-04"
+    acc[key] = (acc[key] ?? 0) + Number(p.amount)
+    return acc
+  }, {}) ?? {}
+  const byMonthUSD = payments?.filter(p => p.currency === 'USD').reduce((acc: Record<string, number>, p: any) => {
     const key = p.payment_date.slice(0, 7) // "2026-04"
     acc[key] = (acc[key] ?? 0) + Number(p.amount)
     return acc
   }, {}) ?? {}
 
-  const monthlyEntries = Object.entries(byMonth).sort(([a], [b]) => b.localeCompare(a))
+  const monthlyEntriesARS = Object.entries(byMonthARS).sort(([a], [b]) => b.localeCompare(a))
+  const monthlyEntriesUSD = Object.entries(byMonthUSD).sort(([a], [b]) => b.localeCompare(a))
 
   return (
     <div>
       <h1 className="text-3xl font-bold mb-8">Ingresos</h1>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Acumulado</h3>
-          <p className="text-3xl font-bold text-gray-900">${totalIncome.toLocaleString('es-AR')}</p>
+          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Acumulado (ARS)</h3>
+          <p className="text-3xl font-bold text-gray-900">${totalIncomeARS.toLocaleString('es-AR')}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Acumulado (USD)</h3>
+          <p className="text-3xl font-bold text-gray-900">USD {totalIncomeUSD.toLocaleString('es-AR')}</p>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Pagos Registrados</h3>
           <p className="text-3xl font-bold text-gray-900">{payments?.length ?? 0}</p>
         </div>
-        {monthlyEntries[0] && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-sm font-medium text-gray-500 mb-1">Mes Actual / Último mes</h3>
-            <p className="text-3xl font-bold text-gray-900">
-              ${monthlyEntries[0][1].toLocaleString('es-AR')}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">
-              {format(new Date(monthlyEntries[0][0] + '-02'), "MMMM yyyy", { locale: es })}
-            </p>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-1">Mes Actual / Último mes</h3>
+          <div className="flex flex-col gap-1">
+            {monthlyEntriesARS[0] && (
+              <p className="text-lg font-bold text-gray-900">
+                ${monthlyEntriesARS[0][1].toLocaleString('es-AR')} <span className="text-xs text-gray-400 font-normal">({format(new Date(monthlyEntriesARS[0][0] + '-02'), "MMM yyyy", { locale: es })})</span>
+              </p>
+            )}
+            {monthlyEntriesUSD[0] && (
+              <p className="text-lg font-bold text-gray-900">
+                USD {monthlyEntriesUSD[0][1].toLocaleString('es-AR')} <span className="text-xs text-gray-400 font-normal">({format(new Date(monthlyEntriesUSD[0][0] + '-02'), "MMM yyyy", { locale: es })})</span>
+              </p>
+            )}
+            {!monthlyEntriesARS[0] && !monthlyEntriesUSD[0] && <p className="text-sm text-gray-500">-</p>}
           </div>
-        )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Monthly breakdown */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 flex flex-col gap-6">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-base font-semibold text-gray-900">Por Mes</h3>
+              <h3 className="text-base font-semibold text-gray-900">Por Mes (ARS)</h3>
             </div>
-            {monthlyEntries.length > 0 ? (
+            {monthlyEntriesARS.length > 0 ? (
               <div className="divide-y divide-gray-100">
-                {monthlyEntries.map(([month, amount]) => {
-                  const pct = totalIncome > 0 ? (amount / totalIncome) * 100 : 0
+                {monthlyEntriesARS.map(([month, amount]) => {
+                  const pct = totalIncomeARS > 0 ? (amount / totalIncomeARS) * 100 : 0
                   return (
                     <div key={month} className="px-6 py-3">
                       <div className="flex justify-between items-center mb-1">
@@ -89,7 +105,40 @@ export default async function IncomePage() {
                 })}
               </div>
             ) : (
-              <div className="px-6 py-10 text-center text-sm text-gray-500">Sin datos de ingresos.</div>
+              <div className="px-6 py-10 text-center text-sm text-gray-500">Sin datos de ingresos en ARS.</div>
+            )}
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h3 className="text-base font-semibold text-gray-900">Por Mes (USD)</h3>
+            </div>
+            {monthlyEntriesUSD.length > 0 ? (
+              <div className="divide-y divide-gray-100">
+                {monthlyEntriesUSD.map(([month, amount]) => {
+                  const pct = totalIncomeUSD > 0 ? (amount / totalIncomeUSD) * 100 : 0
+                  return (
+                    <div key={month} className="px-6 py-3">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-sm font-medium text-gray-700 capitalize">
+                          {format(new Date(month + '-02'), "MMMM yyyy", { locale: es })}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-900">
+                          USD {amount.toLocaleString('es-AR')}
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-100 rounded-full h-1.5">
+                        <div
+                          className="bg-black h-1.5 rounded-full"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            ) : (
+              <div className="px-6 py-10 text-center text-sm text-gray-500">Sin datos de ingresos en USD.</div>
             )}
           </div>
         </div>
@@ -126,7 +175,7 @@ export default async function IncomePage() {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">
-                        ${Number(payment.amount).toLocaleString('es-AR')}
+                        {payment.currency === 'USD' ? 'USD' : '$'} {Number(payment.amount).toLocaleString('es-AR')}
                       </td>
                     </tr>
                   ))}

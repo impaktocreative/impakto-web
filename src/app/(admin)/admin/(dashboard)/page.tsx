@@ -16,7 +16,7 @@ export default async function AdminDashboard() {
     supabase
       .from('client_services')
       .select(`
-        id, domain_name, price_ars, next_payment_date, status, duration_months,
+        id, domain_name, duration_months, price, currency, last_payment_date, next_payment_date, status, client_id,
         services ( name ),
         clients ( id, contact_name, brand_name )
       `)
@@ -116,12 +116,13 @@ export default async function AdminDashboard() {
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      ${Number(item.price_ars).toLocaleString('es-AR')}
+                          {item.currency === 'USD' ? 'USD' : '$'} {Number(item.price).toLocaleString('es-AR')}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <DashboardPayButton item={{
                         id: item.id,
-                        price_ars: item.price_ars,
+                        price: item.price,
+                        currency: item.currency,
                         duration_months: item.duration_months,
                         services: item.services,
                         clients: item.clients,

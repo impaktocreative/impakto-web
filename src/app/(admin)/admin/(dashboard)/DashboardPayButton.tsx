@@ -7,7 +7,8 @@ import { registerPaymentAction } from './payment-actions'
 
 type DashboardItem = {
   id: string
-  price_ars: number
+  price: number
+  currency: string
   duration_months: number
   services?: { name: string } | null
   clients?: { brand_name: string; contact_name: string } | null
@@ -44,6 +45,7 @@ function RegisterPaymentModal({
 
         <form action={formAction} className="flex flex-col gap-4">
           <input type="hidden" name="client_service_id" value={item.id} />
+          <input type="hidden" name="currency" value={item.currency} />
           <input type="hidden" name="duration_months" value={item.duration_months} />
           <input type="hidden" name="client_id" value={item.client_id ?? ''} />
 
@@ -54,9 +56,9 @@ function RegisterPaymentModal({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Monto (ARS) *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Monto ({item.currency}) *</label>
               <input type="number" name="amount" required min={0} step={0.01}
-                defaultValue={item.price_ars}
+                defaultValue={item.price}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
             </div>
             <div>

@@ -7,6 +7,7 @@ export async function registerPaymentAction(prevState: any, formData: FormData) 
   const client_service_id = formData.get('client_service_id') as string
   const amount = parseFloat(formData.get('amount') as string)
   const payment_date = formData.get('payment_date') as string
+  const currency = formData.get('currency') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
   const client_id = formData.get('client_id') as string
 
@@ -19,6 +20,7 @@ export async function registerPaymentAction(prevState: any, formData: FormData) 
   const { error: paymentError } = await supabase.from('payments').insert({
     client_service_id,
     amount,
+    currency,
     payment_date,
   })
 

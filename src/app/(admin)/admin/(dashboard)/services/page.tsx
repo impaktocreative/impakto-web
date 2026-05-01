@@ -6,7 +6,7 @@ export default async function ServicesPage() {
 
   const { data: services } = await supabase
     .from('services')
-    .select('*')
+    .select('id, name, duration_months, price, currency, description')
     .order('created_at', { ascending: false })
 
   return <ServicesClient initialServices={services ?? []} />

@@ -18,10 +18,10 @@ export default async function ClientDetailPage({
     supabase.from('clients').select('*').eq('id', id).single(),
     supabase
       .from('client_services')
-      .select(`id, domain_name, price_ars, next_payment_date, last_payment_date, status, duration_months, notes, services ( name )`)
+      .select(`id, domain_name, price, currency, next_payment_date, last_payment_date, status, duration_months, notes, services ( name )`)
       .eq('client_id', id)
       .order('next_payment_date', { ascending: true }),
-    supabase.from('services').select('id, name, duration_months, price_ars').order('name'),
+    supabase.from('services').select('id, name, duration_months, price, currency').order('name'),
   ])
 
   if (!client) notFound()

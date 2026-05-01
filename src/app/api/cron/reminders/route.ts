@@ -36,7 +36,7 @@ export async function GET(request: Request) {
   const { data: activeServices, error } = await supabase
     .from('client_services')
     .select(`
-      id, domain_name, price_ars, next_payment_date,
+      id, domain_name, price, currency, next_payment_date,
       services ( name ),
       clients ( email, contact_name, brand_name )
     `)
@@ -82,7 +82,7 @@ export async function GET(request: Request) {
       '{{servicio}}': service.services?.name ?? '',
       '{{dominio}}': service.domain_name ?? 'N/A',
       '{{dias}}': String(daysLeft),
-      '{{monto}}': Number(service.price_ars).toLocaleString('es-AR'),
+      '{{monto}}': `${service.currency === 'USD' ? 'USD' : '$'} ${Number(service.price).toLocaleString('es-AR')}`,
     }
 
     const subject = interpolate(tpl.subject, vars)
