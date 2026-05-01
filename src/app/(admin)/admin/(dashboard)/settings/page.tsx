@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { EmailTemplatesEditor } from './EmailTemplatesEditor'
+import { BulkEmailSender } from './BulkEmailSender'
 import { Mail } from 'lucide-react'
 
 export default async function SettingsPage() {
@@ -46,6 +47,7 @@ export default async function SettingsPage() {
         </div>
       </div>
 
+      <BulkEmailSender />
       <EmailTemplatesEditor templates={templates ?? []} />
     </div>
   )

@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { format } from 'date-fns'
+import { endOfMonth, format, startOfMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
 
 type PaymentRow = {
@@ -28,22 +28,63 @@ type RawPaymentRow = {
     | null
 }
 
+type ExpectedServiceRow = {
+  id: string
+  next_payment_date: string | null
+  price: number | string
+  currency: string
+  domain_name: string | null
+  clients: { brand_name: string; contact_name: string } | null
+  services: { name: string } | null
+}
+
+type RawExpectedServiceRow = {
+  id: string
+  next_payment_date: string | null
+  price: number | string
+  currency: string
+  domain_name: string | null
+  clients: Array<{ brand_name: string; contact_name: string }>
+  services: Array<{ name: string }>
+}
+
 export default async function IncomePage() {
   const supabase = await createClient()
+  const now = new Date()
+  const monthKey = format(now, 'yyyy-MM')
+  const monthStart = format(startOfMonth(now), 'yyyy-MM-dd')
+  const monthEnd = format(endOfMonth(now), 'yyyy-MM-dd')
 
-  const { data: payments } = await supabase
-    .from('payments')
-    .select(`
-      amount,
-      currency,
-      payment_date,
-      client_services (
+  const [{ data: payments }, { data: expectedServices }] = await Promise.all([
+    supabase
+      .from('payments')
+      .select(`
+        amount,
+        currency,
+        payment_date,
+        client_services (
+          domain_name,
+          services ( name ),
+          clients ( brand_name )
+        )
+      `)
+      .order('payment_date', { ascending: false }),
+    supabase
+      .from('client_services')
+      .select(`
+        id,
+        next_payment_date,
+        price,
+        currency,
         domain_name,
-        services ( name ),
-        clients ( brand_name )
-      )
-    `)
-    .order('payment_date', { ascending: false })
+        clients ( brand_name, contact_name ),
+        services ( name )
+      `)
+      .eq('status', 'activo')
+      .gte('next_payment_date', monthStart)
+      .lte('next_payment_date', monthEnd)
+      .order('next_payment_date', { ascending: true }),
+  ])
 
   const rawPaymentRows = (payments ?? []) as unknown as RawPaymentRow[]
   const paymentRows: PaymentRow[] = rawPaymentRows.map((payment) => {
@@ -60,10 +101,30 @@ export default async function IncomePage() {
             clients: service.clients?.[0] ?? null,
           }
         : null,
-    }
+      }
   })
+
+  const rawExpectedRows = (expectedServices ?? []) as unknown as RawExpectedServiceRow[]
+  const expectedRows: ExpectedServiceRow[] = rawExpectedRows.map((service) => ({
+    id: service.id,
+    next_payment_date: service.next_payment_date,
+    price: service.price,
+    currency: service.currency,
+    domain_name: service.domain_name,
+    clients: service.clients?.[0] ?? null,
+    services: service.services?.[0] ?? null,
+  }))
+
   const totalIncomeARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc, payment) => acc + Number(payment.amount), 0)
   const totalIncomeUSD = paymentRows.filter((payment) => payment.currency === 'USD').reduce((acc, payment) => acc + Number(payment.amount), 0)
+  const expectedIncomeARS = expectedRows.filter((service) => service.currency === 'ARS').reduce((acc, service) => acc + Number(service.price), 0)
+  const expectedIncomeUSD = expectedRows.filter((service) => service.currency === 'USD').reduce((acc, service) => acc + Number(service.price), 0)
+  const collectedThisMonthARS = paymentRows
+    .filter((payment) => payment.currency === 'ARS' && payment.payment_date.startsWith(monthKey))
+    .reduce((acc, payment) => acc + Number(payment.amount), 0)
+  const collectedThisMonthUSD = paymentRows
+    .filter((payment) => payment.currency === 'USD' && payment.payment_date.startsWith(monthKey))
+    .reduce((acc, payment) => acc + Number(payment.amount), 0)
 
   // Group by year-month and currency
   const byMonthARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc: Record<string, number>, payment) => {
@@ -117,6 +178,67 @@ export default async function IncomePage() {
             {!monthlyEntriesARS[0] && !monthlyEntriesUSD[0] && <p className="text-sm text-gray-500">-</p>}
           </div>
         </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden mb-8">
+        <div className="px-6 py-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+          <div>
+            <h2 className="text-base font-semibold text-gray-900">Ingresos Estimados del Mes</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Proyección de cobros del mes actual asumiendo que todos los clientes pagan en fecha.
+            </p>
+          </div>
+          <p className="text-xs text-gray-400">{format(now, "MMMM yyyy", { locale: es })}</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-6 p-6 border-b border-gray-100">
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold">Estimado ARS</p>
+            <p className="text-2xl font-bold text-gray-900">${expectedIncomeARS.toLocaleString('es-AR')}</p>
+            <p className="text-sm text-gray-500">
+              Cobrado este mes: <span className="font-semibold text-gray-800">${collectedThisMonthARS.toLocaleString('es-AR')}</span>
+            </p>
+          </div>
+          <div className="space-y-2 mt-5 md:mt-0">
+            <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold">Estimado USD</p>
+            <p className="text-2xl font-bold text-gray-900">USD {expectedIncomeUSD.toLocaleString('es-AR')}</p>
+            <p className="text-sm text-gray-500">
+              Cobrado este mes: <span className="font-semibold text-gray-800">USD {collectedThisMonthUSD.toLocaleString('es-AR')}</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="px-6 py-4 text-sm text-gray-600 bg-gray-50/60 border-b border-gray-100">
+          {expectedRows.length > 0
+            ? `${expectedRows.length} cobro(s) esperado(s) en el mes.`
+            : 'No hay vencimientos activos programados para este mes.'}
+        </div>
+
+        {expectedRows.length > 0 && (
+          <div className="divide-y divide-gray-100 max-h-[360px] overflow-y-auto">
+            {expectedRows.map((service) => (
+              <div key={service.id} className="px-6 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 break-words">{service.clients?.brand_name ?? 'Cliente sin marca'}</p>
+                  <p className="text-xs text-gray-500 break-words">
+                    {service.services?.name ?? 'Servicio'}
+                    {service.domain_name ? ` - ${service.domain_name}` : ''}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-semibold text-gray-900">
+                    {service.currency === 'USD' ? 'USD' : '$'} {Number(service.price).toLocaleString('es-AR')}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {service.next_payment_date
+                      ? format(new Date(service.next_payment_date), "dd 'de' MMM", { locale: es })
+                      : 'Sin fecha'}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

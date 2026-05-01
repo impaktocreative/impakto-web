@@ -13,11 +13,22 @@ type UpcomingService = {
   id: string
   domain_name: string | null
   duration_months: number
-  price: number | string
+  price: number
   currency: string
   next_payment_date: string | null
   services: { name: string } | null
   clients: { id: string; contact_name: string; brand_name: string } | null
+}
+
+type RawUpcomingService = {
+  id: string
+  domain_name: string | null
+  duration_months: number
+  price: number | string
+  currency: string
+  next_payment_date: string | null
+  services: Array<{ name: string }>
+  clients: Array<{ id: string; contact_name: string; brand_name: string }>
 }
 
 export default async function AdminDashboard() {
@@ -40,7 +51,17 @@ export default async function AdminDashboard() {
   ])
 
   const paymentRows = (recentPayments ?? []) as RecentPayment[]
-  const items = (upcomingServices ?? []) as UpcomingService[]
+  const rawItems = (upcomingServices ?? []) as unknown as RawUpcomingService[]
+  const items: UpcomingService[] = rawItems.map((item) => ({
+    id: item.id,
+    domain_name: item.domain_name,
+    duration_months: item.duration_months,
+    price: Number(item.price),
+    currency: item.currency,
+    next_payment_date: item.next_payment_date,
+    services: item.services?.[0] ?? null,
+    clients: item.clients?.[0] ?? null,
+  }))
   const totalIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.amount), 0)
 
   const expiringSoon = items.filter((service) => {

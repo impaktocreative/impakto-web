@@ -52,10 +52,18 @@ body {
   }
 
   body.is-admin a,
+  body.is-admin a *,
   body.is-admin button,
+  body.is-admin button *,
   body.is-admin [role="button"],
+  body.is-admin [role="button"] *,
   body.is-admin summary,
+  body.is-admin summary *,
   body.is-admin label[for] {
+    cursor: pointer !important;
+  }
+
+  body.is-admin label[for] * {
     cursor: pointer !important;
   }
 }
