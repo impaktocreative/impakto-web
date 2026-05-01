@@ -1,6 +1,7 @@
 'use client'
 
-import { useActionState, useState, useTransition } from 'react'
+import { useActionState, useState, useTransition, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { createServiceAction, updateServiceAction, deleteServiceAction } from './actions'
 import { Plus, X, Pencil, Trash2 } from 'lucide-react'
 
@@ -15,16 +16,22 @@ function ServiceForm({
   service,
   action,
   onClose,
+  onSuccess,
 }: {
   service?: Service
   action: typeof createServiceAction
   onClose: () => void
+  onSuccess: () => void
 }) {
   const [state, formAction, isPending] = useActionState(action, null)
 
-  if (state?.success) {
-    onClose()
-  }
+  useEffect(() => {
+    if (state?.success) {
+      onSuccess()
+      onClose()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
@@ -122,20 +129,24 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 }
 
 export function ServicesClient({ initialServices }: { initialServices: Service[] }) {
+  const router = useRouter()
   const [showCreate, setShowCreate] = useState(false)
   const [editingService, setEditingService] = useState<Service | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
-  const [services, setServices] = useState(initialServices)
 
   const handleDelete = (id: string) => {
     if (!confirm('¿Estás seguro de eliminar este servicio?')) return
     setDeletingId(id)
     startTransition(async () => {
       await deleteServiceAction(id)
-      setServices((prev) => prev.filter((s) => s.id !== id))
       setDeletingId(null)
+      router.refresh()
     })
+  }
+
+  const handleMutationSuccess = () => {
+    router.refresh()
   }
 
   return (
@@ -177,7 +188,7 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {services.map((service) => (
+              {initialServices.map((service) => (
                 <tr key={service.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{service.name}</div>
@@ -209,7 +220,7 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
                   </td>
                 </tr>
               ))}
-              {services.length === 0 && (
+              {initialServices.length === 0 && (
                 <tr>
                   <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
                     No hay servicios registrados en el catálogo.
@@ -224,7 +235,11 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
       {/* Modal Crear */}
       {showCreate && (
         <Modal title="Nuevo Servicio Base" onClose={() => setShowCreate(false)}>
-          <ServiceForm action={createServiceAction} onClose={() => setShowCreate(false)} />
+          <ServiceForm
+            action={createServiceAction}
+            onClose={() => setShowCreate(false)}
+            onSuccess={handleMutationSuccess}
+          />
         </Modal>
       )}
 
@@ -235,6 +250,7 @@ export function ServicesClient({ initialServices }: { initialServices: Service[]
             service={editingService}
             action={updateServiceAction}
             onClose={() => setEditingService(null)}
+            onSuccess={handleMutationSuccess}
           />
         </Modal>
       )}
