@@ -30,13 +30,7 @@ export function buildEmailHtml(body: string): string {
               <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td>
-                    <span style="font-size:22px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">IMPAKTO</span>
-                    <span style="font-size:22px;font-weight:300;color:#9ca3af;letter-spacing:-0.5px;"> CREATIVE</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top:6px;">
-                    <span style="font-size:11px;color:#6b7280;letter-spacing:2px;text-transform:uppercase;">Agencia Digital</span>
+                    <img src="https://www.impaktocreative.com/logos/logoblanco.svg" alt="Impakto Creative" style="height:28px;display:block;border:0;" />
                   </td>
                 </tr>
               </table>
@@ -78,7 +72,7 @@ export function buildEmailHtml(body: string): string {
                         </td>
                         <td style="color:#d1d5db;font-size:12px;">|</td>
                         <td style="padding-left:12px;">
-                          <a href="mailto:impaktoagency@gmail.com" style="font-size:12px;color:#374151;text-decoration:none;border-bottom:1px solid #d1d5db;">impaktoagency@gmail.com</a>
+                          <a href="mailto:hola@impaktocreative.com" style="font-size:12px;color:#374151;text-decoration:none;border-bottom:1px solid #d1d5db;">hola@impaktocreative.com</a>
                         </td>
                       </tr>
                     </table>
