@@ -3,13 +3,17 @@
  * The `body` is plain text with \n for line breaks.
  */
 export function buildEmailHtml(body: string): string {
-  const htmlBody = body
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .split('\n')
-    .map(line => line.trim() === '' ? '<br/>' : `<p style="margin:0 0 14px 0;line-height:1.6;">${line}</p>`)
-    .join('\n')
+  const hasHtml = /<[a-z][\\s\\S]*>/i.test(body)
+  
+  const htmlBody = hasHtml 
+    ? body 
+    : body
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .split('\\n')
+        .map(line => line.trim() === '' ? '<br/>' : `<p style="margin:0 0 14px 0;line-height:1.6;">${line}</p>`)
+        .join('\\n')
 
   return `<!DOCTYPE html>
 <html lang="es">

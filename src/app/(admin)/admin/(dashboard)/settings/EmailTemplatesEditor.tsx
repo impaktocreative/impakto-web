@@ -2,8 +2,9 @@
 
 import { useActionState, useEffect, useState } from 'react'
 import { saveTemplateAction } from './actions'
-import { CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react'
+import { CheckCircle, AlertCircle, Eye, EyeOff, Code, Type } from 'lucide-react'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
+import Editor from 'react-simple-wysiwyg'
 
 type Template = {
   type: string
@@ -48,6 +49,7 @@ function TemplateEditor({ template }: { template: Template }) {
   const [body, setBody] = useState(template.body)
   const [subject, setSubject] = useState(template.subject)
   const [showPreview, setShowPreview] = useState(false)
+  const [mode, setMode] = useState<'visual' | 'html'>('visual')
   const info = LABELS[template.type]
 
   useEffect(() => {
@@ -108,17 +110,50 @@ function TemplateEditor({ template }: { template: Template }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Cuerpo del mensaje
-            </label>
-            <textarea
-              name="body"
-              required
-              rows={8}
-              value={body}
-              onChange={e => setBody(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-y font-mono"
-            />
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Cuerpo del mensaje
+              </label>
+              <div className="flex bg-gray-100 rounded p-0.5">
+                <button
+                  type="button"
+                  onClick={() => setMode('visual')}
+                  className={`flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded transition-colors ${mode === 'visual' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  <Type size={12} />
+                  Visual
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMode('html')}
+                  className={`flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded transition-colors ${mode === 'html' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  <Code size={12} />
+                  HTML
+                </button>
+              </div>
+            </div>
+            
+            {mode === 'visual' ? (
+              <div className="prose-sm w-full max-w-none">
+                <Editor
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
+                  containerProps={{ style: { minHeight: '200px', backgroundColor: '#fff', borderRadius: '0.375rem', borderColor: '#d1d5db' } }}
+                />
+              </div>
+            ) : (
+              <textarea
+                name="body"
+                required
+                rows={10}
+                value={body}
+                onChange={e => setBody(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-y font-mono"
+              />
+            )}
+            {/* hidden input ensures form gets data even in visual mode */}
+            {mode === 'visual' && <input type="hidden" name="body" value={body} />}
           </div>
 
           <div className="flex flex-wrap gap-1.5">
