@@ -2,9 +2,9 @@
 
 import { useActionState, useState, useTransition, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { assignServiceAction, removeClientServiceAction } from './actions'
+import { assignServiceAction, removeClientServiceAction, editClientServiceAction } from './actions'
 import { registerPaymentAction } from '../../payment-actions'
-import { Plus, X, Trash2, CreditCard } from 'lucide-react'
+import { Plus, X, Trash2, CreditCard, Pencil } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
@@ -233,6 +233,115 @@ function RegisterPaymentForm({
   )
 }
 
+function EditServiceForm({
+  clientService,
+  clientId,
+  onClose,
+  onSuccess,
+}: {
+  clientService: ClientService
+  clientId: string
+  onClose: () => void
+  onSuccess: () => void
+}) {
+  const [state, formAction, isPending] = useActionState(editClientServiceAction, null)
+  const [lastPaymentDate, setLastPaymentDate] = useState(clientService.last_payment_date ? new Date(clientService.last_payment_date).toISOString().split('T')[0] : '')
+  const [durationMonths, setDurationMonths] = useState<number>(clientService.duration_months)
+
+  const computedNextDate = (() => {
+    if (!lastPaymentDate || !durationMonths) return null
+    const d = new Date(lastPaymentDate)
+    d.setMonth(d.getMonth() + durationMonths)
+    return d.toISOString().split('T')[0]
+  })()
+
+  useEffect(() => {
+    if (state?.success) { onSuccess(); onClose() }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
+
+  return (
+    <form action={formAction} className="flex flex-col gap-4">
+      <input type="hidden" name="id" value={clientService.id} />
+      <input type="hidden" name="client_id" value={clientId} />
+
+      <div className="bg-gray-50 rounded-md p-3 text-sm text-gray-600 mb-2">
+        <strong>{clientService.services?.name}</strong>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Dominio / Identificador</label>
+        <input type="text" name="domain_name" placeholder="ej: misitioweb.com" defaultValue={clientService.domain_name || ''}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Precio (ARS) *</label>
+          <input type="number" name="price_ars" required min={0} step={0.01}
+            defaultValue={clientService.price_ars}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Duración (meses) *</label>
+          <input type="number" name="duration_months" required min={1}
+            value={durationMonths}
+            onChange={(e) => setDurationMonths(parseInt(e.target.value) || 0)}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de último pago</label>
+          <input type="date" name="last_payment_date"
+            value={lastPaymentDate}
+            onChange={(e) => setLastPaymentDate(e.target.value)}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Próximo vencimiento</label>
+          <input type="text" readOnly
+            value={computedNextDate ?? 'Completá fecha y duración'}
+            className="w-full border border-gray-100 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 cursor-not-allowed" />
+          {computedNextDate && <input type="hidden" name="next_payment_date" value={computedNextDate} />}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+        <select name="status" defaultValue={clientService.status}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+          <option value="vencido">Vencido</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Notas</label>
+        <textarea name="notes" rows={2} defaultValue={clientService.notes || ''}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-none" />
+      </div>
+
+      {state && !state.success && (
+        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">{state.message}</p>
+      )}
+
+      <div className="flex justify-end gap-3 mt-2">
+        <button type="button" onClick={onClose}
+          className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" disabled={isPending}
+          className="px-4 py-2 text-sm font-medium text-white bg-black hover:bg-gray-800 rounded-md transition-colors disabled:opacity-50">
+          {isPending ? 'Guardando...' : 'Guardar Cambios'}
+        </button>
+      </div>
+    </form>
+  )
+}
+
 export function ClientServicesPanel({
   clientId,
   initialServices,
@@ -246,6 +355,7 @@ export function ClientServicesPanel({
   const router = useRouter()
   const [showAssign, setShowAssign] = useState(false)
   const [payingService, setPayingService] = useState<ClientService | null>(null)
+  const [editingService, setEditingService] = useState<ClientService | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
 
@@ -324,6 +434,13 @@ export function ClientServicesPanel({
                         Pago
                       </button>
                       <button
+                        onClick={() => setEditingService(svc)}
+                        className="inline-flex items-center gap-1 text-blue-700 hover:text-white hover:bg-blue-600 border border-blue-200 hover:border-blue-600 rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
+                      >
+                        <Pencil size={12} />
+                        Editar
+                      </button>
+                      <button
                         onClick={() => handleRemove(svc.id)}
                         disabled={deletingId === svc.id && isPending}
                         className="inline-flex items-center gap-1 text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 rounded-md px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
@@ -364,6 +481,17 @@ export function ClientServicesPanel({
             clientService={payingService}
             clientId={clientId}
             onClose={() => setPayingService(null)}
+            onSuccess={handleSuccess}
+          />
+        </Modal>
+      )}
+
+      {editingService && (
+        <Modal title="Editar Servicio" onClose={() => setEditingService(null)}>
+          <EditServiceForm
+            clientService={editingService}
+            clientId={clientId}
+            onClose={() => setEditingService(null)}
             onSuccess={handleSuccess}
           />
         </Modal>
