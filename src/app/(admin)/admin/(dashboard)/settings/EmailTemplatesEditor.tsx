@@ -1,8 +1,8 @@
 'use client'
 
 import { useActionState, useEffect, useState } from 'react'
-import { saveTemplateAction } from './actions'
-import { CheckCircle, AlertCircle, Eye, EyeOff, Code, Type } from 'lucide-react'
+import { saveTemplateAction, sendTestEmailAction } from './actions'
+import { CheckCircle, AlertCircle, Eye, EyeOff, Code, Type, Send } from 'lucide-react'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import Editor from 'react-simple-wysiwyg'
 
@@ -46,17 +46,19 @@ const PREVIEW_DATA: Record<string, string> = {
 
 function TemplateEditor({ template }: { template: Template }) {
   const [state, formAction, isPending] = useActionState(saveTemplateAction, null)
+  const [testState, testFormAction, isTestPending] = useActionState(sendTestEmailAction, null)
   const [body, setBody] = useState(template.body)
   const [subject, setSubject] = useState(template.subject)
   const [showPreview, setShowPreview] = useState(false)
   const [mode, setMode] = useState<'visual' | 'html'>('visual')
+  const [testEmail, setTestEmail] = useState('')
   const info = LABELS[template.type]
 
   useEffect(() => {
-    if (state?.success) {
+    if (state?.success || testState?.success) {
       // flash handled by state message
     }
-  }, [state])
+  }, [state, testState])
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -182,7 +184,7 @@ function TemplateEditor({ template }: { template: Template }) {
             </div>
           )}
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between pt-2 border-t border-gray-100">
             <p className="text-xs text-gray-400">
               Última actualización: {new Date(template.updated_at).toLocaleString('es-AR')}
             </p>
@@ -195,6 +197,45 @@ function TemplateEditor({ template }: { template: Template }) {
             </button>
           </div>
         </form>
+      )}
+
+      {/* Test Email Form - Shown at the bottom always when not in preview mode */}
+      {!showPreview && (
+        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <form action={testFormAction} className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+            <input type="hidden" name="subject" value={subject} />
+            <input type="hidden" name="body" value={body} />
+            <div className="flex items-center gap-3 w-full sm:max-w-md">
+              <input
+                type="email"
+                name="test_email"
+                placeholder="Email para prueba..."
+                value={testEmail}
+                onChange={e => setTestEmail(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              <button
+                type="submit"
+                disabled={isTestPending || !testEmail}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-md transition-colors disabled:opacity-50 shrink-0"
+              >
+                <Send size={14} />
+                {isTestPending ? 'Enviando...' : 'Probar'}
+              </button>
+            </div>
+          </form>
+          {testState && (
+            <div className={`mt-3 flex items-center gap-2 text-xs rounded-md px-2.5 py-2 ${
+              testState.success
+                ? 'bg-green-50 text-green-700 border border-green-200'
+                : 'bg-red-50 text-red-700 border border-red-200'
+            }`}>
+              {testState.success ? <CheckCircle size={14} /> : <AlertCircle size={14} />}
+              {testState.message}
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
