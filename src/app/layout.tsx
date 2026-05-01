@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import WhatsAppFloating from "@/components/layout/WhatsAppFloating";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import { siteUrl } from "@/lib/site";
@@ -80,10 +77,7 @@ export default function RootLayout({
           >
             Ir al contenido principal
           </a>
-          <Navbar />
           {children}
-          <WhatsAppFloating />
-          <Footer />
         </SmoothScroll>
       </body>
     </html>
