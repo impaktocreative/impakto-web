@@ -20,10 +20,15 @@ type RawPaymentRow = {
   currency: string
   payment_date: string
   client_services:
+    | {
+        domain_name: string | null
+        services: { name: string } | Array<{ name: string }> | null
+        clients: { brand_name: string } | Array<{ brand_name: string }> | null
+      }
     | Array<{
         domain_name: string | null
-        services: Array<{ name: string }>
-        clients: Array<{ brand_name: string }>
+        services: { name: string } | Array<{ name: string }> | null
+        clients: { brand_name: string } | Array<{ brand_name: string }> | null
       }>
     | null
 }
@@ -44,8 +49,16 @@ type RawExpectedServiceRow = {
   price: number | string
   currency: string
   domain_name: string | null
-  clients: Array<{ brand_name: string; contact_name: string }>
-  services: Array<{ name: string }>
+  clients:
+    | { brand_name: string; contact_name: string }
+    | Array<{ brand_name: string; contact_name: string }>
+    | null
+  services: { name: string } | Array<{ name: string }> | null
+}
+
+function normalizeRelation<T>(value: T | T[] | null | undefined): T | null {
+  if (!value) return null
+  return Array.isArray(value) ? value[0] ?? null : value
 }
 
 export default async function IncomePage() {
@@ -88,7 +101,7 @@ export default async function IncomePage() {
 
   const rawPaymentRows = (payments ?? []) as unknown as RawPaymentRow[]
   const paymentRows: PaymentRow[] = rawPaymentRows.map((payment) => {
-    const service = payment.client_services?.[0] ?? null
+    const service = normalizeRelation(payment.client_services)
 
     return {
       amount: payment.amount,
@@ -97,8 +110,8 @@ export default async function IncomePage() {
       client_services: service
         ? {
             domain_name: service.domain_name,
-            services: service.services?.[0] ?? null,
-            clients: service.clients?.[0] ?? null,
+            services: normalizeRelation(service.services),
+            clients: normalizeRelation(service.clients),
           }
         : null,
       }
@@ -111,8 +124,8 @@ export default async function IncomePage() {
     price: service.price,
     currency: service.currency,
     domain_name: service.domain_name,
-    clients: service.clients?.[0] ?? null,
-    services: service.services?.[0] ?? null,
+    clients: normalizeRelation(service.clients),
+    services: normalizeRelation(service.services),
   }))
 
   const totalIncomeARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc, payment) => acc + Number(payment.amount), 0)

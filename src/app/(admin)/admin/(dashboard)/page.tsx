@@ -27,8 +27,13 @@ type RawUpcomingService = {
   price: number | string
   currency: string
   next_payment_date: string | null
-  services: Array<{ name: string }>
-  clients: Array<{ id: string; contact_name: string; brand_name: string }>
+  services: { name: string } | Array<{ name: string }> | null
+  clients: { id: string; contact_name: string; brand_name: string } | Array<{ id: string; contact_name: string; brand_name: string }> | null
+}
+
+function normalizeRelation<T>(value: T | T[] | null | undefined): T | null {
+  if (!value) return null
+  return Array.isArray(value) ? value[0] ?? null : value
 }
 
 export default async function AdminDashboard() {
@@ -59,8 +64,8 @@ export default async function AdminDashboard() {
     price: Number(item.price),
     currency: item.currency,
     next_payment_date: item.next_payment_date,
-    services: item.services?.[0] ?? null,
-    clients: item.clients?.[0] ?? null,
+    services: normalizeRelation(item.services),
+    clients: normalizeRelation(item.clients),
   }))
   const totalIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.amount), 0)
 
@@ -129,8 +134,8 @@ export default async function AdminDashboard() {
                 return (
                   <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4 align-top">
-                      <div className="text-sm font-semibold text-gray-900 break-words">{item.clients?.brand_name}</div>
-                      <div className="text-sm text-gray-500 break-words">{item.clients?.contact_name}</div>
+                      <div className="text-sm font-semibold text-gray-900 break-words">{item.clients?.brand_name ?? 'Sin marca'}</div>
+                      <div className="text-sm text-gray-500 break-words">{item.clients?.contact_name ?? 'Sin contacto'}</div>
                     </td>
                     <td className="px-6 py-4 align-top">
                       <div className="text-sm text-gray-900 break-words">{item.services?.name}</div>
@@ -197,8 +202,8 @@ export default async function AdminDashboard() {
               <article key={item.id} className="p-4 space-y-3">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h4 className="text-sm font-semibold text-gray-900 break-words">{item.clients?.brand_name}</h4>
-                    <p className="text-sm text-gray-500 break-words">{item.services?.name}</p>
+                    <h4 className="text-sm font-semibold text-gray-900 break-words">{item.clients?.brand_name ?? 'Sin marca'}</h4>
+                    <p className="text-sm text-gray-500 break-words">{item.services?.name ?? 'Servicio'}</p>
                     {item.domain_name && <p className="text-xs text-gray-400 break-all">{item.domain_name}</p>}
                   </div>
                   <DashboardPayButton
