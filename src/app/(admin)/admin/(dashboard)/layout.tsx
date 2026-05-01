@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { Home, Users, Settings, DollarSign, LogOut } from 'lucide-react'
+import { Home, Users, Package, DollarSign, LogOut, SlidersHorizontal } from 'lucide-react'
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient()
@@ -30,12 +30,16 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             Clientes
           </Link>
           <Link href="/admin/services" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-800 transition-colors">
-            <Settings size={20} />
+            <Package size={20} />
             Servicios
           </Link>
           <Link href="/admin/income" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-800 transition-colors">
             <DollarSign size={20} />
             Ingresos
+          </Link>
+          <Link href="/admin/settings" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-800 transition-colors">
+            <SlidersHorizontal size={20} />
+            Configuración
           </Link>
         </nav>
         <div className="p-4 border-t border-gray-800">
