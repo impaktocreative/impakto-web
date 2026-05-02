@@ -9,18 +9,21 @@ export async function sendEmail({
   subject,
   htmlContent,
   name,
+  cc,
 }: {
   to: string
   subject: string
   htmlContent: string
   name: string
+  cc?: { email: string; name?: string }[]
 }) {
   try {
     const result = await brevo.transactionalEmails.sendTransacEmail({
       subject,
       htmlContent,
       sender: { name: 'Impakto Creative', email: 'impaktoagency@gmail.com' },
-      to: [{ email: to, name: name }]
+      to: [{ email: to, name: name }],
+      ...(cc && cc.length > 0 ? { cc } : {}),
     })
     return { success: true, result }
   } catch (error) {

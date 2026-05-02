@@ -89,24 +89,20 @@ export async function GET(request: Request) {
     const body = interpolate(tpl.body, vars)
     const htmlContent = buildEmailHtml(body)
 
+    // For the 24-hour reminder, always CC impaktoagency@gmail.com
+    const ccRecipients = reminderType === '24_hours'
+      ? [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }]
+      : undefined
+
     const emailResult = await sendEmail({
       to: clientEmail,
       name: service.clients.contact_name,
       subject,
       htmlContent,
+      cc: ccRecipients,
     })
 
     if (emailResult.success) {
-      // Internal notification (plain, no fancy template needed)
-      await sendEmail({
-        to: 'impaktoagency@gmail.com',
-        name: 'Impakto Admin',
-        subject: `[Interno] Recordatorio enviado a ${service.clients.brand_name}`,
-        htmlContent: buildEmailHtml(
-          `Se envió automáticamente un recordatorio de ${daysLeft} día(s) a ${service.clients.brand_name} por el servicio ${service.services?.name ?? ''}.`
-        ),
-      })
-
       await supabase.from('email_logs').insert([{
         client_service_id: service.id,
         reminder_type: reminderType,
