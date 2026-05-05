@@ -96,32 +96,16 @@ function AssignServiceForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
-          <div className="flex gap-2">
-            <select
-              name="currency"
-              defaultValue={selectedService?.currency ?? 'ARS'}
-              key={`curr-${selectedService?.id ?? 'none'}`}
-              className="w-1/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
-            >
-              <option value="ARS">ARS</option>
-              <option value="USD">USD</option>
-            </select>
-            <input type="number" name="price" required min={0} step={0.01}
-              defaultValue={selectedService?.price ?? ''}
-              key={selectedService?.id ?? 'none'}
-              placeholder="0"
-              className="w-2/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
+          <div className="w-full border border-gray-100 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500">
+            {selectedService ? `${selectedService.currency === 'USD' ? 'USD' : '$'} ${Number(selectedService.price).toLocaleString('es-AR')}` : '-'}
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Duración (meses) *</label>
-          <input type="number" name="duration_months" required min={1}
-            value={durationMonths || selectedService?.duration_months || ''}
-            key={`dur-${selectedService?.id ?? 'none'}`}
-            placeholder="12"
-            onChange={(e) => setDurationMonths(parseInt(e.target.value) || 0)}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <label className="block text-sm font-medium text-gray-700 mb-1">Duración</label>
+          <div className="w-full border border-gray-100 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500">
+            {selectedService ? `${selectedService.duration_months} meses` : '-'}
+          </div>
         </div>
       </div>
 
@@ -288,27 +272,16 @@ function EditServiceForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
-          <div className="flex gap-2">
-            <select
-              name="currency"
-              defaultValue={clientService.currency}
-              className="w-1/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
-            >
-              <option value="ARS">ARS</option>
-              <option value="USD">USD</option>
-            </select>
-            <input type="number" name="price" required min={0} step={0.01}
-              defaultValue={clientService.price}
-              className="w-2/3 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
+          <div className="w-full border border-gray-100 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500">
+            {clientService.currency === 'USD' ? 'USD' : '$'} {Number(clientService.price).toLocaleString('es-AR')}
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Duración (meses) *</label>
-          <input type="number" name="duration_months" required min={1}
-            value={durationMonths}
-            onChange={(e) => setDurationMonths(parseInt(e.target.value) || 0)}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black" />
+          <label className="block text-sm font-medium text-gray-700 mb-1">Duración</label>
+          <div className="w-full border border-gray-100 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500">
+            {clientService.duration_months} meses
+          </div>
         </div>
       </div>
 

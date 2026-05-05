@@ -52,15 +52,25 @@ export async function GET(request: Request) {
     if (!service.next_payment_date) continue
 
     const daysLeft = differenceInDays(new Date(service.next_payment_date), new Date())
-    let reminderType: ReminderType | null = null
+    let reminderType: string | null = null
 
     for (const [type, days] of Object.entries(DAYS_MAP)) {
-      if (daysLeft === days) { reminderType = type as ReminderType; break }
+      if (daysLeft === days) { reminderType = type as string; break }
+    }
+
+    if (daysLeft < 0) {
+      reminderType = 'expired_admin_alert'
     }
 
     if (!reminderType) continue
 
-    const tpl = templates[reminderType]
+    const tpl = reminderType === 'expired_admin_alert'
+      ? {
+          subject: `[Alerta] Servicio Vencido: {{servicio}} de {{marca}}`,
+          body: `Hola Equipo,<br><br>El servicio <strong>{{servicio}}</strong> del cliente <strong>{{nombre}} ({{marca}})</strong> se encuentra vencido desde hace ${Math.abs(daysLeft)} días.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Por favor, verifica el estado del pago o contacta al cliente.`
+        }
+      : templates[reminderType]
+
     if (!tpl) continue
 
     // Check if already sent
@@ -74,14 +84,14 @@ export async function GET(request: Request) {
     if (logs && logs.length > 0) continue
 
     const clientEmail = service.clients?.email
-    if (!clientEmail) continue
+    if (!clientEmail && reminderType !== 'expired_admin_alert') continue
 
     const vars: Record<string, string> = {
       '{{nombre}}': service.clients?.contact_name ?? '',
       '{{marca}}': service.clients?.brand_name ?? '',
       '{{servicio}}': service.services?.name ?? '',
       '{{dominio}}': service.domain_name ?? 'N/A',
-      '{{dias}}': String(daysLeft),
+      '{{dias}}': String(Math.abs(daysLeft)),
       '{{monto}}': `${service.currency === 'USD' ? 'USD' : '$'} ${Number(service.price).toLocaleString('es-AR')}`,
     }
 
@@ -89,14 +99,20 @@ export async function GET(request: Request) {
     const body = interpolate(tpl.body, vars)
     const htmlContent = buildEmailHtml(body)
 
-    // For the 24-hour reminder, always CC impaktoagency@gmail.com
-    const ccRecipients = reminderType === '24_hours'
-      ? [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }]
-      : undefined
+    let toEmail = clientEmail
+    let ccRecipients: { email: string; name: string }[] | undefined = undefined
+
+    if (reminderType === 'expired_admin_alert') {
+      toEmail = 'impaktoagency@gmail.com'
+    } else if (reminderType === '24_hours') {
+      ccRecipients = [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }]
+    }
+
+    if (!toEmail) continue
 
     const emailResult = await sendEmail({
-      to: clientEmail,
-      name: service.clients.contact_name,
+      to: toEmail,
+      name: reminderType === 'expired_admin_alert' ? 'Admin' : service.clients.contact_name,
       subject,
       htmlContent,
       cc: ccRecipients,

@@ -43,7 +43,30 @@ export async function updateServiceAction(prevState: any, formData: FormData) {
 
   if (error) return { success: false, message: `Error al actualizar: ${error.message}` }
 
-  revalidatePath('/admin/services')
+  const { data: clientServices, error: fetchError } = await supabase
+    .from('client_services')
+    .select('id, last_payment_date')
+    .eq('service_id', id)
+
+  if (!fetchError && clientServices && clientServices.length > 0) {
+    for (const cs of clientServices) {
+      let next_payment_date: string | null = null
+      if (cs.last_payment_date) {
+        const d = new Date(cs.last_payment_date)
+        d.setMonth(d.getMonth() + duration_months)
+        next_payment_date = d.toISOString().split('T')[0]
+      }
+      
+      await supabase.from('client_services').update({
+        price,
+        currency,
+        duration_months,
+        next_payment_date
+      }).eq('id', cs.id)
+    }
+  }
+
+  revalidatePath('/admin')
   return { success: true, message: 'Servicio actualizado.' }
 }
 
