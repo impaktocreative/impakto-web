@@ -2,6 +2,13 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { sendEmail } from '@/utils/brevo'
+import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
+
+const PAYMENT_TEMPLATE_FALLBACK = {
+  subject: 'Pago recibido - {{servicio}}',
+  body: 'Hola {{nombre}},<br><br>Te confirmamos que registramos correctamente tu pago para <strong>{{servicio}}</strong>.<br><br>Dominio: {{dominio}}<br>Monto: {{monto}}<br><br>Gracias por trabajar con Impakto Creative.',
+}
 
 function addMonthsToIsoDate(isoDate: string, monthsToAdd: number): string {
   const [year, month, day] = isoDate.split('-').map(Number)
@@ -33,7 +40,12 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
 
   const { data: clientService, error: serviceError } = await supabase
     .from('client_services')
-    .select('duration_months')
+    .select(`
+      duration_months,
+      domain_name,
+      services ( name ),
+      clients ( email, contact_name, brand_name )
+    `)
     .eq('id', client_service_id)
     .single()
 
@@ -64,8 +76,44 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
 
   if (updateError) return { success: false, message: `Pago guardado pero error al actualizar vencimiento: ${updateError.message}` }
 
+  let warningMessage = ''
+  const { data: paymentTemplateFromDb } = await supabase
+    .from('email_templates')
+    .select('subject, body')
+    .eq('type', 'payment_registered')
+    .maybeSingle()
+
+  const paymentTemplate = paymentTemplateFromDb ?? PAYMENT_TEMPLATE_FALLBACK
+
+  const clientData = Array.isArray(clientService.clients) ? clientService.clients[0] : clientService.clients
+  const serviceData = Array.isArray(clientService.services) ? clientService.services[0] : clientService.services
+
+  const clientEmail = clientData?.email?.trim()
+  if (paymentTemplate.subject && paymentTemplate.body && clientEmail) {
+    const vars: Record<string, string> = {
+      '{{nombre}}': clientData?.contact_name ?? 'Cliente',
+      '{{marca}}': clientData?.brand_name ?? '',
+      '{{servicio}}': serviceData?.name ?? '',
+      '{{dominio}}': clientService.domain_name ?? 'N/A',
+      '{{dias}}': '',
+      '{{dias_vencido}}': '0',
+      '{{monto}}': `${currency === 'USD' ? 'USD' : '$'} ${Number(amount).toLocaleString('es-AR')}`,
+    }
+
+    const emailResult = await sendEmail({
+      to: clientEmail,
+      name: clientData?.contact_name ?? 'Cliente',
+      subject: interpolate(paymentTemplate.subject, vars),
+      htmlContent: buildEmailHtml(interpolate(paymentTemplate.body, vars)),
+    })
+
+    if (!emailResult.success) {
+      warningMessage = ' (el pago se registró, pero no se pudo enviar el email de confirmación)'
+    }
+  }
+
   if (client_id) revalidatePath(`/admin/clients/${client_id}`)
   revalidatePath('/admin')
   revalidatePath('/admin/income')
-  return { success: true, message: `Próximo vencimiento actualizado a ${nextDateStr}` }
+  return { success: true, message: `Próximo vencimiento actualizado a ${nextDateStr}${warningMessage}` }
 }

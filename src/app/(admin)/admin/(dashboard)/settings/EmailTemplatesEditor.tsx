@@ -10,7 +10,7 @@ type Template = {
   type: string
   subject: string
   body: string
-  updated_at: string
+  updated_at: string | null
 }
 
 const LABELS: Record<string, { title: string; desc: string; color: string }> = {
@@ -29,9 +29,42 @@ const LABELS: Record<string, { title: string; desc: string; color: string }> = {
     desc: 'Aviso final, máxima urgencia.',
     color: 'bg-red-50 border-red-200 text-red-700',
   },
+  'overdue_every_3_days': {
+    title: 'Cada 3 días luego del vencimiento',
+    desc: 'Recordatorio automático al cliente desde el día 3 de mora.',
+    color: 'bg-orange-50 border-orange-200 text-orange-700',
+  },
+  'payment_registered': {
+    title: 'Pago registrado',
+    desc: 'Confirmación automática cuando se registra un pago.',
+    color: 'bg-blue-50 border-blue-200 text-blue-700',
+  },
 }
 
-const VARS = ['{{nombre}}', '{{marca}}', '{{servicio}}', '{{dominio}}', '{{dias}}', '{{monto}}']
+const TEMPLATE_DEFAULTS: Record<string, { subject: string; body: string }> = {
+  '10_days': {
+    subject: 'Recordatorio: {{servicio}} vence en {{dias}} días',
+    body: 'Hola {{nombre}},<br><br>Te recordamos que tu servicio <strong>{{servicio}}</strong> para <strong>{{marca}}</strong> vence en <strong>{{dias}} días</strong>.<br><br>Dominio: {{dominio}}<br>Monto: {{monto}}<br><br>Si ya abonaste, podés ignorar este mensaje.',
+  },
+  '5_days': {
+    subject: 'Tu servicio {{servicio}} vence en {{dias}} días',
+    body: 'Hola {{nombre}},<br><br>Faltan <strong>{{dias}} días</strong> para el vencimiento de <strong>{{servicio}}</strong>.<br><br>Dominio: {{dominio}}<br>Monto: {{monto}}<br><br>Para evitar interrupciones, te recomendamos registrar el pago a tiempo.',
+  },
+  '24_hours': {
+    subject: 'Ultimo aviso: {{servicio}} vence en 24 horas',
+    body: 'Hola {{nombre}},<br><br>Este es el ultimo aviso: tu servicio <strong>{{servicio}}</strong> vence en 24 horas.<br><br>Dominio: {{dominio}}<br>Monto: {{monto}}<br><br>Por favor, realiza el pago para mantenerlo activo.',
+  },
+  'overdue_every_3_days': {
+    subject: 'Servicio vencido hace {{dias_vencido}} días: {{servicio}}',
+    body: 'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} días</strong>.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Este recordatorio se enviara cada 3 dias hasta registrar el pago.',
+  },
+  'payment_registered': {
+    subject: 'Pago recibido - {{servicio}}',
+    body: 'Hola {{nombre}},<br><br>Te confirmamos que registramos correctamente tu pago para <strong>{{servicio}}</strong>.<br><br>Dominio: {{dominio}}<br>Monto: {{monto}}<br><br>Gracias por trabajar con Impakto Creative.',
+  },
+}
+
+const VARS = ['{{nombre}}', '{{marca}}', '{{servicio}}', '{{dominio}}', '{{dias}}', '{{dias_vencido}}', '{{monto}}']
 
 const PREVIEW_DATA: Record<string, string> = {
   '{{nombre}}': 'Juan García',
@@ -39,6 +72,7 @@ const PREVIEW_DATA: Record<string, string> = {
   '{{servicio}}': 'Hosting Web Premium',
   '{{dominio}}': 'misitioweb.com',
   '{{dias}}': '10',
+  '{{dias_vencido}}': '6',
   '{{monto}}': '25.000',
 }
 
@@ -186,7 +220,7 @@ function TemplateEditor({ template }: { template: Template }) {
 
           <div className="flex items-center justify-between pt-2 border-t border-gray-100">
             <p className="text-xs text-gray-400">
-              Última actualización: {new Date(template.updated_at).toLocaleString('es-AR')}
+              Última actualización: {template.updated_at ? new Date(template.updated_at).toLocaleString('es-AR') : 'Sin guardar todavía'}
             </p>
             <button
               type="submit"
@@ -242,8 +276,22 @@ function TemplateEditor({ template }: { template: Template }) {
 }
 
 export function EmailTemplatesEditor({ templates }: { templates: Template[] }) {
-  const order = ['10_days', '5_days', '24_hours']
-  const sorted = order.map(t => templates.find(x => x.type === t)).filter(Boolean) as Template[]
+  const order = ['10_days', '5_days', '24_hours', 'overdue_every_3_days', 'payment_registered']
+  const templateByType = new Map(templates.map(template => [template.type, template]))
+  const sorted = order.map((type) => {
+    const existing = templateByType.get(type)
+    if (existing) return existing
+
+    const defaults = TEMPLATE_DEFAULTS[type]
+    if (!defaults) return null
+
+    return {
+      type,
+      subject: defaults.subject,
+      body: defaults.body,
+      updated_at: null,
+    }
+  }).filter(Boolean) as Template[]
 
   return (
     <div className="flex flex-col gap-6">

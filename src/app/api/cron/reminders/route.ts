@@ -4,13 +4,23 @@ import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import { differenceInDays } from 'date-fns'
 
-const REMINDER_TYPES = ['10_days', '5_days', '24_hours'] as const
-type ReminderType = typeof REMINDER_TYPES[number]
-
-const DAYS_MAP: Record<ReminderType, number> = {
+const UPCOMING_DAYS_MAP = {
   '10_days': 10,
   '5_days': 5,
   '24_hours': 1,
+} as const
+
+type UpcomingReminderType = keyof typeof UPCOMING_DAYS_MAP
+type ReminderType = UpcomingReminderType | 'overdue_every_3_days'
+
+const TEMPLATE_FALLBACKS: Record<ReminderType, { subject: string; body: string } | null> = {
+  '10_days': null,
+  '5_days': null,
+  '24_hours': null,
+  'overdue_every_3_days': {
+    subject: 'Servicio vencido hace {{dias_vencido}} días: {{servicio}}',
+    body: 'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} días</strong>.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Este recordatorio se enviará cada 3 días hasta registrar el pago.',
+  },
 }
 
 export async function GET(request: Request) {
@@ -40,7 +50,7 @@ export async function GET(request: Request) {
       services ( name ),
       clients ( email, contact_name, brand_name )
     `)
-    .eq('status', 'activo')
+    .in('status', ['activo', 'vencido'])
 
   if (error || !activeServices) {
     return NextResponse.json({ error: 'Database error' }, { status: 500 })
@@ -52,39 +62,44 @@ export async function GET(request: Request) {
     if (!service.next_payment_date) continue
 
     const daysLeft = differenceInDays(new Date(service.next_payment_date), new Date())
-    let reminderType: string | null = null
+    let reminderType: ReminderType | null = null
 
-    for (const [type, days] of Object.entries(DAYS_MAP)) {
-      if (daysLeft === days) { reminderType = type as string; break }
+    for (const [type, days] of Object.entries(UPCOMING_DAYS_MAP)) {
+      if (daysLeft === days) {
+        reminderType = type as UpcomingReminderType
+        break
+      }
     }
 
-    if (daysLeft < 0) {
-      reminderType = 'expired_admin_alert'
+    if (!reminderType && daysLeft < 0) {
+      const daysOverdue = Math.abs(daysLeft)
+      if (daysOverdue >= 3 && daysOverdue % 3 === 0) {
+        reminderType = 'overdue_every_3_days'
+      }
     }
 
     if (!reminderType) continue
 
-    const tpl = reminderType === 'expired_admin_alert'
-      ? {
-          subject: `[Alerta] Servicio Vencido: {{servicio}} de {{marca}}`,
-          body: `Hola Equipo,<br><br>El servicio <strong>{{servicio}}</strong> del cliente <strong>{{nombre}} ({{marca}})</strong> se encuentra vencido desde hace ${Math.abs(daysLeft)} días.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Por favor, verifica el estado del pago o contacta al cliente.`
-        }
-      : templates[reminderType]
+    const tpl = templates[reminderType] ?? TEMPLATE_FALLBACKS[reminderType]
 
     if (!tpl) continue
 
     // Check if already sent
+    const sentSince = reminderType === 'overdue_every_3_days'
+      ? new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+      : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+
     const { data: logs } = await supabase
       .from('email_logs')
       .select('id')
       .eq('client_service_id', service.id)
       .eq('reminder_type', reminderType)
-      .gte('sent_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+      .gte('sent_at', sentSince)
 
     if (logs && logs.length > 0) continue
 
     const clientEmail = service.clients?.email
-    if (!clientEmail && reminderType !== 'expired_admin_alert') continue
+    if (!clientEmail) continue
 
     const vars: Record<string, string> = {
       '{{nombre}}': service.clients?.contact_name ?? '',
@@ -92,6 +107,7 @@ export async function GET(request: Request) {
       '{{servicio}}': service.services?.name ?? '',
       '{{dominio}}': service.domain_name ?? 'N/A',
       '{{dias}}': String(Math.abs(daysLeft)),
+      '{{dias_vencido}}': String(daysLeft < 0 ? Math.abs(daysLeft) : 0),
       '{{monto}}': `${service.currency === 'USD' ? 'USD' : '$'} ${Number(service.price).toLocaleString('es-AR')}`,
     }
 
@@ -99,20 +115,16 @@ export async function GET(request: Request) {
     const body = interpolate(tpl.body, vars)
     const htmlContent = buildEmailHtml(body)
 
-    let toEmail = clientEmail
+    const toEmail = clientEmail
     let ccRecipients: { email: string; name: string }[] | undefined = undefined
 
-    if (reminderType === 'expired_admin_alert') {
-      toEmail = 'impaktoagency@gmail.com'
-    } else if (reminderType === '24_hours') {
+    if (reminderType === '24_hours') {
       ccRecipients = [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }]
     }
 
-    if (!toEmail) continue
-
     const emailResult = await sendEmail({
       to: toEmail,
-      name: reminderType === 'expired_admin_alert' ? 'Admin' : service.clients.contact_name,
+      name: service.clients.contact_name,
       subject,
       htmlContent,
       cc: ccRecipients,

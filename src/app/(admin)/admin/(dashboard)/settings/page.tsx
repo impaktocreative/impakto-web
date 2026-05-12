@@ -22,7 +22,7 @@ export default async function SettingsPage() {
         <div>
           <h2 className="text-base font-semibold text-gray-900">Plantillas de Email</h2>
           <p className="text-sm text-gray-500">
-            Estas plantillas se envían automáticamente a los clientes antes del vencimiento de sus servicios.
+            Estas plantillas se envían automáticamente a los clientes antes y después del vencimiento, y también al registrar un pago.
             Usá las variables disponibles para personalizar cada mensaje.
           </p>
         </div>
@@ -37,6 +37,7 @@ export default async function SettingsPage() {
             ['{{servicio}}', 'Nombre del servicio'],
             ['{{dominio}}', 'Dominio / identificador'],
             ['{{dias}}', 'Días hasta el vencimiento'],
+            ['{{dias_vencido}}', 'Días desde el vencimiento'],
             ['{{monto}}', 'Monto en ARS'],
           ].map(([v, label]) => (
             <span key={v} className="flex items-center gap-1.5">

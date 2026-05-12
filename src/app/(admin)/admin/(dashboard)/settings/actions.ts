@@ -11,6 +11,7 @@ const PREVIEW_DATA: Record<string, string> = {
   '{{servicio}}': 'Hosting Web Premium',
   '{{dominio}}': 'misitioweb.com',
   '{{dias}}': '10',
+  '{{dias_vencido}}': '6',
   '{{monto}}': '25.000',
 }
 
@@ -146,6 +147,7 @@ export async function sendMassEmailAction(prevState: any, formData: FormData) {
           '{{servicio}}': '',
           '{{dominio}}': '',
           '{{dias}}': '',
+          '{{dias_vencido}}': '',
           '{{monto}}': '',
         }
 

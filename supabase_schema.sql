@@ -50,7 +50,7 @@ CREATE TABLE public.payments (
 CREATE TABLE public.email_logs (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   client_service_id uuid REFERENCES public.client_services(id) ON DELETE CASCADE,
-  reminder_type text NOT NULL, -- '10_days', '5_days', '24_hours'
+  reminder_type text NOT NULL, -- '10_days', '5_days', '24_hours', 'overdue_every_3_days'
   sent_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
