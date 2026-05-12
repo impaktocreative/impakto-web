@@ -30,8 +30,8 @@ const LABELS: Record<string, { title: string; desc: string; color: string }> = {
     color: 'bg-red-50 border-red-200 text-red-700',
   },
   'overdue_every_3_days': {
-    title: 'Cada 3 días luego del vencimiento',
-    desc: 'Recordatorio automático al cliente desde el día 3 de mora.',
+    title: 'Día 1 de mora y cada 3 días',
+    desc: 'Aviso automático de servicio vencido desde el primer día de mora.',
     color: 'bg-orange-50 border-orange-200 text-orange-700',
   },
   'payment_registered': {
@@ -56,7 +56,7 @@ const TEMPLATE_DEFAULTS: Record<string, { subject: string; body: string }> = {
   },
   'overdue_every_3_days': {
     subject: 'Servicio vencido hace {{dias_vencido}} días: {{servicio}}',
-    body: 'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} días</strong>.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Este recordatorio se enviara cada 3 dias hasta registrar el pago.',
+    body: 'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} días</strong>.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Este aviso se enviara el primer dia de mora y luego cada 3 dias hasta registrar el pago.',
   },
   'payment_registered': {
     subject: 'Pago recibido - {{servicio}}',
