@@ -2,6 +2,7 @@ import { differenceInDays, format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { createClient } from '@/utils/supabase/server'
 import { DashboardPayButton } from './DashboardPayButton'
+import { DashboardReminderButton } from './DashboardReminderButton'
 import { TestEmailForm } from './TestEmailForm'
 
 type RecentPayment = {
@@ -159,7 +160,7 @@ export default async function AdminDashboard() {
                       {item.currency === 'USD' ? 'USD' : '$'} {Number(item.price).toLocaleString('es-AR')}
                     </td>
                     <td className="px-6 py-4 align-top">
-                      <div className="flex justify-end">
+                      <div className="flex justify-end gap-1.5">
                         <DashboardPayButton
                           item={{
                             id: item.id,
@@ -172,6 +173,9 @@ export default async function AdminDashboard() {
                             client_id: item.clients?.id ?? null,
                           }}
                         />
+                        {daysLeft !== null && daysLeft <= 0 && (
+                          <DashboardReminderButton clientServiceId={item.id} />
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -206,18 +210,23 @@ export default async function AdminDashboard() {
                     <p className="text-sm text-gray-500 break-words">{item.services?.name ?? 'Servicio'}</p>
                     {item.domain_name && <p className="text-xs text-gray-400 break-all">{item.domain_name}</p>}
                   </div>
-                  <DashboardPayButton
-                    item={{
-                      id: item.id,
-                      price: item.price,
-                      currency: item.currency,
-                      duration_months: item.duration_months,
-                      services: item.services,
-                      clients: item.clients,
-                      domain_name: item.domain_name,
-                      client_id: item.clients?.id ?? null,
-                    }}
-                  />
+                  <div className="flex items-center gap-1.5">
+                    <DashboardPayButton
+                      item={{
+                        id: item.id,
+                        price: item.price,
+                        currency: item.currency,
+                        duration_months: item.duration_months,
+                        services: item.services,
+                        clients: item.clients,
+                        domain_name: item.domain_name,
+                        client_id: item.clients?.id ?? null,
+                      }}
+                    />
+                    {daysLeft !== null && daysLeft <= 0 && (
+                      <DashboardReminderButton clientServiceId={item.id} />
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center justify-between gap-3 text-sm">
