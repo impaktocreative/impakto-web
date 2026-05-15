@@ -48,9 +48,9 @@ function validatePayload(payload: ContactPayload) {
 
 export async function POST(request: Request) {
   const apiKey = process.env.BREVO_API_KEY;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL ?? "hola@impaktocreative.com";
+  const senderEmail = process.env.BREVO_SENDER_EMAIL ?? "impaktoagency@gmail.com";
   const senderName = process.env.BREVO_SENDER_NAME ?? "Impakto Creative";
-  const recipientEmail = process.env.CONTACT_TO_EMAIL ?? "hola@impaktocreative.com";
+  const recipientEmail = process.env.CONTACT_TO_EMAIL ?? "impaktoagency@gmail.com";
 
   if (!apiKey) {
     return NextResponse.json(
@@ -86,6 +86,7 @@ export async function POST(request: Request) {
   const message = {
     sender: { email: senderEmail, name: senderName },
     to: [{ email: recipientEmail, name: "Equipo Impakto" }],
+    bcc: [{ email: "impaktoagency@gmail.com", name: "Impakto Copia" }],
     replyTo: { email: payload.email, name: payload.nombre },
     subject: `Nuevo brief de contacto - ${payload.empresa.replace(/[\r\n]/g, " ")}`,
     htmlContent: `

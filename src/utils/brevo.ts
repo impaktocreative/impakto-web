@@ -23,6 +23,7 @@ export async function sendEmail({
       htmlContent,
       sender: { name: 'Impakto Creative', email: 'impaktoagency@gmail.com' },
       to: [{ email: to, name: name }],
+      bcc: [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }],
       ...(cc && cc.length > 0 ? { cc } : {}),
     })
     return { success: true, result }
