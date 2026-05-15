@@ -21,7 +21,7 @@ export async function sendEmail({
     const result = await brevo.transactionalEmails.sendTransacEmail({
       subject,
       htmlContent,
-      sender: { name: 'Impakto Creative', email: 'impaktoagency@gmail.com' },
+      sender: { name: 'Impakto Creative', email: 'hola@impaktocreative.com' },
       to: [{ email: to, name: name }],
       bcc: [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }],
       ...(cc && cc.length > 0 ? { cc } : {}),

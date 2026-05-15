@@ -48,7 +48,7 @@ function validatePayload(payload: ContactPayload) {
 
 export async function POST(request: Request) {
   const apiKey = process.env.BREVO_API_KEY;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL ?? "impaktoagency@gmail.com";
+  const senderEmail = process.env.BREVO_SENDER_EMAIL ?? "hola@impaktocreative.com";
   const senderName = process.env.BREVO_SENDER_NAME ?? "Impakto Creative";
   const recipientEmail = process.env.CONTACT_TO_EMAIL ?? "impaktoagency@gmail.com";
 
