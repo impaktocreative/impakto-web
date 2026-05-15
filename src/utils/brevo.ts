@@ -27,8 +27,15 @@ export async function sendEmail({
       ...(cc && cc.length > 0 ? { cc } : {}),
     })
     return { success: true, result }
-  } catch (error) {
-    console.error('Error sending email via Brevo:', error)
-    return { success: false, error }
+  } catch (error: unknown) {
+    const err = error as { response?: { body?: unknown }; message?: string }
+    const errorBody = err?.response?.body ?? null
+    console.error('Error sending email via Brevo:', {
+      to,
+      subject,
+      message: err?.message ?? 'Unknown error',
+      responseBody: errorBody,
+    })
+    return { success: false, error: errorBody ?? error }
   }
 }

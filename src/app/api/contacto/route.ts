@@ -86,7 +86,6 @@ export async function POST(request: Request) {
   const message = {
     sender: { email: senderEmail, name: senderName },
     to: [{ email: recipientEmail, name: "Equipo Impakto" }],
-    bcc: [{ email: "impaktoagency@gmail.com", name: "Impakto Copia" }],
     replyTo: { email: payload.email, name: payload.nombre },
     subject: `Nuevo brief de contacto - ${payload.empresa.replace(/[\r\n]/g, " ")}`,
     htmlContent: `
