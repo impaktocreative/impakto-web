@@ -2,9 +2,9 @@
 
 import { useActionState, useState, useTransition, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { assignServiceAction, removeClientServiceAction, editClientServiceAction } from './actions'
+import { assignServiceAction, removeClientServiceAction, editClientServiceAction, sendManualReminderAction } from './actions'
 import { registerPaymentAction } from '../../payment-actions'
-import { Plus, X, Trash2, CreditCard, Pencil } from 'lucide-react'
+import { Plus, X, Trash2, CreditCard, Pencil, Bell } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
@@ -351,6 +351,8 @@ export function ClientServicesPanel({
   const [payingService, setPayingService] = useState<ClientService | null>(null)
   const [editingService, setEditingService] = useState<ClientService | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [sendingReminderId, setSendingReminderId] = useState<string | null>(null)
+  const [reminderMsg, setReminderMsg] = useState<{ id: string; text: string; ok: boolean } | null>(null)
   const [nowMs] = useState(() => Date.now())
   const [isPending, startTransition] = useTransition()
 
@@ -360,6 +362,18 @@ export function ClientServicesPanel({
     startTransition(async () => {
       await removeClientServiceAction(id, clientId)
       setDeletingId(null)
+      router.refresh()
+    })
+  }
+
+  const handleSendReminder = (svcId: string) => {
+    if (!confirm('¿Enviar aviso de vencimiento a este cliente?')) return
+    setSendingReminderId(svcId)
+    startTransition(async () => {
+      const result = await sendManualReminderAction(svcId)
+      setSendingReminderId(null)
+      setReminderMsg({ id: svcId, text: result.message, ok: result.success })
+      setTimeout(() => setReminderMsg(m => m?.id === svcId ? null : m), 3000)
       router.refresh()
     })
   }
@@ -439,6 +453,18 @@ export function ClientServicesPanel({
                         <Pencil size={14} />
                         <span className="sr-only">Editar</span>
                       </button>
+                      {daysLeft !== null && daysLeft <= 0 && (
+                        <button
+                          onClick={() => handleSendReminder(svc.id)}
+                          disabled={sendingReminderId === svc.id}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-amber-200 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50"
+                          aria-label="Enviar aviso de vencimiento"
+                          title="Enviar aviso de vencimiento"
+                        >
+                          {sendingReminderId === svc.id ? <span className="text-xs font-medium">...</span> : <Bell size={14} />}
+                          <span className="sr-only">Enviar aviso de vencimiento</span>
+                        </button>
+                      )}
                       <button
                         onClick={() => handleRemove(svc.id)}
                         disabled={deletingId === svc.id && isPending}
@@ -451,6 +477,11 @@ export function ClientServicesPanel({
                       </button>
                     </div>
                   </div>
+                  {reminderMsg && reminderMsg.id === svc.id && (
+                    <p className={`mt-2 text-xs ${reminderMsg.ok ? 'text-green-600' : 'text-red-600'}`}>
+                      {reminderMsg.text}
+                    </p>
+                  )}
                 </div>
               )
             })}

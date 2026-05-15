@@ -2,6 +2,8 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { sendEmail } from '@/utils/brevo'
+import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 
 export async function assignServiceAction(prevState: any, formData: FormData) {
   const client_id = formData.get('client_id') as string
@@ -112,4 +114,87 @@ export async function editClientServiceAction(prevState: any, formData: FormData
   revalidatePath(`/admin/clients/${client_id}`)
   revalidatePath('/admin')
   return { success: true, message: 'Servicio actualizado correctamente.' }
+}
+
+export async function sendManualReminderAction(clientServiceId: string) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('client_services')
+    .select(`
+      id, client_id, domain_name, price, currency, next_payment_date,
+      services ( name ),
+      clients ( email, contact_name, brand_name )
+    `)
+    .eq('id', clientServiceId)
+    .single()
+
+  if (error || !data) {
+    return { success: false, message: 'Servicio no encontrado.' }
+  }
+
+  const clientData = Array.isArray(data.clients) ? data.clients[0] : data.clients
+  const serviceData = Array.isArray(data.services) ? data.services[0] : data.services
+
+  if (!clientData?.email) {
+    return { success: false, message: 'El cliente no tiene email registrado.' }
+  }
+
+  if (!serviceData?.name) {
+    return { success: false, message: 'El servicio no tiene nombre.' }
+  }
+
+  const daysOverdue = data.next_payment_date
+    ? Math.max(Math.ceil((Date.now() - new Date(data.next_payment_date).getTime()) / 86400000), 1)
+    : 1
+
+  const { data: dbTemplate } = await supabase
+    .from('email_templates')
+    .select('subject, body')
+    .eq('type', 'overdue_every_3_days')
+    .maybeSingle()
+
+  const fallback = {
+    subject: 'Servicio vencido hace {{dias_vencido}} dias: {{servicio}}',
+    body: 'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} dias</strong>.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Este aviso se envia el primer dia de mora y luego cada 3 dias hasta registrar el pago.',
+  }
+
+  const templateSubject = dbTemplate?.subject ?? fallback.subject
+  const templateBody = dbTemplate?.body ?? fallback.body
+
+  const vars: Record<string, string> = {
+    '{{nombre}}': clientData.contact_name ?? '',
+    '{{marca}}': clientData.brand_name ?? '',
+    '{{servicio}}': serviceData.name,
+    '{{dominio}}': data.domain_name ?? 'N/A',
+    '{{dias}}': String(daysOverdue),
+    '{{dias_vencido}}': String(daysOverdue),
+    '{{monto}}': `${data.currency === 'USD' ? 'USD' : '$'} ${Number(data.price).toLocaleString('es-AR')}`,
+  }
+
+  const subject = interpolate(templateSubject, vars)
+  const body = interpolate(templateBody, vars)
+  const htmlContent = buildEmailHtml(body)
+
+  const emailResult = await sendEmail({
+    to: clientData.email.toLowerCase(),
+    name: clientData.contact_name ?? clientData.brand_name ?? 'Cliente',
+    subject,
+    htmlContent,
+    cc: [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }],
+  })
+
+  if (!emailResult.success) {
+    return { success: false, message: 'Error al enviar el email. Intentalo de nuevo.' }
+  }
+
+  await supabase.from('email_logs').insert([{
+    client_service_id: data.id,
+    reminder_type: 'overdue_every_3_days',
+  }])
+
+  revalidatePath(`/admin/clients/${data.client_id}`)
+  revalidatePath('/admin')
+
+  return { success: true, message: 'Aviso de vencimiento enviado correctamente.' }
 }
