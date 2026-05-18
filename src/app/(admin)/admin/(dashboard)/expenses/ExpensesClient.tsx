@@ -14,6 +14,7 @@ type Expense = {
   amount: number
   currency: string
   duration_months: number
+  due_date: string
 }
 
 type ExpensePayment = {
@@ -108,6 +109,14 @@ function ExpenseForm({
             <option value="USD">USD</option>
           </select>
         </div>
+      </div>
+
+      <div>
+        <label htmlFor="due_date" className="block text-sm font-medium text-gray-700 mb-1">Fecha de Vencimiento</label>
+        <input type="date" id="due_date" name="due_date" required
+          defaultValue={expense?.due_date}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+        />
       </div>
 
       <div>
@@ -423,8 +432,9 @@ export function ExpensesClient({
           <table className="w-full table-fixed divide-y divide-gray-100">
             <thead className="bg-gray-50/50">
               <tr>
-                <th className="w-[25%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Nombre</th>
-                <th className="w-[30%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Descripción</th>
+                <th className="w-[20%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Nombre</th>
+                <th className="w-[22%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Descripción</th>
+                <th className="w-[13%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Vence</th>
                 <th className="w-[12%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Período</th>
                 <th className="w-[15%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
                 <th className="w-[18%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
@@ -437,6 +447,7 @@ export function ExpensesClient({
                     <div className="text-sm font-semibold text-gray-900 break-words">{expense.name}</div>
                   </td>
                   <td className="px-6 py-4 align-top text-sm text-gray-600 break-words">{expense.description || '—'}</td>
+                  <td className="px-6 py-4 align-top text-sm text-gray-900">{format(new Date(expense.due_date), 'dd/MM/yyyy')}</td>
                   <td className="px-6 py-4 align-top text-sm text-gray-900">{expense.duration_months} mes(es)</td>
                   <td className="px-6 py-4 align-top text-sm text-gray-900">
                     {expense.currency === 'USD' ? 'USD' : '$'} {Number(expense.amount).toLocaleString('es-AR')}
@@ -454,7 +465,7 @@ export function ExpensesClient({
               ))}
               {filteredExpenses.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-10 text-center text-gray-500">
                     {query ? 'No se encontraron gastos con ese criterio.' : 'No hay gastos registrados.'}
                   </td>
                 </tr>
@@ -480,10 +491,13 @@ export function ExpensesClient({
                 />
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Cada {expense.duration_months} mes(es)</span>
+                <span className="text-gray-500">Vence: {format(new Date(expense.due_date), 'dd/MM/yyyy')}</span>
                 <span className="font-semibold text-gray-900">
                   {expense.currency === 'USD' ? 'USD' : '$'} {Number(expense.amount).toLocaleString('es-AR')}
                 </span>
+              </div>
+              <div className="text-xs text-gray-400">
+                Cada {expense.duration_months} mes(es)
               </div>
             </article>
           ))}

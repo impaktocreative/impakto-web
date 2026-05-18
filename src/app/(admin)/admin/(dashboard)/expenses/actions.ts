@@ -8,14 +8,15 @@ export async function createExpenseAction(prevState: unknown, formData: FormData
   const amount = parseFloat(formData.get('amount') as string)
   const currency = formData.get('currency') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
+  const due_date = formData.get('due_date') as string
   const description = (formData.get('description') as string) || null
 
-  if (!name || !amount || amount <= 0 || !currency || !duration_months || duration_months < 1) {
+  if (!name || !amount || amount <= 0 || !currency || !duration_months || duration_months < 1 || !due_date) {
     return { success: false, message: 'Todos los campos son requeridos.' }
   }
 
   const supabase = await createClient()
-  const { error } = await supabase.from('expenses').insert({ name, amount, currency, duration_months, description })
+  const { error } = await supabase.from('expenses').insert({ name, amount, currency, duration_months, due_date, description })
 
   if (error) return { success: false, message: `Error al crear gasto: ${error.message}` }
 
@@ -29,16 +30,17 @@ export async function updateExpenseAction(prevState: unknown, formData: FormData
   const amount = parseFloat(formData.get('amount') as string)
   const currency = formData.get('currency') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
+  const due_date = formData.get('due_date') as string
   const description = (formData.get('description') as string) || null
 
-  if (!id || !name || !amount || amount <= 0 || !currency || !duration_months || duration_months < 1) {
+  if (!id || !name || !amount || amount <= 0 || !currency || !duration_months || duration_months < 1 || !due_date) {
     return { success: false, message: 'Todos los campos son requeridos.' }
   }
 
   const supabase = await createClient()
   const { error } = await supabase
     .from('expenses')
-    .update({ name, amount, currency, duration_months, description })
+    .update({ name, amount, currency, duration_months, due_date, description })
     .eq('id', id)
 
   if (error) return { success: false, message: `Error al actualizar gasto: ${error.message}` }
