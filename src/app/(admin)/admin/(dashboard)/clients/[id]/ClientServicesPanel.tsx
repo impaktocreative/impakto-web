@@ -19,6 +19,7 @@ type ClientService = {
   status: string
   duration_months: number
   notes?: string | null
+  receiver?: string | null
   services?: { name: string } | null
 }
 
@@ -126,14 +127,25 @@ function AssignServiceForm({
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-        <select name="status"
-          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
-          <option value="activo">Activo</option>
-          <option value="inactivo">Inactivo</option>
-          <option value="vencido">Vencido</option>
-        </select>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+          <select name="status"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+            <option value="vencido">Vencido</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Recibe el pago</label>
+          <select name="receiver"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
+            <option value="">Sin asignar</option>
+            <option value="sergio">Sergio</option>
+            <option value="rodrigo">Rodrigo</option>
+          </select>
+        </div>
       </div>
 
       <div>
@@ -207,7 +219,7 @@ function RegisterPaymentForm({
       </div>
 
       <p className="text-xs text-gray-500">
-        El próximo vencimiento se calculará automáticamente sumando <strong>{clientService.duration_months} mes(es)</strong> a la fecha de pago.
+        El próximo vencimiento se calculará automáticamente sumando <strong>{clientService.duration_months} mes(es)</strong> al vencimiento anterior.
       </p>
 
       {state && !state.success && (
@@ -302,14 +314,25 @@ function EditServiceForm({
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-        <select name="status" defaultValue={clientService.status}
-          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
-          <option value="activo">Activo</option>
-          <option value="inactivo">Inactivo</option>
-          <option value="vencido">Vencido</option>
-        </select>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+          <select name="status" defaultValue={clientService.status}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+            <option value="vencido">Vencido</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Recibe el pago</label>
+          <select name="receiver" defaultValue={(clientService as any).receiver || ''}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
+            <option value="">Sin asignar</option>
+            <option value="sergio">Sergio</option>
+            <option value="rodrigo">Rodrigo</option>
+          </select>
+        </div>
       </div>
 
       <div>
@@ -431,6 +454,13 @@ export function ClientServicesPanel({
                           svc.status === 'vencido' ? 'bg-red-100 text-red-700' :
                           'bg-gray-100 text-gray-500'
                         }`}>{svc.status}</span>
+                        {svc.receiver && (
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                            svc.receiver === 'sergio' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
+                          }`}>
+                            {svc.receiver === 'sergio' ? 'Sergio' : 'Rodrigo'}
+                          </span>
+                        )}
                       </div>
                       {svc.notes && <p className="text-xs text-gray-400 mt-1 italic">{svc.notes}</p>}
                     </div>

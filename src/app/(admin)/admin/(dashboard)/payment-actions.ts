@@ -42,6 +42,7 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
     .from('client_services')
     .select(`
       duration_months,
+      next_payment_date,
       domain_name,
       services ( name ),
       clients ( email, contact_name, brand_name )
@@ -58,7 +59,8 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
     return { success: false, message: 'El servicio no tiene una duración válida en meses.' }
   }
 
-  const nextDateStr = addMonthsToIsoDate(payment_date, durationMonths)
+  const baseDate = (clientService as any).next_payment_date || payment_date
+  const nextDateStr = addMonthsToIsoDate(baseDate, durationMonths)
 
   const { error: paymentError } = await supabase.from('payments').insert({
     client_service_id,

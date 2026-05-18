@@ -69,7 +69,7 @@ function RegisterPaymentModal({
           </div>
 
           <p className="text-xs text-gray-500">
-            El próximo vencimiento se actualizará sumando <strong>{item.duration_months} mes(es)</strong> a la fecha de pago.
+            El próximo vencimiento se actualizará sumando <strong>{item.duration_months} mes(es)</strong> al vencimiento anterior.
           </p>
 
           {state && !state.success && (

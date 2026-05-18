@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Users, Package, DollarSign, LogOut, SlidersHorizontal, Menu, X } from 'lucide-react'
+import { Home, Users, Package, DollarSign, LogOut, SlidersHorizontal, Menu, X, Receipt } from 'lucide-react'
 
 export function AdminSidebar() {
   const pathname = usePathname()
@@ -15,6 +15,7 @@ export function AdminSidebar() {
     { href: '/admin/clients', icon: Users, label: 'Clientes' },
     { href: '/admin/services', icon: Package, label: 'Servicios' },
     { href: '/admin/income', icon: DollarSign, label: 'Ingresos' },
+    { href: '/admin/expenses', icon: Receipt, label: 'Gastos' },
     { href: '/admin/settings', icon: SlidersHorizontal, label: 'Configuración' },
   ]
 

@@ -12,6 +12,7 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
   const last_payment_date = (formData.get('last_payment_date') as string) || null
   const notes = (formData.get('notes') as string) || null
   const status = (formData.get('status') as string) || 'activo'
+  const receiver = (formData.get('receiver') as string) || null
 
   if (!client_id || !service_id) {
     return { success: false, message: 'El cliente y el servicio son requeridos.' }
@@ -50,6 +51,7 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
     next_payment_date,
     notes,
     status,
+    receiver,
   })
 
   if (error) return { success: false, message: `Error: ${error.message}` }
@@ -77,6 +79,7 @@ export async function editClientServiceAction(prevState: any, formData: FormData
   const last_payment_date = (formData.get('last_payment_date') as string) || null
   const notes = (formData.get('notes') as string) || null
   const status = (formData.get('status') as string) || 'activo'
+  const receiver = (formData.get('receiver') as string) || null
 
   if (!id || !client_id) {
     return { success: false, message: 'ID y cliente son requeridos.' }
@@ -107,6 +110,7 @@ export async function editClientServiceAction(prevState: any, formData: FormData
     next_payment_date,
     notes,
     status,
+    receiver,
   }).eq('id', id)
 
   if (error) return { success: false, message: `Error: ${error.message}` }
