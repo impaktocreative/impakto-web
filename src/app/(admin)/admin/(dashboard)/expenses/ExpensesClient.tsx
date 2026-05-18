@@ -748,11 +748,11 @@ export function ExpensesClient({
             <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Liquidación Sugerida</h3>
             {balanceData.liquidacion > 0 ? (
               <p className="text-2xl font-bold">
-                Sergio debe pagar <span className="text-green-400">${balanceData.liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span> a Rodrigo
+                Rodrigo debe pagar <span className="text-green-400">${balanceData.liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span> a Sergio
               </p>
             ) : balanceData.liquidacion < 0 ? (
               <p className="text-2xl font-bold">
-                Rodrigo debe pagar <span className="text-green-400">${Math.abs(balanceData.liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span> a Sergio
+                Sergio debe pagar <span className="text-green-400">${Math.abs(balanceData.liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span> a Rodrigo
               </p>
             ) : (
               <p className="text-xl font-semibold text-green-400">Todo está balanceado, no hay deudas entre ambos.</p>
