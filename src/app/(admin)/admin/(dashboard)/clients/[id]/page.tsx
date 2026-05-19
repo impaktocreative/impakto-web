@@ -18,7 +18,7 @@ export default async function ClientDetailPage({
     supabase.from('clients').select('id, brand_name, contact_name, email, phone, cuit, website_url, notes, created_at').eq('id', id).single(),
     supabase
       .from('client_services')
-      .select(`id, domain_name, price, currency, next_payment_date, last_payment_date, status, duration_months, notes, services ( name )`)
+      .select(`id, domain_name, price, currency, next_payment_date, last_payment_date, status, duration_months, notes, receiver, deduct_bank_fee, services ( name )`)
       .eq('client_id', id)
       .order('next_payment_date', { ascending: true }),
     supabase.from('services').select('id, name, duration_months, price, currency').order('name'),
