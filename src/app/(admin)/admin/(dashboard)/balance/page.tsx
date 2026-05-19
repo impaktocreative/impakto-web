@@ -4,6 +4,7 @@ import { BalanceClient } from './BalanceClient'
 type RawIncomeRow = {
   amount: number | string
   net_amount: number | string | null
+  receiver: string | null
   currency: string
   payment_date: string
   client_services: {
@@ -46,6 +47,7 @@ export default async function BalancePage() {
       .select(`
         amount,
         net_amount,
+        receiver,
         currency,
         payment_date,
         client_services (
@@ -71,7 +73,7 @@ export default async function BalancePage() {
       net_amount: p.net_amount != null ? Number(p.net_amount) : null,
       currency: p.currency,
       payment_date: p.payment_date,
-      receiver: cs?.receiver ?? null,
+      receiver: p.receiver ?? cs?.receiver ?? null,
       service_name: cs?.services?.name ?? '—',
       client_name: cs?.clients?.brand_name ?? '—',
     }

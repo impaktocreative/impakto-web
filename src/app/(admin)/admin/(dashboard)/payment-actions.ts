@@ -45,6 +45,7 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
       next_payment_date,
       domain_name,
       deduct_bank_fee,
+      receiver,
       services ( name ),
       clients ( email, contact_name, brand_name )
     `)
@@ -66,12 +67,15 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
   const deductBankFee = (clientService as any).deduct_bank_fee === true
   const netAmount = deductBankFee ? Math.round(amount * 0.965 * 100) / 100 : null
 
+  const receiver = (clientService as any).receiver ?? null
+
   const { error: paymentError } = await supabase.from('payments').insert({
     client_service_id,
     amount,
     net_amount: netAmount,
     currency,
     payment_date,
+    receiver,
   })
 
   if (paymentError) return { success: false, message: `Error al registrar pago: ${paymentError.message}` }
