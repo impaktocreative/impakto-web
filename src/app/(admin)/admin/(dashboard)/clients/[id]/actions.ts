@@ -13,6 +13,7 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
   const notes = (formData.get('notes') as string) || null
   const status = (formData.get('status') as string) || 'activo'
   const receiver = (formData.get('receiver') as string) || null
+  const deduct_bank_fee = formData.get('deduct_bank_fee') === 'on'
 
   if (!client_id || !service_id) {
     return { success: false, message: 'El cliente y el servicio son requeridos.' }
@@ -52,6 +53,7 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
     notes,
     status,
     receiver,
+    deduct_bank_fee,
   })
 
   if (error) return { success: false, message: `Error: ${error.message}` }
@@ -80,6 +82,7 @@ export async function editClientServiceAction(prevState: any, formData: FormData
   const notes = (formData.get('notes') as string) || null
   const status = (formData.get('status') as string) || 'activo'
   const receiver = (formData.get('receiver') as string) || null
+  const deduct_bank_fee = formData.get('deduct_bank_fee') === 'on'
 
   if (!id || !client_id) {
     return { success: false, message: 'ID y cliente son requeridos.' }
@@ -111,6 +114,7 @@ export async function editClientServiceAction(prevState: any, formData: FormData
     notes,
     status,
     receiver,
+    deduct_bank_fee,
   }).eq('id', id)
 
   if (error) return { success: false, message: `Error: ${error.message}` }

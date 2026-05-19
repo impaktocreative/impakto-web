@@ -148,6 +148,12 @@ function AssignServiceForm({
         </div>
       </div>
 
+      <div className="flex items-center gap-2">
+        <input type="checkbox" id="deduct_bank_fee" name="deduct_bank_fee"
+          className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black" />
+        <label htmlFor="deduct_bank_fee" className="text-sm text-gray-700">Descontar 3.5% por depósito/transferencia bancaria</label>
+      </div>
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Notas</label>
         <textarea name="notes" rows={2}
@@ -335,6 +341,13 @@ function EditServiceForm({
         </div>
       </div>
 
+      <div className="flex items-center gap-2">
+        <input type="checkbox" id="deduct_bank_fee" name="deduct_bank_fee"
+          defaultChecked={(clientService as any).deduct_bank_fee === true}
+          className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black" />
+        <label htmlFor="deduct_bank_fee" className="text-sm text-gray-700">Descontar 3.5% por depósito/transferencia bancaria</label>
+      </div>
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Notas</label>
         <textarea name="notes" rows={2} defaultValue={clientService.notes || ''}
@@ -459,6 +472,11 @@ export function ClientServicesPanel({
                             svc.receiver === 'sergio' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
                           }`}>
                             {svc.receiver === 'sergio' ? 'Sergio' : 'Rodrigo'}
+                          </span>
+                        )}
+                        {(svc as any).deduct_bank_fee && (
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-purple-100 text-purple-700">
+                            3.5%
                           </span>
                         )}
                       </div>

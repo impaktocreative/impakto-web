@@ -14,6 +14,7 @@ type RawExpensePaymentRow = {
 
 type RawIncomePaymentRow = {
   amount: number | string
+  net_amount: number | string | null
   currency: string
   payment_date: string
   client_services: {
@@ -36,6 +37,7 @@ export default async function ExpensesPage() {
       .from('payments')
       .select(`
         amount,
+        net_amount,
         currency,
         payment_date,
         client_services ( receiver )
@@ -61,6 +63,7 @@ export default async function ExpensesPage() {
     const cs = Array.isArray(p.client_services) ? p.client_services[0] ?? null : p.client_services
     return {
       amount: Number(p.amount),
+      net_amount: p.net_amount != null ? Number(p.net_amount) : null,
       currency: p.currency,
       payment_date: p.payment_date,
       receiver: cs?.receiver ?? null,

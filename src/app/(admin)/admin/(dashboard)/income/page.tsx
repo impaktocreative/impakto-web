@@ -4,6 +4,7 @@ import { es } from 'date-fns/locale'
 
 type PaymentRow = {
   amount: number | string
+  net_amount: number | string | null
   currency: string
   payment_date: string
   client_services:
@@ -17,6 +18,7 @@ type PaymentRow = {
 
 type RawPaymentRow = {
   amount: number | string
+  net_amount: number | string | null
   currency: string
   payment_date: string
   client_services:
@@ -73,6 +75,7 @@ export default async function IncomePage() {
       .from('payments')
       .select(`
         amount,
+        net_amount,
         currency,
         payment_date,
         client_services (
@@ -105,6 +108,7 @@ export default async function IncomePage() {
 
     return {
       amount: payment.amount,
+      net_amount: payment.net_amount,
       currency: payment.currency,
       payment_date: payment.payment_date,
       client_services: service
@@ -334,10 +338,11 @@ export default async function IncomePage() {
               <table className="w-full table-fixed divide-y divide-gray-100">
                 <thead className="bg-gray-50/50">
                   <tr>
-                    <th className="w-[20%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
-                    <th className="w-[24%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
-                    <th className="w-[36%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicio</th>
-                    <th className="w-[20%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
+                    <th className="w-[18%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
+                    <th className="w-[22%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
+                    <th className="w-[33%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicio</th>
+                    <th className="w-[15%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
+                    <th className="w-[12%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Neto</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -358,11 +363,16 @@ export default async function IncomePage() {
                       <td className="px-6 py-4 align-top text-sm font-semibold text-green-600">
                         {payment.currency === 'USD' ? 'USD' : '$'} {Number(payment.amount).toLocaleString('es-AR')}
                       </td>
+                      <td className="px-6 py-4 align-top text-sm text-gray-600">
+                        {payment.net_amount != null
+                          ? `${payment.currency === 'USD' ? 'USD' : '$'} ${Number(payment.net_amount).toLocaleString('es-AR')}`
+                          : '—'}
+                      </td>
                     </tr>
                   ))}
                   {paymentRows.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
+                      <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
                         No hay pagos registrados.
                       </td>
                     </tr>
@@ -378,9 +388,16 @@ export default async function IncomePage() {
                     <p className="text-sm text-gray-600">
                       {format(new Date(payment.payment_date), 'dd/MM/yyyy', { locale: es })}
                     </p>
-                    <p className="text-sm font-semibold text-green-600">
-                      {payment.currency === 'USD' ? 'USD' : '$'} {Number(payment.amount).toLocaleString('es-AR')}
-                    </p>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold text-green-600">
+                        {payment.currency === 'USD' ? 'USD' : '$'} {Number(payment.amount).toLocaleString('es-AR')}
+                      </p>
+                      {payment.net_amount != null && (
+                        <p className="text-xs text-gray-500">
+                          Neto: {payment.currency === 'USD' ? 'USD' : '$'} {Number(payment.net_amount).toLocaleString('es-AR')}
+                        </p>
+                      )}
+                    </div>
                   </div>
                   <p className="text-sm font-semibold text-gray-900 break-words">{payment.client_services?.clients?.brand_name}</p>
                   <p className="text-sm text-gray-600 break-words">{payment.client_services?.services?.name}</p>

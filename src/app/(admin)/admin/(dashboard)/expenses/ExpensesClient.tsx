@@ -30,6 +30,7 @@ type ExpensePayment = {
 
 type IncomePayment = {
   amount: number
+  net_amount: number | null
   currency: string
   payment_date: string
   receiver: string | null
@@ -328,12 +329,13 @@ export function ExpensesClient({
     let rodrigoIncomeUSD = 0
 
     for (const p of incomeInMonth) {
+      const effectiveAmount = p.net_amount ?? Number(p.amount)
       if (p.receiver === 'sergio') {
-        if (p.currency === 'ARS') sergioIncomeARS += Number(p.amount)
-        else sergioIncomeUSD += Number(p.amount)
+        if (p.currency === 'ARS') sergioIncomeARS += effectiveAmount
+        else sergioIncomeUSD += effectiveAmount
       } else if (p.receiver === 'rodrigo') {
-        if (p.currency === 'ARS') rodrigoIncomeARS += Number(p.amount)
-        else rodrigoIncomeUSD += Number(p.amount)
+        if (p.currency === 'ARS') rodrigoIncomeARS += effectiveAmount
+        else rodrigoIncomeUSD += effectiveAmount
       }
     }
 

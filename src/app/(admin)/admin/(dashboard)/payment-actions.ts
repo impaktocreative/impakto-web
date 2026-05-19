@@ -44,6 +44,7 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
       duration_months,
       next_payment_date,
       domain_name,
+      deduct_bank_fee,
       services ( name ),
       clients ( email, contact_name, brand_name )
     `)
@@ -62,9 +63,13 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
   const baseDate = (clientService as any).next_payment_date || payment_date
   const nextDateStr = addMonthsToIsoDate(baseDate, durationMonths)
 
+  const deductBankFee = (clientService as any).deduct_bank_fee === true
+  const netAmount = deductBankFee ? Math.round(amount * 0.965 * 100) / 100 : null
+
   const { error: paymentError } = await supabase.from('payments').insert({
     client_service_id,
     amount,
+    net_amount: netAmount,
     currency,
     payment_date,
   })
