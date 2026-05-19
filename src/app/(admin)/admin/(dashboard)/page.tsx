@@ -69,7 +69,8 @@ export default async function AdminDashboard() {
     services: normalizeRelation(item.services),
     clients: normalizeRelation(item.clients),
   }))
-  const totalIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.net_amount ?? payment.amount), 0)
+  const totalGrossIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.amount), 0)
+  const totalNetIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.net_amount ?? payment.amount), 0)
 
   const expiringSoon = items.filter((service) => {
     if (!service.next_payment_date) return false
@@ -84,7 +85,7 @@ export default async function AdminDashboard() {
         <p className="mt-1 text-sm text-gray-500">Vista rápida de clientes, vencimientos y pagos para tomar acción en segundos.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Clientes</p>
           <p className="text-3xl font-bold text-gray-900 mt-2">{totalClients ?? 0}</p>
@@ -102,8 +103,12 @@ export default async function AdminDashboard() {
           <p className={`text-3xl font-bold mt-2 ${expiringSoon > 0 ? 'text-orange-900' : 'text-gray-900'}`}>{expiringSoon}</p>
         </div>
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
-          <p className="text-sm font-medium text-gray-500">Ingresos Registrados</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">${totalIncome.toLocaleString('es-AR')}</p>
+          <p className="text-sm font-medium text-gray-500">Ingreso Bruto</p>
+          <p className="text-3xl font-bold text-gray-900 mt-2">${totalGrossIncome.toLocaleString('es-AR')}</p>
+        </div>
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-emerald-50 ring-emerald-500/20 p-6 transition-all hover:shadow-md">
+          <p className="text-sm font-medium text-emerald-800">Ingreso Neto</p>
+          <p className="text-3xl font-bold text-emerald-900 mt-2">${totalNetIncome.toLocaleString('es-AR')}</p>
         </div>
       </div>
 
