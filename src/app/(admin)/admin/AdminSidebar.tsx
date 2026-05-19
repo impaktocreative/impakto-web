@@ -60,11 +60,12 @@ export function AdminSidebar() {
                 href={item.href} 
                 onClick={() => setIsOpen(false)}
                 className={`
-                  flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group
+                  flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative
                   ${isActive 
                     ? 'bg-white/10 text-white font-medium shadow-sm' 
                     : 'text-gray-400 hover:bg-white/5 hover:text-white'}
                 `}
+                style={isActive ? { boxShadow: 'inset 3px 0 0 rgba(255,255,255,0.5)' } : undefined}
               >
                 <item.icon size={20} className={isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300 transition-colors'} />
                 {item.label}

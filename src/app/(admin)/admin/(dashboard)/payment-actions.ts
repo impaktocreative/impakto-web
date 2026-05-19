@@ -128,3 +128,36 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
   revalidatePath('/admin/income')
   return { success: true, message: `Próximo vencimiento actualizado a ${nextDateStr}${warningMessage}` }
 }
+
+export async function updatePaymentAction(_prevState: unknown, formData: FormData) {
+  const id = formData.get('id') as string
+  const amount = parseFloat(formData.get('amount') as string)
+  const payment_date = formData.get('payment_date') as string
+
+  if (!id || Number.isNaN(amount) || amount <= 0 || !payment_date) {
+    return { success: false, message: 'ID, monto y fecha son requeridos.' }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('payments')
+    .update({ amount, payment_date })
+    .eq('id', id)
+
+  if (error) return { success: false, message: `Error al actualizar pago: ${error.message}` }
+
+  revalidatePath('/admin')
+  revalidatePath('/admin/income')
+  return { success: true, message: 'Pago actualizado correctamente.' }
+}
+
+export async function deletePaymentAction(id: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('payments').delete().eq('id', id)
+
+  if (error) return { success: false, message: `Error al eliminar pago: ${error.message}` }
+
+  revalidatePath('/admin')
+  revalidatePath('/admin/income')
+  return { success: true }
+}

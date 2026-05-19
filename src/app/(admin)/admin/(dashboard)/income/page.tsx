@@ -1,12 +1,15 @@
 import { createClient } from '@/utils/supabase/server'
 import { endOfMonth, format, startOfMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { IncomePaymentActions } from './IncomePaymentActions'
 
 type PaymentRow = {
+  id: string
   amount: number | string
   net_amount: number | string | null
   currency: string
   payment_date: string
+  receiver: string | null
   client_services:
     | {
         domain_name: string | null
@@ -17,8 +20,10 @@ type PaymentRow = {
 }
 
 type RawPaymentRow = {
+  id: string
   amount: number | string
   net_amount: number | string | null
+  receiver: string | null
   currency: string
   payment_date: string
   client_services:
@@ -74,8 +79,10 @@ export default async function IncomePage() {
     supabase
       .from('payments')
       .select(`
+        id,
         amount,
         net_amount,
+        receiver,
         currency,
         payment_date,
         client_services (
@@ -107,8 +114,10 @@ export default async function IncomePage() {
     const service = normalizeRelation(payment.client_services)
 
     return {
+      id: payment.id,
       amount: payment.amount,
       net_amount: payment.net_amount,
+      receiver: payment.receiver,
       currency: payment.currency,
       payment_date: payment.payment_date,
       client_services: service
@@ -132,26 +141,26 @@ export default async function IncomePage() {
     services: normalizeRelation(service.services),
   }))
 
-  const totalIncomeARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc, payment) => acc + Number(payment.amount), 0)
-  const totalIncomeUSD = paymentRows.filter((payment) => payment.currency === 'USD').reduce((acc, payment) => acc + Number(payment.amount), 0)
+  const totalIncomeARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
+  const totalIncomeUSD = paymentRows.filter((payment) => payment.currency === 'USD').reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
   const expectedIncomeARS = expectedRows.filter((service) => service.currency === 'ARS').reduce((acc, service) => acc + Number(service.price), 0)
   const expectedIncomeUSD = expectedRows.filter((service) => service.currency === 'USD').reduce((acc, service) => acc + Number(service.price), 0)
   const collectedThisMonthARS = paymentRows
     .filter((payment) => payment.currency === 'ARS' && payment.payment_date.startsWith(monthKey))
-    .reduce((acc, payment) => acc + Number(payment.amount), 0)
+    .reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
   const collectedThisMonthUSD = paymentRows
     .filter((payment) => payment.currency === 'USD' && payment.payment_date.startsWith(monthKey))
-    .reduce((acc, payment) => acc + Number(payment.amount), 0)
+    .reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
 
   // Group by year-month and currency
   const byMonthARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc: Record<string, number>, payment) => {
     const key = payment.payment_date.slice(0, 7)
-    acc[key] = (acc[key] ?? 0) + Number(payment.amount)
+    acc[key] = (acc[key] ?? 0) + Number(payment.net_amount ?? payment.amount)
     return acc
   }, {})
   const byMonthUSD = paymentRows.filter((payment) => payment.currency === 'USD').reduce((acc: Record<string, number>, payment) => {
     const key = payment.payment_date.slice(0, 7)
-    acc[key] = (acc[key] ?? 0) + Number(payment.amount)
+    acc[key] = (acc[key] ?? 0) + Number(payment.net_amount ?? payment.amount)
     return acc
   }, {})
 
@@ -336,13 +345,15 @@ export default async function IncomePage() {
             </div>
             <div className="hidden md:block">
               <table className="w-full table-fixed divide-y divide-gray-100">
-                <thead className="bg-gray-50/50">
+                <thead className="bg-gray-50/50 sticky top-0 z-10">
                   <tr>
-                    <th className="w-[18%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
-                    <th className="w-[22%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
-                    <th className="w-[33%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicio</th>
-                    <th className="w-[15%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
-                    <th className="w-[12%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Neto</th>
+                    <th className="w-[15%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
+                    <th className="w-[17%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
+                    <th className="w-[20%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicio</th>
+                    <th className="w-[13%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
+                    <th className="w-[13%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Neto</th>
+                    <th className="w-[12%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Receptor</th>
+                    <th className="w-[10%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acción</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -368,11 +379,17 @@ export default async function IncomePage() {
                           ? `${payment.currency === 'USD' ? 'USD' : '$'} ${Number(payment.net_amount).toLocaleString('es-AR')}`
                           : '—'}
                       </td>
+                      <td className="px-6 py-4 align-top text-sm text-gray-600">
+                        {payment.receiver || '—'}
+                      </td>
+                      <td className="px-6 py-4 align-top">
+                        <IncomePaymentActions payment={payment} />
+                      </td>
                     </tr>
                   ))}
                   {paymentRows.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
+                      <td colSpan={7} className="px-6 py-10 text-center text-gray-500">
                         No hay pagos registrados.
                       </td>
                     </tr>
@@ -397,6 +414,11 @@ export default async function IncomePage() {
                           Neto: {payment.currency === 'USD' ? 'USD' : '$'} {Number(payment.net_amount).toLocaleString('es-AR')}
                         </p>
                       )}
+                      {payment.receiver && (
+                        <p className="text-xs text-gray-400">
+                          Receptor: {payment.receiver}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <p className="text-sm font-semibold text-gray-900 break-words">{payment.client_services?.clients?.brand_name}</p>
@@ -404,6 +426,9 @@ export default async function IncomePage() {
                   {payment.client_services?.domain_name && (
                     <p className="text-xs text-gray-500 break-all">{payment.client_services.domain_name}</p>
                   )}
+                  <div className="pt-1">
+                    <IncomePaymentActions payment={payment} />
+                  </div>
                 </article>
               ))}
 

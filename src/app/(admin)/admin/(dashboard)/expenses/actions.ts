@@ -90,3 +90,40 @@ export async function registerExpensePaymentAction(prevState: unknown, formData:
   revalidatePath('/admin/expenses')
   return { success: true, message: 'Pago registrado correctamente.' }
 }
+
+export async function updateExpensePaymentAction(_prevState: unknown, formData: FormData) {
+  const id = formData.get('id') as string
+  const amount = parseFloat(formData.get('amount') as string)
+  const payment_date = formData.get('payment_date') as string
+  const paid_by = formData.get('paid_by') as string
+  const notes = (formData.get('notes') as string) || null
+
+  if (!id || !amount || amount <= 0 || !payment_date || !paid_by) {
+    return { success: false, message: 'Todos los campos son requeridos.' }
+  }
+
+  if (!['sergio', 'rodrigo'].includes(paid_by)) {
+    return { success: false, message: 'El pagador debe ser Sergio o Rodrigo.' }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('expense_payments')
+    .update({ amount, payment_date, paid_by, notes })
+    .eq('id', id)
+
+  if (error) return { success: false, message: `Error al actualizar pago: ${error.message}` }
+
+  revalidatePath('/admin/expenses')
+  return { success: true, message: 'Pago de gasto actualizado correctamente.' }
+}
+
+export async function deleteExpensePaymentAction(id: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('expense_payments').delete().eq('id', id)
+
+  if (error) return { success: false, message: `Error al eliminar pago: ${error.message}` }
+
+  revalidatePath('/admin/expenses')
+  return { success: true }
+}

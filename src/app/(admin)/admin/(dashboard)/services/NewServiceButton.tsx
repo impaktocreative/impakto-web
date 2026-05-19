@@ -4,6 +4,7 @@ import { useActionState, useEffect, useMemo, useState, useTransition } from 'rea
 import { useRouter } from 'next/navigation'
 import { Pencil, Plus, Search, Trash2, X } from 'lucide-react'
 import { createServiceAction, deleteServiceAction, updateServiceAction } from './actions'
+import { Modal } from '@/components/ui/Modal'
 
 type Service = {
   id: string
@@ -138,23 +139,6 @@ function ServiceForm({
         </button>
       </div>
     </form>
-  )
-}
-
-function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
-        <div className="flex justify-between items-center mb-5">
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Cerrar modal">
-            <X size={20} />
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
   )
 }
 

@@ -65,7 +65,10 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
 
 export async function removeClientServiceAction(id: string, client_id: string) {
   const supabase = await createClient()
-  const { error } = await supabase.from('client_services').delete().eq('id', id)
+  const { error } = await supabase
+    .from('client_services')
+    .update({ status: 'archived' })
+    .eq('id', id)
 
   if (error) return { success: false, message: error.message }
 

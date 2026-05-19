@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { AdminSidebar } from '../AdminSidebar'
+import { AdminBodyClass } from './AdminBodyClass'
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient()
@@ -13,6 +14,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   return (
     <div className="admin-shell min-h-screen flex flex-col md:flex-row bg-gray-50 font-sans text-gray-900 selection:bg-slate-200 selection:text-slate-900">
+      <AdminBodyClass />
       <AdminSidebar />
 
       <main className="flex-1 flex flex-col w-full max-w-full overflow-hidden">

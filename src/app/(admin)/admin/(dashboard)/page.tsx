@@ -7,6 +7,7 @@ import { TestEmailForm } from './TestEmailForm'
 
 type RecentPayment = {
   amount: number | string
+  net_amount: number | string | null
   payment_date: string
 }
 
@@ -53,7 +54,7 @@ export default async function AdminDashboard() {
       .limit(10),
     supabase.from('clients').select('id', { count: 'exact', head: true }),
     supabase.from('client_services').select('id', { count: 'exact', head: true }).eq('status', 'activo'),
-    supabase.from('payments').select('amount, payment_date').order('payment_date', { ascending: false }).limit(30),
+    supabase.from('payments').select('amount, net_amount, payment_date').order('payment_date', { ascending: false }).limit(30),
   ])
 
   const paymentRows = (recentPayments ?? []) as RecentPayment[]
@@ -68,7 +69,7 @@ export default async function AdminDashboard() {
     services: normalizeRelation(item.services),
     clients: normalizeRelation(item.clients),
   }))
-  const totalIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.amount), 0)
+  const totalIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.net_amount ?? payment.amount), 0)
 
   const expiringSoon = items.filter((service) => {
     if (!service.next_payment_date) return false
@@ -114,7 +115,7 @@ export default async function AdminDashboard() {
 
         <div className="hidden md:block">
           <table className="w-full table-fixed divide-y divide-gray-100">
-            <thead className="bg-gray-50/50">
+            <thead className="bg-gray-50/50 sticky top-0 z-10">
               <tr>
                 <th className="w-[25%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente / Marca</th>
                 <th className="w-[28%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicio</th>
