@@ -4,6 +4,8 @@ import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 
 const PAYMENT_TEMPLATE_FALLBACK = {
   subject: 'Pago recibido - {{servicio}}',
@@ -88,6 +90,26 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
   if (updateError) return { success: false, message: `Pago guardado pero error al actualizar vencimiento: ${updateError.message}` }
 
   let warningMessage = ''
+  let duplicateWarning = ''
+
+  const tenDaysAgo = new Date()
+  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10)
+  const tenDaysAgoStr = tenDaysAgo.toISOString().split('T')[0]
+
+  const { data: recentPayments } = await supabase
+    .from('payments')
+    .select('payment_date')
+    .eq('client_service_id', client_service_id)
+    .gte('payment_date', tenDaysAgoStr)
+    .order('payment_date', { ascending: false })
+    .limit(1)
+
+  if (recentPayments && recentPayments.length > 0) {
+    const lastDate = recentPayments[0].payment_date
+    const formatted = format(new Date(lastDate + 'T00:00:00'), "dd 'de' MMMM 'de' yyyy", { locale: es })
+    duplicateWarning = `Ya se registró un pago para este servicio el día ${formatted}.`
+  }
+
   const { data: paymentTemplateFromDb } = await supabase
     .from('email_templates')
     .select('subject, body')
@@ -126,7 +148,7 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
   if (client_id) revalidatePath(`/admin/clients/${client_id}`)
   revalidatePath('/admin')
   revalidatePath('/admin/income')
-  return { success: true, message: `Próximo vencimiento actualizado a ${nextDateStr}${warningMessage}` }
+  return { success: true, message: `Próximo vencimiento actualizado a ${nextDateStr}${warningMessage}`, warning: duplicateWarning }
 }
 
 export async function updatePaymentAction(_prevState: unknown, formData: FormData) {

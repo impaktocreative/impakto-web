@@ -28,7 +28,7 @@ function RegisterPaymentModal({
   const [state, formAction, isPending] = useActionState(registerPaymentAction, null)
 
   useEffect(() => {
-    if (state?.success) { onSuccess(); onClose() }
+    if (state?.success && !state.warning) { onSuccess(); onClose() }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
@@ -74,6 +74,11 @@ function RegisterPaymentModal({
 
           {state && !state.success && (
             <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">{state.message}</p>
+          )}
+          {state?.warning && (
+            <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
+              <p className="text-sm text-amber-800">{state.warning}</p>
+            </div>
           )}
 
           <div className="flex justify-end gap-3">
