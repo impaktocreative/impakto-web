@@ -92,17 +92,17 @@ const conversations: Conversation[] = [
   {
     question: "¿Es posible mejorar conversión sin comprometer identidad de marca?",
     answer:
-      "Sí. Ordenamos la comunicación para que su propuesta gane claridad y se traduzca en una conversión **más consistente** sin perder identidad.",
+      "Sí. Ordenamos la comunicación para que tu propuesta gane claridad y se traduzca en una conversión **más consistente** sin perder identidad.",
   },
   {
     question: "¿Qué incluye el enfoque online y offline?",
     answer:
-      "Alineamos todos los puntos de contacto para que su marca se perciba **uniforme y confiable** online y offline.",
+      "Alineamos todos los puntos de contacto para que tu marca se perciba **uniforme y confiable** online y offline.",
   },
   {
     question: "¿Cómo abordan captación, conversión y retención?",
     answer:
-      "Diseñamos estrategias para atraer mejores oportunidades, convertir con mayor claridad y fortalecer relaciones **de largo plazo** con sus clientes.",
+      "Diseñamos estrategias para atraer mejores oportunidades, convertir con mayor claridad y fortalecer relaciones **de largo plazo** con tus clientes.",
   },
   {
     question: "¿Integran IA y herramientas avanzadas en los proyectos?",
@@ -154,13 +154,13 @@ export default function Hero() {
             <div className="pointer-events-none absolute -inset-x-7 -inset-y-8 -z-10 bg-[radial-gradient(ellipse_at_center,var(--color-background)_48%,color-mix(in_srgb,var(--color-background)_72%,transparent)_76%,transparent_100%)] lg:hidden" />
 
             <p className="hero-rise mb-5 text-eyebrow uppercase tracking-[0.19em] text-foreground/40 md:mb-7 md:text-sm">
-              Estrategia, diseño y estructura digital
+              Diseño y estructura digital
             </p>
 
             <h1
               className="hero-rise hero-rise-delay-1 max-w-[15ch] text-balance font-heading text-display-lg font-normal tracking-[-0.01em] text-foreground lg:max-w-[20ch] xl:max-w-[21ch]"
             >
-              Construimos estrategias de comunicación para que su marca{" "}
+              Construimos estrategias de comunicación para que tu marca{" "}
               <span className="gold-reflect font-medium">venda mejor,</span>{" "}
               <span className="gold-reflect font-medium">online y offline.</span>
             </h1>
@@ -168,9 +168,9 @@ export default function Hero() {
             <p
               className="hero-rise hero-rise-delay-2 mt-4 max-w-[39rem] font-sans text-body-sm font-normal text-foreground/70 md:mt-6 md:text-body-lg lg:mt-7 lg:max-w-[34rem]"
             >
-              Así trabajamos en Impakto: alineamos mensaje, dirección y presencia de
-              marca para atraer mejores oportunidades, convertir con mayor claridad y
-              sostener relaciones más sólidas con sus clientes.
+              Ordenamos el mensaje y la presencia de tu marca para que atraiga mejores
+              oportunidades y las convierta con menos fricción. Después trabajamos
+              para que esas relaciones duren.
             </p>
 
             <div className="hero-rise hero-rise-delay-3 mt-5 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-start lg:mt-9 lg:gap-6">
@@ -179,7 +179,7 @@ export default function Hero() {
                   href="/contacto"
                   className="btn-gold-sweep-primary btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-eyebrow font-medium uppercase tracking-[0.12em] text-night shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:tracking-[0.15em]"
                 >
-                  Solicitar diagnóstico inicial
+                  Pedir diagnóstico
                 </Link>
               </Magnetic>
               <Magnetic strength={0.5}>
@@ -190,7 +190,7 @@ export default function Hero() {
                   // recupera la píldora desde sm, donde conviven en una fila.
                   className="btn-premium inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full border border-transparent bg-transparent px-8 py-2.5 text-eyebrow font-medium uppercase tracking-[0.12em] text-foreground/70 underline decoration-foreground/25 underline-offset-4 transition-all duration-300 hover:text-foreground sm:min-h-[3.3rem] sm:w-auto sm:border-foreground/24 sm:bg-background/92 sm:px-9 sm:py-3 sm:tracking-[0.15em] sm:no-underline sm:shadow-sm sm:hover:scale-[1.03] sm:hover:border-foreground/34 sm:hover:bg-background sm:hover:shadow-premium-soft"
                 >
-                  Ver soluciones por objetivo
+                  Ver servicios
                 </Link>
               </Magnetic>
             </div>

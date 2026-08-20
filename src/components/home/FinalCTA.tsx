@@ -60,9 +60,8 @@ export default function FinalCTA() {
                 percibida.
               </h2>
               <p className="max-w-3xl text-body-sm text-foreground/74 md:text-body">
-                Si su proyecto necesita una estructura más clara, una comunicación
-                más sólida o una presencia digital mejor alineada con su nivel,
-                desarrollamos esa base con criterio, precisión y foco en resultados.
+                Si tu proyecto necesita una estructura más clara o una presencia digital
+                que esté a la altura de lo que vendés, esa base la construimos nosotros.
               </p>
             </div>
 
@@ -73,7 +72,7 @@ export default function FinalCTA() {
                 className="btn-gold-sweep-primary min-h-[3.55rem] w-full rounded-card px-7 text-eyebrow tracking-[0.06em] whitespace-normal text-center shadow-premium-lift md:px-10 md:tracking-[0.08em] md:whitespace-nowrap"
               >
                 <Link href="/contacto" className="text-center leading-tight">
-                  Solicitar diagnóstico inicial
+                  Pedir diagnóstico
                 </Link>
               </Button>
               <Button
@@ -82,8 +81,8 @@ export default function FinalCTA() {
                 size="lg"
                 className="w-full min-h-[3.35rem] rounded-card px-9 md:px-11 text-eyebrow tracking-[0.08em]"
               >
-                <Link href="/contacto" className="text-center leading-tight">
-                  Contar el objetivo del proyecto
+                <Link href="/servicios" className="text-center leading-tight">
+                  Ver servicios
                 </Link>
               </Button>
             </div>

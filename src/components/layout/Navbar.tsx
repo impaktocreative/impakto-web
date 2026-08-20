@@ -47,8 +47,8 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Inicio", href: "/" },
-    { name: "Estudio", href: "/agencia" },
-    { name: "Servicios Estratégicos", href: "/servicios" },
+    { name: "Agencia", href: "/agencia" },
+    { name: "Servicios", href: "/servicios" },
   ];
 
   return (
@@ -114,7 +114,7 @@ export default function Navbar() {
             href="/contacto"
             className="btn-premium hidden md:inline-flex items-center rounded-full border border-foreground/16 px-5 py-2.5 text-eyebrow uppercase tracking-[0.15em] text-foreground/76 transition-all duration-300 hover:-translate-y-px hover:border-foreground/35 hover:text-foreground"
           >
-            Reunión estratégica
+            Pedir diagnóstico
           </Link>
 
           <button
@@ -183,7 +183,7 @@ export default function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="btn-premium inline-flex w-full items-center justify-center rounded-full border border-foreground/16 bg-foreground px-6 py-3 text-eyebrow uppercase tracking-[0.15em] text-background"
                   >
-                    Reunión estratégica
+                    Pedir diagnóstico
                   </Link>
                   <p className="mt-3 text-center text-eyebrow uppercase tracking-[0.14em] text-foreground/52">
                     Buenos Aires / Argentina - Exterior

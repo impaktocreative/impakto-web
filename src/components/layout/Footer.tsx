@@ -58,8 +58,8 @@ export default function Footer() {
             <h3 className="mb-6 text-sm font-medium uppercase tracking-widest text-accent">Sitio</h3>
             <ul className="space-y-3">
               <li><Link href="/" className="text-accent/80 transition-colors hover:text-primary">Inicio</Link></li>
-              <li><Link href="/agencia" className="text-accent/80 transition-colors hover:text-primary">Estudio</Link></li>
-              <li><Link href="/servicios" className="text-accent/80 transition-colors hover:text-primary">Servicios Estratégicos</Link></li>
+              <li><Link href="/agencia" className="text-accent/80 transition-colors hover:text-primary">Agencia</Link></li>
+              <li><Link href="/servicios" className="text-accent/80 transition-colors hover:text-primary">Servicios</Link></li>
               <li><Link href="/contacto" className="text-accent/80 transition-colors hover:text-primary">Contacto</Link></li>
             </ul>
           </motion.div>
@@ -94,7 +94,7 @@ export default function Footer() {
                   href="/contacto"
                   className="btn-premium inline-block rounded-full border border-white/22 px-5 py-2.5 text-eyebrow uppercase tracking-[0.14em] transition-all duration-300 hover:border-primary hover:text-primary"
                 >
-                  Reunión estratégica
+                  Pedir diagnóstico
                 </Link>
               </li>
             </ul>

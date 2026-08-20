@@ -49,7 +49,7 @@ const INTRO_ITEM = {
 };
 
 const steps = [
-  { number: "01", title: "Diagnóstico", description: "Analizamos contexto, audiencia y percepción actual para detectar dónde su marca puede ganar más tracción." },
+  { number: "01", title: "Diagnóstico", description: "Analizamos contexto, audiencia y percepción actual para detectar dónde tu marca puede ganar más tracción." },
   { number: "02", title: "Dirección", description: "Definimos enfoque estratégico, narrativa y prioridades para que cada frente avance con el mismo criterio." },
   { number: "03", title: "Desarrollo", description: "Construimos piezas, estructuras y experiencias conectadas entre sí para evitar dispersión y retrabajo." },
   { number: "04", title: "Implementación", description: "Ejecutamos con orden operativo para que la mejora se vea en la percepción de marca y en la conversión." },
@@ -87,11 +87,11 @@ export default function Methodology() {
               className="mt-4 font-heading tracking-[-0.02em] text-background text-balance"
               style={{ fontSize: "var(--text-display-lg)" }}
             >
-              Nuestra metodología: claridad estratégica y ejecución consistente.
+              Del diagnóstico a la implementación, en cinco pasos.
             </motion.h2>
             <motion.p variants={INTRO_ITEM} className="mt-7 text-body md:text-body-lg text-background/80 max-w-[31rem]">
               Este proceso nos permite alinear estrategia, diseño y rendimiento
-              comercial para que su marca crezca con menos fricción y más consistencia.
+              comercial para que tu marca crezca con menos fricción y más consistencia.
             </motion.p>
 
             {/* §4 Blueprint — imagen con scale 1.15→1.0 al entrar en view */}

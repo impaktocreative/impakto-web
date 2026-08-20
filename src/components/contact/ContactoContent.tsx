@@ -70,10 +70,10 @@ export default function ContactoContent() {
             Contacto estratégico
           </p>
           <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[17ch] font-heading text-balance text-display-xl tracking-[-0.02em] text-foreground">
-            Conversemos sobre el próximo paso de su marca.
+            Conversemos sobre el próximo paso de tu marca.
           </h1>
           <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[47rem] text-body text-foreground/70 md:text-body-lg">
-            Si su organización necesita mejorar posicionamiento, rendimiento comercial o estructura digital, este es el punto de partida para definir un plan de acción serio y viable.
+            Si tu organización necesita mejorar posicionamiento, rendimiento comercial o estructura digital, este es el punto de partida para definir un plan de acción serio y viable.
           </p>
           <p className="hero-rise hero-rise-delay-3 mt-6 inline-flex flex-wrap items-center gap-2 border border-foreground/12 bg-white/75 px-4 py-2 text-eyebrow uppercase tracking-[0.14em] text-foreground/62">
             Respuesta inicial en 24h hábiles
@@ -93,7 +93,7 @@ export default function ContactoContent() {
                   Una conversación clara acelera mejores decisiones.
                 </h2>
                 <p className="mt-6 text-body text-foreground/68">
-                  Comparta su contexto y su prioridad actual. Con esa base, respondemos con una orientación concreta y próximos pasos con criterio de implementación.
+                  Contanos tu contexto y tu prioridad actual. Con esa base, respondemos con una orientación concreta y próximos pasos con criterio de implementación.
                 </p>
               </Reveal>
 
@@ -150,7 +150,7 @@ export default function ContactoContent() {
                     Formulario de contacto
                   </h2>
                   <p className="mt-4 text-body text-foreground/64">
-                    Comparta la información clave del proyecto para responder con una propuesta clara, realista y alineada con su objetivo.
+                    Dejanos la información clave del proyecto para responder con una propuesta clara, realista y alineada con tu objetivo.
                   </p>
                   <RevealLine className="mt-6 block h-px w-24 bg-gradient-to-r from-primary/80 to-transparent" />
                   <div className="mt-7 border-t border-foreground/10 pt-7">
@@ -171,7 +171,7 @@ export default function ContactoContent() {
             <div className="mx-auto max-w-[1120px] border border-white/18 bg-white/[0.035] p-9 shadow-premium-night md:p-12">
               <p className="text-eyebrow uppercase tracking-[0.2em] text-primary/76">Perfil de trabajo</p>
               <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg tracking-[-0.02em] text-background">
-                Trabajamos mejor con proyectos que valoran criterio, proceso y ejecución.
+                Trabajamos mejor con proyectos que ya decidieron invertir en el proceso.
               </h2>
               <p className="mt-7 max-w-[40rem] text-body text-background/84">
                 Priorizamos relaciones profesionales con objetivos definidos y decisiones oportunas. Esa alineación permite construir soluciones con mayor coherencia, calidad y sostenibilidad.
@@ -182,7 +182,7 @@ export default function ContactoContent() {
                   size="lg"
                   className="btn-gold-sweep-light btn-tide h-auto min-h-14 w-full border border-white/60 bg-white text-center leading-tight whitespace-normal text-foreground shadow-premium-night hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
-                  <Link href="#brief-contacto">Solicitar diagnóstico inicial</Link>
+                  <Link href="#brief-contacto">Ir al formulario</Link>
                 </Button>
                 <Button
                   asChild
@@ -190,7 +190,7 @@ export default function ContactoContent() {
                   variant="outline"
                   className="cta-secondary-dark h-auto min-h-14 w-full px-6 py-4 text-center leading-tight whitespace-normal sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
-                  <Link href="/servicios">Ver soluciones por objetivo</Link>
+                  <Link href="/servicios">Ver servicios</Link>
                 </Button>
               </div>
             </div>

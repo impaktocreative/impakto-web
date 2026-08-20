@@ -112,7 +112,7 @@ export default function ServicesOverview() {
             </motion.div>
             <motion.div variants={SECTION_ITEM}>
               <Button asChild variant="outline" className="hidden lg:inline-flex border-white/35 bg-white text-foreground hover:border-white hover:bg-white hover:text-foreground">
-              <Link href="/servicios">Ver soluciones por objetivo</Link>
+              <Link href="/servicios">Ver servicios</Link>
               </Button>
             </motion.div>
           </motion.div>
@@ -142,7 +142,7 @@ export default function ServicesOverview() {
 
             <div className="mt-10 lg:hidden">
               <Button asChild variant="outline" className="w-full border-white/35 bg-white text-foreground hover:border-white hover:bg-white hover:text-foreground">
-                <Link href="/servicios">Ver soluciones por objetivo</Link>
+                <Link href="/servicios">Ver servicios</Link>
               </Button>
             </div>
           </motion.div>

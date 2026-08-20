@@ -110,8 +110,8 @@ export default function IntroPanel() {
               className="mt-5 font-heading tracking-[-0.02em] text-background text-balance"
               style={{ fontSize: "var(--text-display-lg)" }}
             >
-              Así construimos marcas con{" "}
-              <span className="gold-reflect gold-reflect-light">dirección, criterio y consistencia.</span>
+              Así trabajamos una marca{" "}
+              <span className="gold-reflect gold-reflect-light">de punta a punta.</span>
             </h2>
             <div className="mt-9 space-y-6 text-body md:text-body-lg text-background/80 max-w-[43rem]">
               <p>

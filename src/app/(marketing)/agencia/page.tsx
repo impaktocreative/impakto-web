@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Agencia",
   description:
-    "Conoce al equipo multidisciplinario de Impakto Creative, su trayectoria de más de 20 años y su forma de acompañar marcas con criterio y compromiso.",
+    "Impakto Creative es un estudio de Buenos Aires con más de 20 años ordenando la comunicación de marcas que necesitaban dirección.",
   alternates: {
     canonical: "/agencia",
   },

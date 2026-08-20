@@ -98,7 +98,7 @@ const strategicPrograms = [
       "Criterios de identidad verbal y visual",
       "Hoja de ruta por etapas de negocio",
     ],
-    cta: "Solicitar diagnóstico",
+    cta: "Pedir diagnóstico",
   },
   {
     title: "Ecosistema digital para captación y conversión",
@@ -110,7 +110,7 @@ const strategicPrograms = [
       "Sistemas web y aplicaciones a medida",
       "Arquitectura de contenidos y experiencia",
     ],
-    cta: "Hablar sobre ecosistema",
+    cta: "Pedir diagnóstico",
   },
   {
     title: "Comunicación comercial y contenido",
@@ -122,7 +122,7 @@ const strategicPrograms = [
       "Contenido para puntos de venta y canales digitales",
       "Estrategias de comunicación por etapa",
     ],
-    cta: "Definir plan de comunicación",
+    cta: "Pedir diagnóstico",
   },
   {
     title: "Automatización, IA y optimización de procesos",
@@ -134,7 +134,7 @@ const strategicPrograms = [
       "Sistemas de seguimiento y respuesta",
       "Optimización continua basada en datos",
     ],
-    cta: "Evaluar automatización",
+    cta: "Pedir diagnóstico",
   },
 ];
 
@@ -416,7 +416,7 @@ export default function ServiciosContent() {
             <Reveal className="lg:col-span-6">
               <p className="text-eyebrow uppercase tracking-[0.2em] text-foreground/42">Encaje de cliente</p>
               <h2 className="mt-4 font-heading text-balance text-display-lg tracking-[-0.02em] text-foreground">
-                Trabajamos mejor con marcas que priorizan resultados con criterio.
+                Con qué tipo de marca funcionamos mejor.
               </h2>
             </Reveal>
             <Reveal className="max-w-[35rem] text-body text-foreground/64 lg:col-span-6 lg:justify-self-end md:text-body-lg" delay={0.08}>
@@ -514,7 +514,7 @@ export default function ServiciosContent() {
                   size="lg"
                   className="btn-gold-sweep-light btn-tide h-auto min-h-14 w-full border border-white/55 bg-white text-center leading-tight whitespace-normal text-foreground shadow-premium-night hover:text-foreground [&::after]:bg-primary/42 sm:h-14 sm:w-auto sm:px-12 sm:py-0 sm:whitespace-nowrap"
                 >
-                  <Link href="/contacto">Agendar sesión estratégica</Link>
+                  <Link href="/contacto">Pedir diagnóstico</Link>
                 </Button>
                 <Button
                   asChild

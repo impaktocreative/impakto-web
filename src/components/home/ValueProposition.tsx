@@ -10,7 +10,7 @@ const values = [
     index: "01",
     title: "Dirección clara",
     description:
-      "Definimos prioridades y enfoque para que su marca avance con una lógica estratégica concreta y medible.",
+      "Definimos prioridades y enfoque para que tu marca avance con una lógica estratégica concreta y medible.",
   },
   {
     index: "02",
@@ -42,7 +42,7 @@ export default function ValueProposition() {
           >
             <p className="flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/45">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
-              Qué obtiene su marca
+              Qué gana tu marca
             </p>
             <h2
               className="mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
@@ -60,7 +60,7 @@ export default function ValueProposition() {
             className="lg:col-span-6 text-body md:text-body-lg text-foreground/62 max-w-[34rem]"
           >
             Nuestra forma de trabajo no solo mejora la imagen de marca. También mejora
-            cómo se entiende su propuesta y cómo responde el mercado.
+            cómo se entiende tu propuesta y cómo responde el mercado.
           </motion.div>
         </div>
 

@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Inicie una conversación con Impakto Creative para evaluar su proyecto y definir una dirección clara.",
+    "Escribinos para evaluar tu proyecto y definir una dirección clara.",
   alternates: {
     canonical: "/contacto",
   },

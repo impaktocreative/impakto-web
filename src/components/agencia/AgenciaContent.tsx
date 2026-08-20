@@ -109,7 +109,7 @@ const logoOpticalScale: Record<string, string> = {
 const decisionSignals = [
   { value: 20, prefix: "+", suffix: "", label: "Años" },
   { value: 360, prefix: "", suffix: "°", label: "Visión" },
-  { value: 1, prefix: "", suffix: "", label: "Equipo" },
+  { value: 4, prefix: "", suffix: "", label: "Frentes" },
   { value: 24, prefix: "", suffix: "/7", label: "Compromiso" },
 ];
 
@@ -127,7 +127,7 @@ const technicalSignature = [
 const directorBio = [
   "Rodrigo Zarza lidera la dirección creativa del estudio con una mirada que articula estrategia, sensibilidad estética y criterio de negocio.",
   "Su trabajo parte de una lectura profunda de cada marca para diseñar narrativas claras, sistemas visuales consistentes y decisiones con valor de largo plazo.",
-  "Desde la primera sesión hasta la implementación final, acompaña cada proyecto junto al equipo para traducir objetivos comerciales en experiencias de alto impacto.",
+  "Acompaña cada proyecto desde la primera sesión hasta la implementación, con los colaboradores que haga falta sumar en el camino.",
 ];
 
 const directorHighlights = ["Dirección estratégica", "Narrativa de marca", "Ejecución integral"];
@@ -253,7 +253,7 @@ export default function AgenciaContent() {
                 Estudio
               </p>
               <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[18ch] font-heading text-balance text-display-xl tracking-[-0.02em] text-foreground">
-                Una historia de experiencia, <span className="gold-reflect gold-reflect-slow font-medium">evolución</span> y <span className="gold-reflect gold-reflect-slow font-medium">compromiso</span> con cada marca.
+                Veinte años ordenando marcas que <span className="gold-reflect gold-reflect-slow font-medium">necesitaban dirección</span>.
               </h1>
               <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[46rem] text-body text-foreground/68 md:text-body-lg">
                 Acompañamos compañías que necesitan elevar su posicionamiento con una dirección más clara, una ejecución más precisa y una presencia de marca más sólida.
@@ -261,7 +261,7 @@ export default function AgenciaContent() {
               <p className="hero-rise hero-rise-delay-3 mt-6 flex w-full max-w-[48rem] flex-wrap items-center gap-x-2 gap-y-1 border border-foreground/12 bg-white/75 px-4 py-2 text-eyebrow font-medium uppercase tracking-[0.12em] text-foreground/64 md:w-fit">
                 <span>+20 años de experiencia</span>
                 <span className="text-foreground/30">/</span>
-                <span>Equipo multidisciplinario</span>
+                <span>Trabajo multidisciplinario</span>
                 <span className="text-foreground/30">/</span>
                 <span>Acompañamiento estratégico</span>
               </p>
@@ -320,7 +320,7 @@ export default function AgenciaContent() {
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg tracking-[-0.02em] text-background">
-              Un estudio que combina <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">sensibilidad estratégica</span> y <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">ejecución real</span>.
+              Un estudio que diseña y también <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">implementa</span>.
             </h2>
           </Reveal>
           <RevealLine className="mt-6 block h-px w-28 bg-gradient-to-r from-primary/80 to-transparent" delay={0.12} />
@@ -371,11 +371,11 @@ export default function AgenciaContent() {
             <Reveal className="lg:col-span-6">
               <p className="text-eyebrow uppercase tracking-[0.2em] text-foreground/45">Cómo estamos conformados</p>
               <h2 className="mt-4 font-heading text-balance text-display-lg tracking-[-0.02em] text-foreground">
-                Un equipo integral para abordar marcas desde <span className="gold-reflect gold-reflect-slow font-medium">múltiples frentes</span>.
+                Cuatro frentes de trabajo bajo una misma <span className="gold-reflect gold-reflect-slow font-medium">dirección</span>.
               </h2>
             </Reveal>
             <Reveal className="max-w-[36rem] text-body text-foreground/62 lg:col-span-6 lg:justify-self-end" delay={0.1}>
-              Reunimos perfiles estratégicos, creativos y técnicos que se articulan según la necesidad de cada proyecto para construir soluciones más completas y mejor resueltas.
+              Cada proyecto se arma con los perfiles que necesita. La dirección es siempre la misma, así que las piezas terminan hablando entre sí.
             </Reveal>
           </div>
 
@@ -446,9 +446,9 @@ export default function AgenciaContent() {
             <Reveal className="lg:col-span-7" delay={0.08}>
               <article>
                 <p className="text-eyebrow uppercase tracking-[0.2em] text-foreground/45">Dirección creativa</p>
-                <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg tracking-[-0.02em] text-foreground">
+                <h3 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg tracking-[-0.02em] text-foreground">
                   Rodrigo Zarza
-                </h2>
+                </h3>
                 <p className="mt-2 text-eyebrow uppercase tracking-[0.16em] text-foreground/52">Director creativo</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -498,10 +498,10 @@ export default function AgenciaContent() {
                   className="mt-8 flex flex-col gap-3 sm:flex-row"
                 >
                   <Button asChild size="lg" className="btn-tide whitespace-normal text-center sm:whitespace-nowrap">
-                    <Link href="/contacto">Agendar una reunión con Rodrigo</Link>
+                    <Link href="/contacto">Pedir diagnóstico</Link>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="border-foreground/45 bg-white/55 text-foreground/86 hover:bg-white hover:text-foreground">
-                    <Link href="/contacto">Contanos tu proyecto</Link>
+                    <Link href="/servicios">Ver servicios</Link>
                   </Button>
                 </motion.div>
 
@@ -615,7 +615,7 @@ export default function AgenciaContent() {
                     size="lg"
                   className="btn-gold-sweep-primary btn-tide whitespace-normal border border-primary/65 bg-primary text-foreground shadow-premium-gold [&::after]:bg-foreground hover:!text-background sm:whitespace-nowrap"
                 >
-                  <Link href="/contacto">Solicitar sesión estratégica</Link>
+                  <Link href="/contacto">Pedir diagnóstico</Link>
                 </Button>
                 <Button
                   asChild
@@ -623,7 +623,7 @@ export default function AgenciaContent() {
                   variant="outline"
                   className="cta-secondary-dark"
                 >
-                  <Link href="/servicios">Explorar servicios estratégicos</Link>
+                  <Link href="/servicios">Ver servicios</Link>
                 </Button>
               </div>
             </div>

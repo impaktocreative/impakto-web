@@ -60,8 +60,8 @@ export default function PrivacidadPage() {
             </p>
             <p className="mt-4 text-body text-foreground/70">
               No compartimos información personal con terceros sin consentimiento
-              previo. Para solicitar la modificación o eliminación de sus datos,
-              puede escribir a <a className="text-foreground underline underline-offset-4" href="mailto:hola@impaktocreative.com">hola@impaktocreative.com</a>.
+              previo. Para solicitar la modificación o eliminación de tus datos,
+              escribinos a <a className="text-foreground underline underline-offset-4" href="mailto:hola@impaktocreative.com">hola@impaktocreative.com</a>.
             </p>
           </article>
         </div>

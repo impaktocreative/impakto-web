@@ -42,7 +42,7 @@ export default function ContactForm() {
       }
 
       setStatus("success");
-      setFeedback("Gracias. Recibimos su mensaje y responderemos por correo con los próximos pasos.");
+      setFeedback("Gracias. Recibimos tu mensaje. Te respondemos por correo con los próximos pasos.");
       form.reset();
     } catch (error) {
       setStatus("error");
