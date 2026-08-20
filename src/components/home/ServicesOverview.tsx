@@ -108,7 +108,7 @@ export default function ServicesOverview() {
               whileHover={{ scale: 1.01 }}
               className="mb-10 hidden lg:block overflow-hidden border border-white/14"
             >
-              <div className="h-44 w-full bg-[linear-gradient(rgba(54,53,49,0.35),rgba(54,53,49,0.35)),url('https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center transition-transform duration-700 hover:scale-[1.03]" />
+              <div className="h-44 w-full bg-[linear-gradient(rgba(54,53,49,0.35),rgba(54,53,49,0.35)),url('/media/servicios-web.webp')] bg-cover bg-center transition-transform duration-700 hover:scale-[1.03]" />
             </motion.div>
             <motion.div variants={SECTION_ITEM}>
               <Button asChild variant="outline" className="hidden lg:inline-flex border-white/35 bg-white text-foreground hover:border-white hover:bg-white hover:text-foreground">

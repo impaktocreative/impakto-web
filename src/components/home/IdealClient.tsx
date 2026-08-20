@@ -52,7 +52,7 @@ export default function IdealClient() {
               style={{
                 backgroundImage: `
                   linear-gradient(rgba(54,53,49,0.28),rgba(54,53,49,0.18)),
-                  url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80')
+                  url('/media/cliente-ideal.webp')
                 `,
                 willChange: "transform",
               }}

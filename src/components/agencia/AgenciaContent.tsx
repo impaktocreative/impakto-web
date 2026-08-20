@@ -192,15 +192,9 @@ export default function AgenciaContent() {
 
       <section ref={heroRef} className="relative overflow-hidden border-b border-foreground/8 bg-background pb-22 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(164,154,130,0.13),transparent_28%),radial-gradient(circle_at_88%_14%,rgba(142,155,147,0.12),transparent_32%)]" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-multiply"
-          style={{
-            backgroundImage:
-              "linear-gradient(to bottom, rgba(245,246,242,0.5), rgba(245,246,242,0.68)), url('https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=2200&q=80')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
+        {/* Acá había un hotlink a Unsplash de 2200px con opacity 0.12 sobre dos
+            gradientes: invisible en la práctica, pero era el elemento del LCP
+            de esta página, a 8.2 s. La textura la aportan el mesh y TechNodes. */}
         <div className="pointer-events-none absolute inset-0">
           <AnimatedMeshBackground variant="full" className="opacity-[0.6]" />
         </div>
@@ -594,15 +588,8 @@ export default function AgenciaContent() {
       </section>
 
       <section className="relative overflow-hidden bg-[#24282d] py-20 text-background md:py-24 lg:py-28">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-screen"
-          style={{
-            backgroundImage:
-              "linear-gradient(to bottom, rgba(31,35,39,0.82), rgba(31,35,39,0.92)), url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2200&q=80')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
+        {/* Segundo hotlink a Unsplash de 2200px, a opacity 0.12 y debajo de un
+            overlay de 0.82-0.92: no llegaba a verse. Queda la grilla. */}
         <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.14]" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#f7f8f5] via-[#f7f8f5]/50 to-transparent" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">

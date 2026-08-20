@@ -106,7 +106,7 @@ export default function FAQ() {
             </motion.p>
 
             <motion.div variants={INTRO_ITEM} className="mt-8 overflow-hidden rounded-2xl border border-foreground/10 shadow-[0_20px_34px_-28px_rgba(50,50,47,0.4)]">
-              <div className="aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.22),rgba(54,53,49,0.22)),url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center" />
+              <div className="aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.22),rgba(54,53,49,0.22)),url('/media/faq.webp')] bg-cover bg-center" />
             </motion.div>
           </motion.div>
 

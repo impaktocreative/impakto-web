@@ -102,7 +102,7 @@ export default function Methodology() {
             >
               <div
                 data-image-reveal
-                className={`aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.28),rgba(54,53,49,0.28)),url('https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center transition-transform hover:scale-[1.03] ${imageInView ? "in-view" : ""}`}
+                className={`aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.28),rgba(54,53,49,0.28)),url('/media/metodologia.webp')] bg-cover bg-center transition-transform hover:scale-[1.03] ${imageInView ? "in-view" : ""}`}
                 style={{
                   transform: imageInView ? "scale(1.0)" : "scale(1.15)",
                   transition: "transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
