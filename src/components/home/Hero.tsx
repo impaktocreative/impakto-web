@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
-import TechNodes from "@/components/ui/TechNodes";
+import CoherenceField from "@/components/home/CoherenceField";
 import Magnetic from "@/components/ui/Magnetic";
 
 type Conversation = {
@@ -135,75 +134,57 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[88svh] overflow-hidden border-b border-foreground/5 bg-background pt-[5rem] md:min-h-[100svh] md:pt-[8.2rem]">
-      <div className="pointer-events-none absolute inset-y-0 left-[4%] hidden w-px bg-foreground/5 xl:block" />
-      <div className="pointer-events-none absolute inset-y-0 right-[4%] hidden w-px bg-foreground/5 xl:block" />
+    <section className="relative flex min-h-[92svh] flex-col justify-center overflow-hidden bg-paper pb-16 pt-[6.5rem] md:min-h-screen md:pb-24 md:pt-[9rem]">
+      <CoherenceField />
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(142,155,147,0.07),transparent_28%),radial-gradient(circle_at_left_center,rgba(164,154,130,0.07),transparent_26%)]" />
-      <AnimatedMeshBackground />
-      <TechNodes className="pointer-events-none absolute inset-0" />
+      {/* El campo se apaga hacia el pie de la sección para que el texto de
+          abajo no compita con él. Un degradado del propio papel, sin color. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,transparent,var(--color-paper))]" />
 
+      {/* Los trazos cruzaban las letras del titular. Este velo del propio
+          papel baja el campo justo detrás del texto, sin apagarlo del todo. */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-paper)_88%,transparent)_0%,color-mix(in_srgb,var(--color-paper)_72%,transparent)_62%,transparent_100%)] lg:bg-[radial-gradient(120%_75%_at_18%_38%,var(--color-paper)_18%,color-mix(in_srgb,var(--color-paper)_62%,transparent)_52%,transparent_78%)]" />
 
-      <div className="container relative z-10 mx-auto max-w-[1320px] px-7 py-5 md:min-h-[calc(100svh-8.2rem)] md:px-12 md:py-8 lg:px-14 lg:py-10 xl:px-16">
-        <div className="grid h-full items-center gap-8 md:gap-10 lg:grid-cols-2 lg:items-center lg:gap-14 xl:gap-18">
-          <div className="relative z-20 lg:max-w-[50vw] lg:pr-6 xl:pr-8">
-            {/* En pantallas chicas la malla cruzaba el párrafo del hero y le
-                comía legibilidad. Este velo va detrás del bloque de texto —
-                no anclado a la sección — así siempre lo cubre. Desde lg el
-                texto queda en su columna y la malla a la derecha. */}
-            <div className="pointer-events-none absolute -inset-x-7 -inset-y-8 -z-10 bg-[radial-gradient(ellipse_at_center,var(--color-background)_48%,color-mix(in_srgb,var(--color-background)_72%,transparent)_76%,transparent_100%)] lg:hidden" />
+      <div className="container relative z-10 mx-auto w-full max-w-[75rem] px-7 md:px-10 lg:px-12">
+        {/* El titular manda: se lleva su propia fila y todo el ancho útil.
+            Debajo, el cuerpo y la anotación se reparten en dos columnas. */}
+        <p className="hero-rise flex items-center gap-3 text-eyebrow uppercase text-stone">
+          <span className="hairline-gold inline-block h-px w-9" />
+          Diseño y estructura digital
+        </p>
 
-            <p className="hero-rise mb-5 text-eyebrow uppercase tracking-[0.13em] text-foreground/40 md:mb-7 md:text-sm md:tracking-[0.19em]">
-              Diseño y estructura digital
-            </p>
+        <h1 className="hero-rise hero-rise-delay-1 mt-6 max-w-[60rem] text-balance font-heading text-display-2xl font-normal text-ink md:mt-7">
+          Construimos estrategias de comunicación para que tu marca{" "}
+          <span className="gold-reflect">venda mejor, online y offline.</span>
+        </h1>
 
-            <h1
-              className="hero-rise hero-rise-delay-1 max-w-[15ch] text-balance font-heading text-display-lg font-normal tracking-[-0.01em] text-foreground lg:max-w-[20ch] xl:max-w-[21ch]"
-            >
-              Construimos estrategias de comunicación para que tu marca{" "}
-              <span className="gold-reflect font-medium">venda mejor,</span>{" "}
-              <span className="gold-reflect font-medium">online y offline.</span>
-            </h1>
-
-            <p
-              className="hero-rise hero-rise-delay-2 mt-4 max-w-[39rem] font-sans text-body-sm font-normal text-foreground/70 md:mt-6 md:text-body-lg lg:mt-7 lg:max-w-[34rem]"
-            >
+        <div className="mt-11 grid gap-y-12 md:mt-14 lg:grid-cols-12 lg:items-end lg:gap-x-16">
+          <div className="lg:col-span-6">
+            <p className="hero-rise hero-rise-delay-2 max-w-[44ch] text-body-lg text-slate">
               Ordenamos el mensaje y la presencia de tu marca para que atraiga mejores
-              oportunidades y las convierta con menos fricción. Después trabajamos
-              para que esas relaciones duren.
+              oportunidades y las convierta con menos fricción. Después trabajamos para
+              que esas relaciones duren.
             </p>
 
-            <div className="hero-rise hero-rise-delay-3 mt-5 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-start lg:mt-9 lg:gap-6">
+            <div className="hero-rise hero-rise-delay-3 mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
               <Magnetic strength={1}>
-                <Link
-                  href="/contacto"
-                  className="btn-gold-sweep-primary btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-eyebrow font-medium uppercase tracking-[0.12em] text-night shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:tracking-[0.15em]"
-                >
+                <Link href="/contacto" className="btn-ink sheen w-full sm:w-auto">
                   Pedir diagnóstico
                 </Link>
               </Magnetic>
               <Magnetic strength={0.5}>
-                <Link
-                  href="/servicios"
-                  // En mobile los dos CTAs eran píldoras del mismo ancho y peso:
-                  // sin jerarquía. Acá el secundario baja a enlace subrayado y
-                  // recupera la píldora desde sm, donde conviven en una fila.
-                  className="btn-premium inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full border border-transparent bg-transparent px-8 py-2.5 text-eyebrow font-medium uppercase tracking-[0.12em] text-foreground/70 underline decoration-foreground/25 underline-offset-4 transition-all duration-300 hover:text-foreground sm:min-h-[3.3rem] sm:w-auto sm:border-foreground/24 sm:bg-background/92 sm:px-9 sm:py-3 sm:tracking-[0.15em] sm:no-underline sm:shadow-sm sm:hover:scale-[1.03] sm:hover:border-foreground/34 sm:hover:bg-background sm:hover:shadow-premium-soft"
-                >
+                <Link href="/servicios" className="btn-outline w-full sm:w-auto">
                   Ver servicios
                 </Link>
               </Magnetic>
             </div>
           </div>
 
-          {/* Entrada por CSS como el resto del hero. Con framer este bloque
-              quedaba clavado en el opacity:0 del SSR y no llegaba a verse:
-              el elemento arranca en `hidden` y solo pasa a flex desde lg,
-              así que la animación de montaje nunca lo tomaba. */}
-          <div className="hero-rise hero-rise-delay-2 relative z-10 hidden justify-end lg:flex lg:items-center lg:pl-4">
-            <div className="relative ml-auto min-h-[18.25rem] w-full max-w-[27.25rem] xl:max-w-[28rem]">
-              <div className="pointer-events-none absolute left-1/2 top-1/2 z-[-1] h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(245,246,242,0.82),transparent_70%)] blur-2xl" />
-
+          {/* La conversación hace de anotación editorial sobre el campo, como
+              las píldoras flotantes de la referencia. Separada por hairline,
+              no por sombra. */}
+          <div className="hero-rise hero-rise-delay-3 hidden lg:col-span-5 lg:col-start-8 lg:block">
+            <div className="relative ml-auto w-full max-w-[24rem]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeConversation}
@@ -211,31 +192,33 @@ export default function Hero() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                  className="space-y-4"
+                  className="space-y-3"
                 >
                   <motion.div
-                    initial={{ opacity: 0, x: -22, y: 6 }}
-                    animate={{ opacity: 1, x: 0, y: 0 }}
-                    exit={{ opacity: 0, x: -16, y: -6 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.38 }}
-                    className="mr-8 rounded-panel rounded-bl-[0.3rem] border border-white/60 bg-white/95 px-6 py-4 shadow-premium-deep backdrop-blur-md"
+                    className="ml-auto max-w-[21rem] rounded-card border border-graphite/20 bg-paper-lift/80 px-5 py-4 backdrop-blur-md"
                   >
-                    <p className="text-body text-foreground/78">
+                    <p className="text-body-sm text-slate">
                       <TypedText text={currentConversation.question} />
                     </p>
                   </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, x: 22, y: 6 }}
-                    animate={{ opacity: 1, x: 0, y: 0 }}
-                    exit={{ opacity: 0, x: 16, y: -6 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.42, delay: 0.42 }}
-                    className="relative ml-8 rounded-panel rounded-br-[0.3rem] border border-white/60 bg-white/95 px-6 py-5 shadow-premium-deep backdrop-blur-md"
+                    className="relative rounded-card border border-ink bg-ink px-5 py-5 text-paper"
                   >
-                    <span className="absolute -left-3 -top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/65 bg-foreground shadow-premium-lift">
-                      <Image src="/logos/icono-2.svg" alt="Impakto" width={10} height={13} className="h-3.5 w-auto" />
+                    <span aria-hidden="true" className="hairline-gold absolute inset-x-5 top-0 h-px" />
+                    <span className="mb-2.5 flex items-center gap-2 text-eyebrow uppercase text-fog">
+                      <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={12} className="h-3 w-auto invert" />
+                      Impakto
                     </span>
-                    <p className="text-body text-foreground/76">
+                    <p className="text-body-sm text-ash">
                       <TypedText text={currentConversation.answer} delay={0.5} stagger={0.016} />
                     </p>
                   </motion.div>

@@ -1,15 +1,16 @@
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 
-// Titulares. Instrument Serif solo tiene un peso; el italic se usa en destacados.
-export const instrumentSerif = Instrument_Serif({
+// Titulares. Fraunces es el sustituto que el propio style guide de la
+// referencia indica para Gestura. Variable: un solo archivo cubre todos
+// los pesos. Sin los ejes SOFT/WONK/opsz, que no usamos y solo sumaban
+// bytes al archivo.
+export const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-instrument-serif",
+  variable: "--font-fraunces",
 });
 
-// Cuerpo. Variable, cubre todos los pesos sin pedir archivos extra.
+// Cuerpo, navegación, botones, formularios. Todo lo funcional.
 export const inter = Inter({
   subsets: ["latin"],
   display: "swap",

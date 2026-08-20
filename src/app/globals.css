@@ -1,106 +1,145 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #a49a82;
-  --color-secondary: #8e9b93;
-  --color-accent: #d8ddd7;
-  --color-background: #f5f6f2;
-  --color-foreground: #32322f;
-  --color-surface: #fcfcfa;
-  --color-surface-muted: #eef1ec;
-  --color-night: #1f2327;
-  --color-night-soft: #2d3136;
+  /* ===============================================================
+     Dirección visual: monocromo editorial.
+     Canvas de papel cálido, tipografía en tinta, y el oro tratado
+     como material — reflejo especular, nunca relleno de color.
+     La rampa completa es acromática a propósito: el contraste y el
+     material hacen el trabajo que en otros sistemas hace el color.
+     =============================================================== */
 
-  /* Variantes legibles sobre fondo claro.
-     primary/secondary/accent solo alcanzan AA sobre night y night-soft:
-     sobre background dan 2.57, 2.66 y 1.27. Para texto o bordes sobre
-     fondo claro va la variante -ink; los originales quedan para relleno
-     y decoración. */
-  --color-primary-ink: #736c5b;
-  --color-secondary-ink: #636c67;
+  /* Tinta */
+  --color-ink: #0a0a09;
+  --color-ink-soft: #161615;
+  --color-graphite: #2c2c2b;
+  --color-slate: #46463f;
+  --color-stone: #6b6b66;
 
-  /* Banda intermedia entre background y surface. Estaba escrita a mano en
-     nueve tonos casi idénticos (#f7f8f5, #f7f7f4, #f8f8f6, #f8f9f6…). */
-  --color-band: #f7f8f5;
+  /* Papel */
+  --color-fog: #c9c9c4;
+  --color-ash: #e2e2dd;
+  --color-cloud: #eceae5;
+  --color-paper: #f7f6f2;
+  --color-paper-lift: #fcfbf8;
 
-  /* Verde de WhatsApp. Estaba hardcodeado en tres variantes distintas. */
+  /* Oro. Solo vive dentro de gradientes, hairlines y barridos.
+     Como texto pasa AA sobre tinta (7.39) y falla sobre papel (2.48),
+     así que sobre claro no se usa nunca como color de texto. */
+  --color-gold: #b99a5b;
+  --color-gold-light: #d9c48c;
+  --color-gold-pale: #efe3c4;
+  --sheen-gold: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(185, 154, 91, 0) 38%,
+    rgba(217, 196, 140, 0.85) 50%,
+    rgba(185, 154, 91, 0) 62%,
+    transparent 100%
+  );
+  --hairline-gold: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(185, 154, 91, 0.55) 35%,
+    rgba(239, 227, 196, 0.9) 50%,
+    rgba(185, 154, 91, 0.55) 65%,
+    transparent 100%
+  );
+
+  /* Nombres heredados, remapeados a la rampa nueva para que el sitio
+     entero adopte la temperatura sin quedar a medio migrar. */
+  --color-background: #f7f6f2;
+  --color-foreground: #161615;
+  --color-surface: #fcfbf8;
+  --color-band: #f2f1ec;
+  --color-surface-muted: #eceae5;
+  --color-night: #0a0a09;
+  --color-night-soft: #161615;
+  --color-primary: #6b6b66;
+  --color-secondary: #c9c9c4;
+  --color-accent: #e2e2dd;
+  --color-primary-ink: #46463f;
+  --color-secondary-ink: #6b6b66;
   --color-whatsapp: #2f8d68;
   --color-whatsapp-strong: #246f53;
 
-  --font-heading: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-heading: var(--font-fraunces), "Fraunces", Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 
   /* ---------------------------------------------------------------
-     Escala tipográfica del sitio público.
-     Nombres propios a propósito: el admin usa las utilidades por
-     defecto de Tailwind (279 text-sm, 114 text-xs), así que redefinir
-     --text-sm o --radius-md le cambiaría la tipografía entera.
-     Antes de esto convivían 73 declaraciones de tamaño distintas,
-     nueve de ellas entre 16 y 18px separadas por décimas.
+     Escala tipográfica: tercera menor (1.2) desde 15px.
+     El tracking viaja con cada paso — siempre negativo y más cerrado
+     a medida que crece el tamaño, como en la referencia. Los eyebrows
+     son la excepción: van en positivo, +0.14em.
+     Nombres propios porque el admin usa las utilidades de Tailwind.
      --------------------------------------------------------------- */
   --text-eyebrow: 0.75rem;
-  --text-eyebrow--line-height: 1.45;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.14em;
   --text-caption: 0.8125rem;
-  --text-caption--line-height: 1.5;
+  --text-caption--line-height: 1.45;
+  --text-caption--letter-spacing: -0.006em;
   --text-body-sm: 0.9375rem;
-  --text-body-sm--line-height: 1.6;
-  --text-body: 1.0625rem;
-  --text-body--line-height: 1.68;
-  --text-body-lg: 1.1875rem;
-  --text-body-lg--line-height: 1.66;
-  --text-lead: 1.375rem;
-  --text-lead--line-height: 1.5;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--letter-spacing: -0.008em;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: -0.009em;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.5;
+  --text-body-lg--letter-spacing: -0.011em;
+  --text-lead: 1.35rem;
+  --text-lead--line-height: 1.4;
+  --text-lead--letter-spacing: -0.013em;
 
-  /* Titulares. Fluidos, para no necesitar una escalera de breakpoints
-     por componente — la del h1 del home llegaba a seis pasos y ni
-     siquiera era monótona (lg quedaba por debajo de md). */
-  --text-display-xs: clamp(1.5rem, 2.4vw, 1.95rem);
+  /* Display. Fluido, sin escaleras de breakpoint. */
+  --text-display-xs: clamp(1.2rem, 1.6vw, 1.62rem);
   --text-display-xs--line-height: 1.2;
-  --text-display-sm: clamp(1.8rem, 3.1vw, 2.6rem);
-  --text-display-sm--line-height: 1.12;
-  --text-display-md: clamp(1.95rem, 3.6vw, 3.25rem);
-  --text-display-md--line-height: 1.06;
-  --text-display-lg: clamp(2rem, 4.1vw, 4.05rem);
-  --text-display-lg--line-height: 1.03;
-  --text-display-xl: clamp(2.2rem, 6vw, 4.9rem);
-  --text-display-xl--line-height: 1;
-  --text-display-2xl: clamp(2.35rem, 6.4vw, 5.2rem);
+  --text-display-xs--letter-spacing: -0.014em;
+  --text-display-sm: clamp(1.35rem, 2.4vw, 1.94rem);
+  --text-display-sm--line-height: 1.2;
+  --text-display-sm--letter-spacing: -0.015em;
+  --text-display-md: clamp(1.5rem, 3vw, 2.33rem);
+  --text-display-md--line-height: 1.15;
+  --text-display-md--letter-spacing: -0.016em;
+  --text-display-lg: clamp(1.7rem, 4vw, 2.8rem);
+  --text-display-lg--line-height: 1.08;
+  --text-display-lg--letter-spacing: -0.017em;
+  --text-display-xl: clamp(1.85rem, 5.2vw, 3.36rem);
+  --text-display-xl--line-height: 1.02;
+  --text-display-xl--letter-spacing: -0.018em;
+  --text-display-2xl: clamp(2.05rem, 6.4vw, 4.03rem);
   --text-display-2xl--line-height: 1;
+  --text-display-2xl--letter-spacing: -0.02em;
 
-  /* Radios. Tres, no dieciséis. */
+  /* Forma. La píldora es el único lenguaje para lo interactivo. */
   --radius-inset: 0.5rem;
-  --radius-card: 0.875rem;
-  --radius-panel: 1.25rem;
+  --radius-card: 1rem;
+  --radius-panel: 1.5rem;
 
-  /* Sombras sobre fondo claro y sobre fondo oscuro. Reemplazan 25
-     variantes sueltas que diferían en décimas de alfa. */
-  --shadow-premium-lift: 0 22px 38px -30px rgba(50, 50, 47, 0.5);
-  --shadow-premium-night: 0 28px 48px -36px rgba(0, 0, 0, 0.65);
+  /* La separación se hace con hairline o invirtiendo la superficie.
+     Estas dos quedan solo para lo que de verdad flota. */
+  --shadow-float: 0 24px 48px -32px rgba(10, 10, 9, 0.45);
+  --shadow-float-night: 0 32px 64px -40px rgba(0, 0, 0, 0.75);
 
-  /* Sombras tintadas, atadas al color del elemento que las usa. */
-  --shadow-premium-gold: 0 16px 28px -20px rgba(191, 168, 118, 0.65);
-  --shadow-node-glow: 0 0 0 1px rgba(216, 193, 136, 0.38), 0 0 18px rgba(216, 193, 136, 0.32);
-  --shadow-whatsapp: 0 14px 24px -16px rgba(27, 92, 67, 0.75);
-  --shadow-premium-soft: 0 4px 12px rgba(54, 53, 49, 0.05), 0 1px 3px rgba(54, 53, 49, 0.02);
-  --shadow-premium-deep: 0 24px 48px -12px rgba(54, 53, 49, 0.18), 0 12px 24px -8px rgba(54, 53, 49, 0.12), 0 4px 8px -4px rgba(54, 53, 49, 0.08);
-  --shadow-premium-glow: 0 0 40px rgba(175, 163, 133, 0.15), 0 0 20px rgba(175, 163, 133, 0.1);
-  /* Blueprint §4 — easing de lujo unificado */
-  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Escala de duración. Antes convivían 0.15 / 0.3 / 0.35 / 0.5 / 0.55 /
-     0.7 / 0.75 / 1.2 / 1.4 s sin criterio. */
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 500ms;
   --duration-slower: 700ms;
   --duration-ambient: 1200ms;
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --spacing-gutter: 1.75rem;
+  --spacing-section: 5rem;
 }
 
 body {
   background-color: var(--color-background);
+  /* El fondo es papel, sin croma. Los dos radiales taupe y salvia que
+     había acá pertenecían al sistema anterior. */
   background-image:
-    radial-gradient(circle at 8% 0%, rgba(164, 154, 130, 0.1), transparent 28%),
-    radial-gradient(circle at 94% 2%, rgba(142, 155, 147, 0.11), transparent 34%);
+    radial-gradient(circle at 12% 0%, rgba(22, 22, 21, 0.028), transparent 34%),
+    radial-gradient(circle at 92% 4%, rgba(22, 22, 21, 0.022), transparent 38%);
   color: var(--color-foreground);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -350,6 +389,92 @@ button {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ==================================================================
+   Lenguaje de interacción.
+   La píldora es la única forma para lo interactivo. La separación se
+   hace con hairline o invirtiendo la superficie, nunca con sombra.
+   El oro entra como reflejo especular sobre el filo o el relleno.
+   ================================================================== */
+
+.btn-ink,
+.btn-outline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0 1.75rem;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    background-color var(--duration-base) var(--ease-luxury),
+    border-color var(--duration-base) var(--ease-luxury),
+    color var(--duration-base) var(--ease-luxury);
+}
+
+.btn-ink {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  border: 1px solid var(--color-ink);
+}
+
+.btn-ink:hover {
+  background-color: var(--color-ink-soft);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-ink);
+  border: 1px solid color-mix(in srgb, var(--color-graphite) 22%, transparent);
+}
+
+.btn-outline:hover {
+  border-color: color-mix(in srgb, var(--color-graphite) 42%, transparent);
+}
+
+/* Reflejo. Una lámina de luz dorada cruza el filo al pasar el cursor.
+   Es la única aparición del oro sobre relleno oscuro: material, no color. */
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--sheen-gold);
+  background-size: 220% 100%;
+  background-position: 140% 0;
+  opacity: 0;
+  transition:
+    background-position var(--duration-slower) var(--ease-luxury),
+    opacity var(--duration-base) var(--ease-luxury);
+}
+
+.sheen:hover::after {
+  background-position: -40% 0;
+  opacity: 1;
+}
+
+/* Filo dorado de 1px. Sirve de regla, de tope de card y de guion
+   antes de un eyebrow. */
+.hairline-gold {
+  background: var(--hairline-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheen::after {
+    transition: opacity var(--duration-fast) linear;
+  }
+
+  .sheen:hover::after {
+    background-position: 50% 0;
   }
 }
 
@@ -680,8 +805,8 @@ a:focus-visible {
 }
 
 .gold-reflect {
-  --reflect-base: var(--color-foreground);
-  --reflect-gold: #b4a789;
+  --reflect-base: var(--color-ink);
+  --reflect-gold: var(--color-gold);
   display: inline-block;
   color: inherit;
 }
