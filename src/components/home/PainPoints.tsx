@@ -47,8 +47,7 @@ export default function PainPoints() {
         >
           <p className="text-eyebrow uppercase tracking-[0.22em] text-foreground/42">Dónde aportamos más valor</p>
           <h2
-            className="mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
-            style={{ fontSize: "var(--text-display-lg)" }}
+            className="text-display-lg mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
           >
             Hay momentos en los que una marca necesita algo más que ejecución.
           </h2>
@@ -74,8 +73,8 @@ export default function PainPoints() {
                 <div className="pointer-events-none absolute inset-y-2 left-[-0.55rem] w-px bg-primary/45 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 {/* Índice monumental */}
                 <span
-                  className="font-heading text-foreground/14 leading-none pt-[0.15rem] block transition-all duration-700 group-hover:text-foreground/45"
-                  style={{ fontSize: "var(--text-display-sm)", letterSpacing: "-0.02em" }}
+                  className="text-display-sm font-heading text-foreground/14 leading-none pt-[0.15rem] block transition-all duration-700 group-hover:text-foreground/45"
+                  style={{ letterSpacing: "-0.02em" }}
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>

@@ -45,8 +45,7 @@ export default function ValueProposition() {
               Qué gana tu marca
             </p>
             <h2
-              className="mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
-              style={{ fontSize: "var(--text-display-lg)" }}
+              className="text-display-lg mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
             >
               Decisiones mejor pensadas. <span className="gold-reflect">Resultados mejor sostenidos.</span>
             </h2>
@@ -80,8 +79,8 @@ export default function ValueProposition() {
               {/* Número índice monumental */}
               <div className="col-span-2 md:col-span-1 pt-1">
                 <span
-                  className="font-heading text-foreground/12 leading-none block transition-all duration-700 group-hover:text-foreground/30"
-                  style={{ fontSize: "var(--text-display-lg)", letterSpacing: "-0.03em" }}
+                  className="text-display-lg font-heading text-foreground/12 leading-none block transition-all duration-700 group-hover:text-foreground/30"
+                  style={{ letterSpacing: "-0.03em" }}
                 >
                   {value.index}
                 </span>
@@ -90,8 +89,7 @@ export default function ValueProposition() {
               {/* Título */}
               <div className="col-span-10 md:col-span-5 lg:col-span-4">
                 <h3
-                  className="font-heading tracking-[-0.02em] text-foreground/90 transition-colors duration-500 group-hover:text-foreground"
-                  style={{ fontSize: "var(--text-display-md)" }}
+                  className="text-display-md font-heading tracking-[-0.02em] text-foreground/90 transition-colors duration-500 group-hover:text-foreground"
                 >
                   {value.title}
                 </h3>

@@ -84,8 +84,7 @@ export default function Methodology() {
             {/* §2 Blueprint — tipografía fluida clamp() */}
             <motion.h2
               variants={INTRO_ITEM}
-              className="mt-4 font-heading tracking-[-0.02em] text-background text-balance"
-              style={{ fontSize: "var(--text-display-lg)" }}
+              className="text-display-lg mt-4 font-heading tracking-[-0.02em] text-background text-balance"
             >
               Del diagnóstico a la implementación, en cinco pasos.
             </motion.h2>
@@ -128,7 +127,7 @@ export default function Methodology() {
               >
                 <p className="text-eyebrow tracking-[0.22em] uppercase text-background/45 pt-1">Paso {step.number}</p>
                 <div>
-                  <h3 className="font-heading tracking-[-0.01em] text-background/96" style={{ fontSize: "var(--text-display-sm)" }}>
+                  <h3 className="text-display-sm font-heading tracking-[-0.01em] text-background/96">
                     {step.title}
                   </h3>
                   <p className="mt-3 text-body text-background/78">{step.description}</p>

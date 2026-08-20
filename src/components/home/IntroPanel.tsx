@@ -107,8 +107,7 @@ export default function IntroPanel() {
           >
             <p className="text-eyebrow uppercase tracking-[0.22em] text-primary/75">Nuestra metodología</p>
             <h2
-              className="mt-5 font-heading tracking-[-0.02em] text-background text-balance"
-              style={{ fontSize: "var(--text-display-lg)" }}
+              className="text-display-lg mt-5 font-heading tracking-[-0.02em] text-background text-balance"
             >
               Así trabajamos una marca{" "}
               <span className="gold-reflect gold-reflect-light">de punta a punta.</span>

@@ -78,8 +78,7 @@ export default function IdealClient() {
           >
             <p className="text-eyebrow uppercase tracking-[0.22em] text-foreground/42">Con quién trabajamos mejor</p>
             <h2
-              className="mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
-              style={{ fontSize: "var(--text-display-lg)" }}
+              className="text-display-lg mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
             >
               Proyectos donde nuestra forma de trabajo genera mayor impacto.
             </h2>

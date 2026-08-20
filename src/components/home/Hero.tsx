@@ -153,7 +153,7 @@ export default function Hero() {
                 texto queda en su columna y la malla a la derecha. */}
             <div className="pointer-events-none absolute -inset-x-7 -inset-y-8 -z-10 bg-[radial-gradient(ellipse_at_center,var(--color-background)_48%,color-mix(in_srgb,var(--color-background)_72%,transparent)_76%,transparent_100%)] lg:hidden" />
 
-            <p className="hero-rise mb-5 text-eyebrow uppercase tracking-[0.19em] text-foreground/40 md:mb-7 md:text-sm">
+            <p className="hero-rise mb-5 text-eyebrow uppercase tracking-[0.13em] text-foreground/40 md:mb-7 md:text-sm md:tracking-[0.19em]">
               Diseño y estructura digital
             </p>
 
