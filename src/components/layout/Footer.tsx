@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#1f2327] pt-16 pb-8 text-background">
+    <footer className="relative overflow-hidden bg-night pt-16 pb-8 text-background">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(169,156,126,0.2)_0%,rgba(164,154,130,0.08)_16%,rgba(31,35,39,0)_52%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_92%_8%,rgba(169,156,126,0.18),transparent_36%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
@@ -48,7 +48,7 @@ export default function Footer() {
               Impakto Creative desarrolla estrategia, comunicación y estructura
               digital para marcas que requieren claridad comercial y estándar de ejecución.
             </p>
-            <p className="mt-4 text-[0.68rem] uppercase tracking-[0.16em] text-accent/54">
+            <p className="mt-4 text-eyebrow uppercase tracking-[0.16em] text-accent/54">
               Más de 20 años de experiencia en comunicación y construcción de marca.
             </p>
 
@@ -92,7 +92,7 @@ export default function Footer() {
               <li className="pt-3">
                 <Link
                   href="/contacto"
-                  className="btn-premium inline-block rounded-full border border-white/22 px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.14em] transition-all duration-300 hover:border-primary hover:text-primary"
+                  className="btn-premium inline-block rounded-full border border-white/22 px-5 py-2.5 text-eyebrow uppercase tracking-[0.14em] transition-all duration-300 hover:border-primary hover:text-primary"
                 >
                   Reunión estratégica
                 </Link>

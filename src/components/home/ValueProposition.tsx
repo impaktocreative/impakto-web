@@ -40,13 +40,13 @@ export default function ValueProposition() {
             transition={{ duration: 0.85, ease: EASE_LUXURY }}
             className="lg:col-span-6"
           >
-            <p className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-foreground/45">
+            <p className="flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/45">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
               Qué obtiene su marca
             </p>
             <h2
-              className="mt-4 font-heading leading-[0.91] tracking-[-0.02em] text-foreground text-balance"
-              style={{ fontSize: "clamp(2rem, 3.8vw, 4.2rem)" }}
+              className="mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
+              style={{ fontSize: "var(--text-display-lg)" }}
             >
               Decisiones mejor pensadas. <span className="gold-reflect">Resultados mejor sostenidos.</span>
             </h2>
@@ -57,7 +57,7 @@ export default function ValueProposition() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
-            className="lg:col-span-6 text-[1.06rem] md:text-[1.15rem] leading-[1.72] text-foreground/62 max-w-[34rem]"
+            className="lg:col-span-6 text-body md:text-body-lg text-foreground/62 max-w-[34rem]"
           >
             Nuestra forma de trabajo no solo mejora la imagen de marca. También mejora
             cómo se entiende su propuesta y cómo responde el mercado.
@@ -65,7 +65,7 @@ export default function ValueProposition() {
         </div>
 
         {/* Editorial strip — filas con índice monumental, sin cajas */}
-        <div className="premium-grid-light rounded-[1.6rem] border border-foreground/8 bg-white/78 p-5 md:p-8">
+        <div className="premium-grid-light rounded-panel border border-foreground/8 bg-white/78 p-5 md:p-8">
           {values.map((value, index) => (
             <motion.article
               key={value.index}
@@ -81,7 +81,7 @@ export default function ValueProposition() {
               <div className="col-span-2 md:col-span-1 pt-1">
                 <span
                   className="font-heading text-foreground/12 leading-none block transition-all duration-700 group-hover:text-foreground/30"
-                  style={{ fontSize: "clamp(2.5rem, 4vw, 4rem)", letterSpacing: "-0.03em" }}
+                  style={{ fontSize: "var(--text-display-lg)", letterSpacing: "-0.03em" }}
                 >
                   {value.index}
                 </span>
@@ -90,8 +90,8 @@ export default function ValueProposition() {
               {/* Título */}
               <div className="col-span-10 md:col-span-5 lg:col-span-4">
                 <h3
-                  className="font-heading leading-[0.96] tracking-[-0.02em] text-foreground/90 transition-colors duration-500 group-hover:text-foreground"
-                  style={{ fontSize: "clamp(1.9rem, 3vw, 3rem)" }}
+                  className="font-heading tracking-[-0.02em] text-foreground/90 transition-colors duration-500 group-hover:text-foreground"
+                  style={{ fontSize: "var(--text-display-md)" }}
                 >
                   {value.title}
                 </h3>
@@ -99,7 +99,7 @@ export default function ValueProposition() {
 
               {/* Descripción */}
               <div className="col-span-12 md:col-span-6 lg:col-span-7 md:pl-6 lg:pl-10">
-                <p className="text-[1.02rem] leading-[1.7] text-foreground/62 max-w-[36rem] transition-colors duration-500 group-hover:text-foreground/82">
+                <p className="text-body text-foreground/62 max-w-[36rem] transition-colors duration-500 group-hover:text-foreground/82">
                   {value.description}
                 </p>
               </div>

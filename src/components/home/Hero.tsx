@@ -143,15 +143,22 @@ export default function Hero() {
       <AnimatedMeshBackground />
       <TechNodes className="pointer-events-none absolute inset-0" />
 
+
       <div className="container relative z-10 mx-auto max-w-[1320px] px-7 py-5 md:min-h-[calc(100svh-8.2rem)] md:px-12 md:py-8 lg:px-14 lg:py-10 xl:px-16">
         <div className="grid h-full items-center gap-8 md:gap-10 lg:grid-cols-2 lg:items-center lg:gap-14 xl:gap-18">
           <div className="relative z-20 lg:max-w-[50vw] lg:pr-6 xl:pr-8">
-            <p className="hero-rise mb-5 text-[0.66rem] uppercase tracking-[0.19em] text-foreground/40 md:mb-7 md:text-sm">
+            {/* En pantallas chicas la malla cruzaba el párrafo del hero y le
+                comía legibilidad. Este velo va detrás del bloque de texto —
+                no anclado a la sección — así siempre lo cubre. Desde lg el
+                texto queda en su columna y la malla a la derecha. */}
+            <div className="pointer-events-none absolute -inset-x-7 -inset-y-8 -z-10 bg-[radial-gradient(ellipse_at_center,var(--color-background)_48%,color-mix(in_srgb,var(--color-background)_72%,transparent)_76%,transparent_100%)] lg:hidden" />
+
+            <p className="hero-rise mb-5 text-eyebrow uppercase tracking-[0.19em] text-foreground/40 md:mb-7 md:text-sm">
               Estrategia, diseño y estructura digital
             </p>
 
             <h1
-              className="hero-rise hero-rise-delay-1 max-w-[15ch] text-balance font-heading text-[clamp(1.62rem,8.2vw,1.8rem)] font-normal leading-[0.99] tracking-[-0.01em] text-foreground sm:text-[2.8rem] md:text-[3.2rem] lg:max-w-[20ch] lg:text-[3.05rem] xl:max-w-[21ch] xl:text-[3.35rem] 2xl:text-[3.55rem]"
+              className="hero-rise hero-rise-delay-1 max-w-[15ch] text-balance font-heading text-display-lg font-normal tracking-[-0.01em] text-foreground lg:max-w-[20ch] xl:max-w-[21ch]"
             >
               Construimos estrategias de comunicación para que su marca{" "}
               <span className="gold-reflect font-medium">venda mejor,</span>{" "}
@@ -159,7 +166,7 @@ export default function Hero() {
             </h1>
 
             <p
-              className="hero-rise hero-rise-delay-2 mt-4 max-w-[39rem] font-sans text-[clamp(0.84rem,4.35vw,0.9rem)] font-normal leading-[1.52] text-foreground/70 md:mt-6 md:text-[1.12rem] md:leading-[1.68] lg:mt-7 lg:max-w-[34rem]"
+              className="hero-rise hero-rise-delay-2 mt-4 max-w-[39rem] font-sans text-body-sm font-normal text-foreground/70 md:mt-6 md:text-body-lg lg:mt-7 lg:max-w-[34rem]"
             >
               Así trabajamos en Impakto: alineamos mensaje, dirección y presencia de
               marca para atraer mejores oportunidades, convertir con mayor claridad y
@@ -170,7 +177,7 @@ export default function Hero() {
               <Magnetic strength={1}>
                 <Link
                   href="/contacto"
-                  className="btn-gold-sweep-primary btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-night shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
+                  className="btn-gold-sweep-primary btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-eyebrow font-medium uppercase tracking-[0.12em] text-night shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:tracking-[0.15em]"
                 >
                   Solicitar diagnóstico inicial
                 </Link>
@@ -178,7 +185,10 @@ export default function Hero() {
               <Magnetic strength={0.5}>
                 <Link
                   href="/servicios"
-                  className="btn-premium inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full border border-foreground/24 bg-background/92 px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-foreground/88 shadow-sm transition-all duration-300 hover:scale-[1.03] hover:border-foreground/34 hover:bg-background hover:shadow-premium-soft sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
+                  // En mobile los dos CTAs eran píldoras del mismo ancho y peso:
+                  // sin jerarquía. Acá el secundario baja a enlace subrayado y
+                  // recupera la píldora desde sm, donde conviven en una fila.
+                  className="btn-premium inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full border border-transparent bg-transparent px-8 py-2.5 text-eyebrow font-medium uppercase tracking-[0.12em] text-foreground/70 underline decoration-foreground/25 underline-offset-4 transition-all duration-300 hover:text-foreground sm:min-h-[3.3rem] sm:w-auto sm:border-foreground/24 sm:bg-background/92 sm:px-9 sm:py-3 sm:tracking-[0.15em] sm:no-underline sm:shadow-sm sm:hover:scale-[1.03] sm:hover:border-foreground/34 sm:hover:bg-background sm:hover:shadow-premium-soft"
                 >
                   Ver soluciones por objetivo
                 </Link>
@@ -186,12 +196,11 @@ export default function Hero() {
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.22 }}
-            className="relative z-10 hidden justify-end lg:flex lg:items-center lg:pl-4"
-          >
+          {/* Entrada por CSS como el resto del hero. Con framer este bloque
+              quedaba clavado en el opacity:0 del SSR y no llegaba a verse:
+              el elemento arranca en `hidden` y solo pasa a flex desde lg,
+              así que la animación de montaje nunca lo tomaba. */}
+          <div className="hero-rise hero-rise-delay-2 relative z-10 hidden justify-end lg:flex lg:items-center lg:pl-4">
             <div className="relative ml-auto min-h-[18.25rem] w-full max-w-[27.25rem] xl:max-w-[28rem]">
               <div className="pointer-events-none absolute left-1/2 top-1/2 z-[-1] h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(245,246,242,0.82),transparent_70%)] blur-2xl" />
 
@@ -209,9 +218,9 @@ export default function Hero() {
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     exit={{ opacity: 0, x: -16, y: -6 }}
                     transition={{ duration: 0.38 }}
-                    className="mr-8 rounded-[1.15rem] rounded-bl-[0.3rem] border border-white/60 bg-white/95 px-6 py-4 shadow-premium-deep backdrop-blur-md"
+                    className="mr-8 rounded-panel rounded-bl-[0.3rem] border border-white/60 bg-white/95 px-6 py-4 shadow-premium-deep backdrop-blur-md"
                   >
-                    <p className="text-[1rem] leading-[1.45] text-foreground/78">
+                    <p className="text-body text-foreground/78">
                       <TypedText text={currentConversation.question} />
                     </p>
                   </motion.div>
@@ -221,19 +230,19 @@ export default function Hero() {
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     exit={{ opacity: 0, x: 16, y: -6 }}
                     transition={{ duration: 0.42, delay: 0.42 }}
-                    className="relative ml-8 rounded-[1.2rem] rounded-br-[0.3rem] border border-white/60 bg-white/95 px-6 py-5 shadow-premium-deep backdrop-blur-md"
+                    className="relative ml-8 rounded-panel rounded-br-[0.3rem] border border-white/60 bg-white/95 px-6 py-5 shadow-premium-deep backdrop-blur-md"
                   >
-                    <span className="absolute -left-3 -top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/65 bg-foreground shadow-[0_10px_20px_rgba(54,53,49,0.22)]">
+                    <span className="absolute -left-3 -top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/65 bg-foreground shadow-premium-lift">
                       <Image src="/logos/icono-2.svg" alt="Impakto" width={10} height={13} className="h-3.5 w-auto" />
                     </span>
-                    <p className="text-[0.98rem] leading-[1.6] text-foreground/76">
+                    <p className="text-body text-foreground/76">
                       <TypedText text={currentConversation.answer} delay={0.5} stagger={0.016} />
                     </p>
                   </motion.div>
                 </motion.div>
               </AnimatePresence>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

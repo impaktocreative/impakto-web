@@ -5,19 +5,19 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap text-[0.7rem] tracking-[0.14em] uppercase font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/75 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center whitespace-nowrap text-eyebrow tracking-[0.14em] uppercase font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/75 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
                 // §5 Blueprint: "tide-fill" — el color sube desde abajo como una marea
                 default:
-                    "btn-premium btn-tide relative overflow-hidden rounded-[0.72rem] bg-foreground text-background transition-colors duration-500 [&::after]:bg-primary",
+                    "btn-premium btn-tide relative overflow-hidden rounded-card bg-foreground text-background transition-colors duration-500 [&::after]:bg-primary",
                 destructive:
-                    "btn-premium rounded-[0.72rem] bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors duration-300",
+                    "btn-premium rounded-card bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors duration-300",
                 outline:
-                    "btn-premium rounded-[0.72rem] border border-foreground/20 bg-background text-foreground transition-colors duration-300 hover:border-foreground/35 hover:bg-foreground/6 hover:text-foreground",
+                    "btn-premium rounded-card border border-foreground/20 bg-background text-foreground transition-colors duration-300 hover:border-foreground/35 hover:bg-foreground/6 hover:text-foreground",
                 secondary:
-                    "btn-premium rounded-[0.72rem] bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors duration-300",
+                    "btn-premium rounded-card bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors duration-300",
                 ghost: "hover:bg-accent hover:text-accent-foreground transition-colors duration-300",
                 link: "text-foreground underline-offset-4 hover:underline hover:text-primary transition-colors duration-300",
                 // §5 Blueprint: "cta-link" — kicker + hairline horizontal animada

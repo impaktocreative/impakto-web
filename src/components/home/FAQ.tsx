@@ -81,7 +81,7 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section className="relative overflow-hidden py-28 md:py-36 bg-[#f7f8f5] border-t border-foreground/8">
+    <section className="relative overflow-hidden py-28 md:py-36 bg-band border-t border-foreground/8">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_84%_18%,rgba(164,154,130,0.12),transparent_35%)]" />
 
       <div className="container relative z-10 mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
@@ -93,19 +93,19 @@ export default function FAQ() {
             variants={INTRO_CONTAINER}
             className="lg:col-span-4 lg:pr-6 lg:sticky lg:top-28"
           >
-            <motion.p variants={INTRO_ITEM} className="mb-4 flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.2em] text-foreground/45">
+            <motion.p variants={INTRO_ITEM} className="mb-4 flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/45">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
               Resolvemos dudas clave
             </motion.p>
-            <motion.h2 variants={INTRO_ITEM} className="font-heading font-normal text-4xl md:text-[3.8rem] leading-[0.92] tracking-[-0.02em] text-foreground mb-6 text-balance">
+            <motion.h2 variants={INTRO_ITEM} className="font-heading font-normal text-4xl md:text-display-lg tracking-[-0.02em] text-foreground mb-6 text-balance">
               Preguntas frecuentes
             </motion.h2>
-            <motion.p variants={INTRO_ITEM} className="text-foreground/62 leading-[1.64] text-[1.03rem] max-w-sm">
+            <motion.p variants={INTRO_ITEM} className="text-foreground/62 text-body max-w-sm">
               Respuestas directas para conocer nuestra forma de trabajo y los
               beneficios que aporta en cada etapa.
             </motion.p>
 
-            <motion.div variants={INTRO_ITEM} className="mt-8 overflow-hidden rounded-2xl border border-foreground/10 shadow-[0_20px_34px_-28px_rgba(50,50,47,0.4)]">
+            <motion.div variants={INTRO_ITEM} className="mt-8 overflow-hidden rounded-card border border-foreground/10 shadow-premium-lift">
               <div className="aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.22),rgba(54,53,49,0.22)),url('/media/faq.webp')] bg-cover bg-center" />
             </motion.div>
           </motion.div>
@@ -122,13 +122,13 @@ export default function FAQ() {
               key={faq.question}
               variants={FAQ_ITEM}
               whileHover={{ y: -2 }}
-               className="group border border-foreground/10 bg-white/60 p-5 md:p-6 open:bg-white transition-all duration-300 rounded-2xl shadow-[0_16px_28px_-30px_rgba(50,50,47,0.5)]"
+               className="group border border-foreground/10 bg-white/60 p-5 md:p-6 open:bg-white transition-all duration-300 rounded-card shadow-premium-lift"
              >
-               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[clamp(0.84rem,4.2vw,0.9rem)] font-medium leading-[1.42] text-foreground md:text-[1.08rem] md:leading-[1.5]">
+               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-body-sm font-medium text-foreground md:text-body">
                   {faq.question}
                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-foreground/14 text-foreground/55 transition-all group-open:rotate-45 group-open:border-primary/40">+</span>
                 </summary>
-              <p className="mt-4 text-[clamp(0.8rem,3.95vw,0.86rem)] leading-[1.58] text-foreground/70 md:text-[1rem] md:leading-[1.66]">{faq.answer}</p>
+              <p className="mt-4 text-body-sm text-foreground/70 md:text-body">{faq.answer}</p>
             </motion.details>
           ))}
           </motion.div>

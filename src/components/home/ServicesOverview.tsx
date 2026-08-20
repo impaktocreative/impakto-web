@@ -73,7 +73,7 @@ const services = [
 
 export default function ServicesOverview() {
   return (
-    <section className="relative overflow-hidden py-28 md:py-36 bg-[#24282d] text-background border-t border-white/8">
+    <section className="relative overflow-hidden py-28 md:py-36 bg-night-soft text-background border-t border-white/8">
       <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.14]" />
       <div className="ambient-orb pointer-events-none absolute -left-24 bottom-16 h-56 w-56 rounded-full bg-primary/12 blur-3xl" />
       <div className="ambient-orb pointer-events-none absolute right-8 top-14 h-64 w-64 rounded-full bg-secondary/12 blur-3xl" />
@@ -92,14 +92,14 @@ export default function ServicesOverview() {
             variants={SECTION_ITEM}
             className="lg:col-span-4 lg:pr-8"
           >
-            <motion.span variants={SECTION_ITEM} className="mb-6 flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-primary/82">
+            <motion.span variants={SECTION_ITEM} className="mb-6 flex items-center gap-2 text-eyebrow font-medium uppercase tracking-[0.18em] text-primary/82">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Áreas principales
             </motion.span>
-            <motion.h2 variants={SECTION_ITEM} className="font-heading font-normal text-[2.7rem] md:text-[4.2rem] mb-8 text-background leading-[0.92] tracking-[-0.02em] text-balance">
+            <motion.h2 variants={SECTION_ITEM} className="font-heading font-normal text-display-lg mb-8 text-background tracking-[-0.02em] text-balance">
               Áreas principales de trabajo
             </motion.h2>
-            <motion.p variants={SECTION_ITEM} className="text-background/80 leading-[1.68] mb-10 text-[1rem] md:text-[1.04rem]">
+            <motion.p variants={SECTION_ITEM} className="text-background/80 mb-10 text-body">
               La oferta se organiza en áreas definidas para construir presencia,
               orden y consistencia en distintos niveles del negocio.
             </motion.p>
@@ -127,7 +127,7 @@ export default function ServicesOverview() {
                 >
                   <span className="pointer-events-none absolute left-0 top-0 h-full w-px bg-gradient-to-b from-primary/0 via-primary/60 to-primary/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="mb-6 flex items-start justify-between gap-4">
-                    <h3 className="font-heading font-normal text-[2.2rem] md:text-[2.55rem] text-background group-hover:text-primary/95 transition-colors duration-300 leading-[1.02] tracking-[-0.01em]">{service.title}</h3>
+                    <h3 className="font-heading font-normal text-display-sm text-background group-hover:text-primary/95 transition-colors duration-300 tracking-[-0.01em]">{service.title}</h3>
                     <motion.div
                       whileHover={{ scale: 1.1, x: 5 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -135,7 +135,7 @@ export default function ServicesOverview() {
                       <ArrowRight className="text-primary/55 -rotate-45 transition-all duration-300 group-hover:text-primary group-hover:rotate-0 w-8 h-8" />
                     </motion.div>
                   </div>
-                  <p className="text-background/80 leading-[1.68] max-w-xl text-[1.02rem] md:text-[1.06rem] group-hover:text-background transition-colors duration-300">{service.description}</p>
+                  <p className="text-background/80 max-w-xl text-body group-hover:text-background transition-colors duration-300">{service.description}</p>
                 </motion.article>
               ))}
             </div>

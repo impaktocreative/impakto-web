@@ -33,7 +33,7 @@ const fit = [
 
 export default function IdealClient() {
   return (
-    <section className="bg-[#f8f9f6] py-28 md:py-36 border-t border-foreground/7">
+    <section className="bg-band py-28 md:py-36 border-t border-foreground/7">
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         {/* §3 hairline border */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-foreground/10">
@@ -48,7 +48,7 @@ export default function IdealClient() {
           >
             {/* Capa de textura mineral/abstracta — sin personas corporativas */}
             <div
-              className="absolute inset-0 bg-cover bg-center grayscale transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
+              className="absolute inset-0 bg-cover bg-center grayscale transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
               style={{
                 backgroundImage: `
                   linear-gradient(rgba(54,53,49,0.28),rgba(54,53,49,0.18)),
@@ -76,14 +76,14 @@ export default function IdealClient() {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-7 p-9 md:p-14 lg:p-16"
           >
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-foreground/42">Con quién trabajamos mejor</p>
+            <p className="text-eyebrow uppercase tracking-[0.22em] text-foreground/42">Con quién trabajamos mejor</p>
             <h2
-              className="mt-4 font-heading leading-[0.91] tracking-[-0.02em] text-foreground text-balance"
-              style={{ fontSize: "clamp(2rem, 3.5vw, 4rem)" }}
+              className="mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
+              style={{ fontSize: "var(--text-display-lg)" }}
             >
               Proyectos donde nuestra forma de trabajo genera mayor impacto.
             </h2>
-            <p className="mt-6 text-[1.05rem] md:text-[1.1rem] leading-[1.72] text-foreground/60 max-w-[40rem]">
+            <p className="mt-6 text-body md:text-body-lg text-foreground/60 max-w-[40rem]">
               Los mejores resultados aparecen cuando hay una decisión real de
               ordenar la comunicación, elevar percepción y consolidar una base
               comercial consistente. También trabajamos junto a agencias de
@@ -105,10 +105,10 @@ export default function IdealClient() {
                   variants={LIST_ITEM}
                   className="group flex items-start gap-4 border-t border-foreground/8 py-4 last:border-b last:border-foreground/8"
                 >
-                  <span className="text-foreground/25 text-[0.68rem] tracking-[0.14em] pt-1 min-w-[2rem] font-heading transition-colors duration-500 group-hover:text-foreground/55">
+                  <span className="text-foreground/25 text-eyebrow tracking-[0.14em] pt-1 min-w-[2rem] font-heading transition-colors duration-500 group-hover:text-foreground/55">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-[1rem] text-foreground/68 leading-[1.58] transition-colors duration-500 group-hover:text-foreground/88">
+                  <p className="text-body text-foreground/68 transition-colors duration-500 group-hover:text-foreground/88">
                     {item}
                   </p>
                 </motion.li>

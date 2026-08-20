@@ -90,8 +90,8 @@ export default function IntroPanel() {
 
             {/* Cita de composición en la base del panel */}
             <div className="relative z-10">
-              <p className="text-[0.65rem] uppercase tracking-[0.22em] text-primary/60 mb-3">Impakto Creative</p>
-              <p className="font-heading text-background/40 text-[1.4rem] leading-[1.2] tracking-[-0.01em]">
+              <p className="text-eyebrow uppercase tracking-[0.22em] text-primary/60 mb-3">Impakto Creative</p>
+              <p className="font-heading text-background/40 text-lead tracking-[-0.01em]">
                 Estrategia.<br />Estructura.<br />Presencia.
               </p>
             </div>
@@ -105,15 +105,15 @@ export default function IntroPanel() {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-7 p-9 md:p-14 lg:p-[4.5rem] border border-white/10 border-l-0"
           >
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-primary/75">Nuestra metodología</p>
+            <p className="text-eyebrow uppercase tracking-[0.22em] text-primary/75">Nuestra metodología</p>
             <h2
-              className="mt-5 font-heading leading-[0.92] tracking-[-0.02em] text-background text-balance"
-              style={{ fontSize: "clamp(2rem, 3.8vw, 4.1rem)" }}
+              className="mt-5 font-heading tracking-[-0.02em] text-background text-balance"
+              style={{ fontSize: "var(--text-display-lg)" }}
             >
               Así construimos marcas con{" "}
               <span className="gold-reflect gold-reflect-light">dirección, criterio y consistencia.</span>
             </h2>
-            <div className="mt-9 space-y-6 text-[1.02rem] md:text-[1.12rem] leading-[1.72] text-background/80 max-w-[43rem]">
+            <div className="mt-9 space-y-6 text-body md:text-body-lg text-background/80 max-w-[43rem]">
               <p>
                 No trabajamos con acciones sueltas. Integramos estrategia, estructura
                 y comunicación como un sistema para que cada decisión tenga continuidad.

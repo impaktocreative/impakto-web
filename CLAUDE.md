@@ -218,15 +218,43 @@ Antes había 5 `.woff2` en `public/fonts/` que nunca se cargaban — sin `@font-
 
 ### Estilos
 
-Tokens en `@theme` de `globals.css`, nunca colores hex sueltos en componentes:
+Todo sale de `@theme` en `globals.css`. **Cero valores sueltos en componentes** — ni hex, ni `text-[1.02rem]`, ni `rounded-[0.9rem]`, ni `shadow-[...]`. Si falta algo, se agrega como token primero.
+
+Los nombres son propios a propósito (`text-body`, `rounded-card`) en vez de pisar los de Tailwind (`text-sm`, `rounded-md`): el admin usa las utilidades por defecto — 279 `text-sm`, 141 `rounded-md` — y redefinirlas le cambiaría la interfaz entera.
+
+**Color.** `primary`, `secondary` y `accent` solo pasan AA sobre `night` y `night-soft`; sobre `background` dan 2.57, 2.66 y 1.27. Para texto o bordes sobre fondo claro va `primary-ink` / `secondary-ink`.
 
 ```
 --color-primary #a49a82 · --color-secondary #8e9b93 · --color-accent #d8ddd7
---color-background #f5f6f2 · --color-foreground #32322f · --color-surface #fcfcfa
+--color-primary-ink #736c5b · --color-secondary-ink #636c67
+--color-background #f5f6f2 · --color-band #f7f8f5 · --color-surface #fcfcfa
+--color-surface-muted #eef1ec · --color-foreground #32322f
 --color-night #1f2327 · --color-night-soft #2d3136
---font-heading "Season Serif" (serif) · --font-sans "Inter"
---shadow-premium-{soft,deep,glow} · --ease-luxury cubic-bezier(0.16, 1, 0.3, 1)
+--color-whatsapp #2f8d68 · --color-whatsapp-strong #246f53
 ```
+
+**Tipografía.** Seis pasos de texto y seis de titular, cada uno con su interlineado pareado. No hace falta poner `leading-*` a mano.
+
+```
+texto:    text-eyebrow 12 · text-caption 13 · text-body-sm 15
+          text-body 17 · text-body-lg 19 · text-lead 22
+titular:  text-display-{xs,sm,md,lg,xl,2xl}  — clamp() fluido, sin escaleras de breakpoint
+```
+
+Piso de 12px para cualquier texto. Los titulares no llevan escalera `sm:/md:/lg:`: el `clamp()` ya escala.
+
+**Forma, sombra, movimiento.**
+
+```
+--radius-{inset,card,panel}  ·  rounded-full para píldoras
+--shadow-premium-{soft,lift,deep,night,glow}
+--shadow-premium-gold · --shadow-node-glow · --shadow-whatsapp
+--duration-{fast,base,slow,slower,ambient}  150/300/500/700/1200ms
+--ease-luxury cubic-bezier(0.16, 1, 0.3, 1)  — el único easing
+--font-heading Instrument Serif · --font-sans Inter
+```
+
+Antes de esta consolidación el home tenía 33 tamaños de fuente, 26 interlineados, 16 radios, 28 sombras y 19 colores escritos a mano.
 
 El sitio público usa cursor custom (`cursor: none` global + `CustomCursor`). El admin lo desactiva agregando `.is-admin` al body vía `AdminBodyClass` — cualquier estilo global nuevo debe contemplar esa clase.
 

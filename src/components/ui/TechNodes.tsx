@@ -19,7 +19,7 @@ export default function TechNodes({ className }: TechNodesProps) {
       {nodes.map((node) => (
         <motion.span
           key={`${node.top}-${node.left}`}
-          className="pointer-events-none absolute h-2 w-2 rounded-full bg-primary/55 shadow-[0_0_0_1px_rgba(216,193,136,0.38),0_0_18px_rgba(216,193,136,0.32)]"
+          className="pointer-events-none absolute h-2 w-2 rounded-full bg-primary/55 shadow-node-glow"
           style={{ top: node.top, left: node.left }}
           animate={{ opacity: [0.25, 1, 0.25], scale: [0.92, 1.25, 0.92] }}
           transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: node.delay }}

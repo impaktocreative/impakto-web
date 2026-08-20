@@ -19,13 +19,81 @@
   --color-primary-ink: #736c5b;
   --color-secondary-ink: #636c67;
 
+  /* Banda intermedia entre background y surface. Estaba escrita a mano en
+     nueve tonos casi idénticos (#f7f8f5, #f7f7f4, #f8f8f6, #f8f9f6…). */
+  --color-band: #f7f8f5;
+
+  /* Verde de WhatsApp. Estaba hardcodeado en tres variantes distintas. */
+  --color-whatsapp: #2f8d68;
+  --color-whatsapp-strong: #246f53;
+
   --font-heading: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+
+  /* ---------------------------------------------------------------
+     Escala tipográfica del sitio público.
+     Nombres propios a propósito: el admin usa las utilidades por
+     defecto de Tailwind (279 text-sm, 114 text-xs), así que redefinir
+     --text-sm o --radius-md le cambiaría la tipografía entera.
+     Antes de esto convivían 73 declaraciones de tamaño distintas,
+     nueve de ellas entre 16 y 18px separadas por décimas.
+     --------------------------------------------------------------- */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.45;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.6;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.68;
+  --text-body-lg: 1.1875rem;
+  --text-body-lg--line-height: 1.66;
+  --text-lead: 1.375rem;
+  --text-lead--line-height: 1.5;
+
+  /* Titulares. Fluidos, para no necesitar una escalera de breakpoints
+     por componente — la del h1 del home llegaba a seis pasos y ni
+     siquiera era monótona (lg quedaba por debajo de md). */
+  --text-display-xs: clamp(1.5rem, 2.4vw, 1.95rem);
+  --text-display-xs--line-height: 1.2;
+  --text-display-sm: clamp(1.8rem, 3.1vw, 2.6rem);
+  --text-display-sm--line-height: 1.12;
+  --text-display-md: clamp(1.95rem, 3.6vw, 3.25rem);
+  --text-display-md--line-height: 1.06;
+  --text-display-lg: clamp(2rem, 4.1vw, 4.05rem);
+  --text-display-lg--line-height: 1.03;
+  --text-display-xl: clamp(2.2rem, 6vw, 4.9rem);
+  --text-display-xl--line-height: 1;
+  --text-display-2xl: clamp(2.35rem, 6.4vw, 5.2rem);
+  --text-display-2xl--line-height: 1;
+
+  /* Radios. Tres, no dieciséis. */
+  --radius-inset: 0.5rem;
+  --radius-card: 0.875rem;
+  --radius-panel: 1.25rem;
+
+  /* Sombras sobre fondo claro y sobre fondo oscuro. Reemplazan 25
+     variantes sueltas que diferían en décimas de alfa. */
+  --shadow-premium-lift: 0 22px 38px -30px rgba(50, 50, 47, 0.5);
+  --shadow-premium-night: 0 28px 48px -36px rgba(0, 0, 0, 0.65);
+
+  /* Sombras tintadas, atadas al color del elemento que las usa. */
+  --shadow-premium-gold: 0 16px 28px -20px rgba(191, 168, 118, 0.65);
+  --shadow-node-glow: 0 0 0 1px rgba(216, 193, 136, 0.38), 0 0 18px rgba(216, 193, 136, 0.32);
+  --shadow-whatsapp: 0 14px 24px -16px rgba(27, 92, 67, 0.75);
   --shadow-premium-soft: 0 4px 12px rgba(54, 53, 49, 0.05), 0 1px 3px rgba(54, 53, 49, 0.02);
   --shadow-premium-deep: 0 24px 48px -12px rgba(54, 53, 49, 0.18), 0 12px 24px -8px rgba(54, 53, 49, 0.12), 0 4px 8px -4px rgba(54, 53, 49, 0.08);
   --shadow-premium-glow: 0 0 40px rgba(175, 163, 133, 0.15), 0 0 20px rgba(175, 163, 133, 0.1);
   /* Blueprint §4 — easing de lujo unificado */
   --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Escala de duración. Antes convivían 0.15 / 0.3 / 0.35 / 0.5 / 0.55 /
+     0.7 / 0.75 / 1.2 / 1.4 s sin criterio. */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 700ms;
+  --duration-ambient: 1200ms;
 }
 
 body {
@@ -261,7 +329,7 @@ button {
 .image-reveal-container img,
 .image-reveal-container [data-image-reveal] {
   transform: scale(1.15);
-  transition: transform 1.2s var(--ease-luxury);
+  transition: transform var(--duration-ambient) var(--ease-luxury);
 }
 
 .image-reveal-container.in-view img,
@@ -323,7 +391,7 @@ button {
   inset: 0;
   background: var(--color-foreground);
   transform: translateY(100%);
-  transition: transform 0.55s var(--ease-luxury);
+  transition: transform var(--duration-slow) var(--ease-luxury);
   z-index: -1;
 }
 
@@ -336,7 +404,7 @@ button {
   overflow: hidden;
   isolation: isolate;
   transform: translateY(0) scale(1);
-  transition: transform 0.35s var(--ease-luxury), box-shadow 0.35s var(--ease-luxury);
+  transition: transform var(--duration-base) var(--ease-luxury), box-shadow var(--duration-base) var(--ease-luxury);
 }
 
 .btn-premium::before {
@@ -348,7 +416,7 @@ button {
   height: 360%;
   background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0));
   transform: translateX(-160%) rotate(16deg);
-  transition: transform 0.75s var(--ease-luxury);
+  transition: transform var(--duration-slower) var(--ease-luxury);
   pointer-events: none;
   z-index: 0;
 }
@@ -468,7 +536,7 @@ button {
   letter-spacing: 0.2em;
   color: var(--color-foreground);
   text-decoration: none;
-  transition: color 0.5s ease;
+  transition: color var(--duration-slow) ease;
 }
 
 .cta-link::after {
@@ -478,7 +546,7 @@ button {
   height: 1px;
   background: currentColor;
   opacity: 0.6;
-  transition: width 0.5s var(--ease-luxury), opacity 0.5s ease;
+  transition: width var(--duration-slow) var(--ease-luxury), opacity var(--duration-slow) ease;
   flex-shrink: 0;
 }
 

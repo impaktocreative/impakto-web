@@ -58,7 +58,7 @@ export default function ContactForm() {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label htmlFor="nombre" className="mb-2 block text-[0.7rem] uppercase tracking-[0.16em] text-foreground/58">
+          <label htmlFor="nombre" className="mb-2 block text-eyebrow uppercase tracking-[0.16em] text-foreground/58">
             Nombre
           </label>
           <input
@@ -67,11 +67,11 @@ export default function ContactForm() {
             type="text"
             required
             placeholder="Nombre y apellido"
-            className="w-full border border-foreground/14 bg-[#fbfcf8] px-4 py-3.5 text-[0.98rem] text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+            className="w-full border border-foreground/14 bg-surface px-4 py-3.5 text-body text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
           />
         </div>
         <div>
-          <label htmlFor="empresa" className="mb-2 block text-[0.7rem] uppercase tracking-[0.16em] text-foreground/58">
+          <label htmlFor="empresa" className="mb-2 block text-eyebrow uppercase tracking-[0.16em] text-foreground/58">
             Empresa o marca
           </label>
           <input
@@ -80,13 +80,13 @@ export default function ContactForm() {
             type="text"
             required
             placeholder="Empresa u organización"
-            className="w-full border border-foreground/14 bg-[#fbfcf8] px-4 py-3.5 text-[0.98rem] text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+            className="w-full border border-foreground/14 bg-surface px-4 py-3.5 text-body text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="email" className="mb-2 block text-[0.7rem] uppercase tracking-[0.16em] text-foreground/58">
+        <label htmlFor="email" className="mb-2 block text-eyebrow uppercase tracking-[0.16em] text-foreground/58">
           Email
         </label>
         <input
@@ -95,12 +95,12 @@ export default function ContactForm() {
           type="email"
           required
           placeholder="correo@empresa.com"
-          className="w-full border border-foreground/14 bg-[#fbfcf8] px-4 py-3.5 text-[0.98rem] text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-foreground/14 bg-surface px-4 py-3.5 text-body text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
         />
       </div>
 
       <div>
-        <label htmlFor="tipo-proyecto" className="mb-2 block text-[0.7rem] uppercase tracking-[0.16em] text-foreground/58">
+        <label htmlFor="tipo-proyecto" className="mb-2 block text-eyebrow uppercase tracking-[0.16em] text-foreground/58">
           Tipo de necesidad
         </label>
         <select
@@ -108,7 +108,7 @@ export default function ContactForm() {
           name="tipoProyecto"
           required
           defaultValue=""
-          className="w-full border border-foreground/14 bg-[#fbfcf8] px-4 py-3.5 text-[0.98rem] text-foreground/86 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-foreground/14 bg-surface px-4 py-3.5 text-body text-foreground/86 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
         >
           <option value="" disabled>
             Seleccione una opción
@@ -122,7 +122,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="situacion" className="mb-2 block text-[0.7rem] uppercase tracking-[0.16em] text-foreground/58">
+        <label htmlFor="situacion" className="mb-2 block text-eyebrow uppercase tracking-[0.16em] text-foreground/58">
           Situación actual
         </label>
         <textarea
@@ -131,12 +131,12 @@ export default function ContactForm() {
           rows={4}
           required
           placeholder="¿Cuál es el principal desafío que hoy necesita resolver?"
-          className="w-full border border-foreground/14 bg-[#fbfcf8] px-4 py-3.5 text-[0.98rem] text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-foreground/14 bg-surface px-4 py-3.5 text-body text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
         />
       </div>
 
       <div>
-        <label htmlFor="objetivo" className="mb-2 block text-[0.7rem] uppercase tracking-[0.16em] text-foreground/58">
+        <label htmlFor="objetivo" className="mb-2 block text-eyebrow uppercase tracking-[0.16em] text-foreground/58">
           Objetivo principal
         </label>
         <textarea
@@ -145,11 +145,11 @@ export default function ContactForm() {
           rows={4}
           required
           placeholder="¿Qué resultado espera lograr en esta etapa?"
-          className="w-full border border-foreground/14 bg-[#fbfcf8] px-4 py-3.5 text-[0.98rem] text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-foreground/14 bg-surface px-4 py-3.5 text-body text-foreground/86 transition-colors duration-300 placeholder:text-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
         />
       </div>
 
-      <p id="contacto-ayuda" className="text-[0.9rem] leading-[1.6] text-foreground/62">
+      <p id="contacto-ayuda" className="text-body-sm text-foreground/62">
         Una consulta bien planteada permite iniciar una conversación más clara y útil.
       </p>
 
@@ -162,8 +162,8 @@ export default function ContactForm() {
         {status === "submitting" ? "Enviando..." : "Enviar brief de contacto"}
       </Button>
 
-      {status === "success" ? <p role="status" aria-live="polite" className="border border-foreground/12 bg-accent/20 px-4 py-3 text-[0.92rem] text-foreground/82">{feedback}</p> : null}
-      {status === "error" ? <p role="alert" className="border border-red-300/70 bg-red-50 px-4 py-3 text-[0.92rem] text-red-700">{feedback}</p> : null}
+      {status === "success" ? <p role="status" aria-live="polite" className="border border-foreground/12 bg-accent/20 px-4 py-3 text-body-sm text-foreground/82">{feedback}</p> : null}
+      {status === "error" ? <p role="alert" className="border border-red-300/70 bg-red-50 px-4 py-3 text-body-sm text-red-700">{feedback}</p> : null}
     </form>
   );
 }

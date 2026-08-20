@@ -35,7 +35,7 @@ const painPoints = [
 
 export default function PainPoints() {
   return (
-    <section className="relative py-28 md:py-36 bg-[#f2f4f0] border-t border-foreground/7">
+    <section className="relative py-28 md:py-36 bg-surface-muted border-t border-foreground/7">
       <div className="pointer-events-none absolute inset-0 premium-grid-light opacity-35" />
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         <motion.div
@@ -45,14 +45,14 @@ export default function PainPoints() {
           transition={{ duration: 0.85, ease: EASE_LUXURY }}
           className="mx-auto max-w-4xl text-center"
         >
-          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-foreground/42">Dónde aportamos más valor</p>
+          <p className="text-eyebrow uppercase tracking-[0.22em] text-foreground/42">Dónde aportamos más valor</p>
           <h2
-            className="mt-4 font-heading leading-[0.92] tracking-[-0.02em] text-foreground text-balance"
-            style={{ fontSize: "clamp(2rem, 3.4vw, 3.95rem)" }}
+            className="mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
+            style={{ fontSize: "var(--text-display-lg)" }}
           >
             Hay momentos en los que una marca necesita algo más que ejecución.
           </h2>
-          <p className="mx-auto mt-7 text-[1.02rem] md:text-[1.1rem] leading-[1.72] text-foreground/62 max-w-[42rem]">
+          <p className="mx-auto mt-7 text-body md:text-body-lg text-foreground/62 max-w-[42rem]">
              En esos contextos intervenimos con dirección estratégica y ejecución
              integrada para recuperar claridad, consistencia y tracción comercial.
           </p>
@@ -75,13 +75,13 @@ export default function PainPoints() {
                 {/* Índice monumental */}
                 <span
                   className="font-heading text-foreground/14 leading-none pt-[0.15rem] block transition-all duration-700 group-hover:text-foreground/45"
-                  style={{ fontSize: "clamp(1.6rem, 2.4vw, 2.4rem)", letterSpacing: "-0.02em" }}
+                  style={{ fontSize: "var(--text-display-sm)", letterSpacing: "-0.02em" }}
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
 
                 {/* Texto */}
-                <p className="pt-1 text-[clamp(0.82rem,4vw,0.88rem)] leading-[1.5] text-foreground/68 transition-colors duration-500 group-hover:text-foreground/88 md:text-[1.04rem] md:leading-[1.66]">
+                <p className="pt-1 text-body-sm text-foreground/68 transition-colors duration-500 group-hover:text-foreground/88 md:text-body">
                   {item}
                 </p>
               </motion.div>

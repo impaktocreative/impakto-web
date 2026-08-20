@@ -20,7 +20,7 @@ const repeated = [...logos, ...logos];
 
 export default function ClientLogosCarousel() {
   return (
-    <section className="border-b border-foreground/7 bg-[#f7f8f4] py-5 md:py-6">
+    <section className="border-b border-foreground/7 bg-band py-5 md:py-6">
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -29,11 +29,11 @@ export default function ClientLogosCarousel() {
           transition={{ duration: 0.65 }}
           className="mb-4 flex items-center justify-between"
         >
-          <p className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.2em] text-foreground/45">
+          <p className="flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/45">
             <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
             Marcas que confiaron en Impakto
           </p>
-          <span className="rounded-full border border-foreground/12 px-3 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-foreground/45">
+          <span className="rounded-full border border-foreground/12 px-3 py-1 text-eyebrow uppercase tracking-[0.16em] text-foreground/45">
             40+ proyectos
           </span>
         </motion.div>
@@ -44,7 +44,7 @@ export default function ClientLogosCarousel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-70px" }}
           transition={{ duration: 0.75, delay: 0.08 }}
-          className="relative overflow-hidden rounded-2xl border border-foreground/10 bg-white/70 shadow-[0_16px_34px_-28px_rgba(50,50,47,0.4)] logos-scroll-container"
+          className="relative overflow-hidden rounded-card border border-foreground/10 bg-white/70 shadow-premium-lift logos-scroll-container"
         >
           <div
             className="logos-track flex w-max items-stretch gap-0"

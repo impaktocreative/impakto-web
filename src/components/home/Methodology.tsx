@@ -61,7 +61,7 @@ export default function Methodology() {
   const imageInView = useInView(imageRef, { once: true, margin: "-80px" });
 
   return (
-    <section id="metodo" className="relative overflow-hidden py-28 md:py-36 bg-[#2a2f34] text-background border-t border-white/8">
+    <section id="metodo" className="relative overflow-hidden py-28 md:py-36 bg-night-soft text-background border-t border-white/8">
       <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.13]" />
 
       {/* §6 Blueprint — iluminación ambiental radial en sección oscura */}
@@ -77,19 +77,19 @@ export default function Methodology() {
             variants={INTRO_CONTAINER}
             className="lg:col-span-5 lg:col-start-8"
           >
-            <motion.p variants={INTRO_ITEM} className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-primary/75">
+            <motion.p variants={INTRO_ITEM} className="flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-primary/75">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Cómo trabajamos
             </motion.p>
             {/* §2 Blueprint — tipografía fluida clamp() */}
             <motion.h2
               variants={INTRO_ITEM}
-              className="mt-4 font-heading leading-[0.91] tracking-[-0.02em] text-background text-balance"
-              style={{ fontSize: "clamp(2.1rem, 3.5vw, 4rem)" }}
+              className="mt-4 font-heading tracking-[-0.02em] text-background text-balance"
+              style={{ fontSize: "var(--text-display-lg)" }}
             >
               Nuestra metodología: claridad estratégica y ejecución consistente.
             </motion.h2>
-            <motion.p variants={INTRO_ITEM} className="mt-7 text-[1.02rem] md:text-[1.12rem] leading-[1.72] text-background/80 max-w-[31rem]">
+            <motion.p variants={INTRO_ITEM} className="mt-7 text-body md:text-body-lg text-background/80 max-w-[31rem]">
               Este proceso nos permite alinear estrategia, diseño y rendimiento
               comercial para que su marca crezca con menos fricción y más consistencia.
             </motion.p>
@@ -126,12 +126,12 @@ export default function Methodology() {
                 whileHover={{ x: 2 }}
                 className="grid grid-cols-[4.8rem_1fr] gap-4 md:gap-6 border-b border-white/12 p-6 md:p-7 last:border-b-0"
               >
-                <p className="text-[0.68rem] tracking-[0.22em] uppercase text-background/45 pt-1">Paso {step.number}</p>
+                <p className="text-eyebrow tracking-[0.22em] uppercase text-background/45 pt-1">Paso {step.number}</p>
                 <div>
-                  <h3 className="font-heading leading-[1.01] tracking-[-0.01em] text-background/96" style={{ fontSize: "clamp(1.5rem, 2.2vw, 2.2rem)" }}>
+                  <h3 className="font-heading tracking-[-0.01em] text-background/96" style={{ fontSize: "var(--text-display-sm)" }}>
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-[1rem] leading-[1.66] text-background/78">{step.description}</p>
+                  <p className="mt-3 text-body text-background/78">{step.description}</p>
                 </div>
               </motion.article>
             ))}
