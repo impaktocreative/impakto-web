@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Términos",
@@ -13,9 +14,28 @@ export const metadata: Metadata = {
   },
 };
 
+const terminosSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Términos de uso",
+  description:
+    "Términos de uso de Impakto Creative para el contenido informativo del sitio y alcance comercial de los servicios.",
+  url: `${siteUrl}/terminos`,
+  inLanguage: "es-AR",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Impakto Creative",
+    url: siteUrl,
+  },
+};
+
 export default function TerminosPage() {
   return (
     <main id="contenido-principal" className="flex-grow pt-[88px]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(terminosSchema) }}
+      />
       <section className="relative overflow-hidden border-b border-foreground/8 bg-background py-20 md:py-24">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_88%_10%,rgba(142,155,147,0.12),transparent_32%)]" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">

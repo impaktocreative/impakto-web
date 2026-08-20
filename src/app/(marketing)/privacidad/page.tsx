@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacidad",
@@ -13,9 +14,28 @@ export const metadata: Metadata = {
   },
 };
 
+const privacidadSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Política de privacidad",
+  description:
+    "Política de privacidad de Impakto Creative sobre tratamiento de datos de contacto y solicitudes de eliminación o modificación.",
+  url: `${siteUrl}/privacidad`,
+  inLanguage: "es-AR",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Impakto Creative",
+    url: siteUrl,
+  },
+};
+
 export default function PrivacidadPage() {
   return (
     <main id="contenido-principal" className="flex-grow pt-[88px]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(privacidadSchema) }}
+      />
       <section className="relative overflow-hidden border-b border-foreground/8 bg-background py-20 md:py-24">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_8%,rgba(164,154,130,0.12),transparent_30%)]" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">

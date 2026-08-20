@@ -1,10 +1,30 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+
+// El template se remonta en cada navegación. La bandera vive a nivel de módulo
+// para sobrevivir a esos remounts y distinguir la primera carga de las
+// navegaciones internas.
+//
+// En la primera carga la cortina costaba ~2 s de LCP: cubría la pantalla hasta
+// 1.55 s después de hidratar, y encima el contenido entraba desde opacity 0.
+// La transición se conserva al navegar entre páginas, que es donde se lee como
+// intención de diseño y no como una espera.
+let hasNavigatedInSession = false;
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const prefersReducedMotion = useReducedMotion();
+  const [isFirstLoad] = useState(() => !hasNavigatedInSession);
+
+  useEffect(() => {
+    hasNavigatedInSession = true;
+  }, []);
+
+  if (isFirstLoad) {
+    return <div className="flex min-h-screen flex-col">{children}</div>;
+  }
 
   return (
     <>

@@ -11,17 +11,6 @@ import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const STAGGER_SLOW_CONTAINER = {
-  hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: {
-      delayChildren: 0.08,
-      staggerChildren: 0.09,
-    },
-  },
-};
-
 const STAGGER_MEDIUM_CONTAINER = {
   hidden: { opacity: 1 },
   show: {
@@ -41,17 +30,6 @@ const STAGGER_FAST_CONTAINER = {
       delayChildren: 0.02,
       staggerChildren: 0.03,
     },
-  },
-};
-
-const STAGGER_ITEM_SLOW = {
-  hidden: { opacity: 0, y: 26, scale: 0.985, filter: "blur(10px)" },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: { duration: 0.8, ease: EASE_LUXURY },
   },
 };
 
@@ -272,24 +250,27 @@ export default function AgenciaContent() {
         </div>
         <div className="pointer-events-none absolute inset-y-0 right-[6%] hidden w-px bg-gradient-to-b from-transparent via-foreground/15 to-transparent lg:block" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <motion.div initial="hidden" animate="show" variants={STAGGER_SLOW_CONTAINER} className="max-w-[50rem]" style={{ y: heroY, opacity: heroOpacity }}>
-              <motion.p variants={STAGGER_ITEM_SLOW} className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] text-foreground/45">
+          {/* El wrapper conserva el parallax por scroll; la entrada pasa a CSS.
+              Con los variants de framer el h1 arrancaba en opacity 0 + blur y
+              el LCP no se registraba hasta después de hidratar. */}
+          <motion.div className="max-w-[50rem]" style={{ y: heroY, opacity: heroOpacity }}>
+              <p className="hero-rise flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] text-foreground/45">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
                 Estudio
-              </motion.p>
-              <motion.h1 variants={STAGGER_ITEM_SLOW} className="mt-5 max-w-[18ch] font-heading text-balance text-[clamp(2.2rem,6.4vw,5rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
+              </p>
+              <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[18ch] font-heading text-balance text-[clamp(2.2rem,6.4vw,5rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
                 Una historia de experiencia, <span className="gold-reflect gold-reflect-slow font-medium">evolución</span> y <span className="gold-reflect gold-reflect-slow font-medium">compromiso</span> con cada marca.
-              </motion.h1>
-              <motion.p variants={STAGGER_ITEM_SLOW} className="mt-7 max-w-[46rem] text-[1rem] leading-[1.72] text-foreground/68 md:text-[1.12rem]">
+              </h1>
+              <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[46rem] text-[1rem] leading-[1.72] text-foreground/68 md:text-[1.12rem]">
                 Acompañamos compañías que necesitan elevar su posicionamiento con una dirección más clara, una ejecución más precisa y una presencia de marca más sólida.
-              </motion.p>
-              <motion.p variants={STAGGER_ITEM_SLOW} className="mt-6 flex w-full max-w-[48rem] flex-wrap items-center gap-x-2 gap-y-1 border border-foreground/12 bg-white/75 px-4 py-2 text-[0.62rem] font-medium uppercase tracking-[0.12em] text-foreground/64 md:w-fit md:text-[0.68rem]">
+              </p>
+              <p className="hero-rise hero-rise-delay-3 mt-6 flex w-full max-w-[48rem] flex-wrap items-center gap-x-2 gap-y-1 border border-foreground/12 bg-white/75 px-4 py-2 text-[0.62rem] font-medium uppercase tracking-[0.12em] text-foreground/64 md:w-fit md:text-[0.68rem]">
                 <span>+20 años de experiencia</span>
                 <span className="text-foreground/30">/</span>
                 <span>Equipo multidisciplinario</span>
                 <span className="text-foreground/30">/</span>
                 <span>Acompañamiento estratégico</span>
-              </motion.p>
+              </p>
           </motion.div>
         </div>
       </section>
@@ -598,7 +579,10 @@ export default function AgenciaContent() {
                         src={encodeURI(`/logos/clientes/${logo.file}`)}
                         alt={logo.name}
                         fill
+                        // La celda topea en 182px de ancho.
+                        sizes="182px"
                         className={`object-contain object-center grayscale opacity-75 ${logoOpticalScale[logo.file] ?? "scale-100"}`}
+                        loading="lazy"
                       />
                     </div>
                   </motion.div>

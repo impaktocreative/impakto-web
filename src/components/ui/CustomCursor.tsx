@@ -1,8 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValue } from "framer-motion";
+
+const POINTER_COARSE = "(pointer: coarse)";
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
+function subscribeToPointerPreferences(onChange: () => void) {
+    const coarse = window.matchMedia(POINTER_COARSE);
+    const reduced = window.matchMedia(REDUCED_MOTION);
+
+    coarse.addEventListener("change", onChange);
+    reduced.addEventListener("change", onChange);
+
+    return () => {
+        coarse.removeEventListener("change", onChange);
+        reduced.removeEventListener("change", onChange);
+    };
+}
+
+function readPointerPreferences() {
+    return (
+        !window.matchMedia(POINTER_COARSE).matches &&
+        !window.matchMedia(REDUCED_MOTION).matches
+    );
+}
+
+// El servidor no puede conocer el puntero del visitante. Devolver false acá
+// hace que el primer render coincida en ambos lados; React vuelve a renderizar
+// con el valor real apenas hidrata.
+function readOnServer() {
+    return false;
+}
 
 export default function CustomCursor() {
     const pathname = usePathname();
@@ -10,22 +40,14 @@ export default function CustomCursor() {
     const [isHovering, setIsHovering] = useState(false);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const [isVisible] = useState(
-        () =>
-            typeof window !== "undefined" &&
-            !window.matchMedia("(pointer: coarse)").matches &&
-            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const isVisible = useSyncExternalStore(
+        subscribeToPointerPreferences,
+        readPointerPreferences,
+        readOnServer
     );
 
     useEffect(() => {
-        if (isAdminPath) {
-            return;
-        }
-
-        if (
-            window.matchMedia("(pointer: coarse)").matches ||
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
+        if (isAdminPath || !isVisible) {
             return;
         }
 
@@ -56,7 +78,7 @@ export default function CustomCursor() {
             window.removeEventListener("mousemove", updateMousePosition);
             window.removeEventListener("mouseover", handleMouseOver);
         };
-    }, [x, y, isAdminPath]);
+    }, [x, y, isAdminPath, isVisible]);
 
     if (isAdminPath) return null;
 

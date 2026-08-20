@@ -64,11 +64,10 @@ export default function Navbar() {
       />
 
       <div className="container relative mx-auto max-w-[1320px] px-5 md:px-10 lg:px-14 xl:px-16">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className={`relative flex items-center px-0 transition-all duration-300 ${
+        {/* Entrada por CSS: con framer el logo se pintaba recién al hidratar
+            y en /contacto era el elemento del LCP, a 2.9 s. */}
+        <div
+          className={`hero-rise relative flex items-center px-0 transition-all duration-300 ${
             isScrolled ? "h-[3.95rem] md:h-[4.5rem]" : "h-[4.35rem] md:h-[5.1rem]"
           } ${
             isScrolled ? "border-b border-transparent" : "border-b border-foreground/10"
@@ -127,7 +126,7 @@ export default function Navbar() {
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-        </motion.div>
+        </div>
 
         <AnimatePresence>
           {isMobileMenuOpen && (

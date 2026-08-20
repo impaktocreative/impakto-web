@@ -63,29 +63,23 @@ export default function ContactoContent() {
         <div className="pointer-events-none absolute inset-y-0 right-[7%] hidden w-px bg-gradient-to-b from-transparent via-foreground/14 to-transparent lg:block" />
 
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <Reveal>
-            <p className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] text-foreground/45">
-              <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
-              Contacto estratégico
-            </p>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <h1 className="mt-5 max-w-[17ch] font-heading text-balance text-[clamp(2.2rem,6.2vw,4.9rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
-              Conversemos sobre el próximo paso de su marca.
-            </h1>
-          </Reveal>
-          <Reveal delay={0.12}>
-            <p className="mt-7 max-w-[47rem] text-[1.05rem] leading-[1.74] text-foreground/70 md:text-[1.14rem]">
-              Si su organización necesita mejorar posicionamiento, rendimiento comercial o estructura digital, este es el punto de partida para definir un plan de acción serio y viable.
-            </p>
-          </Reveal>
-          <Reveal delay={0.18}>
-            <p className="mt-6 inline-flex flex-wrap items-center gap-2 border border-foreground/12 bg-white/75 px-4 py-2 text-[0.62rem] uppercase tracking-[0.14em] text-foreground/62 md:text-[0.66rem]">
-              Respuesta inicial en 24h hábiles
-              <span className="text-foreground/30">/</span>
-              Sesión de diagnóstico
-            </p>
-          </Reveal>
+          {/* Hero above the fold: entrada por CSS en vez de Reveal, que gatea
+              la opacidad detrás de la hidratación y retrasa el LCP. */}
+          <p className="hero-rise flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] text-foreground/45">
+            <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
+            Contacto estratégico
+          </p>
+          <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[17ch] font-heading text-balance text-[clamp(2.2rem,6.2vw,4.9rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
+            Conversemos sobre el próximo paso de su marca.
+          </h1>
+          <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[47rem] text-[1.05rem] leading-[1.74] text-foreground/70 md:text-[1.14rem]">
+            Si su organización necesita mejorar posicionamiento, rendimiento comercial o estructura digital, este es el punto de partida para definir un plan de acción serio y viable.
+          </p>
+          <p className="hero-rise hero-rise-delay-3 mt-6 inline-flex flex-wrap items-center gap-2 border border-foreground/12 bg-white/75 px-4 py-2 text-[0.62rem] uppercase tracking-[0.14em] text-foreground/62 md:text-[0.66rem]">
+            Respuesta inicial en 24h hábiles
+            <span className="text-foreground/30">/</span>
+            Sesión de diagnóstico
+          </p>
         </div>
       </section>
 

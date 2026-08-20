@@ -237,23 +237,26 @@ export default function ServiciosContent() {
         <div className="pointer-events-none absolute inset-y-0 right-[7%] hidden w-px bg-gradient-to-b from-transparent via-foreground/14 to-transparent lg:block" />
 
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <motion.div initial="hidden" animate="show" variants={STAGGER_MEDIUM} className="max-w-[52rem]">
-            <motion.p variants={ITEM_MEDIUM} className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] text-foreground/45">
+          {/* Hero above the fold: entrada por CSS, no por framer-motion.
+              Con `initial="hidden"` el h1 y el párrafo se pintaban recién al
+              hidratar y el LCP se iba a 3.1 s. */}
+          <div className="max-w-[52rem]">
+            <p className="hero-rise flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] text-foreground/45">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
               Servicios estratégicos
-            </motion.p>
-            <motion.h1 variants={ITEM_MEDIUM} className="mt-5 max-w-[18ch] font-heading text-balance text-[clamp(2.2rem,6.1vw,4.9rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
+            </p>
+            <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[18ch] font-heading text-balance text-[clamp(2.2rem,6.1vw,4.9rem)] leading-[0.92] tracking-[-0.02em] text-foreground">
               Una estructura para captar, convertir y retener con mayor precisión.
-            </motion.h1>
-            <motion.p variants={ITEM_MEDIUM} className="mt-7 max-w-[50rem] text-[1.05rem] leading-[1.74] text-foreground/70 md:text-[1.16rem]">
+            </h1>
+            <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[50rem] text-[1.05rem] leading-[1.74] text-foreground/70 md:text-[1.16rem]">
               Acompañamos organizaciones orientadas a resultados. En lugar de ejecutar herramientas aisladas, diseñamos planes estratégicos integrales para mejorar percepción, rendimiento comercial y sostenibilidad del crecimiento.
-            </motion.p>
-            <motion.p variants={ITEM_MEDIUM} className="mt-5 inline-flex flex-wrap items-center gap-2 border border-foreground/12 bg-white/75 px-4 py-2 text-[0.62rem] uppercase tracking-[0.14em] text-foreground/60 md:text-[0.66rem]">
+            </p>
+            <p className="hero-rise hero-rise-delay-3 mt-5 inline-flex flex-wrap items-center gap-2 border border-foreground/12 bg-white/75 px-4 py-2 text-[0.62rem] uppercase tracking-[0.14em] text-foreground/60 md:text-[0.66rem]">
               Beneficios medibles
               <span className="text-foreground/30">/</span>
               Dirección + implementación
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
         </div>
       </section>
 

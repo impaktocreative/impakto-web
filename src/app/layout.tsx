@@ -3,6 +3,7 @@ import "./globals.css";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import { siteUrl } from "@/lib/site";
+import { instrumentSerif, inter } from "@/lib/fonts";
 
 const siteName = "Impakto Creative";
 const defaultTitle = `${siteName} | Agencia de Posicionamiento y Crecimiento`;
@@ -67,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${inter.variable} ${instrumentSerif.variable}`}>
       <body className="antialiased selection:bg-foreground selection:text-primary min-h-screen flex flex-col font-sans text-foreground bg-background">
         <SmoothScroll>
           <CustomCursor />

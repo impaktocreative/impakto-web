@@ -146,47 +146,31 @@ export default function Hero() {
       <div className="container relative z-10 mx-auto max-w-[1320px] px-7 py-5 md:min-h-[calc(100svh-8.2rem)] md:px-12 md:py-8 lg:px-14 lg:py-10 xl:px-16">
         <div className="grid h-full items-center gap-8 md:gap-10 lg:grid-cols-2 lg:items-center lg:gap-14 xl:gap-18">
           <div className="relative z-20 lg:max-w-[50vw] lg:pr-6 xl:pr-8">
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="mb-5 text-[0.66rem] uppercase tracking-[0.19em] text-foreground/40 md:mb-7 md:text-sm"
-            >
+            <p className="hero-rise mb-5 text-[0.66rem] uppercase tracking-[0.19em] text-foreground/40 md:mb-7 md:text-sm">
               Estrategia, diseño y estructura digital
-            </motion.p>
+            </p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 26, filter: "blur(7px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-[15ch] text-balance font-heading text-[clamp(1.62rem,8.2vw,1.8rem)] font-normal leading-[0.99] tracking-[-0.01em] text-foreground sm:text-[2.8rem] md:text-[3.2rem] lg:max-w-[20ch] lg:text-[3.05rem] xl:max-w-[21ch] xl:text-[3.35rem] 2xl:text-[3.55rem]"
+            <h1
+              className="hero-rise hero-rise-delay-1 max-w-[15ch] text-balance font-heading text-[clamp(1.62rem,8.2vw,1.8rem)] font-normal leading-[0.99] tracking-[-0.01em] text-foreground sm:text-[2.8rem] md:text-[3.2rem] lg:max-w-[20ch] lg:text-[3.05rem] xl:max-w-[21ch] xl:text-[3.35rem] 2xl:text-[3.55rem]"
             >
               Construimos estrategias de comunicación para que su marca{" "}
               <span className="gold-reflect font-medium">venda mejor,</span>{" "}
               <span className="gold-reflect font-medium">online y offline.</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.18 }}
-              className="mt-4 max-w-[39rem] font-sans text-[clamp(0.84rem,4.35vw,0.9rem)] font-normal leading-[1.52] text-foreground/70 md:mt-6 md:text-[1.12rem] md:leading-[1.68] lg:mt-7 lg:max-w-[34rem]"
+            <p
+              className="hero-rise hero-rise-delay-2 mt-4 max-w-[39rem] font-sans text-[clamp(0.84rem,4.35vw,0.9rem)] font-normal leading-[1.52] text-foreground/70 md:mt-6 md:text-[1.12rem] md:leading-[1.68] lg:mt-7 lg:max-w-[34rem]"
             >
               Así trabajamos en Impakto: alineamos mensaje, dirección y presencia de
               marca para atraer mejores oportunidades, convertir con mayor claridad y
               sostener relaciones más sólidas con sus clientes.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.28 }}
-              className="mt-5 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-start lg:mt-9 lg:gap-6"
-            >
+            <div className="hero-rise hero-rise-delay-3 mt-5 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-start lg:mt-9 lg:gap-6">
               <Magnetic strength={1}>
                 <Link
                   href="/contacto"
-                  className="btn-gold-sweep-primary btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-background shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
+                  className="btn-gold-sweep-primary btn-premium relative inline-flex min-h-[2.95rem] w-full items-center justify-center rounded-full bg-primary px-8 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.12em] text-night shadow-premium-soft transition-all duration-300 hover:scale-[1.03] hover:bg-foreground hover:text-background hover:shadow-premium-glow sm:min-h-[3.3rem] sm:w-auto sm:px-9 sm:py-3 sm:text-[0.75rem] sm:tracking-[0.15em]"
                 >
                   Solicitar diagnóstico inicial
                 </Link>
@@ -199,7 +183,7 @@ export default function Hero() {
                   Ver soluciones por objetivo
                 </Link>
               </Magnetic>
-            </motion.div>
+            </div>
           </div>
 
           <motion.div

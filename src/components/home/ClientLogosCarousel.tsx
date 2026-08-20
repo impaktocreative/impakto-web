@@ -60,6 +60,9 @@ export default function ClientLogosCarousel() {
                     src={encodeURI(`/logos/clientes/${logo.file}`)}
                     alt={logo.name}
                     fill
+                    // El slide mide 176px en mobile y 240px desde md. Sin esto
+                    // `fill` asume 100vw y Next sirve la variante de 3840px.
+                    sizes="(min-width: 768px) 240px, 176px"
                     className="object-contain object-center grayscale opacity-68 transition-all duration-500 hover:grayscale-0 hover:opacity-95"
                     loading="lazy"
                   />

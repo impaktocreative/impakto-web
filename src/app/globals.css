@@ -10,8 +10,17 @@
   --color-surface-muted: #eef1ec;
   --color-night: #1f2327;
   --color-night-soft: #2d3136;
-  --font-heading: "Season Serif TRIAL Regular", "Season Serif TRIAL", "Season", "The Seasons", "Baskerville", Georgia, serif;
-  --font-sans: "Inter", "Inter Placeholder", "Mundial", system-ui, sans-serif;
+
+  /* Variantes legibles sobre fondo claro.
+     primary/secondary/accent solo alcanzan AA sobre night y night-soft:
+     sobre background dan 2.57, 2.66 y 1.27. Para texto o bordes sobre
+     fondo claro va la variante -ink; los originales quedan para relleno
+     y decoración. */
+  --color-primary-ink: #736c5b;
+  --color-secondary-ink: #636c67;
+
+  --font-heading: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
   --shadow-premium-soft: 0 4px 12px rgba(54, 53, 49, 0.05), 0 1px 3px rgba(54, 53, 49, 0.02);
   --shadow-premium-deep: 0 24px 48px -12px rgba(54, 53, 49, 0.18), 0 12px 24px -8px rgba(54, 53, 49, 0.12), 0 4px 8px -4px rgba(54, 53, 49, 0.08);
   --shadow-premium-glow: 0 0 40px rgba(175, 163, 133, 0.15), 0 0 20px rgba(175, 163, 133, 0.1);
@@ -258,6 +267,46 @@ button {
 .image-reveal-container.in-view img,
 .image-reveal-container.in-view [data-image-reveal] {
   transform: scale(1.0);
+}
+
+/* Entrada del hero en CSS, no en JS.
+   Con framer-motion estos elementos se renderizaban en opacity:0 y solo
+   se pintaban al hidratar: el LCP se iba a 4.0 s. Una animación CSS
+   arranca en el primer pintado y deja el LCP pegado al FCP.
+   Los delays se mantienen cortos por la misma razón. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 0.85s var(--ease-luxury) both;
+}
+
+.hero-rise-delay-1 {
+  animation-delay: 0.04s;
+}
+
+.hero-rise-delay-2 {
+  animation-delay: 0.08s;
+}
+
+.hero-rise-delay-3 {
+  animation-delay: 0.12s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* §5 — Button "tide-fill": el pseudo-elemento sube desde abajo
@@ -633,7 +682,9 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .gold-reflect {
     animation: none;
-    background-position: 50% 50%;
+    /* Parar en 50% dejaba la banda dorada fija sobre el texto, que contra
+       fondo claro no llega a 4.5:1. En 0% el texto queda en --reflect-base. */
+    background-position: 0% 50%;
   }
 
   .footer-icon-wrap::after {

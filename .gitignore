@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# design audit artifacts
+.design/
+
+# codegraph index
+.codegraph/
