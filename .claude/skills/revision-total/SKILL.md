@@ -247,7 +247,18 @@ Para imágenes de contenido nuevas, usar `imagegen-frontend-web` para generar re
 
 Pasada final de sistema: una sola variante de botón por jerarquía (primario, secundario, terciario), un solo lenguaje de card, un solo radio de borde. Auditar `src/components/ui/` y consolidar.
 
-**Gate:** screenshots nuevos vs. `.design/baseline/` lado a lado en los 3 viewports. Lighthouse dentro de umbrales — el rediseño no puede haber costado performance. Cero hex sueltos: `grep -rn "#[0-9a-fA-F]\{3,6\}" src/components src/app/\(marketing\)` devuelve vacío.
+**Gate:** screenshots nuevos vs. `.design/baseline/` lado a lado en los 3 viewports. Lighthouse dentro de umbrales — el rediseño no puede haber costado performance. Cero valores sueltos:
+
+```bash
+grep -rnE "text-\[|leading-\[|rounded-\[|shadow-\[|(bg|text|border|from|via|to)-\[#|rgba\(" src/components "src/app/(marketing)"
+```
+
+El `rgba(` del final no es opcional: un color escrito dentro de un `linear-gradient()` no lo detecta el grep de hex y sobrevive a la migración.
+
+**Dos trampas de esta migración, verificadas:**
+
+1. **`src/components/ui/Modal.tsx` lo importa el admin.** Antes de correr cualquier reemplazo masivo sobre `src/components`, chequear qué comparte el admin: `grep -rhoE "@/components/[a-zA-Z/]+" "src/app/(admin)" | sort -u`. Lo que aparezca ahí queda excluido.
+2. **El interlineado pareado de la escala solo llega con la clase utilitaria.** Si un elemento fija el tamaño con `style={{ fontSize: "var(--text-display-lg)" }}`, no hereda `--text-display-lg--line-height`. Quitar los `leading-[...]` de esos elementos los deja con el interlineado heredado. Convertirlos a la clase antes de barrer los `leading`.
 
 ---
 
