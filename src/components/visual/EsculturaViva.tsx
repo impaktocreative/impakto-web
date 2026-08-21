@@ -68,7 +68,7 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
     const giro = { x: 0, y: 0, objX: 0, objY: 0 }
 
     const hilo = tono === 'claro' ? '90, 88, 82' : '236, 234, 229'
-    const alfaHilo = tono === 'claro' ? 0.07 : 0.055
+    const alfaHilo = tono === 'claro' ? 0.1 : 0.075
 
     const construir = (c: Contexto) => {
       const cantidad = c.tactil || c.bajoConsumo ? CINTAS_TACTIL : CINTAS_ESCRITORIO
@@ -113,7 +113,7 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
       // El scroll retuerce la superficie: entra abierta, se cierra al pasar
       // por el centro de la pantalla y vuelve a abrirse al salir.
       const torsion = 0.72 + Math.sin(progreso * Math.PI) * 0.45
-      const giroPropio = tiempo * 0.00006
+      const giroPropio = tiempo * 0.000115
 
       const senX = Math.sin(giro.x)
       const cosX = Math.cos(giro.x)
@@ -191,25 +191,57 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
 
           if (cinta.dorada) {
             ctx.strokeStyle = h % 2 === 0 ? ORO_CLARO : ORO_PALIDO
-            ctx.globalAlpha = 0.14 + cerca * 0.4
+            ctx.globalAlpha = 0.2 + cerca * 0.5
             ctx.lineWidth = 0.9
           } else {
             ctx.strokeStyle = `rgb(${hilo})`
-            ctx.globalAlpha = alfaHilo + cerca * 0.14
+            ctx.globalAlpha = alfaHilo + cerca * 0.2
             ctx.lineWidth = 0.65
           }
           ctx.stroke()
         }
       }
 
-      // El destello: donde el eje de luz corta la pieza. Sigue al puntero, y
+      // Destellos viajando por los hilos. Cada uno recorre una cinta a su
+      // ritmo, se enciende al pasar por la cara de adelante y se apaga al
+      // dar la vuelta: es lo que hace que la pieza esté viva sin cursor.
+      const cuantos = c.tactil || c.bajoConsumo ? 3 : 7
+      for (let d = 0; d < cuantos; d++) {
+        const cinta = cintas[(d * 5 + 2) % cintas.length]
+        const velocidad = 0.000045 + azar(d * 3.3) * 0.00007
+        const tt = (tiempo * velocidad + azar(d * 9.1)) % 1
+        const punto = proyectar(cinta, tt, 0)
+
+        // Solo brilla lo que está de este lado de la pieza.
+        const frente = suave((punto.p - 0.85) * 2.4)
+        if (frente < 0.02) continue
+
+        const radio = (2.2 + frente * 3.6)
+        const halo = ctx.createRadialGradient(punto.x, punto.y, 0, punto.x, punto.y, radio * 6)
+        halo.addColorStop(0, `rgba(242, 232, 205, ${0.5 * frente})`)
+        halo.addColorStop(0.35, `rgba(185, 154, 91, ${0.18 * frente})`)
+        halo.addColorStop(1, 'rgba(185, 154, 91, 0)')
+        ctx.globalAlpha = 1
+        ctx.fillStyle = halo
+        ctx.beginPath()
+        ctx.arc(punto.x, punto.y, radio * 6, 0, Math.PI * 2)
+        ctx.fill()
+
+        ctx.fillStyle = ORO_PALIDO
+        ctx.globalAlpha = 0.55 * frente
+        ctx.beginPath()
+        ctx.arc(punto.x, punto.y, radio * 0.42, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      // El eje de luz: donde el reflejo corta la pieza. Sigue al puntero, y
       // sin puntero se queda en el corazón de la escultura.
       const lx = puntero.activo && !c.tactil ? puntero.x : cx + Math.sin(tiempo * 0.00013) * ancho * 0.12
       const ly = puntero.activo && !c.tactil ? puntero.y : cy + Math.cos(tiempo * 0.00017) * alto * 0.1
       const radio = Math.min(ancho, alto) * 0.38
 
       const luz = ctx.createRadialGradient(lx, ly, 0, lx, ly, radio)
-      luz.addColorStop(0, 'rgba(242, 232, 205, 0.28)')
+      luz.addColorStop(0, 'rgba(242, 232, 205, 0.36)')
       luz.addColorStop(0.32, 'rgba(217, 196, 140, 0.12)')
       luz.addColorStop(1, 'rgba(185, 154, 91, 0)')
       ctx.globalCompositeOperation = tono === 'claro' ? 'multiply' : 'lighter'

@@ -493,14 +493,45 @@ button {
     background-color: var(--color-paper-lift);
   }
 
+  /* Sobre oscuro el filo blanco al 34% se hunde en el fondo. El oro es lo
+     único que tiene brillo propio ahí: filo dorado, un halo tenue detrás y
+     el reflejo recorriéndolo al pasar el cursor. */
   .btn-outline-paper {
-    background-color: transparent;
-    color: var(--color-paper);
-    border: 1px solid color-mix(in srgb, var(--color-paper) 34%, transparent);
+    background-color: color-mix(in srgb, var(--color-gold) 7%, transparent);
+    color: var(--color-gold-pale);
+    border: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-gold-light) 22%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--color-gold) 0%, transparent);
+  }
+
+  .btn-outline-paper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--sheen-gold);
+    background-size: 220% 100%;
+    background-position: -60% 0;
+    opacity: 0;
+    transition:
+      opacity var(--duration-base) var(--ease-luxury),
+      background-position var(--duration-slower) var(--ease-luxury);
+    pointer-events: none;
   }
 
   .btn-outline-paper:hover {
-    border-color: color-mix(in srgb, var(--color-paper) 62%, transparent);
+    background-color: color-mix(in srgb, var(--color-gold) 13%, transparent);
+    border-color: var(--color-gold-light);
+    color: #ffffff;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-gold-light) 40%, transparent),
+      0 0 26px color-mix(in srgb, var(--color-gold) 30%, transparent);
+  }
+
+  .btn-outline-paper:hover::after {
+    opacity: 1;
+    background-position: 140% 0;
   }
 
   /* Filo dorado de 1px. Sirve de regla, de tope de card y de guion
