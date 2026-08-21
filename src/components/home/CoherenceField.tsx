@@ -5,11 +5,15 @@ import { useEffect, useRef } from "react";
 /**
  * Campo de coherencia.
  *
- * Una grilla de trazos que lejos del puntero apuntan cada uno a su lado y
- * cerca se alinean en una misma dirección. Es la propuesta del estudio
- * dibujada: comunicación dispersa que gana dirección. El oro solo aparece
- * donde la alineación es máxima, así que es consecuencia del orden y no
- * decoración encima.
+ * Una grilla de flechas que lejos del puntero apuntan cada una a su lado y
+ * cerca giran todas hacia él. Es la propuesta del estudio dibujada: marcas
+ * dispersas que encuentran dirección, y la dirección es un punto concreto,
+ * no una tendencia difusa.
+ *
+ * Antes se alineaban a un ángulo común y el efecto se leía como "se peinan".
+ * Apuntando al cursor se lee lo otro: hay un norte y todo se ordena hacia él.
+ * El oro solo aparece donde la alineación es máxima, así que sigue siendo
+ * consecuencia del orden y no decoración encima.
  *
  * Todo el trabajo por cuadro va en canvas 2D sobre un ref: React no
  * re-renderiza durante la animación. El bucle se apaga cuando la sección
@@ -28,7 +32,7 @@ const SPACING_DESKTOP = 26;
 const SPACING_MOBILE = 30;
 const BASE_LENGTH = 9;
 const ALIGNED_LENGTH = 22;
-const INFLUENCE = 260;
+const INFLUENCE = 420;
 const GOLD_THRESHOLD = 0.74;
 
 function shortestAngleDelta(from: number, to: number) {
@@ -98,9 +102,6 @@ export default function CoherenceField({ className = "" }: { className?: string 
       if (width === 0 || height === 0) return;
       ctx.clearRect(0, 0, width, height);
 
-      // La dirección "ordenada" respira despacio para que el campo esté
-      // vivo aunque nadie mueva el mouse.
-      const globalAngle = -0.18 + Math.sin(time * 0.00007) * 0.06;
 
       // En touch no hay cursor: un foco de atención recorre el campo solo,
       // así el fenómeno se lee igual sin input.
@@ -140,8 +141,10 @@ export default function CoherenceField({ className = "" }: { className?: string 
           coherence = t * t * (3 - 2 * t); // smoothstep
         }
 
+        // Cada flecha apunta a donde está el foco, no a un ángulo común.
+        const aimAngle = Math.atan2(py - s.y, px - s.x);
         const drift = Math.sin(time * 0.0004 + s.phase) * 0.09;
-        const angle = s.angle + drift + shortestAngleDelta(s.angle + drift, globalAngle) * coherence;
+        const angle = s.angle + drift + shortestAngleDelta(s.angle + drift, aimAngle) * coherence;
         const len = BASE_LENGTH + (ALIGNED_LENGTH - BASE_LENGTH) * coherence;
         const alpha = (coarsePointer ? 0.1 : 0.16) + coherence * (coarsePointer ? 0.24 : 0.42);
 
@@ -156,8 +159,21 @@ export default function CoherenceField({ className = "" }: { className?: string 
 
         const hx = (Math.cos(angle) * len) / 2;
         const hy = (Math.sin(angle) * len) / 2;
+        const puntaX = s.x + hx;
+        const puntaY = s.y + hy;
         ctx.moveTo(s.x - hx, s.y - hy);
-        ctx.lineTo(s.x + hx, s.y + hy);
+        ctx.lineTo(puntaX, puntaY);
+
+        // La punta aparece a medida que la flecha se orienta: dispersa es un
+        // trazo, orientada es una flecha.
+        if (coherence > 0.16) {
+          const ala = Math.min(4.4, len * 0.3) * coherence;
+          const abre = 2.5;
+          ctx.moveTo(puntaX, puntaY);
+          ctx.lineTo(puntaX - Math.cos(angle - abre) * ala, puntaY - Math.sin(angle - abre) * ala);
+          ctx.moveTo(puntaX, puntaY);
+          ctx.lineTo(puntaX - Math.cos(angle + abre) * ala, puntaY - Math.sin(angle + abre) * ala);
+        }
 
         if (coherence > goldThreshold) {
           gold.push({
@@ -188,8 +204,15 @@ export default function CoherenceField({ className = "" }: { className?: string 
           }
           const hx = (Math.cos(g.angle) * g.len * 0.62) / 2;
           const hy = (Math.sin(g.angle) * g.len * 0.62) / 2;
+          const px2 = g.x + hx;
+          const py2 = g.y + hy;
           ctx.moveTo(g.x - hx, g.y - hy);
-          ctx.lineTo(g.x + hx, g.y + hy);
+          ctx.lineTo(px2, py2);
+          const ala = Math.min(4.4, g.len * 0.3);
+          ctx.moveTo(px2, py2);
+          ctx.lineTo(px2 - Math.cos(g.angle - 2.5) * ala, py2 - Math.sin(g.angle - 2.5) * ala);
+          ctx.moveTo(px2, py2);
+          ctx.lineTo(px2 - Math.cos(g.angle + 2.5) * ala, py2 - Math.sin(g.angle + 2.5) * ala);
         }
         ctx.stroke();
       }

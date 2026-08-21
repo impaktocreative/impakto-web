@@ -28,18 +28,19 @@ import { ORO_CLARO, ORO_PALIDO } from './paleta'
  */
 
 type Cinta = {
-  radio: number
-  vueltas: number
-  faseA: number
-  faseB: number
-  amplitud: number
+  /** Desplazamiento de fase sobre el nudo base. Mantiene la forma, cambia el hilo. */
+  fase: number
+  /** Escala respecto del nudo base. Muy cerca de 1: es un haz, no un enjambre. */
+  escala: number
+  /** Inclinación propia, en radianes. Chica: agrupa en vez de dispersar. */
+  ladeo: number
   hilos: number
   dorada: boolean
 }
 
 const CINTAS_ESCRITORIO = 26
 const CINTAS_TACTIL = 10
-const PASOS = 52
+const PASOS = 128
 
 export default function EsculturaViva({
   className = '',
@@ -72,17 +73,17 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
     const construir = (c: Contexto) => {
       const cantidad = c.tactil || c.bajoConsumo ? CINTAS_TACTIL : CINTAS_ESCRITORIO
 
+      // Todas las cintas son el mismo nudo, corrido un poco. Antes cada una
+      // tenía su propia geometría y el resultado era una maraña sin forma:
+      // veintiséis curvas distintas cruzándose no son una escultura, son
+      // ruido. Un haz de copias de la misma curva sí tiene silueta.
       cintas = Array.from({ length: cantidad }, (_, i) => {
         const t = i / (cantidad - 1)
         return {
-          radio: 0.42 + t * 0.5,
-          // Vueltas no enteras: los hilos nunca cierran sobre sí mismos y por
-          // eso el cruce produce trama en vez de un patrón repetido.
-          vueltas: 2 + azar(i * 5.3) * 3.4,
-          faseA: azar(i * 2.7) * Math.PI * 2,
-          faseB: azar(i * 8.1) * Math.PI * 2,
-          amplitud: 0.18 + azar(i * 3.9) * 0.42,
-          hilos: c.tactil || c.bajoConsumo ? 6 : 15,
+          fase: t * 0.42 + azar(i * 2.7) * 0.05,
+          escala: 0.9 + t * 0.16,
+          ladeo: (t - 0.5) * 0.34 + (azar(i * 8.1) - 0.5) * 0.05,
+          hilos: c.tactil || c.bajoConsumo ? 5 : 11,
           // Una sola cinta dorada. El oro es el eje de luz, no un color más.
           dorada: i === Math.floor(cantidad * 0.55),
         }
@@ -95,7 +96,7 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
 
       const cx = ancho * 0.5
       const cy = alto * 0.5
-      const escala = Math.min(ancho, alto) * 0.5
+      const escala = Math.min(ancho, alto) * 0.34
       const distancia = 3.2
 
       // El puntero gira la pieza. Sin puntero gira sola, muy despacio.
@@ -111,7 +112,7 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
 
       // El scroll retuerce la superficie: entra abierta, se cierra al pasar
       // por el centro de la pantalla y vuelve a abrirse al salir.
-      const torsion = 0.55 + Math.sin(progreso * Math.PI) * 0.85
+      const torsion = 0.72 + Math.sin(progreso * Math.PI) * 0.45
       const giroPropio = tiempo * 0.00006
 
       const senX = Math.sin(giro.x)
@@ -119,26 +120,46 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
       const senY = Math.sin(giro.y)
       const cosY = Math.cos(giro.y)
 
-      /** Punto de la cinta en 3D, ya rotado y proyectado a pantalla. */
+      /**
+       * Punto de la cinta en 3D, ya rotado y proyectado a pantalla.
+       *
+       * La curva base es un nudo tórico: da la vuelta P veces alrededor del
+       * eje mientras da Q vueltas alrededor del tubo. Cierra sobre sí mismo,
+       * así que tiene silueta y no se escapa del encuadre, y al ser el mismo
+       * nudo para todas las cintas el conjunto se lee como un cuerpo.
+       */
+      const P = 3
+      const Q = 7
+
       const proyectar = (cinta: Cinta, t: number, desvio: number) => {
-        const a = t * Math.PI * 2 * cinta.vueltas + cinta.faseA + giroPropio
-        const b = t * Math.PI * 2 + cinta.faseB
+        const u = t * Math.PI * 2 + cinta.fase + giroPropio
 
-        // Curva base: un lazo que se pliega sobre sí mismo. La torsión del
-        // scroll cambia cuánto se pliega.
-        let x = Math.cos(a) * cinta.radio + Math.cos(b) * cinta.amplitud * torsion
-        const y = Math.sin(b) * cinta.radio * 0.72 + Math.sin(a * 0.5) * cinta.amplitud
-        let z = Math.sin(a) * cinta.radio * 0.6 + Math.cos(b * 1.5) * cinta.amplitud * torsion
+        // La torsión del scroll aprieta o afloja el tubo del nudo.
+        const r = (2 + Math.cos(Q * u) * torsion) / 3
 
-        // Los hilos de una misma cinta se separan en la normal aproximada.
-        x += Math.cos(b + Math.PI / 2) * desvio
-        z += Math.sin(b + Math.PI / 2) * desvio
+        let x = r * Math.cos(P * u)
+        let y = r * Math.sin(P * u)
+        let z = -Math.sin(Q * u) * 0.42 * torsion
 
+        // Los hilos de una misma cinta se separan en la normal del tubo: es
+        // ese desfase mínimo el que produce el moiré donde se cruzan.
+        const n = Math.cos(Q * u)
+        x += Math.cos(P * u) * desvio * n
+        y += Math.sin(P * u) * desvio * n
+        z += desvio * 0.6
+
+        // Ladeo propio de la cinta, para que el haz tenga volumen.
+        const senL = Math.sin(cinta.ladeo)
+        const cosL = Math.cos(cinta.ladeo)
+        const xl = x * cosL - y * senL
+        const yl = x * senL + y * cosL
+
+        const s = cinta.escala
         // Rotación en Y, después en X.
-        const x1 = x * cosY - z * senY
-        const z1 = x * senY + z * cosY
-        const y1 = y * cosX - z1 * senX
-        const z2 = y * senX + z1 * cosX
+        const x1 = xl * s * cosY - z * s * senY
+        const z1 = xl * s * senY + z * s * cosY
+        const y1 = yl * s * cosX - z1 * senX
+        const z2 = yl * s * senX + z1 * cosX
 
         const p = distancia / (distancia - z2)
         return { x: cx + x1 * escala * p, y: cy + y1 * escala * p, p }
@@ -151,7 +172,7 @@ function crearEscultura(tono: 'claro' | 'oscuro'): FabricaEscena {
         const cinta = cintas[i]
 
         for (let h = 0; h < cinta.hilos; h++) {
-          const desvio = ((h / (cinta.hilos - 1)) - 0.5) * 0.085
+          const desvio = ((h / (cinta.hilos - 1)) - 0.5) * 0.055
 
           ctx.beginPath()
           let profundidadMedia = 0

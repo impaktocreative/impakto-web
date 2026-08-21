@@ -140,9 +140,21 @@ export default function Hero() {
 
       {/* La escultura, calculada cuadro a cuadro y no traída como imagen: gira
           con el puntero, se retuerce con el scroll y el eje de luz dorada la
-          atraviesa desde donde está el cursor. Ocupa el lado derecho, que es
-          el aire que deja el titular. */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] lg:block">
+          atraviesa desde donde está el cursor.
+
+          Ocupa la sección entera y se desvanece hacia la izquierda con una
+          máscara. Antes vivía en un contenedor al 58% y se veía el corte
+          vertical a mitad de pantalla, como si la pieza estuviera recortada
+          con tijera. */}
+      <div
+        className="pointer-events-none absolute inset-0 hidden lg:block"
+        style={{
+          maskImage:
+            'radial-gradient(120% 100% at 78% 50%, rgba(0,0,0,1) 30%, rgba(0,0,0,0.55) 58%, rgba(0,0,0,0) 82%)',
+          WebkitMaskImage:
+            'radial-gradient(120% 100% at 78% 50%, rgba(0,0,0,1) 30%, rgba(0,0,0,0.55) 58%, rgba(0,0,0,0) 82%)',
+        }}
+      >
         <EsculturaViva tono="claro" />
       </div>
 
