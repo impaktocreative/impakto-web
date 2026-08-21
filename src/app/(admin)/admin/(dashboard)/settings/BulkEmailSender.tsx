@@ -2,7 +2,7 @@
 
 import { useActionState, useMemo, useState } from 'react'
 import Editor from 'react-simple-wysiwyg'
-import { AlertCircle, CheckCircle, Code, Eye, EyeOff, Send, Type, Users } from 'lucide-react'
+import { AlertCircle, CheckCircle, ChevronDown, Code, Eye, EyeOff, Send, Type, Users } from 'lucide-react'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import { sendMassEmailAction, sendMassEmailTestAction } from './actions'
 
@@ -25,6 +25,11 @@ type ActionState = {
 } | null
 
 export function BulkEmailSender() {
+  // Arranca cerrado: es un envío a toda la lista de clientes y no tiene por qué
+  // estar abierto de entrada. `montado` deja el formulario en el DOM una vez
+  // abierto, para no perder el borrador al plegarlo.
+  const [abierto, setAbierto] = useState(false)
+  const [montado, setMontado] = useState(false)
   const [mode, setMode] = useState<'visual' | 'html'>('visual')
   const [showPreview, setShowPreview] = useState(false)
   const [subject, setSubject] = useState('Novedades de Impakto Creative')
@@ -39,13 +44,30 @@ export function BulkEmailSender() {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden mb-8">
-      <div className="px-6 py-5 border-b border-gray-100 flex items-start justify-between gap-4">
-        <div>
-          <h2 className="text-base font-semibold text-gray-900">Email Masivo a Clientes</h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Envío a todos los clientes con email cargado, tengan o no servicios activos.
-          </p>
-        </div>
+      <h2>
+        <button
+          type="button"
+          onClick={() => { setAbierto(v => !v); setMontado(true) }}
+          aria-expanded={abierto}
+          aria-controls="email-masivo"
+          className="w-full flex items-start gap-3 px-6 py-5 text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black"
+        >
+          <ChevronDown
+            size={16}
+            className={`mt-0.5 shrink-0 text-gray-400 transition-transform ${abierto ? 'rotate-180' : ''}`}
+          />
+          <span className="min-w-0 flex-1">
+            <span className="block text-base font-semibold text-gray-900">Email Masivo a Clientes</span>
+            <span className="block text-sm text-gray-500 mt-0.5">
+              Envío a todos los clientes con email cargado, tengan o no servicios activos.
+            </span>
+          </span>
+        </button>
+      </h2>
+
+      {montado && (
+      <div id="email-masivo" hidden={!abierto} className="border-t border-gray-100">
+      <div className="px-6 pt-4 flex justify-end">
         <button
           type="button"
           onClick={() => setShowPreview((value) => !value)}
@@ -213,6 +235,8 @@ export function BulkEmailSender() {
             </div>
           )}
         </div>
+      )}
+      </div>
       )}
     </div>
   )

@@ -1,8 +1,8 @@
 'use client'
 
-import { useActionState, useEffect, useState } from 'react'
+import { useActionState, useState } from 'react'
 import { saveTemplateAction, sendTestEmailAction } from './actions'
-import { CheckCircle, AlertCircle, Eye, EyeOff, Code, Type, Send } from 'lucide-react'
+import { CheckCircle, AlertCircle, Eye, EyeOff, Code, Type, Send, ChevronDown } from 'lucide-react'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import Editor from 'react-simple-wysiwyg'
 
@@ -95,25 +95,14 @@ function TemplateEditor({ template }: { template: Template }) {
   const [showPreview, setShowPreview] = useState(false)
   const [mode, setMode] = useState<'visual' | 'html'>('visual')
   const [testEmail, setTestEmail] = useState('')
-  const info = LABELS[template.type]
-
-  useEffect(() => {
-    if (state?.success || testState?.success) {
-      // flash handled by state message
-    }
-  }, [state, testState])
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-      <div className={`px-6 py-4 border-b flex items-start justify-between gap-4 ${info.color} border-opacity-60`}>
-        <div>
-          <h3 className="font-semibold text-base">{info.title}</h3>
-          <p className="text-xs mt-0.5 opacity-75">{info.desc}</p>
-        </div>
+    <>
+      <div className="px-6 pt-4 flex justify-end">
         <button
           type="button"
           onClick={() => setShowPreview(p => !p)}
-          className="flex items-center gap-1.5 text-xs font-medium bg-white/70 hover:bg-white border border-current/20 rounded-md px-2.5 py-1.5 transition-colors flex-shrink-0"
+          className="flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-md px-2.5 py-1.5 transition-colors"
         >
           {showPreview ? <EyeOff size={13} /> : <Eye size={13} />}
           {showPreview ? 'Editar' : 'Previsualizar'}
@@ -280,7 +269,7 @@ function TemplateEditor({ template }: { template: Template }) {
           )}
         </div>
       )}
-    </div>
+    </>
   )
 }
 
@@ -302,11 +291,52 @@ export function EmailTemplatesEditor({ templates }: { templates: Template[] }) {
     }
   }).filter(Boolean) as Template[]
 
+  // Clave ausente = nunca se abrió, así que no se monta. `false` = se abrió y
+  // se volvió a cerrar: queda montado pero oculto, para no perder lo que el
+  // administrador venía escribiendo sin guardar.
+  const [abiertas, setAbiertas] = useState<Record<string, boolean>>({})
+
   return (
-    <div className="flex flex-col gap-6">
-      {sorted.map(t => (
-        <TemplateEditor key={t.type} template={t} />
-      ))}
+    <div className="flex flex-col gap-3">
+      {sorted.map(t => {
+        const info = LABELS[t.type]
+        const abierta = abiertas[t.type] === true
+        const montada = t.type in abiertas
+
+        return (
+          <section key={t.type} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <h3>
+              <button
+                type="button"
+                onClick={() => setAbiertas(prev => ({ ...prev, [t.type]: !prev[t.type] }))}
+                aria-expanded={abierta}
+                aria-controls={`plantilla-${t.type}`}
+                className={`w-full flex items-start gap-3 px-4 sm:px-6 py-3.5 text-left border-l-4 hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black ${info.color}`}
+              >
+                <ChevronDown
+                  size={16}
+                  className={`mt-0.5 shrink-0 transition-transform ${abierta ? 'rotate-180' : ''}`}
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold text-sm">{info.title}</span>
+                  <span className="block text-xs opacity-75 truncate">{info.desc}</span>
+                </span>
+                <span className="hidden sm:block text-[11px] opacity-60 shrink-0">
+                  {t.updated_at
+                    ? `Editada el ${new Date(t.updated_at).toLocaleDateString('es-AR')}`
+                    : 'Sin guardar todavía'}
+                </span>
+              </button>
+            </h3>
+
+            {montada && (
+              <div id={`plantilla-${t.type}`} hidden={!abierta}>
+                <TemplateEditor template={t} />
+              </div>
+            )}
+          </section>
+        )
+      })}
     </div>
   )
 }
