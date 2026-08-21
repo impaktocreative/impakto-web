@@ -303,10 +303,11 @@ UNION ALL SELECT 'payments.description',
 UNION ALL SELECT 'clients.facturar',
   EXISTS (SELECT 1 FROM information_schema.columns
           WHERE table_schema='public' AND table_name='clients' AND column_name='facturar')
+-- to_regprocedure y no pg_get_function_identity_arguments: esa función
+-- devuelve los argumentos con nombre ('p_emisor_id uuid, ...'), así que
+-- compararla contra la lista de tipos siempre da falso negativo.
 UNION ALL SELECT 'arca_reservar_numero(uuid,int,int)',
-  EXISTS (SELECT 1 FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
-          WHERE n.nspname='public' AND p.proname='arca_reservar_numero'
-            AND pg_get_function_identity_arguments(p.oid) = 'uuid, integer, integer')
+  to_regprocedure('public.arca_reservar_numero(uuid,integer,integer)') IS NOT NULL
 UNION ALL SELECT 'estado suspendido permitido',
   EXISTS (SELECT 1 FROM pg_constraint
           WHERE conname='client_services_status_check'
