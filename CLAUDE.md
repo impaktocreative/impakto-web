@@ -119,6 +119,7 @@ supabase_bank_fee_deduction.sql
 supabase_email_automation_migration.sql
 supabase_esquema_real.sql               # refleja la base real
 supabase_pendientes.sql                 # ARCA + ajustes + ingreso manual — aplicado
+supabase_movimientos_excluidos.sql      # exclude_from_totals — aplicado
 ```
 
 Marcados como supersedidos, se conservan solo como registro y **no hay que correrlos**: `supabase_arca_facturacion_migration.sql`, `supabase_arca_clientes_fix.sql`, `supabase_arca_dos_emisores.sql`. Los tres asumen un emisor único o parten de tablas que nunca existieron; `supabase_pendientes.sql` los reemplaza y crea el esquema directamente con los dos emisores.
@@ -304,6 +305,13 @@ El sitio público usa cursor custom (`cursor: none` global + `CustomCursor`). El
 
 El admin va con paleta neutra de Tailwind (`bg-gray-50`, `text-gray-900`), no con los tokens de marca. Son dos sistemas visuales distintos a propósito.
 
+**Componentes compartidos del admin** en `src/app/(admin)/admin/ui/`:
+
+- `IconButton` / `IconLink` / `IconButtonGroup` — todo botón de icono sale de acá. 36px, icono de 16, un solo radio y un solo foco. `label` sirve de `aria-label` y de `title`. Los tonos (`neutral`, `peligro`, `exito`, `aviso`) pintan al pasar por encima, no en reposo: una columna con un botón rojo por fila grita en cada renglón.
+- `EstadoBadge` / `VencimientoBadge` / `ReceptorBadge` — el estado dice en qué situación está el servicio, el vencimiento dice cuánto falta o cuánta mora lleva. No repetir el mismo dato en dos etiquetas.
+
+Antes de escribir un botón de icono o una etiqueta de estado a mano: usar estos. La versión anterior tenía dos tamaños de botón, ocho de icono y tres grises para lo mismo.
+
 ### API Routes
 
 - `POST /api/contacto` — valida campos requeridos, `sanitize()` + `escapeHtml()` sobre todo input antes de meterlo en el HTML del mail, chequea formato de email por regex, y envía por Brevo.
@@ -362,6 +370,8 @@ Las env vars se cargan en el dashboard de Vercel o con `vercel env`. Las `.env.l
 - **El remoto de git tenía un token de GitHub embebido** en `.git/config`. Rotarlo también.
 - **Editar o borrar un pago mueve el vencimiento del servicio.** `recalcularServicio()` lo rehace desde los pagos que quedan. Antes solo se actualizaba al registrar, así que corregir un error dejaba al servicio figurando al día.
 - **El aviso de pago duplicado se consultaba después de insertar**, así que encontraba el pago recién creado y saltaba en todos los cobros.
+- **`new Date('YYYY-MM-DD')` es medianoche UTC.** En Argentina eso cae el día anterior: un pago del 21 se mostraba el 20, y el conteo de días hasta el vencimiento salía corrido. Para columnas `date` va `fechaLocal()` / `diasHasta()` de `src/lib/fecha.ts`; `new Date()` directo solo sirve para `timestamptz` como `created_at`.
+- **Un archivo `.sql` escrito no es una migración aplicada.** Verificar contra la base antes de escribir cualquier migración que dependa de la anterior.
 
 ---
 
@@ -371,5 +381,5 @@ Las env vars se cargan en el dashboard de Vercel o con `vercel env`. Las `.env.l
 2. `updateSession` en `utils/supabase/middleware.ts` llama a `getUser()` y descarta el resultado — la llamada es necesaria para el refresh, pero el `user` sin usar dispara warning de lint.
 3. Los `prevState: any` en las server actions podrían tiparse con el tipo de retorno de cada acción.
 4. **`AGENT_GUIDE.md` está desactualizado.** Manda leer `../PROJECT_MAP.md`, `../design_system_blueprint.md` y `../.agents/skills/` — ninguno existe en `/Users/sergio/Projects/`. Este `CLAUDE.md` reemplaza esas referencias; el `AGENT_GUIDE` solo sirve ya por el tono de diseño ("Design by Subtraction", "Negative Friction", premium high-ticket).
-5. **La facturación ARCA tiene el esquema y la configuración, no la emisión.** Los CUIT de los dos emisores se cargan desde `/admin/settings`; falta portar la librería (WSAA, WSFEv1, QR de la RG 4892), la página `/admin/facturacion`, el enganche con `registerPaymentAction` y la marca `facturar` por cliente. Los emisores arrancan con CUIT `-1` y `-2`: son placeholders para que un CUIT sin cargar no pase por válido. **Nada puede emitir hasta que se carguen los reales**, junto con el punto de venta habilitado y el certificado de homologación.
+5. **La facturación ARCA tiene el esquema y los datos, no la emisión.** Los CUIT de los dos emisores se cargan desde `/admin/settings` y los datos fiscales de cada cliente desde su ficha. Falta portar la librería (WSAA, WSFEv1, QR de la RG 4892), la página `/admin/facturacion` y el enganche con `registerPaymentAction`. Los emisores arrancan con CUIT `-1` y `-2`: son placeholders para que un CUIT sin cargar no pase por válido. **Nada puede emitir hasta que se carguen los reales**, junto con el punto de venta habilitado y el certificado de homologación.
 6. **`DATA.txt` en la raíz** tiene las claves del proyecto en texto plano. Está en `.gitignore` y nunca se commiteó — verificado contra todo el historial — pero sigue en el disco sin cifrar.
