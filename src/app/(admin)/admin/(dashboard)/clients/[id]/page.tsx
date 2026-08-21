@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Mail, Phone, Globe, FileText, Receipt } from 'lucide-react'
 import { formatearCuit } from '@/lib/cuit'
-import { etiquetaCondicionIva } from '@/lib/arca-receptor'
+import { etiquetaCondicionIva, faltantesParaFacturar, FALTANTES } from '@/lib/arca-receptor'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { ClientServicesPanel } from './ClientServicesPanel'
@@ -27,6 +27,10 @@ export default async function ClientDetailPage({
   ])
 
   if (!client) notFound()
+
+  // Lo que le falta para aparecer en la lista de facturación. Se calcula acá
+  // para que el administrador lo vea en la ficha y no al momento de emitir.
+  const faltaParaFacturar = faltantesParaFacturar(client)
 
   return (
     <div>
@@ -75,14 +79,27 @@ export default async function ClientDetailPage({
                   <Receipt size={15} className="text-gray-400 flex-shrink-0 mt-0.5" />
                   <div className="min-w-0 text-sm">
                     <p className="font-medium text-gray-800">Se factura</p>
+                    {client.razon_social && (
+                      <p className="text-xs text-gray-500 break-words">{client.razon_social}</p>
+                    )}
                     <p className="font-mono text-xs text-gray-500 mt-0.5">
                       {client.cuit ? formatearCuit(client.cuit) : 'Sin CUIT'}
                     </p>
                     <p className="text-xs text-gray-500">
                       {etiquetaCondicionIva(client.cond_iva_receptor)}
                     </p>
-                    {client.razon_social && (
-                      <p className="text-xs text-gray-500 break-words">{client.razon_social}</p>
+
+                    {faltaParaFacturar.length > 0 ? (
+                      <p className="mt-2 rounded-md bg-amber-50 px-2 py-1.5 text-xs text-amber-800 ring-1 ring-inset ring-amber-600/20">
+                        No aparece al emitir: {faltaParaFacturar.map(f => FALTANTES[f]).join(', ').toLowerCase()}.
+                      </p>
+                    ) : (
+                      <Link
+                        href="/admin/facturacion"
+                        className="mt-2 inline-block text-xs font-medium text-gray-700 underline"
+                      >
+                        Emitir una factura
+                      </Link>
                     )}
                   </div>
                 </div>

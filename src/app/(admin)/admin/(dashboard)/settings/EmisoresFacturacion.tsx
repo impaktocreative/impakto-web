@@ -4,6 +4,7 @@ import { useActionState, useState } from 'react'
 import { AlertCircle, CheckCircle, ChevronDown } from 'lucide-react'
 import { saveEmisorAction } from './actions'
 import { cuitSinCargar, cuitValido, formatearCuit } from '@/lib/cuit'
+import { DiagnosticoArca } from './DiagnosticoArca'
 
 export type Emisor = {
   id: string
@@ -248,6 +249,7 @@ export function EmisoresFacturacion({ emisores }: { emisores: Emisor[] }) {
             {montado && (
               <div id={`emisor-${e.clave}`} hidden={!abierto}>
                 <FormularioEmisor emisor={e} />
+                {!faltaCuit && <DiagnosticoArca emisorId={e.id} />}
               </div>
             )}
           </section>

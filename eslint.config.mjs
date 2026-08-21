@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Los skills son material de referencia, no código de la app: se copian y
+    // se adaptan a src/. Lintearlos ahí sería pedirle a la referencia que
+    // cumpla las reglas de un proyecto que todavía no la usó.
+    ".claude/skills/**",
   ]),
 ]);
 
