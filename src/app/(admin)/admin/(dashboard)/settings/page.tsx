@@ -1,19 +1,43 @@
 import { createClient } from '@/utils/supabase/server'
 import { EmailTemplatesEditor } from './EmailTemplatesEditor'
 import { BulkEmailSender } from './BulkEmailSender'
-import { Mail } from 'lucide-react'
+import { EmisoresFacturacion, type Emisor } from './EmisoresFacturacion'
+import { Mail, Receipt } from 'lucide-react'
 
 export default async function SettingsPage() {
   const supabase = await createClient()
-  const { data: templates } = await supabase
-    .from('email_templates')
-    .select('type, subject, body, updated_at')
-    .order('type')
+  const [{ data: templates }, { data: emisores }] = await Promise.all([
+    supabase
+      .from('email_templates')
+      .select('type, subject, body, updated_at')
+      .order('type'),
+    supabase
+      .from('arca_emisores')
+      .select('id, clave, cuit, razon_social, condicion_fiscal, pto_vta, domicilio, pie_comprobante, entorno')
+      .order('clave'),
+  ])
 
   return (
     <div>
       <h1 className="text-3xl font-bold mb-2">Configuración</h1>
-      <p className="text-sm text-gray-500 mb-8">Administrá las plantillas de los emails automáticos que reciben los clientes.</p>
+      <p className="text-sm text-gray-500 mb-8">Datos de facturación y plantillas de los emails automáticos.</p>
+
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-2 bg-gray-100 rounded-lg">
+          <Receipt size={20} className="text-gray-600" />
+        </div>
+        <div>
+          <h2 className="text-base font-semibold text-gray-900">Datos de facturación</h2>
+          <p className="text-sm text-gray-500">
+            Un CUIT por emisor. Al facturar se elige cuál de los dos emite, y cada uno lleva su propia
+            numeración ante ARCA.
+          </p>
+        </div>
+      </div>
+
+      <div className="mb-10">
+        <EmisoresFacturacion emisores={(emisores ?? []) as Emisor[]} />
+      </div>
 
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2 bg-gray-100 rounded-lg">

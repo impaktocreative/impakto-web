@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import type { ActionState } from '@/types/admin'
+import { cuitValido, soloDigitos } from '@/lib/cuit'
 
 const PREVIEW_DATA: Record<string, string> = {
   '{{nombre}}': 'Juan García',
@@ -195,4 +196,84 @@ export async function sendMassEmailAction(prevState: ActionState | null, formDat
     total: recipients.length,
     failedEmails,
   }
+}
+
+/**
+ * Datos fiscales de un emisor. El CUIT es lo único que ARCA usa para
+ * identificar quién factura, así que se valida antes de guardarlo y se bloquea
+ * una vez que ese emisor tiene comprobantes: cambiarlo dejaría una serie
+ * numerada a nombre de otro contribuyente.
+ */
+export async function saveEmisorAction(prevState: ActionState | null, formData: FormData) {
+  const id = formData.get('id') as string
+  if (!id) return { success: false, message: 'Falta el emisor.' }
+
+  const razonSocial = ((formData.get('razon_social') as string) ?? '').trim()
+  if (!razonSocial) return { success: false, message: 'La razón social es requerida.' }
+
+  const cuitTexto = soloDigitos((formData.get('cuit') as string) ?? '')
+  if (!cuitValido(cuitTexto)) {
+    return { success: false, message: 'El CUIT no es válido. Tienen que ser 11 dígitos y el último es un verificador.' }
+  }
+  const cuit = Number(cuitTexto)
+
+  const ptoVta = Number(formData.get('pto_vta'))
+  if (!Number.isInteger(ptoVta) || ptoVta < 1) {
+    return { success: false, message: 'El punto de venta tiene que ser un número mayor a cero.' }
+  }
+
+  const condicionFiscal = formData.get('condicion_fiscal') as string
+  if (!['monotributo', 'responsable_inscripto', 'exento'].includes(condicionFiscal)) {
+    return { success: false, message: 'Condición fiscal inválida.' }
+  }
+
+  const entorno = formData.get('entorno') as string
+  if (!['homologacion', 'produccion'].includes(entorno)) {
+    return { success: false, message: 'Entorno inválido.' }
+  }
+
+  const supabase = await createClient()
+
+  const { data: actual, error: errorLectura } = await supabase
+    .from('arca_emisores')
+    .select('cuit')
+    .eq('id', id)
+    .single()
+
+  if (errorLectura || !actual) {
+    return { success: false, message: 'No se encontró el emisor.' }
+  }
+
+  if (Number(actual.cuit) !== cuit) {
+    const { count } = await supabase
+      .from('arca_comprobantes')
+      .select('id', { count: 'exact', head: true })
+      .eq('emisor_id', id)
+
+    if ((count ?? 0) > 0) {
+      return {
+        success: false,
+        message: `No se puede cambiar el CUIT: este emisor ya tiene ${count} comprobante(s). Cargá un emisor nuevo en vez de reescribir este.`,
+      }
+    }
+  }
+
+  const { error } = await supabase
+    .from('arca_emisores')
+    .update({
+      razon_social: razonSocial,
+      cuit,
+      pto_vta: ptoVta,
+      condicion_fiscal: condicionFiscal,
+      entorno,
+      domicilio: ((formData.get('domicilio') as string) ?? '').trim() || null,
+      pie_comprobante: ((formData.get('pie_comprobante') as string) ?? '').trim() || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', id)
+
+  if (error) return { success: false, message: `Error: ${error.message}` }
+
+  revalidatePath('/admin/settings')
+  return { success: true, message: 'Datos de facturación guardados.' }
 }
