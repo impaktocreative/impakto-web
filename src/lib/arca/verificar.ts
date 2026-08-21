@@ -113,17 +113,33 @@ export async function verificarConexion(
       }))
 
     const propio = puntos.find(p => p.nro === emisor.ptoVta)
-    agregar(
-      'Punto de venta',
-      Boolean(propio && !propio.bloqueado),
-      propio
-        ? propio.bloqueado
-          ? `El punto de venta ${emisor.ptoVta} está bloqueado.`
-          : `El ${emisor.ptoVta} está habilitado (${propio.tipo}).`
-        : `El ${emisor.ptoVta} no figura entre los habilitados. Disponibles: ${
-            puntos.map(p => `${p.nro} (${p.tipo})`).join(', ') || 'ninguno'
-          }.`,
-    )
+
+    if (propio) {
+      agregar(
+        'Punto de venta',
+        !propio.bloqueado,
+        propio.bloqueado
+          ? `El ${emisor.ptoVta} está bloqueado en ARCA.`
+          : `El ${emisor.ptoVta} está habilitado (${propio.tipo}).`,
+      )
+    } else if (emisor.entorno === 'homologacion' && puntos.length === 0) {
+      // Homologación no publica puntos de venta por FEParamGetPtosVenta, pero
+      // acepta emitir con cualquier número. No es un fallo: es que este paso
+      // no prueba nada hasta producción.
+      agregar(
+        'Punto de venta',
+        true,
+        `Homologación no lleva registro de puntos de venta y acepta cualquiera, así que el ${emisor.ptoVta} funciona acá. Hay que verificarlo de nuevo al pasar a producción.`,
+      )
+    } else {
+      agregar(
+        'Punto de venta',
+        false,
+        `El ${emisor.ptoVta} no figura entre los habilitados. Disponibles: ${
+          puntos.map(p => `${p.nro} (${p.tipo})`).join(', ') || 'ninguno'
+        }.`,
+      )
+    }
   } catch (e) {
     agregar('Punto de venta', false, e instanceof Error ? e.message : String(e))
     return { pasos, puntosDeVentaDisponibles: puntos, ultimoNumero }
