@@ -236,7 +236,7 @@ export default function Hero() {
                   >
                     <span aria-hidden="true" className="hairline-gold absolute inset-x-5 top-0 h-px" />
                     <span className="mb-2.5 flex items-center gap-2 text-eyebrow uppercase text-fog">
-                      <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={12} className="h-3 w-auto invert" />
+                      <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={12} className="h-3 w-auto" />
                       Impakto
                     </span>
                     <p className="text-body-sm text-ash">
