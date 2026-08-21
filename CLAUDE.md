@@ -118,12 +118,31 @@ supabase_add_due_date_expenses.sql
 supabase_bank_fee_deduction.sql
 supabase_email_automation_migration.sql
 supabase_esquema_real.sql               # refleja la base real
-supabase_arca_facturacion_migration.sql # facturación ARCA
+supabase_pendientes.sql                 # ARCA + ajustes + ingreso manual — aplicado
 ```
+
+Marcados como supersedidos, se conservan solo como registro y **no hay que correrlos**: `supabase_arca_facturacion_migration.sql`, `supabase_arca_clientes_fix.sql`, `supabase_arca_dos_emisores.sql`. Los tres asumen un emisor único o parten de tablas que nunca existieron; `supabase_pendientes.sql` los reemplaza y crea el esquema directamente con los dos emisores.
 
 Al agregar una tabla o columna: escribir un `.sql` nuevo idempotente (`IF NOT EXISTS` / `ADD COLUMN IF NOT EXISTS`) y correrlo desde el SQL editor de Supabase.
 
 **Los `.sql` divergieron de la base.** Varias columnas se agregaron directo desde el editor de Supabase sin escribir el archivo. `supabase_schema.sql` dice `price_ars` donde la base tiene `price`, y no menciona `currency`, `receiver`, `deduct_bank_fee` ni `cuit`. `supabase_esquema_real.sql` documenta lo que hay de verdad y es idempotente. **Antes de asumir un nombre de columna, consultá la base, no los archivos.**
+
+**Un archivo escrito no es una migración aplicada.** Las tablas `arca_*` figuraban como creadas durante semanas y no existía ninguna. Para verificarlo sin credenciales de escritura alcanza con PostgREST usando la service role key: `select` sobre la tabla devuelve 200 si existe, `PGRST205` si no, y 400 si la tabla está pero falta la columna.
+
+### Correr SQL sin abrir el dashboard
+
+Con un token de Management API (`sbp_…`, se genera en `supabase.com/dashboard/account/tokens`) se puede ejecutar DDL por HTTP:
+
+```bash
+curl -X POST "https://api.supabase.com/v1/projects/$PROJECT_REF/database/query" \
+  -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  --data-binary @payload.json   # {"query": "<sql>"}
+```
+
+Devuelve el resultado de la última sentencia, así que conviene cerrar el archivo con un `SELECT` de comprobación. Las claves de la app no sirven para esto: son de PostgREST y no ejecutan DDL.
+
+El token da acceso a toda la cuenta, no a un proyecto: es para un uso puntual y se revoca al terminar. Cloudflare rechaza el request con 403 y `error code: 1010` si el cliente no manda un User-Agent creíble — `urllib` de Python cae ahí, `curl` no.
 
 ### Reglas de facturación recurrente
 
@@ -352,3 +371,6 @@ Las env vars se cargan en el dashboard de Vercel o con `vercel env`. Las `.env.l
 2. `updateSession` en `utils/supabase/middleware.ts` llama a `getUser()` y descarta el resultado — la llamada es necesaria para el refresh, pero el `user` sin usar dispara warning de lint.
 3. Los `prevState: any` en las server actions podrían tiparse con el tipo de retorno de cada acción.
 4. **`AGENT_GUIDE.md` está desactualizado.** Manda leer `../PROJECT_MAP.md`, `../design_system_blueprint.md` y `../.agents/skills/` — ninguno existe en `/Users/sergio/Projects/`. Este `CLAUDE.md` reemplaza esas referencias; el `AGENT_GUIDE` solo sirve ya por el tono de diseño ("Design by Subtraction", "Negative Friction", premium high-ticket).
+5. **La facturación ARCA tiene el esquema, no la implementación.** Están las tablas y la reserva de número; falta portar la librería (WSAA, WSFEv1, QR de la RG 4892), la página `/admin/facturacion`, la configuración de los dos emisores en el panel y el enganche con `registerPaymentAction`. Los dos emisores arrancan con CUIT `-1` y `-2`: son placeholders para que un CUIT sin cargar no pase por válido. **Nada puede emitir hasta que se carguen los reales**, junto con el punto de venta habilitado y el certificado de homologación.
+6. **`/admin/settings` mide 6702px en escritorio y 9538px en teléfono.** Seis editores de plantilla abiertos a la vez: hay que scrollear casi todo para llegar al último. Falta colapsarlos.
+7. **`DATA.txt` en la raíz** tiene las claves del proyecto en texto plano. Está en `.gitignore` y nunca se commiteó — verificado contra todo el historial — pero sigue en el disco sin cifrar.
