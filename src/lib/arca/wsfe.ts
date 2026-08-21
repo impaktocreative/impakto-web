@@ -7,9 +7,9 @@
  */
 
 import 'server-only';
-import { detalleDeRed } from './errores';
 import { XMLParser } from 'fast-xml-parser';
-import { endpoints, NS_WSFE, TIMEOUT_MS, type Entorno } from './config';
+import { endpoints, NS_WSFE, type Entorno } from './config';
+import { postSoap } from './http';
 import type { TicketAcceso } from './wsaa';
 
 const parser = new XMLParser({
@@ -94,26 +94,14 @@ export async function llamarWSFE<T = unknown>(
 
   onRequest?.(envelope);
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-
   const url = endpoints(entorno).wsfe;
   let texto: string;
   try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/xml; charset=utf-8',
-        SOAPAction: NS_WSFE + metodo,
-      },
-      body: envelope,
-      signal: controller.signal,
-    });
-    texto = await res.text();
+    texto = await postSoap(url, envelope, NS_WSFE + metodo);
   } catch (e) {
-    throw new Error(`No se pudo conectar con ${url} (${metodo}): ${detalleDeRed(e)}`);
-  } finally {
-    clearTimeout(timer);
+    throw new Error(
+      `No se pudo conectar con WSFEv1 (${metodo}). ${e instanceof Error ? e.message : String(e)}`,
+    );
   }
 
   const parsed = parser.parse(texto);
