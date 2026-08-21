@@ -64,6 +64,11 @@ export default function IntroPanel() {
                 fondo oscuro es lo que hace que el oro tenga reflejo en vez de
                 verse mostaza. */}
             <Cubismo tono="papel" />
+
+            {/* Velo bajo el texto: en teléfono el panel es angosto y la firma
+                quedaba montada sobre el trazo. Un degradé del propio negro,
+                sin caja, para que la pieza siga viéndose entera arriba. */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,transparent,rgba(10,10,9,0.82)_62%,rgba(10,10,9,0.92))]" />
             <motion.div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 p-px"

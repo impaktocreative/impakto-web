@@ -51,7 +51,7 @@ export default function WhatsAppFloating() {
   }, []);
 
   return (
-    <div ref={panelRef} className="fixed bottom-[calc(0.9rem+env(safe-area-inset-bottom))] right-[calc(0.9rem+env(safe-area-inset-right))] z-[65] md:bottom-6 md:right-6">
+    <div ref={panelRef} className="fixed bottom-[calc(4.4rem+env(safe-area-inset-bottom))] right-[calc(0.9rem+env(safe-area-inset-right))] z-[65] md:bottom-[5.4rem] md:right-6">
       {isOpen ? (
         <div className="mb-2 w-[17.6rem] rounded-card border border-graphite/12 bg-paper-lift p-3 backdrop-blur-md sm:w-[19rem]">
           <div className="mb-2 flex items-center justify-between px-1">
@@ -103,7 +103,7 @@ export default function WhatsAppFloating() {
       <div className="flex items-center justify-end">
         <button
           onClick={() => setIsOpen((open) => !open)}
-          className="sheen inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-ink bg-ink text-paper transition-colors duration-300 hover:bg-ink-soft md:-ml-5 md:h-[3.2rem] md:w-[3.2rem]"
+          className="sheen inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-ink text-paper shadow-float transition-colors duration-300 hover:bg-ink-soft md:-ml-5 md:h-[3.2rem] md:w-[3.2rem]"
           aria-label="Abrir contacto por WhatsApp"
           aria-expanded={isOpen}
         >

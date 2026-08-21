@@ -2,29 +2,9 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { propuestaDeValor } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const values = [
-  {
-    index: "01",
-    title: "Dirección clara",
-    description:
-      "Definimos prioridades y enfoque para que tu marca avance con una lógica estratégica concreta y medible.",
-  },
-  {
-    index: "02",
-    title: "Sistema coherente",
-    description:
-      "Alineamos mensaje, diseño y estructura digital para sostener una percepción más sólida y confiable.",
-  },
-  {
-    index: "03",
-    title: "Impacto comercial",
-    description:
-      "Ordenamos la comunicación para atraer mejor, convertir con más claridad y retener con más consistencia.",
-  },
-];
 
 export default function ValueProposition() {
   return (
@@ -65,7 +45,7 @@ export default function ValueProposition() {
 
         {/* Editorial strip — filas con índice monumental, sin cajas */}
         <div className="premium-grid-light rounded-panel border border-graphite/8 bg-paper-lift p-5 md:p-8">
-          {values.map((value, index) => (
+          {propuestaDeValor.map((value, index) => (
             <motion.article
               key={value.index}
               initial={{ opacity: 0, y: 28 }}

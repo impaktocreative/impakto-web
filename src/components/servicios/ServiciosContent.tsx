@@ -8,6 +8,7 @@ import { Reveal, RevealLine } from "@/components/ui/Reveal";
 // El campo de flechas dice dirección; acá el titular habla de estructura,
 // así que la pieza son módulos que encajan en retícula al acercarse el cursor.
 import Estructuras from "@/components/visual/Estructuras";
+import { areasDeTrabajo, ejesDeCrecimiento, perfilesDeColaboracion, programasEstrategicos, senalesDeClienteIdeal } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -54,158 +55,6 @@ const ITEM_FAST = {
     transition: { duration: 0.54, ease: EASE_LUXURY },
   },
 };
-
-const growthCategories = [
-  {
-    id: "01",
-    title: "Captación",
-    promise: "Atraer mejores oportunidades con una presencia más clara, sólida y confiable.",
-    benefits: [
-      "Posicionamiento más claro frente al cliente correcto",
-      "Mayor calidad de consultas y prospectos",
-      "Percepción premium alineada al nivel real del negocio",
-    ],
-  },
-  {
-    id: "02",
-    title: "Conversión",
-    promise: "Transformar interés en decisiones concretas con menos fricción y más claridad comercial.",
-    benefits: [
-      "Mensajes que explican valor sin ruido",
-      "Recorridos digitales orientados a acción",
-      "Mejor rendimiento comercial de web, landings y materiales",
-    ],
-  },
-  {
-    id: "03",
-    title: "Retención",
-    promise: "Sostener relaciones más consistentes para mejorar recurrencia, confianza y recomendación.",
-    benefits: [
-      "Comunicación coherente en todos los puntos de contacto",
-      "Sistemas y procesos que mejoran experiencia del cliente",
-      "Mayor estabilidad del crecimiento en el tiempo",
-    ],
-  },
-];
-
-const strategicPrograms = [
-  {
-    title: "Dirección de marca y posicionamiento",
-    outcome:
-      "Define una base estratégica para que cada decisión visual, verbal y comercial responda a una misma lógica.",
-    scope: [
-      "Diagnóstico de marca y contexto competitivo",
-      "Propuesta de valor y enfoque comunicacional",
-      "Criterios de identidad verbal y visual",
-      "Hoja de ruta por etapas de negocio",
-    ],
-    cta: "Pedir diagnóstico",
-  },
-  {
-    title: "Ecosistema digital para captación y conversión",
-    outcome:
-      "Construye una presencia digital con estándar high ticket para atraer, convertir y sostener mejor el valor percibido.",
-    scope: [
-      "Diseño y desarrollo web institucional",
-      "Landing pages orientadas a objetivo comercial",
-      "Sistemas web y aplicaciones a medida",
-      "Arquitectura de contenidos y experiencia",
-    ],
-    cta: "Pedir diagnóstico",
-  },
-  {
-    title: "Comunicación comercial y contenido",
-    outcome:
-      "Ordena mensajes, piezas y narrativa para que la marca comunique con precisión y cierre con más claridad.",
-    scope: [
-      "Copy comercial para web y campañas",
-      "Diseño publicitario y editorial",
-      "Contenido para puntos de venta y canales digitales",
-      "Estrategias de comunicación por etapa",
-    ],
-    cta: "Pedir diagnóstico",
-  },
-  {
-    title: "Automatización, IA y optimización de procesos",
-    outcome:
-      "Mejora velocidad operativa y consistencia comercial sin perder control estratégico.",
-    scope: [
-      "Automatizaciones y flujos operativos",
-      "Integración de IA aplicada a tareas clave",
-      "Sistemas de seguimiento y respuesta",
-      "Optimización continua basada en datos",
-    ],
-    cta: "Pedir diagnóstico",
-  },
-];
-
-const workDomains = [
-  {
-    title: "Marca y comunicación",
-    items: [
-      "Diseño de marcas y branding",
-      "Identidad visual y dirección de arte",
-      "Estrategias de comunicación",
-      "Comunicación comercial y publicitaria",
-      "Diseño editorial y punto de venta",
-    ],
-  },
-  {
-    title: "Marketing y contenido",
-    items: [
-      "Marketing orientado a objetivos de negocio",
-      "Generación de contenidos",
-      "Copy para captación y conversión",
-      "Estrategias de venta",
-      "Diseño de piezas para campañas",
-    ],
-  },
-  {
-    title: "Desarrollo digital",
-    items: [
-      "Desarrollo web institucional",
-      "Landing pages de alto rendimiento",
-      "Desarrollo de sistemas web",
-      "Desarrollo de aplicaciones",
-      "Arquitectura de experiencia y contenidos",
-    ],
-  },
-  {
-    title: "IA, automatización y operación",
-    items: [
-      "Automatizaciones de procesos",
-      "Inteligencia artificial aplicada",
-      "Integración de canales y datos",
-      "Optimización operativa continua",
-      "Sistemas para seguimiento comercial",
-    ],
-  },
-];
-
-const collaborationProfiles = [
-  "Empresas que buscan resultados sostenibles",
-  "Equipos internos con foco en crecimiento",
-  "Direcciones y liderazgos con necesidad de orden",
-  "Agencias y partners para proyectos en conjunto",
-];
-
-const idealClientSignals = [
-  {
-    title: "Valoran dirección, no volumen",
-    description:
-      "Empresas que priorizan decisiones con criterio por encima de producción masiva sin estrategia.",
-  },
-  {
-    title: "Buscan elevar percepción y rendimiento",
-    description:
-      "Marcas que necesitan alinear su nivel comercial con una presencia digital y comunicacional más sólida.",
-  },
-  {
-    title: "Entienden el valor del proceso",
-    description:
-      "Equipos que quieren una relación profesional, ordenada y orientada a resultados sostenibles.",
-  },
-];
 
 const stageCtas = [
   {
@@ -278,7 +127,7 @@ export default function ServiciosContent() {
             variants={STAGGER_MEDIUM}
             className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3"
           >
-            {growthCategories.map((category) => (
+            {ejesDeCrecimiento.map((category) => (
               <motion.article key={category.title} variants={ITEM_MEDIUM} whileHover={{ y: -5 }} className="rounded-panel border border-white/16 bg-white/[0.035] p-6 md:p-7">
                 <p className="text-eyebrow uppercase text-primary/76">{category.id}</p>
                 <h3 className="mt-3 font-heading text-display-xs">{category.title}</h3>
@@ -313,7 +162,7 @@ export default function ServiciosContent() {
       <section className="section-glow relative overflow-hidden border-b border-graphite/8 bg-band py-18 md:py-22">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={STAGGER_MEDIUM} className="space-y-5 md:space-y-6">
-            {strategicPrograms.map((program, index) => (
+            {programasEstrategicos.map((program, index) => (
               <motion.article
                 key={program.title}
                 variants={ITEM_MEDIUM}
@@ -376,7 +225,7 @@ export default function ServiciosContent() {
           </div>
 
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-90px" }} variants={STAGGER_FAST} className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {workDomains.map((domain) => (
+            {areasDeTrabajo.map((domain) => (
               <motion.article key={domain.title} variants={ITEM_FAST} whileHover={{ y: -4 }} className="rounded-panel border border-graphite/12 bg-band p-6">
                 <h3 className="font-heading text-display-xs text-slate">{domain.title}</h3>
                 <ul className="mt-5 space-y-2.5 border-t border-graphite/12 pt-5">
@@ -398,7 +247,7 @@ export default function ServiciosContent() {
                 Podemos liderar el frente estratégico completo o integrarnos con equipos internos y agencias asociadas para ejecutar proyectos en conjunto, manteniendo dirección, criterio y estándar de implementación.
               </p>
               <div className="mt-5 flex flex-wrap gap-2.5">
-                {collaborationProfiles.map((profile) => (
+                {perfilesDeColaboracion.map((profile) => (
                   <span key={profile} className="border border-graphite/12 bg-surface px-3.5 py-2 text-eyebrow uppercase text-stone">
                     {profile}
                   </span>
@@ -424,7 +273,7 @@ export default function ServiciosContent() {
           </div>
 
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-90px" }} variants={STAGGER_FAST} className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {idealClientSignals.map((signal) => (
+            {senalesDeClienteIdeal.map((signal) => (
               <motion.article key={signal.title} variants={ITEM_FAST} whileHover={{ y: -4 }} className="rounded-card border border-graphite/12 bg-white p-6">
                 <h3 className="font-heading text-display-xs text-slate">{signal.title}</h3>
                 <p className="mt-4 text-body text-stone">{signal.description}</p>

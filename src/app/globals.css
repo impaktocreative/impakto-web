@@ -626,6 +626,42 @@ button {
   }
 
   /* Regla horizontal. Marca el arranque de una sección sin cargar peso. */
+  /* Máscara de la escultura del hero.
+     En escritorio la pieza vive a la derecha, en el aire que deja el titular.
+     En teléfono el titular ocupa todo el ancho, así que la pieza baja: se
+     concentra por debajo del texto y desaparece detrás de él. */
+  .mascara-escultura {
+    -webkit-mask-image: radial-gradient(
+      120% 55% at 62% 86%,
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 0.42) 52%,
+      rgba(0, 0, 0, 0) 76%
+    );
+    mask-image: radial-gradient(
+      120% 55% at 62% 86%,
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 0.42) 52%,
+      rgba(0, 0, 0, 0) 76%
+    );
+  }
+
+  @media (min-width: 1024px) {
+    .mascara-escultura {
+      -webkit-mask-image: radial-gradient(
+        120% 100% at 78% 50%,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 0.55) 58%,
+        rgba(0, 0, 0, 0) 82%
+      );
+      mask-image: radial-gradient(
+        120% 100% at 78% 50%,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 0.55) 58%,
+        rgba(0, 0, 0, 0) 82%
+      );
+    }
+  }
+
   .rule {
     height: 1px;
     background-color: color-mix(in srgb, var(--color-graphite) 12%, transparent);
@@ -911,6 +947,194 @@ a:focus-visible {
 
 .gold-reflect-slow {
   --reflect-gold: #cbbd9e;
+}
+
+/* ── Asesor ─────────────────────────────────────────────────────────────────
+   El disparador tiene que verse igual sobre el hero claro y sobre el pie
+   oscuro. Un disco tinta desaparece en media página, así que va en oro: es el
+   único color de la marca que sostiene los dos fondos. */
+.btn-asesor {
+  background: linear-gradient(148deg, #c9ac70 0%, var(--color-gold-light) 44%, var(--color-gold) 100%);
+  color: var(--color-ink);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 70%, #ffffff);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-gold-pale) 55%, transparent),
+    0 10px 26px -12px color-mix(in srgb, var(--color-gold) 55%, transparent),
+    0 2px 8px -2px rgba(10, 10, 9, 0.28);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--duration-base) var(--ease-luxury),
+    box-shadow var(--duration-base) var(--ease-luxury),
+    opacity var(--duration-base) var(--ease-luxury);
+}
+
+/* El destello recorre el botón solo, cada tanto: es lo que lo hace notar sin
+   pedir que alguien pase el cursor por encima. */
+.btn-asesor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  animation: asesor-destello 6.5s var(--ease-luxury) infinite;
+}
+
+.btn-asesor:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-gold-pale) 70%, transparent),
+    0 16px 34px -14px color-mix(in srgb, var(--color-gold) 68%, transparent),
+    0 3px 10px -2px rgba(10, 10, 9, 0.32);
+}
+
+@keyframes asesor-destello {
+  0%,
+  62% {
+    transform: translateX(-120%);
+  }
+  78%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.btn-asesor-enviar {
+  background-color: var(--color-ink);
+  color: var(--color-gold-pale);
+  border: 1px solid var(--color-ink);
+  transition:
+    background-color var(--duration-fast) var(--ease-luxury),
+    color var(--duration-fast) var(--ease-luxury);
+}
+
+.btn-asesor-enviar:hover:not(:disabled) {
+  background-color: var(--color-ink-soft);
+  color: var(--color-gold-light);
+}
+
+/* Los tres puntos mientras el modelo arranca. Opacidad, nada de tamaño: es lo
+   único que puede animarse setenta veces por conversación sin costar nada. */
+.asesor-pensando {
+  display: inline-flex;
+  gap: 0.28rem;
+  padding-top: 0.4rem;
+}
+
+.asesor-pensando > span {
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 9999px;
+  background-color: var(--color-gold);
+  animation: asesor-latido 1.25s ease-in-out infinite;
+}
+
+.asesor-pensando > span:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.asesor-pensando > span:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+@keyframes asesor-latido {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* El fondo se bloquea solo mientras el panel es hoja completa. El breakpoint
+   lo decide el CSS y no JavaScript: un chequeo leído al abrir dejaría la
+   página trabada al ensanchar la ventana con el panel abierto. */
+@media (max-width: 767px) {
+  html[data-asesor-abierto],
+  html[data-asesor-abierto] body {
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-asesor::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .btn-asesor:hover {
+    transform: none;
+  }
+
+  .asesor-pensando > span {
+    animation: none;
+    opacity: 0.55;
+  }
+}
+
+/* Cinta de firma técnica.
+   La lectura se apaga en los dos bordes en lugar de cortarse contra una caja:
+   el texto entra y sale del campo visual, no de un recuadro. */
+.cinta-difuminada {
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+/* El eco: la misma cinta espejada y casi apagada. Es un reflejo sobre la
+   superficie, que era la forma de justificar una segunda pasada del mismo
+   texto en vez de repetirlo. */
+.cinta-reflejo {
+  height: 1.1rem;
+  transform: scaleY(-1);
+  opacity: 0.17;
+  mask-image:
+    linear-gradient(#000, transparent 78%),
+    linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* Índice de ejes.
+   El filete es la única línea: no hay caja. Al pasar por encima crece desde la
+   izquierda y se vuelve oro, así que el oro sigue siendo una consecuencia de la
+   atención y no un adorno permanente. */
+.indice-eje > .indice-filete {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-foreground) 12%, transparent);
+}
+
+.indice-eje > .indice-filete::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-luxury);
+}
+
+.indice-eje:hover > .indice-filete::after,
+.indice-eje:focus-within > .indice-filete::after {
+  transform: scaleX(1);
+}
+
+.indice-cifra {
+  min-width: 2.4ch;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indice-eje > .indice-filete::after {
+    transition: none;
+  }
 }
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {

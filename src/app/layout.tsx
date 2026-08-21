@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
@@ -60,6 +60,17 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+};
+
+/**
+ * `resizes-content` hace que el teclado del teléfono achique el viewport en
+ * lugar de tapar la página. Sin esto, el compositor del asesor queda debajo
+ * del teclado y el botón de enviar no se ve.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  interactiveWidget: "resizes-content",
 };
 
 export default function RootLayout({

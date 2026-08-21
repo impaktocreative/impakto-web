@@ -324,6 +324,78 @@ Antes de escribir un botón de icono o una etiqueta de estado a mano: usar estos
 
 ---
 
+## 6.bis Asesor IA del sitio
+
+Asistente que atiende a los visitantes de la web pública desde un botón
+flotante. Sin formulario previo, sin cuenta: el hilo se abre anónimo y los
+datos se piden después, si acaso.
+
+```
+navegador ──POST /api/chat──► ruta
+                               ├── getConfigIA()          llave y modelo (base > env)
+                               ├── reclamarSesion()       sesión válida y viva
+                               ├── REGLAS_DEL_CHAT        la voz, fija
+                               ├── getConocimientoDeMarca() digest derivado del contenido
+                               └── fetch OpenRouter (stream)
+                                      └── se reenvía texto plano al navegador
+                                      └── al cerrar: se guardan los dos mensajes
+```
+
+| Archivo | Rol |
+|---|---|
+| `content/sitio.ts` | el contenido del sitio, **fuente única** |
+| `lib/chat/knowledge.ts` | arma el digest desde `content/sitio.ts` |
+| `lib/chat/hechos.ts` | `HECHOS_OPERATIVOS`, lo único escrito a mano |
+| `lib/chat/system-prompt.ts` | `REGLAS_DEL_CHAT`: voz, salida, criterio, límite duro |
+| `lib/chat/config.ts` | llave y modelo, con `getEstadoIA()` para el panel |
+| `lib/chat/retention.ts` | vigencia de 60 días y purga |
+| `lib/chat/supabase.ts` | cliente de service role del chat |
+| `app/api/chat/route.ts` | el endpoint de streaming |
+| `app/actions/chat.ts` | abrir, restaurar y adjuntar contacto |
+| `components/chat/AsesorFlotante.tsx` | el panel |
+| `app/(admin)/.../conversaciones/` | lectura de los hilos |
+
+**El conocimiento se deriva, nunca se escribe.** `content/sitio.ts` es el mismo
+objeto que renderizan las páginas y el que lee el asesor. Al agregar contenido
+que un visitante pueda preguntar, va ahí y se importa, no se escribe dentro del
+componente. `verificarConocimiento()` corre al cargar la ruta y deja en los logs
+si un export quedó vacío: sin esa guarda el asesor sigue contestando y solo deja
+de saber cosas, sin error y sin build roto.
+
+**La llave del panel gana sobre la del entorno.** Si ganara el entorno, cambiar
+la llave en `/admin/settings` no tendría efecto visible y parecería roto.
+
+**Tablas:** `app_settings` (clave/valor), `chat_sessions`, `chat_messages` con
+`ON DELETE CASCADE`. RLS cerrado a `authenticated`: el sitio público no las toca
+con la anon key, todo pasa por server actions y por la ruta. Migración en
+`supabase_asesor_ia.sql`, ya aplicada.
+
+**Vigencia:** 60 días desde `last_active_at`, no desde `started_at`, y se
+comprueba en lectura dentro de `reclamarSesion()`. El navegador guarda solo el
+id; la transcripción vive en la base.
+
+**El teclado del teléfono.** El panel es hoja completa y se dimensiona contra
+`window.visualViewport`, no contra `inset-0`: sin eso el compositor queda debajo
+del teclado y el botón de enviar desaparece. El campo va en `text-body` (16px)
+porque por debajo de 16 iOS hace zoom al enfocar. El bloqueo del fondo va por
+atributo en `<html>` con el breakpoint en CSS, nunca por `matchMedia` leído una
+vez.
+
+**El botón flotante** va en oro, no en tinta: un disco tinta desaparece sobre el
+pie oscuro, que es media página. El emblema dentro del botón va en tinta
+(`brightness-0`) porque el SVG es dorado y sobre oro no se ve. WhatsApp queda
+apilado encima.
+
+**Nunca `dangerouslySetInnerHTML`** con la salida del modelo. Los enlaces se
+arman como elementos React y las rutas internas salen de una lista blanca, en
+`components/chat/textoConEnlaces.tsx`: los modelos alucinan rutas con
+entusiasmo.
+
+Variables: `OPENROUTER_API_KEY` (opcional, la del panel gana) y
+`OPENROUTER_MODEL` (por defecto `anthropic/claude-haiku-4.5`).
+
+---
+
 ## 7. Scripts
 
 ```bash

@@ -2,11 +2,13 @@ import { createClient } from '@/utils/supabase/server'
 import { EmailTemplatesEditor } from './EmailTemplatesEditor'
 import { BulkEmailSender } from './BulkEmailSender'
 import { EmisoresFacturacion, type Emisor } from './EmisoresFacturacion'
+import { AsesorIA } from './AsesorIA'
+import { getEstadoIA } from '@/lib/chat/config'
 import { Mail, Receipt } from 'lucide-react'
 
 export default async function SettingsPage() {
   const supabase = await createClient()
-  const [{ data: templates }, { data: emisores }] = await Promise.all([
+  const [{ data: templates }, { data: emisores }, estadoIA] = await Promise.all([
     supabase
       .from('email_templates')
       .select('type, subject, body, updated_at')
@@ -15,6 +17,7 @@ export default async function SettingsPage() {
       .from('arca_emisores')
       .select('id, clave, cuit, razon_social, condicion_fiscal, pto_vta, domicilio, pie_comprobante, ingresos_brutos, inicio_actividades, entorno')
       .order('clave'),
+    getEstadoIA(),
   ])
 
   return (
@@ -37,6 +40,10 @@ export default async function SettingsPage() {
 
       <div className="mb-10">
         <EmisoresFacturacion emisores={(emisores ?? []) as Emisor[]} />
+      </div>
+
+      <div className="mb-10">
+        <AsesorIA estado={estadoIA} />
       </div>
 
       <div className="flex items-center gap-3 mb-6">

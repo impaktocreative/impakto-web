@@ -112,7 +112,10 @@ export default function CoherenceField({ className = "" }: { className?: string 
         py = height * (0.5 + Math.cos(time * 0.00019) * 0.3);
       }
 
-      const influence = coarsePointer ? INFLUENCE * 0.62 : INFLUENCE;
+      const influence = Math.min(
+        coarsePointer ? INFLUENCE * 0.62 : INFLUENCE,
+        Math.min(width, height) * 0.62,
+      );
       // Sin cursor no hay lectura de "oro ganado por el orden": en touch
       // el campo queda como textura de tinta y el oro es cosa de escritorio.
       const goldThreshold = coarsePointer ? 1.1 : GOLD_THRESHOLD;
@@ -146,7 +149,7 @@ export default function CoherenceField({ className = "" }: { className?: string 
         const drift = Math.sin(time * 0.0004 + s.phase) * 0.09;
         const angle = s.angle + drift + shortestAngleDelta(s.angle + drift, aimAngle) * coherence;
         const len = BASE_LENGTH + (ALIGNED_LENGTH - BASE_LENGTH) * coherence;
-        const alpha = (coarsePointer ? 0.1 : 0.16) + coherence * (coarsePointer ? 0.24 : 0.42);
+        const alpha = (coarsePointer ? 0.07 : 0.12) + coherence * (coarsePointer ? 0.16 : 0.3);
 
         // Redondear la opacidad agrupa los trazos en pocos batches.
         const quantized = Math.round(alpha * 20) / 20;

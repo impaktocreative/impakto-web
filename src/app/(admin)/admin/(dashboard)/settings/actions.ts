@@ -279,3 +279,38 @@ export async function saveEmisorAction(prevState: ActionState | null, formData: 
   revalidatePath('/admin/settings')
   return { success: true, message: 'Datos de facturación guardados.' }
 }
+
+/**
+ * Guarda la llave y el modelo del asesor del sitio.
+ *
+ * La llave se escribe solo si vino algo: el campo llega vacío cuando el
+ * administrador entró a cambiar el modelo y no quiere tocar la llave, y en ese
+ * caso sobrescribirla con un string vacío apagaría el asesor sin aviso.
+ */
+export async function guardarConfigIAAction(
+  prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const apiKey = ((formData.get('apiKey') as string) ?? '').trim()
+  const model = ((formData.get('model') as string) ?? '').trim()
+
+  const supabase = await createClient()
+  const filas: { key: string; value: string; updated_at: string }[] = []
+  const ahora = new Date().toISOString()
+
+  if (apiKey) filas.push({ key: 'openrouter.api_key', value: apiKey, updated_at: ahora })
+  if (model) filas.push({ key: 'openrouter.model', value: model, updated_at: ahora })
+
+  if (!filas.length) {
+    return { success: false, message: 'No hay nada que guardar.' }
+  }
+
+  const { error } = await supabase.from('app_settings').upsert(filas, { onConflict: 'key' })
+  if (error) return { success: false, message: `Error: ${error.message}` }
+
+  revalidatePath('/admin/settings')
+  return {
+    success: true,
+    message: apiKey ? 'Llave y modelo guardados.' : 'Modelo guardado.',
+  }
+}

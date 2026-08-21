@@ -27,13 +27,14 @@ export default function ClientLogosCarousel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-70px" }}
           transition={{ duration: 0.65 }}
-          className="mb-4 flex items-center justify-between"
+          className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
         >
           <p className="flex items-center gap-2 text-eyebrow uppercase text-stone">
             <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
             Marcas que confiaron en Impakto
           </p>
-          <span className="rounded-full border border-graphite/12 px-3 py-1 text-eyebrow uppercase text-stone">
+          <span className="flex items-center gap-3 text-eyebrow uppercase text-stone">
+            <span className="hairline-gold h-px w-6" aria-hidden="true" />
             40+ proyectos
           </span>
         </motion.div>

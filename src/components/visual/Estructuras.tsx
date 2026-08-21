@@ -118,8 +118,8 @@ function crearEstructuras(): FabricaEscena {
         ctx.lineWidth = encajado ? 1.1 : 0.8
         ctx.strokeStyle = encajado ? ORO : '#161615'
         ctx.globalAlpha = encajado
-          ? 0.18 + (orden - 0.9) * 3.4
-          : 0.05 + orden * 0.16
+          ? 0.26 + (orden - 0.9) * 4.2
+          : 0.07 + orden * 0.24
 
         ctx.beginPath()
         ctx.rect(-w / 2, -h / 2, w, h)
@@ -127,7 +127,7 @@ function crearEstructuras(): FabricaEscena {
 
         // El módulo encajado se rellena apenas: pasa de contorno a pieza.
         if (orden > 0.55) {
-          ctx.globalAlpha = (orden - 0.55) * 0.13
+          ctx.globalAlpha = (orden - 0.55) * 0.2
           ctx.fillStyle = encajado ? ORO : '#161615'
           ctx.fill()
         }

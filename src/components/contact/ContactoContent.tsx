@@ -7,6 +7,7 @@ import ContactForm from "@/components/contact/ContactForm";
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealLine } from "@/components/ui/Reveal";
 import CoherenceField from "@/components/home/CoherenceField";
+import { procesoDeDiagnostico } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -30,24 +31,6 @@ const PROCESS_ITEM = {
     transition: { duration: 0.62, ease: EASE_LUXURY },
   },
 };
-
-const process = [
-  {
-    step: "01",
-    title: "Contexto de negocio",
-    description: "Revisamos situación actual, objetivos y restricciones para entender dónde está hoy el mayor punto de fricción.",
-  },
-  {
-    step: "02",
-    title: "Prioridades estratégicas",
-    description: "Definimos qué conviene resolver primero para generar impacto real con criterio comercial y operativo.",
-  },
-  {
-    step: "03",
-    title: "Hoja de ruta",
-    description: "Proponemos una estructura de trabajo clara, con etapas, alcance y próximos pasos para ejecutar con control.",
-  },
-];
 
 export default function ContactoContent() {
   return (
@@ -122,7 +105,7 @@ export default function ContactoContent() {
                   whileInView="show"
                   viewport={{ once: true, margin: "-80px" }}
                 >
-                  {process.map((item) => (
+                  {procesoDeDiagnostico.map((item) => (
                     <motion.article
                       key={item.step}
                       variants={PROCESS_ITEM}

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { preguntasFrecuentes } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -46,39 +47,6 @@ const INTRO_ITEM = {
   },
 };
 
-const faqs = [
-  {
-    question: "¿Con qué tipo de organizaciones y alcances trabaja Impakto Creative?",
-    answer:
-      "Trabajamos con marcas, empresas y equipos directivos que requieren dirección estratégica, consistencia de marca y ejecución con estándar en múltiples frentes.",
-  },
-  {
-    question: "¿Cómo abordan proyectos con múltiples unidades, mercados o líneas de negocio?",
-    answer:
-      "Iniciamos con un diagnóstico integral para priorizar frentes críticos, alinear criterios entre equipos y definir una hoja de ruta por etapas con objetivos medibles.",
-  },
-  {
-    question: "¿Qué nivel de involucramiento requiere el equipo interno del cliente?",
-    answer:
-      "El involucramiento se define por etapa. Establecemos una dinámica ejecutiva con responsables claros, instancias de validación y decisiones oportunas para sostener velocidad y calidad.",
-  },
-  {
-    question: "¿Cómo aseguran consistencia en captación, conversión y retención?",
-    answer:
-      "La metodología integra estos tres pilares desde el diseño de la estrategia. Cada decisión de mensaje, experiencia y sistema se evalúa por su impacto en captación, conversión y retención.",
-  },
-  {
-    question: "¿Cómo gestionan aprobaciones y toma de decisiones con múltiples stakeholders?",
-    answer:
-      "Definimos una gobernanza de proyecto desde el inicio, con responsables por frente, hitos de aprobación y criterios de decisión para sostener trazabilidad y velocidad ejecutiva.",
-  },
-  {
-    question: "¿Pueden colaborar con agencias de marketing o equipos internos ya existentes?",
-    answer:
-      "Sí. Participamos como socio estratégico y de ejecución en proyectos compartidos, integrando conocimiento con agencias y equipos internos para fortalecer el resultado final.",
-  },
-];
-
 export default function FAQ() {
   return (
     <section className="relative overflow-hidden py-16 md:py-20 bg-band border-t border-graphite/8">
@@ -120,7 +88,7 @@ export default function FAQ() {
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-          {faqs.map((faq) => (
+          {preguntasFrecuentes.map((faq) => (
             <motion.details
               key={faq.question}
               variants={FAQ_ITEM}

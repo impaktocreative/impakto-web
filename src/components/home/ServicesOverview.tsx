@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Estratos from "@/components/visual/Estratos";
+import { serviciosResumen } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -48,29 +49,6 @@ const CARD_ITEM = {
     transition: { duration: 0.66, ease: EASE_LUXURY },
   },
 };
-
-const services = [
-  {
-    title: "Estrategia y posicionamiento",
-    description:
-      "Dirección comunicacional y criterio de marca para organizaciones que requieren una base estratégica clara para escalar.",
-  },
-  {
-    title: "Diseño y desarrollo web",
-    description:
-      "Sitios y plataformas orientados a proyectar autoridad, ordenar la experiencia digital y mejorar desempeño comercial.",
-  },
-  {
-    title: "Comunicación y contenido comercial",
-    description:
-      "Mensajes, piezas y materiales desarrollados para expresar valor con precisión ejecutiva en cada punto de contacto.",
-  },
-  {
-    title: "Sistemas digitales y automatización",
-    description:
-      "Estructuras funcionales que fortalecen procesos, contacto y eficiencia operativa a escala.",
-  },
-];
 
 export default function ServicesOverview() {
   return (
@@ -121,7 +99,7 @@ export default function ServicesOverview() {
 
           <motion.div className="lg:col-span-7 lg:col-start-6" variants={CARDS_STAGGER}>
             <div className="flex flex-col">
-              {services.map((service) => (
+              {serviciosResumen.map((service) => (
                 <motion.article
                   key={service.title}
                   variants={CARD_ITEM}

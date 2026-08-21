@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import LienzoVivo from "@/components/visual/LienzoVivo";
+import { perfilDeCliente } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -24,13 +25,6 @@ const LIST_ITEM = {
     transition: { duration: 0.75, ease: EASE_LUXURY },
   },
 };
-
-const fit = [
-  "Necesitan una estrategia de comunicación robusta y bien articulada.",
-  "Valoran criterio, proceso y decisiones respaldadas por análisis.",
-  "Buscan crecer con una presencia de marca sólida y consistente.",
-  "Priorizan resultados sostenibles por encima de soluciones tácticas de corto plazo.",
-];
 
 export default function IdealClient() {
   return (
@@ -110,7 +104,7 @@ export default function IdealClient() {
               whileInView="visible"
               viewport={{ once: true, margin: "-80px" }}
             >
-              {fit.map((item, i) => (
+              {perfilDeCliente.map((item, i) => (
                 <motion.li
                   key={item}
                   variants={LIST_ITEM}

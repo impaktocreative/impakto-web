@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Secuencia from "@/components/visual/Secuencia";
+import { metodologia } from "@/content/sitio";
 
 // §4 Blueprint — easing de lujo unificado
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -48,14 +49,6 @@ const INTRO_ITEM = {
     transition: { duration: 0.85, ease: EASE_LUXURY },
   },
 };
-
-const steps = [
-  { number: "01", title: "Diagnóstico", description: "Analizamos contexto, audiencia y percepción actual para detectar dónde tu marca puede ganar más tracción." },
-  { number: "02", title: "Dirección", description: "Definimos enfoque estratégico, narrativa y prioridades para que cada frente avance con el mismo criterio." },
-  { number: "03", title: "Desarrollo", description: "Construimos piezas, estructuras y experiencias conectadas entre sí para evitar dispersión y retrabajo." },
-  { number: "04", title: "Implementación", description: "Ejecutamos con orden operativo para que la mejora se vea en la percepción de marca y en la conversión." },
-  { number: "05", title: "Optimización", description: "Medimos, ajustamos y refinamos para sostener resultados y escalar con más seguridad." },
-];
 
 export default function Methodology() {
   const imageRef = useRef<HTMLDivElement>(null);
@@ -116,7 +109,7 @@ export default function Methodology() {
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-            {steps.map((step) => (
+            {metodologia.map((step) => (
               <motion.article
                 key={step.number}
                 variants={STEP_ITEM}

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { situacionesQueAtendemos } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -23,15 +24,6 @@ const LIST_ITEM = {
     transition: { duration: 0.8, ease: EASE_LUXURY },
   },
 };
-
-const painPoints = [
-  "La marca evolucionó y su presentación actual ya no representa su nivel.",
-  "El ecosistema digital quedó por debajo del estándar de la organización.",
-  "La comunicación perdió coherencia entre unidades, canales y soportes.",
-  "Existen activos dispersos, pero falta un sistema de dirección integral.",
-  "El equipo directivo necesita una agencia que piense y ejecute con precisión.",
-  "Los equipos de marketing y ventas no operan con un marco unificado de comunicación.",
-];
 
 export default function PainPoints() {
   return (
@@ -64,7 +56,7 @@ export default function PainPoints() {
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
         >
-            {painPoints.map((item, index) => (
+            {situacionesQueAtendemos.map((item, index) => (
               <motion.div
                 key={item}
                 variants={LIST_ITEM}

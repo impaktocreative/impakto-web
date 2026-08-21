@@ -7,6 +7,7 @@ import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealLine } from "@/components/ui/Reveal";
 import CoherenceField from "@/components/home/CoherenceField";
+import { bioDirector, ejesDelEquipo, firmaTecnica, relatoDeAgencia } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -54,35 +55,6 @@ const STAGGER_ITEM_FAST = {
   },
 };
 
-const storyChapters = [
-  "Impakto Creative nace desde una convicción clara: las marcas no escalan por volumen de acciones, escalan cuando existe dirección, criterio y consistencia en cada punto de contacto.",
-  "Integramos estrategia, diseño, desarrollo y visión comercial en un mismo sistema de trabajo para tomar decisiones con profundidad y ejecutar con precisión.",
-  "Combinamos experiencia senior con tecnología de vanguardia, incluida IA aplicada con criterio, para convertir contexto complejo en pasos concretos de crecimiento.",
-];
-
-const teamCapabilities = [
-  {
-    title: "Estrategia y comunicación",
-    description:
-      "Diagnóstico de contexto, posicionamiento y narrativa para definir decisiones de marca con foco y jerarquía.",
-  },
-  {
-    title: "Diseño y desarrollo digital",
-    description:
-      "Diseño y sistema digital alineados para construir experiencias consistentes con el estándar de cada organización.",
-  },
-  {
-    title: "Contenido y dirección editorial",
-    description:
-      "Arquitectura de mensajes, tono y contenido para sostener una comunicación sólida entre canales y etapas comerciales.",
-  },
-  {
-    title: "Tecnología y mejora continua",
-    description:
-      "Optimización continua con herramientas de vanguardia para acelerar resultados sin perder criterio estratégico.",
-  },
-];
-
 const trustLogos = [
   { file: "venfarma.jpeg", name: "Venfarma" },
   { file: "rebecca.webp", name: "Rebecca" },
@@ -110,23 +82,6 @@ const decisionSignals = [
   { value: 360, prefix: "", suffix: "°", label: "Visión" },
   { value: 4, prefix: "", suffix: "", label: "Frentes" },
   { value: 24, prefix: "", suffix: "/7", label: "Compromiso" },
-];
-
-const technicalSignature = [
-  "Dirección estratégica",
-  "Diseño editorial",
-  "Motion systems",
-  "Next.js 16",
-  "React 19",
-  "Framer Motion",
-  "Automatización IA",
-  "Arquitectura digital",
-];
-
-const directorBio = [
-  "Rodrigo Zarza lidera la dirección creativa del estudio con una mirada que articula estrategia, sensibilidad estética y criterio de negocio.",
-  "Su trabajo parte de una lectura profunda de cada marca para diseñar narrativas claras, sistemas visuales consistentes y decisiones con valor de largo plazo.",
-  "Acompaña cada proyecto desde la primera sesión hasta la implementación, con los colaboradores que haga falta sumar en el camino.",
 ];
 
 const directorHighlights = ["Dirección estratégica", "Narrativa de marca", "Ejecución integral"];
@@ -245,32 +200,38 @@ export default function AgenciaContent() {
 
       <section className="relative overflow-hidden border-b border-graphite/8 bg-surface-muted py-4">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <div className="overflow-hidden border border-graphite/12 bg-paper-lift py-2">
-            <motion.div
-              className="flex w-max items-center gap-8 px-5"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
+          <div className="border-y border-graphite/12">
+            <div className="cinta-difuminada overflow-hidden py-2.5">
+              <motion.div
+                className="flex w-max items-center gap-9"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
+              >
+                {[...firmaTecnica, ...firmaTecnica].map((item, index) => (
+                  <span key={`${item}-${index}`} className="inline-flex items-center gap-3 text-eyebrow uppercase text-stone">
+                    <span className="h-px w-4 bg-primary/60" />
+                    {item}
+                  </span>
+                ))}
+              </motion.div>
+            </div>
+            <div
+              aria-hidden="true"
+              className="cinta-reflejo overflow-hidden"
             >
-              {[...technicalSignature, ...technicalSignature].map((item, index) => (
-                <span key={`${item}-${index}`} className="inline-flex items-center gap-2 text-eyebrow uppercase text-stone">
-                  <span className="h-1 w-1 rounded-full bg-primary/70" />
-                  {item}
-                </span>
-              ))}
-            </motion.div>
-          </div>
-          <div className="mt-2 overflow-hidden border border-graphite/8 bg-[linear-gradient(90deg,rgba(255,255,255,0.72),rgba(245,247,241,0.82))] py-1.5">
-            <motion.div
-              className="flex w-max items-center gap-10 px-6"
-              animate={{ x: ["-50%", "0%"] }}
-              transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
-            >
-              {[...technicalSignature, ...technicalSignature].map((item, index) => (
-                <span key={`${item}-alt-${index}`} className="text-eyebrow uppercase text-stone">
-                  {item}
-                </span>
-              ))}
-            </motion.div>
+              <motion.div
+                className="flex w-max items-center gap-9"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
+              >
+                {[...firmaTecnica, ...firmaTecnica].map((item, index) => (
+                  <span key={`${item}-eco-${index}`} className="inline-flex items-center gap-3 text-eyebrow uppercase text-stone">
+                    <span className="h-px w-4 bg-primary/60" />
+                    {item}
+                  </span>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -303,7 +264,7 @@ export default function AgenciaContent() {
             variants={STAGGER_MEDIUM_CONTAINER}
             className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3"
           >
-            {storyChapters.map((chapter, index) => (
+            {relatoDeAgencia.map((chapter, index) => (
               <motion.article
                 key={chapter}
                 variants={STAGGER_ITEM_MEDIUM}
@@ -356,30 +317,22 @@ export default function AgenciaContent() {
             whileInView="show"
             viewport={{ once: true, margin: "-90px" }}
             variants={STAGGER_MEDIUM_CONTAINER}
-            className="grid grid-cols-1 gap-5 md:grid-cols-2"
+            className="grid grid-cols-1 gap-x-12 gap-y-0 md:grid-cols-2"
           >
-            {teamCapabilities.map((axis, index) => (
+            {ejesDelEquipo.map((axis, index) => (
               <motion.article
                 key={axis.title}
                 variants={STAGGER_ITEM_MEDIUM}
-                whileHover={{ y: -6, rotateX: 1.2, rotateY: -1.4, boxShadow: "0 32px 48px -30px rgba(50,50,47,0.46)" }}
-                transition={{ duration: 0.45, ease: EASE_LUXURY }}
-                className="edge-scan-card premium-grid-light relative border border-graphite/12 bg-paper-lift p-7 md:p-8"
-                style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
+                className="indice-eje group relative grid grid-cols-[auto_1fr] gap-x-5 py-7 md:gap-x-7 md:py-9"
               >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/55 to-transparent" />
-                <motion.div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-y-0 right-0 w-[3px] bg-gradient-to-b from-transparent via-primary/55 to-transparent"
-                  animate={{ opacity: [0.2, 0.8, 0.2] }}
-                  transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: index * 0.16 }}
-                />
-                <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase text-stone">
-                  <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto opacity-65" />
-                  Eje {String(index + 1).padStart(2, "0")}
+                <span className="indice-filete" aria-hidden="true" />
+                <p className="indice-cifra font-heading text-display-sm tabular-nums leading-none text-graphite/22 transition-colors duration-slow group-hover:text-primary/75">
+                  {String(index + 1).padStart(2, "0")}
                 </p>
-                <h3 className="font-heading text-display-xs text-ink">{axis.title}</h3>
-                <p className="mt-4 text-body text-slate">{axis.description}</p>
+                <div>
+                  <h3 className="font-heading text-display-xs text-ink">{axis.title}</h3>
+                  <p className="mt-3 max-w-[34rem] text-body text-slate">{axis.description}</p>
+                </div>
               </motion.article>
             ))}
           </motion.div>
@@ -441,7 +394,7 @@ export default function AgenciaContent() {
                 </div>
 
                 <div className="mt-7 space-y-4 text-body text-slate">
-                  {directorBio.map((paragraph, index) => (
+                  {bioDirector.map((paragraph, index) => (
                     <motion.p
                       key={paragraph}
                       initial={{ opacity: 0, y: 14 }}
