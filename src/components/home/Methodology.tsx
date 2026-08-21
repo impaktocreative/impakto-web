@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import Secuencia from "@/components/visual/Secuencia";
 
 // §4 Blueprint — easing de lujo unificado
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -96,14 +97,14 @@ export default function Methodology() {
               ref={imageRef}
               className="mt-10 image-reveal-container border border-white/14"
             >
+              {/* Los cinco pasos como recorrido: el pulso avanza con el
+                  scroll, así que bajar por la página es avanzar el proceso. */}
               <div
                 data-image-reveal
-                className={`aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.28),rgba(54,53,49,0.28)),url('/media/metodologia.webp')] bg-cover bg-center transition-transform hover:scale-[1.03] ${imageInView ? "in-view" : ""}`}
-                style={{
-                  transform: imageInView ? "scale(1.0)" : "scale(1.15)",
-                  transition: "transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
-              />
+                className={`relative aspect-[4/3] overflow-hidden ${imageInView ? "in-view" : ""}`}
+              >
+                <Secuencia tono="papel" />
+              </div>
             </motion.div>
           </motion.div>
 

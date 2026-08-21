@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Trama from "@/components/visual/Trama";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -105,7 +106,10 @@ export default function FAQ() {
             </motion.p>
 
             <motion.div variants={INTRO_ITEM} className="mt-8 overflow-hidden rounded-card border border-graphite/12">
-              <div className="aspect-[4/3] bg-[linear-gradient(rgba(54,53,49,0.22),rgba(54,53,49,0.22)),url('/media/faq.webp')] bg-cover bg-center" />
+              {/* Trama: floja lejos del cursor, tensa donde uno se detiene. */}
+              <div className="relative aspect-[4/3] overflow-hidden bg-band">
+                <Trama tono="tinta" />
+              </div>
             </motion.div>
           </motion.div>
 

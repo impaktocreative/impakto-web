@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Estratos from "@/components/visual/Estratos";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -105,7 +106,11 @@ export default function ServicesOverview() {
               whileHover={{ scale: 1.01 }}
               className="mb-10 hidden lg:block overflow-hidden border border-white/14"
             >
-              <div className="h-44 w-full bg-[linear-gradient(rgba(54,53,49,0.35),rgba(54,53,49,0.35)),url('/media/servicios-web.webp')] bg-cover bg-center transition-transform duration-700 hover:scale-[1.03]" />
+              {/* Estratos: capas que se separan con el scroll. Las áreas de
+                  trabajo se leen distintas pero son el mismo cuerpo. */}
+              <div className="relative h-44 w-full overflow-hidden">
+                <Estratos tono="papel" />
+              </div>
             </motion.div>
             <motion.div variants={SECTION_ITEM}>
               <Button asChild variant="outline" className="hidden lg:inline-flex border-white/35 bg-white text-foreground hover:border-white hover:bg-white hover:text-foreground">

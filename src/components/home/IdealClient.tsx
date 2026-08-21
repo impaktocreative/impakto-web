@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Convergencia from "@/components/visual/Convergencia";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -46,17 +47,13 @@ export default function IdealClient() {
             transition={{ duration: 0.9, ease: EASE_LUXURY }}
             className="lg:col-span-5 min-h-[24rem] md:min-h-[36rem] overflow-hidden relative"
           >
-            {/* Capa de textura mineral/abstracta — sin personas corporativas */}
-            <div
-              className="absolute inset-0 bg-cover bg-center grayscale transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
-              style={{
-                backgroundImage: `
-                  linear-gradient(rgba(54,53,49,0.28),rgba(54,53,49,0.18)),
-                  url('/media/cliente-ideal.webp')
-                `,
-                willChange: "transform",
-              }}
-            />
+            {/* Convergencia: trayectorias dispersas que encuentran una misma
+                dirección. Reemplaza a la foto de stock que había acá, que era
+                un fondo de pantalla de celular tapado con capas de gris. */}
+            <div className="absolute inset-0 bg-night">
+              <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_20%,rgba(247,246,242,0.06),transparent_70%)]" />
+              <Convergencia tono="papel" />
+            </div>
 
             {/* Overlay de composición — número decorativo */}
             <div className="absolute bottom-6 left-6 pointer-events-none select-none z-10">
