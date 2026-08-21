@@ -34,7 +34,7 @@ export default function FinalCTA() {
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
                 Impakto Creative
               </p>
-              <h2 className="mb-6 max-w-[10.5ch] text-balance font-heading text-display-lg font-normal text-foreground md:max-w-none">
+              <h2 className="mb-6 max-w-[10.5ch] text-balance font-heading text-display-lg text-foreground md:max-w-none">
                 Una presencia <span className="gold-reflect">mejor resuelta</span> cambia la forma en que una marca es
                 percibida.
               </h2>

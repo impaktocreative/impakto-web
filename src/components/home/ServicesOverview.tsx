@@ -94,7 +94,7 @@ export default function ServicesOverview() {
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Áreas principales
             </motion.span>
-            <motion.h2 variants={SECTION_ITEM} className="font-heading font-normal text-display-lg mb-8 text-paper text-balance">
+            <motion.h2 variants={SECTION_ITEM} className="font-heading text-display-lg mb-8 text-paper text-balance">
               Áreas principales de trabajo
             </motion.h2>
             <motion.p variants={SECTION_ITEM} className="text-ash mb-10 text-body">
@@ -129,7 +129,7 @@ export default function ServicesOverview() {
                 >
                   <span className="pointer-events-none absolute left-0 top-0 h-full w-px bg-gradient-to-b from-primary/0 via-primary/60 to-primary/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="mb-6 flex items-start justify-between gap-4">
-                    <h3 className="font-heading font-normal text-display-sm text-paper group-hover:text-primary/95 transition-colors duration-300">{service.title}</h3>
+                    <h3 className="font-heading text-display-sm text-paper group-hover:text-primary/95 transition-colors duration-300">{service.title}</h3>
                     <motion.div
                       whileHover={{ scale: 1.1, x: 5 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}

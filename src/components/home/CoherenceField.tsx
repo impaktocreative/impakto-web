@@ -167,8 +167,8 @@ export default function CoherenceField({ className = "" }: { className?: string 
         // La punta aparece a medida que la flecha se orienta: dispersa es un
         // trazo, orientada es una flecha.
         if (coherence > 0.16) {
-          const ala = Math.min(4.4, len * 0.3) * coherence;
-          const abre = 2.5;
+          const ala = Math.min(5, len * 0.34) * coherence;
+          const abre = 0.42;
           ctx.moveTo(puntaX, puntaY);
           ctx.lineTo(puntaX - Math.cos(angle - abre) * ala, puntaY - Math.sin(angle - abre) * ala);
           ctx.moveTo(puntaX, puntaY);
@@ -208,11 +208,11 @@ export default function CoherenceField({ className = "" }: { className?: string 
           const py2 = g.y + hy;
           ctx.moveTo(g.x - hx, g.y - hy);
           ctx.lineTo(px2, py2);
-          const ala = Math.min(4.4, g.len * 0.3);
+          const ala = Math.min(5, g.len * 0.34);
           ctx.moveTo(px2, py2);
-          ctx.lineTo(px2 - Math.cos(g.angle - 2.5) * ala, py2 - Math.sin(g.angle - 2.5) * ala);
+          ctx.lineTo(px2 - Math.cos(g.angle - 0.42) * ala, py2 - Math.sin(g.angle - 0.42) * ala);
           ctx.moveTo(px2, py2);
-          ctx.lineTo(px2 - Math.cos(g.angle + 2.5) * ala, py2 - Math.sin(g.angle + 2.5) * ala);
+          ctx.lineTo(px2 - Math.cos(g.angle + 0.42) * ala, py2 - Math.sin(g.angle + 0.42) * ala);
         }
         ctx.stroke();
       }

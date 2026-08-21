@@ -174,7 +174,7 @@ export default function Hero() {
           Diseño y estructura digital
         </p>
 
-        <h1 className="hero-rise hero-rise-delay-1 mt-6 max-w-[60rem] text-balance font-heading text-display-2xl font-normal text-ink md:mt-7">
+        <h1 className="hero-rise hero-rise-delay-1 mt-6 max-w-[60rem] text-balance font-heading text-display-2xl text-ink md:mt-7">
           Construimos estrategias de comunicación para que tu marca{" "}
           <span className="gold-reflect">venda mejor, online y offline.</span>
         </h1>

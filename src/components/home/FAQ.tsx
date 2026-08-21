@@ -97,7 +97,7 @@ export default function FAQ() {
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
               Resolvemos dudas clave
             </motion.p>
-            <motion.h2 variants={INTRO_ITEM} className="font-heading font-normal text-4xl md:text-display-lg text-foreground mb-6 text-balance">
+            <motion.h2 variants={INTRO_ITEM} className="font-heading text-4xl md:text-display-lg text-foreground mb-6 text-balance">
               Preguntas frecuentes
             </motion.h2>
             <motion.p variants={INTRO_ITEM} className="text-stone text-body max-w-sm">

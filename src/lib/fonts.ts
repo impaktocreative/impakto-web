@@ -1,16 +1,15 @@
-import { Fraunces, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 
-// Titulares. Fraunces es el sustituto que el propio style guide de la
-// referencia indica para Gestura. Variable: un solo archivo cubre todos
-// los pesos. Sin los ejes SOFT/WONK/opsz, que no usamos y solo sumaban
-// bytes al archivo.
-export const fraunces = Fraunces({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-fraunces",
-});
-
-// Cuerpo, navegación, botones, formularios. Todo lo funcional.
+// Una sola familia para todo el sitio.
+//
+// Los titulares iban en Fraunces, una serif cálida y librera. Funcionaba para
+// editorial de revista y quedó corta para un estudio que vende precisión: al
+// lado de las esculturas de filamentos, la serif sonaba a otra época.
+//
+// Inter en display se comporta distinto que en cuerpo: cuerpo grueso, tracking
+// muy cerrado y interlineado apretado. La diferencia entre titular y texto la
+// hacen el peso y el tamaño, no dos tipografías. Es más difícil de sostener y
+// más nítido cuando sale bien.
 export const inter = Inter({
   subsets: ["latin"],
   display: "swap",
