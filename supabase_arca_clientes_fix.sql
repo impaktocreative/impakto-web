@@ -1,3 +1,8 @@
+-- SUPERSEDIDO por supabase_pendientes.sql.
+-- Ninguna tabla arca_* llegó a existir en la base, así que migrar de un
+-- emisor a dos no aplica: las tablas se crean directamente con los dos.
+-- Este archivo queda solo como registro. No correrlo.
+--
 -- Columnas fiscales de clients.
 --
 -- Este bloque forma parte de supabase_arca_facturacion_migration.sql pero

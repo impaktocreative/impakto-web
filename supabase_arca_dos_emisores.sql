@@ -1,3 +1,8 @@
+-- SUPERSEDIDO por supabase_pendientes.sql.
+-- Ninguna tabla arca_* llegó a existir en la base, así que migrar de un
+-- emisor a dos no aplica: las tablas se crean directamente con los dos.
+-- Este archivo queda solo como registro. No correrlo.
+--
 -- Dos emisores: Sergio y Rodrigo, cada uno con su CUIT.
 --
 -- La primera versión asumía un emisor único (`arca_config` con CHECK id = 1).

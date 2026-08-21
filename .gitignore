@@ -45,3 +45,7 @@ next-env.d.ts
 
 # codegraph index
 .codegraph/
+
+# Credenciales sueltas — nunca al repo
+DATA.txt
+*.credentials.txt
