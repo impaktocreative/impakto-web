@@ -13,7 +13,7 @@ export default async function SettingsPage() {
       .order('type'),
     supabase
       .from('arca_emisores')
-      .select('id, clave, cuit, razon_social, condicion_fiscal, pto_vta, domicilio, pie_comprobante, entorno')
+      .select('id, clave, cuit, razon_social, condicion_fiscal, pto_vta, domicilio, pie_comprobante, ingresos_brutos, inicio_actividades, entorno')
       .order('clave'),
   ])
 

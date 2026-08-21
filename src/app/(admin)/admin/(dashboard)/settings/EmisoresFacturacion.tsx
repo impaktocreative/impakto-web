@@ -14,6 +14,8 @@ export type Emisor = {
   pto_vta: number
   domicilio: string | null
   pie_comprobante: string | null
+  ingresos_brutos: string | null
+  inicio_actividades: string | null
   entorno: string
 }
 
@@ -96,18 +98,45 @@ function FormularioEmisor({ emisor }: { emisor: Emisor }) {
             defaultValue={emisor.pto_vta}
             className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
           />
-          <p className="text-xs text-gray-400 mt-1">El que tenga habilitado para servicios web en ARCA.</p>
+          <p className="text-xs text-gray-400 mt-1">
+            Tiene que ser un punto de venta habilitado para <strong>web service</strong>. El que se usa
+            desde Comprobantes en Línea no sirve: ARCA lleva la numeración por separado.
+          </p>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Domicilio fiscal</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Domicilio comercial</label>
         <input
           type="text"
           name="domicilio"
           defaultValue={emisor.domicilio ?? ''}
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
         />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Ingresos Brutos</label>
+          <input
+            type="text"
+            name="ingresos_brutos"
+            defaultValue={emisor.ingresos_brutos ?? ''}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+          <p className="text-xs text-gray-400 mt-1">Vacío si no corresponde.</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Inicio de actividades</label>
+          <input
+            type="date"
+            name="inicio_actividades"
+            defaultValue={emisor.inicio_actividades ?? ''}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+          <p className="text-xs text-gray-400 mt-1">Se imprime en el encabezado del comprobante.</p>
+        </div>
       </div>
 
       <div>

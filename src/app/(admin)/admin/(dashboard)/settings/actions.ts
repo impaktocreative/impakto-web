@@ -268,6 +268,8 @@ export async function saveEmisorAction(prevState: ActionState | null, formData: 
       entorno,
       domicilio: ((formData.get('domicilio') as string) ?? '').trim() || null,
       pie_comprobante: ((formData.get('pie_comprobante') as string) ?? '').trim() || null,
+      ingresos_brutos: ((formData.get('ingresos_brutos') as string) ?? '').trim() || null,
+      inicio_actividades: ((formData.get('inicio_actividades') as string) ?? '') || null,
       updated_at: new Date().toISOString(),
     })
     .eq('id', id)
