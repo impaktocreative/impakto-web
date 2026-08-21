@@ -125,22 +125,24 @@ export async function verificarConexion(
           ? `El ${emisor.ptoVta} está bloqueado en ARCA.`
           : `El ${emisor.ptoVta} está habilitado (${propio.tipo}).`,
       )
-    } else if (emisor.entorno === 'homologacion' && puntos.length === 0) {
-      // Homologación no publica puntos de venta por FEParamGetPtosVenta, pero
-      // acepta emitir con cualquier número. No es un fallo: es que este paso
-      // no prueba nada hasta producción.
+    } else if (puntos.length === 0) {
+      // FEParamGetPtosVenta devuelve la lista vacía seguido — en homologación
+      // siempre, y en producción para varios monotributistas. Que ARCA no la
+      // informe no significa que el punto de venta no exista: la prueba real
+      // es el paso siguiente, que lee la serie de este mismo punto de venta.
       agregar(
         'Punto de venta',
         true,
-        `Homologación no lleva registro de puntos de venta y acepta cualquiera, así que el ${emisor.ptoVta} funciona acá. Hay que verificarlo de nuevo al pasar a producción.`,
+        `ARCA no devolvió la lista de puntos de venta, que es su comportamiento habitual acá. Lo confirma el paso siguiente: si puede leer la serie del ${emisor.ptoVta}, el punto de venta existe y sirve.`,
       )
     } else {
+      // Con lista, la ausencia sí es evidencia: ese punto de venta no está.
       agregar(
         'Punto de venta',
         false,
-        `El ${emisor.ptoVta} no figura entre los habilitados. Disponibles: ${
-          puntos.map(p => `${p.nro} (${p.tipo})`).join(', ') || 'ninguno'
-        }.`,
+        `El ${emisor.ptoVta} no figura entre los habilitados. Disponibles: ${puntos
+          .map(p => `${p.nro} (${p.tipo})`)
+          .join(', ')}.`,
       )
     }
   } catch (e) {
@@ -157,8 +159,10 @@ export async function verificarConexion(
       'Última factura C',
       true,
       ultimoNumero === 0
-        ? 'Sin comprobantes emitidos en este punto de venta. La próxima es la número 1.'
-        : `La última autorizada es la ${ultimoNumero}. La próxima es la ${ultimoNumero + 1}.`,
+        ? `Sin comprobantes en el punto de venta ${emisor.ptoVta}. La próxima es la número 1.`
+        : `La última autorizada en el punto de venta ${emisor.ptoVta} es la ${ultimoNumero}. La próxima es la ${
+            ultimoNumero + 1
+          }. Que ARCA responda esto confirma que el punto de venta sirve para web service.`,
     )
   } catch (e) {
     agregar('Última factura C', false, e instanceof Error ? e.message : String(e))
