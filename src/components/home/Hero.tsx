@@ -67,7 +67,7 @@ function TypedText({
             visible: { opacity: 1, y: 0, filter: "blur(0px)" },
           }}
           transition={{ duration: 0.14, ease: "easeOut" }}
-          className={word.bold ? "font-semibold text-foreground/88" : undefined}
+          className={word.bold ? "font-semibold text-paper" : undefined}
         >
           {word.text}
           {index < words.length - 1 ? " " : ""}

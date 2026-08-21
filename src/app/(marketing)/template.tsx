@@ -63,7 +63,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
                 ? { duration: 0.01 }
                 : { duration: 0.62, ease: [0.16, 1, 0.3, 1] }
             }
-            className="pointer-events-none absolute h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(164,154,130,0.26)_0%,rgba(164,154,130,0.06)_45%,transparent_75%)] blur-xl"
+            className="pointer-events-none absolute h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(154,154,154,0.26)_0%,rgba(154,154,154,0.06)_45%,transparent_75%)] blur-xl"
           />
 
           <div className="relative h-[4.7rem] w-[3.9rem] overflow-hidden md:h-[5.8rem] md:w-[4.8rem]">
@@ -100,7 +100,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
             </motion.div>
           </div>
 
-          <div className="relative mt-5 h-px w-40 overflow-hidden bg-foreground/18 md:w-48">
+          <div className="relative mt-5 h-px w-40 overflow-hidden bg-cloud md:w-48">
             <motion.span
               initial={prefersReducedMotion ? { x: 0 } : { x: "-100%" }}
               animate={{ x: "100%" }}
@@ -109,7 +109,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
                   ? { duration: 0.01 }
                   : { duration: 1.35, delay: 0.16, ease: [0.16, 1, 0.3, 1] }
               }
-              className="absolute inset-y-0 left-0 w-1/2 bg-[linear-gradient(90deg,rgba(164,154,130,0),rgba(164,154,130,0.85),rgba(142,155,147,0))]"
+              className="absolute inset-y-0 left-0 w-1/2 bg-[linear-gradient(90deg,rgba(154,154,154,0),rgba(154,154,154,0.85),rgba(152,152,152,0))]"
             />
           </div>
         </div>

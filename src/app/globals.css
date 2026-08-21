@@ -14,7 +14,7 @@
   --color-ink-soft: #161615;
   --color-graphite: #2c2c2b;
   --color-slate: #46463f;
-  --color-stone: #6b6b66;
+  --color-stone: #63635b;
 
   /* Papel */
   --color-fog: #c9c9c4;
@@ -55,11 +55,11 @@
   --color-surface-muted: #eceae5;
   --color-night: #0a0a09;
   --color-night-soft: #161615;
-  --color-primary: #6b6b66;
+  --color-primary: #63635b;
   --color-secondary: #c9c9c4;
   --color-accent: #e2e2dd;
   --color-primary-ink: #46463f;
-  --color-secondary-ink: #6b6b66;
+  --color-secondary-ink: #63635b;
   --color-whatsapp: #2f8d68;
   --color-whatsapp-strong: #246f53;
 
@@ -199,32 +199,8 @@ body.is-admin::after {
   display: none;
 }
 
-/* Glassmorphism Utilities */
-.glass {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 0 0 0 1px linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.glass-dark {
-  background: rgba(54, 53, 49, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 0 0 0 1px linear-gradient(135deg, rgba(54, 53, 49, 0.2), rgba(54, 53, 49, 0.02));
-  border: 1px solid rgba(54, 53, 49, 0.15);
-}
-
 .text-balance {
   text-wrap: balance;
-}
-
-.premium-fade {
-  background: linear-gradient(180deg,
-      rgba(245, 246, 242, 0.78) 0%,
-      rgba(245, 246, 242, 0.42) 42%,
-      rgba(245, 246, 242, 0.08) 100%);
 }
 
 @keyframes premium-sheen {
@@ -293,24 +269,6 @@ body.is-admin::after {
   }
 }
 
-.tech-grid-soft {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 42px 42px;
-}
-
-.ambient-orb {
-  animation: drift-soft 7.2s ease-in-out infinite;
-}
-
-.premium-grid-light {
-  background-image:
-    linear-gradient(rgba(50, 50, 47, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(50, 50, 47, 0.045) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
 .section-glow {
   position: relative;
 }
@@ -320,7 +278,7 @@ body.is-admin::after {
   position: absolute;
   inset: -20% 20% auto;
   height: 220px;
-  background: radial-gradient(circle at center, rgba(164, 154, 130, 0.18), transparent 68%);
+  background: radial-gradient(circle at center, rgba(154,154,154,0.18), transparent 68%);
   pointer-events: none;
 }
 
@@ -392,90 +350,187 @@ button {
   }
 }
 
-/* ==================================================================
-   Lenguaje de interacción.
-   La píldora es la única forma para lo interactivo. La separación se
-   hace con hairline o invirtiendo la superficie, nunca con sombra.
-   El oro entra como reflejo especular sobre el filo o el relleno.
-   ================================================================== */
+@layer components {
 
-.btn-ink,
-.btn-outline {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 3rem;
-  padding: 0 1.75rem;
-  border-radius: 999px;
-  font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  letter-spacing: -0.008em;
-  white-space: nowrap;
-  overflow: hidden;
-  isolation: isolate;
-  transition:
-    background-color var(--duration-base) var(--ease-luxury),
-    border-color var(--duration-base) var(--ease-luxury),
-    color var(--duration-base) var(--ease-luxury);
-}
+  /* ==================================================================
+     Lenguaje de interacción.
+     La píldora es la única forma para lo interactivo. La separación se
+     hace con hairline o invirtiendo la superficie, nunca con sombra.
+     El oro entra como reflejo especular sobre el filo o el relleno.
+     ================================================================== */
 
-.btn-ink {
-  background-color: var(--color-ink);
-  color: var(--color-paper);
-  border: 1px solid var(--color-ink);
-}
+  .btn-ink,
+  .btn-outline {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0 1.75rem;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: -0.008em;
+    white-space: nowrap;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+      background-color var(--duration-base) var(--ease-luxury),
+      border-color var(--duration-base) var(--ease-luxury),
+      color var(--duration-base) var(--ease-luxury);
+  }
 
-.btn-ink:hover {
-  background-color: var(--color-ink-soft);
-}
+  .btn-ink {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    border: 1px solid var(--color-ink);
+  }
 
-.btn-outline {
-  background-color: transparent;
-  color: var(--color-ink);
-  border: 1px solid color-mix(in srgb, var(--color-graphite) 22%, transparent);
-}
+  .btn-ink:hover {
+    background-color: var(--color-ink-soft);
+  }
 
-.btn-outline:hover {
-  border-color: color-mix(in srgb, var(--color-graphite) 42%, transparent);
-}
+  .btn-outline {
+    background-color: transparent;
+    color: var(--color-ink);
+    border: 1px solid color-mix(in srgb, var(--color-graphite) 22%, transparent);
+  }
 
-/* Reflejo. Una lámina de luz dorada cruza el filo al pasar el cursor.
-   Es la única aparición del oro sobre relleno oscuro: material, no color. */
-.sheen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--sheen-gold);
-  background-size: 220% 100%;
-  background-position: 140% 0;
-  opacity: 0;
-  transition:
-    background-position var(--duration-slower) var(--ease-luxury),
-    opacity var(--duration-base) var(--ease-luxury);
-}
+  .btn-outline:hover {
+    border-color: color-mix(in srgb, var(--color-graphite) 42%, transparent);
+  }
 
-.sheen:hover::after {
-  background-position: -40% 0;
-  opacity: 1;
-}
-
-/* Filo dorado de 1px. Sirve de regla, de tope de card y de guion
-   antes de un eyebrow. */
-.hairline-gold {
-  background: var(--hairline-gold);
-}
-
-@media (prefers-reduced-motion: reduce) {
+  /* Reflejo. Una lámina de luz dorada cruza el filo al pasar el cursor.
+     Es la única aparición del oro sobre relleno oscuro: material, no color. */
   .sheen::after {
-    transition: opacity var(--duration-fast) linear;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--sheen-gold);
+    background-size: 220% 100%;
+    background-position: 140% 0;
+    opacity: 0;
+    transition:
+      background-position var(--duration-slower) var(--ease-luxury),
+      opacity var(--duration-base) var(--ease-luxury);
   }
 
   .sheen:hover::after {
-    background-position: 50% 0;
+    background-position: -40% 0;
+    opacity: 1;
   }
+
+  /* Sobre superficie invertida el relleno se da vuelta. */
+  .btn-paper,
+  .btn-outline-paper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0 1.75rem;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: -0.008em;
+    white-space: nowrap;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+      background-color var(--duration-base) var(--ease-luxury),
+      border-color var(--duration-base) var(--ease-luxury),
+      color var(--duration-base) var(--ease-luxury);
+  }
+
+  .btn-paper {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    border: 1px solid var(--color-paper);
+  }
+
+  .btn-paper:hover {
+    background-color: var(--color-paper-lift);
+  }
+
+  .btn-outline-paper {
+    background-color: transparent;
+    color: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 34%, transparent);
+  }
+
+  .btn-outline-paper:hover {
+    border-color: color-mix(in srgb, var(--color-paper) 62%, transparent);
+  }
+
+  /* Filo dorado de 1px. Sirve de regla, de tope de card y de guion
+     antes de un eyebrow. */
+  .hairline-gold {
+    background: var(--hairline-gold);
+  }
+
+  /* ==================================================================
+     Superficies.
+     Dos únicas formas de separar un bloque del fondo: un filo de 1px,
+     o dar vuelta la superficie. Nunca una sombra.
+     ================================================================== */
+
+  .surface-card {
+    position: relative;
+    border-radius: var(--radius-card);
+    border: 1px solid color-mix(in srgb, var(--color-graphite) 14%, transparent);
+    background-color: var(--color-paper-lift);
+    transition: border-color var(--duration-base) var(--ease-luxury);
+  }
+
+  .surface-card:hover {
+    border-color: color-mix(in srgb, var(--color-graphite) 30%, transparent);
+  }
+
+  /* La card invertida es el recurso para destacar un bloque, en lugar de
+     levantarlo con sombra. El filo dorado superior es su única luz. */
+  .surface-invert {
+    position: relative;
+    border-radius: var(--radius-card);
+    background-color: var(--color-ink);
+    color: var(--color-ash);
+    overflow: hidden;
+  }
+
+  .surface-invert::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1.25rem;
+    right: 1.25rem;
+    height: 1px;
+    background: var(--hairline-gold);
+    opacity: 0.75;
+  }
+
+  /* Regla horizontal. Marca el arranque de una sección sin cargar peso. */
+  .rule {
+    height: 1px;
+    background-color: color-mix(in srgb, var(--color-graphite) 12%, transparent);
+  }
+
+  .rule-gold {
+    height: 1px;
+    background: var(--hairline-gold);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sheen::after {
+      transition: opacity var(--duration-fast) linear;
+    }
+
+    .sheen:hover::after {
+      background-position: 50% 0;
+    }
+  }
+
 }
 
 .hero-rise {
@@ -502,48 +557,8 @@ button {
   }
 }
 
-/* §5 — Button "tide-fill": el pseudo-elemento sube desde abajo
-   El color de hover "inunda" el botón desde translateY(100%) → 0 */
-.btn-tide {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.btn-tide::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--color-foreground);
-  transform: translateY(100%);
-  transition: transform var(--duration-slow) var(--ease-luxury);
-  z-index: -1;
-}
-
 .btn-tide:hover::after {
   transform: translateY(0%);
-}
-
-.btn-premium {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  transform: translateY(0) scale(1);
-  transition: transform var(--duration-base) var(--ease-luxury), box-shadow var(--duration-base) var(--ease-luxury);
-}
-
-.btn-premium::before {
-  content: "";
-  position: absolute;
-  top: -130%;
-  left: -38%;
-  width: 46%;
-  height: 360%;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0));
-  transform: translateX(-160%) rotate(16deg);
-  transition: transform var(--duration-slower) var(--ease-luxury);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .btn-premium > * {
@@ -587,41 +602,6 @@ button {
   }
 }
 
-.btn-gold-sweep-primary,
-.btn-gold-sweep-light {
-  border: 1px solid transparent !important;
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  background-size: 100% 100%, 220% 100%;
-  animation: gold-border-flow 3.1s linear infinite;
-}
-
-.btn-gold-sweep-primary {
-  background-image:
-    linear-gradient(var(--color-primary), var(--color-primary)),
-    linear-gradient(
-      100deg,
-      rgba(194, 173, 122, 0.08) 8%,
-      rgba(234, 216, 171, 0.96) 48%,
-      rgba(194, 173, 122, 0.08) 92%
-    );
-}
-
-.btn-gold-sweep-light {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
-    linear-gradient(
-      100deg,
-      rgba(194, 173, 122, 0.06) 8%,
-      rgba(234, 216, 171, 0.9) 50%,
-      rgba(194, 173, 122, 0.06) 92%
-    );
-}
-
-.btn-gold-sweep-light:hover {
-  color: var(--color-primary) !important;
-}
-
 .edge-scan-card {
   position: relative;
   overflow: hidden;
@@ -641,11 +621,6 @@ button {
 }
 
 @media (hover: hover) {
-  .btn-premium:hover {
-    transform: translateY(-1px) scale(1.01);
-    box-shadow: 0 14px 30px -24px rgba(50, 50, 47, 0.5);
-  }
-
   .btn-premium:hover::before {
     transform: translateX(320%) rotate(16deg);
   }
@@ -685,35 +660,23 @@ button {
 }
 
 a:focus-visible {
-  outline: 2px solid rgba(164, 154, 130, 0.9);
+  outline: 2px solid rgba(154,154,154,0.9);
   outline-offset: 3px;
   border-radius: 6px;
-}
-
-.cta-secondary-dark {
-  border: 1px solid rgba(255, 255, 255, 0.68);
-  background: rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 0.95);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-.cta-secondary-dark:hover {
-  background: rgba(255, 255, 255, 0.96) !important;
-  color: var(--color-foreground) !important;
 }
 
 /* §6 — Iluminación Estructural: radial-gradient ambiental estándar
    Usar en secciones oscuras con fondo bg-foreground */
 .ambient-light-tl {
-  background-image: radial-gradient(circle at 10% 20%, rgba(175, 163, 133, 0.06), transparent 55%);
+  background-image: radial-gradient(circle at 10% 20%, rgba(163,163,163,0.06), transparent 55%);
 }
 
 .ambient-light-br {
-  background-image: radial-gradient(circle at 88% 80%, rgba(154, 164, 144, 0.05), transparent 52%);
+  background-image: radial-gradient(circle at 88% 80%, rgba(160,160,160,0.05), transparent 52%);
 }
 
 .ambient-light-center {
-  background-image: radial-gradient(circle at 50% 50%, rgba(175, 163, 133, 0.04), transparent 65%);
+  background-image: radial-gradient(circle at 50% 50%, rgba(163,163,163,0.04), transparent 65%);
 }
 
 /* §Marquesinas — Logos carousel: fuera de <style jsx> para compatibilidad RSC
@@ -794,16 +757,6 @@ a:focus-visible {
   }
 }
 
-.cta-flow-bg {
-  background-image:
-    radial-gradient(circle at 18% 35%, rgba(164, 154, 130, 0.2), transparent 42%),
-    radial-gradient(circle at 82% 68%, rgba(142, 155, 147, 0.16), transparent 46%),
-    linear-gradient(rgba(50, 50, 47, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(50, 50, 47, 0.06) 1px, transparent 1px);
-  background-size: auto, auto, 52px 52px, 52px 52px;
-  animation: cta-flow 18s ease-in-out infinite;
-}
-
 .gold-reflect {
   --reflect-base: var(--color-ink);
   --reflect-gold: var(--color-gold);
@@ -818,7 +771,7 @@ a:focus-visible {
 }
 
 .footer-icon {
-  filter: drop-shadow(0 8px 14px rgba(169, 156, 126, 0.2));
+  filter: drop-shadow(0 8px 14px rgba(157,157,157,0.2));
 }
 
 .footer-icon-wrap::after {
@@ -885,8 +838,4 @@ a:focus-visible {
     opacity: 0;
   }
 
-  .btn-premium,
-  .btn-premium::before {
-    transition: none;
   }
-}

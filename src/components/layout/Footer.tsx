@@ -7,21 +7,14 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-night pt-16 pb-8 text-background">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(169,156,126,0.2)_0%,rgba(164,154,130,0.08)_16%,rgba(31,35,39,0)_52%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_92%_8%,rgba(169,156,126,0.18),transparent_36%)]" />
+    <footer className="relative overflow-hidden bg-night pt-16 pb-8 text-paper">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(157,157,157,0.2)_0%,rgba(154,154,154,0.08)_16%,rgba(31,35,39,0)_52%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
       <motion.span
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-[3px] bg-[linear-gradient(100deg,rgba(194,173,122,0)_8%,rgba(214,191,132,0.2)_26%,rgba(233,214,165,0.95)_50%,rgba(214,191,132,0.2)_74%,rgba(194,173,122,0)_92%)] [background-size:220%_100%]"
         animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
         transition={{ duration: 2.3, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-16 top-2 hidden h-48 w-48 rounded-full bg-primary/22 blur-3xl md:block"
-        animate={{ x: [0, 12, -6, 0], opacity: [0.22, 0.34, 0.24, 0.22] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <div className="container relative z-10 mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
@@ -48,14 +41,14 @@ export default function Footer() {
               Impakto Creative desarrolla estrategia, comunicación y estructura
               digital para marcas que requieren claridad comercial y estándar de ejecución.
             </p>
-            <p className="mt-4 text-eyebrow uppercase tracking-[0.16em] text-accent/54">
+            <p className="mt-5 text-eyebrow uppercase text-fog">
               Más de 20 años de experiencia en comunicación y construcción de marca.
             </p>
 
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.12 }} className="md:col-span-4 lg:col-span-3 lg:col-start-7">
-            <h3 className="mb-6 text-sm font-medium uppercase tracking-widest text-accent">Sitio</h3>
+            <h3 className="mb-5 text-eyebrow uppercase text-fog">Sitio</h3>
             <ul className="space-y-3">
               <li><Link href="/" className="text-accent/80 transition-colors hover:text-primary">Inicio</Link></li>
               <li><Link href="/agencia" className="text-accent/80 transition-colors hover:text-primary">Agencia</Link></li>
@@ -65,7 +58,7 @@ export default function Footer() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.18 }} className="md:col-span-4 lg:col-span-3">
-            <h3 className="mb-6 text-sm font-medium uppercase tracking-widest text-accent">Contacto</h3>
+            <h3 className="mb-5 text-eyebrow uppercase text-fog">Contacto</h3>
             <ul className="space-y-3">
               <li>
                 <a href="mailto:hola@impaktocreative.com" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-primary">
@@ -92,7 +85,7 @@ export default function Footer() {
               <li className="pt-3">
                 <Link
                   href="/contacto"
-                  className="btn-premium inline-block rounded-full border border-white/22 px-5 py-2.5 text-eyebrow uppercase tracking-[0.14em] transition-all duration-300 hover:border-primary hover:text-primary"
+                  className="btn-outline-paper mt-1"
                 >
                   Pedir diagnóstico
                 </Link>

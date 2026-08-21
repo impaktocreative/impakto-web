@@ -33,10 +33,10 @@ const fit = [
 
 export default function IdealClient() {
   return (
-    <section className="bg-band py-28 md:py-36 border-t border-foreground/7">
+    <section className="bg-band py-16 md:py-20 border-t border-graphite/8">
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         {/* §3 hairline border */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-foreground/10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-graphite/12">
 
           {/* Panel imagen — textura editorial (tela/lino, sin rostros) §5 cinematic hover */}
           <motion.div
@@ -61,7 +61,7 @@ export default function IdealClient() {
             {/* Overlay de composición — número decorativo */}
             <div className="absolute bottom-6 left-6 pointer-events-none select-none z-10">
               <span
-                className="font-heading text-background/20 leading-none block"
+                className="font-heading text-paper/65 leading-none block"
                 style={{ fontSize: "clamp(5rem, 10vw, 8rem)", letterSpacing: "-0.04em" }}
               >
                 02
@@ -76,13 +76,13 @@ export default function IdealClient() {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-7 p-9 md:p-14 lg:p-16"
           >
-            <p className="text-eyebrow uppercase tracking-[0.22em] text-foreground/42">Con quién trabajamos mejor</p>
+            <p className="text-eyebrow uppercase text-stone">Con quién trabajamos mejor</p>
             <h2
-              className="text-display-lg mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
+              className="text-display-lg mt-4 font-heading text-foreground text-balance"
             >
               Proyectos donde nuestra forma de trabajo genera mayor impacto.
             </h2>
-            <p className="mt-6 text-body md:text-body-lg text-foreground/60 max-w-[40rem]">
+            <p className="mt-6 text-body md:text-body-lg text-stone max-w-[40rem]">
               Los mejores resultados aparecen cuando hay una decisión real de
               ordenar la comunicación, elevar percepción y consolidar una base
               comercial consistente. También trabajamos junto a agencias de
@@ -102,12 +102,12 @@ export default function IdealClient() {
                 <motion.li
                   key={item}
                   variants={LIST_ITEM}
-                  className="group flex items-start gap-4 border-t border-foreground/8 py-4 last:border-b last:border-foreground/8"
+                  className="group flex items-start gap-4 border-t border-graphite/8 py-4 last:border-b last:border-graphite/8"
                 >
-                  <span className="text-foreground/25 text-eyebrow tracking-[0.14em] pt-1 min-w-[2rem] font-heading transition-colors duration-500 group-hover:text-foreground/55">
+                  <span className="text-stone text-eyebrow pt-1 min-w-[2rem] font-heading transition-colors duration-500 group-hover:text-stone">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-body text-foreground/68 transition-colors duration-500 group-hover:text-foreground/88">
+                  <p className="text-body text-stone transition-colors duration-500 group-hover:text-ink">
                     {item}
                   </p>
                 </motion.li>

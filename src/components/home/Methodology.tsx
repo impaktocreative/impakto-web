@@ -61,13 +61,10 @@ export default function Methodology() {
   const imageInView = useInView(imageRef, { once: true, margin: "-80px" });
 
   return (
-    <section id="metodo" className="relative overflow-hidden py-28 md:py-36 bg-night-soft text-background border-t border-white/8">
-      <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.13]" />
+    <section id="metodo" className="relative overflow-hidden py-16 md:py-20 bg-night-soft text-paper border-t border-white/8">
 
       {/* §6 Blueprint — iluminación ambiental radial en sección oscura */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(175,163,133,0.06),transparent_55%),radial-gradient(circle_at_88%_80%,rgba(154,164,144,0.05),transparent_52%)]" />
 
-      <div className="ambient-orb pointer-events-none absolute right-10 top-14 h-52 w-52 rounded-full bg-secondary/10 blur-3xl" />
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <motion.div
@@ -77,18 +74,18 @@ export default function Methodology() {
             variants={INTRO_CONTAINER}
             className="lg:col-span-5 lg:col-start-8"
           >
-            <motion.p variants={INTRO_ITEM} className="flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-primary/75">
+            <motion.p variants={INTRO_ITEM} className="flex items-center gap-2 text-eyebrow uppercase text-primary/75">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Cómo trabajamos
             </motion.p>
             {/* §2 Blueprint — tipografía fluida clamp() */}
             <motion.h2
               variants={INTRO_ITEM}
-              className="text-display-lg mt-4 font-heading tracking-[-0.02em] text-background text-balance"
+              className="text-display-lg mt-4 font-heading text-paper text-balance"
             >
               Del diagnóstico a la implementación, en cinco pasos.
             </motion.h2>
-            <motion.p variants={INTRO_ITEM} className="mt-7 text-body md:text-body-lg text-background/80 max-w-[31rem]">
+            <motion.p variants={INTRO_ITEM} className="mt-7 text-body md:text-body-lg text-ash max-w-[31rem]">
               Este proceso nos permite alinear estrategia, diseño y rendimiento
               comercial para que tu marca crezca con menos fricción y más consistencia.
             </motion.p>
@@ -125,12 +122,12 @@ export default function Methodology() {
                 whileHover={{ x: 2 }}
                 className="grid grid-cols-[4.8rem_1fr] gap-4 md:gap-6 border-b border-white/12 p-6 md:p-7 last:border-b-0"
               >
-                <p className="text-eyebrow tracking-[0.22em] uppercase text-background/45 pt-1">Paso {step.number}</p>
+                <p className="text-eyebrow uppercase text-fog pt-1">Paso {step.number}</p>
                 <div>
-                  <h3 className="text-display-sm font-heading tracking-[-0.01em] text-background/96">
+                  <h3 className="text-display-sm font-heading text-ash">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-body text-background/78">{step.description}</p>
+                  <p className="mt-3 text-body text-ash">{step.description}</p>
                 </div>
               </motion.article>
             ))}

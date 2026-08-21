@@ -4,58 +4,59 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
+/**
+ * La píldora es el único lenguaje de forma para lo interactivo.
+ * Las variantes componen las clases de globals.css para que haya una
+ * sola fuente de verdad: acá no se redefine ni el radio ni el color.
+ *
+ * El admin no lo usa — de src/components/ui solo comparte Modal.
+ */
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap text-eyebrow tracking-[0.14em] uppercase font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/75 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
-    {
-        variants: {
-            variant: {
-                // §5 Blueprint: "tide-fill" — el color sube desde abajo como una marea
-                default:
-                    "btn-premium btn-tide relative overflow-hidden rounded-card bg-foreground text-background transition-colors duration-500 [&::after]:bg-primary",
-                destructive:
-                    "btn-premium rounded-card bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors duration-300",
-                outline:
-                    "btn-premium rounded-card border border-foreground/20 bg-background text-foreground transition-colors duration-300 hover:border-foreground/35 hover:bg-foreground/6 hover:text-foreground",
-                secondary:
-                    "btn-premium rounded-card bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors duration-300",
-                ghost: "hover:bg-accent hover:text-accent-foreground transition-colors duration-300",
-                link: "text-foreground underline-offset-4 hover:underline hover:text-primary transition-colors duration-300",
-                // §5 Blueprint: "cta-link" — kicker + hairline horizontal animada
-                "cta-link": "cta-link",
-            },
-            size: {
-                default: "h-12 px-9 py-3",
-                sm: "h-9 px-4",
-                lg: "h-14 px-12",
-                icon: "h-10 w-10",
-            },
-        },
-        defaultVariants: {
-            variant: "default",
-            size: "default",
-        },
-    }
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-graphite/45 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:pointer-events-none disabled:opacity-45",
+  {
+    variants: {
+      variant: {
+        default: "btn-ink sheen",
+        outline: "btn-outline",
+        // Sobre superficie invertida el relleno se da vuelta: papel sobre tinta.
+        invert: "btn-paper sheen",
+        "invert-outline": "btn-outline-paper",
+        ghost:
+          "inline-flex items-center justify-center text-body-sm text-slate underline decoration-graphite/25 underline-offset-4 transition-colors duration-300 hover:text-ink hover:decoration-graphite/50",
+        link: "cta-link",
+        "cta-link": "cta-link",
+      },
+      size: {
+        default: "",
+        sm: "!min-h-[2.5rem] !px-5 !text-caption",
+        lg: "!min-h-[3.5rem] !px-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
 );
 
 export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-    asChild?: boolean;
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
-        const Comp = asChild ? Slot : "button";
-        // cta-link doesn't need a size
-        const sizeResolved = variant === "cta-link" ? undefined : size;
-        return (
-            <Comp
-                className={buttonVariants({ variant, size: sizeResolved, className })}
-                ref={ref}
-                {...props}
-            />
-        );
-    }
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    const textOnly = variant === "cta-link" || variant === "link" || variant === "ghost";
+    return (
+      <Comp
+        className={buttonVariants({ variant, size: textOnly ? undefined : size, className })}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
 );
 Button.displayName = "Button";
 

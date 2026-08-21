@@ -6,8 +6,7 @@ import Link from "next/link";
 import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealLine } from "@/components/ui/Reveal";
-import TechNodes from "@/components/ui/TechNodes";
-import AnimatedMeshBackground from "@/components/home/AnimatedMeshBackground";
+import CoherenceField from "@/components/home/CoherenceField";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -186,41 +185,28 @@ export default function AgenciaContent() {
     <main id="contenido-principal" ref={mainRef} className="flex-grow pt-[88px]">
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 z-[70] h-[2px] origin-left bg-[linear-gradient(90deg,rgba(164,154,130,0.18)_0%,rgba(194,173,122,0.95)_36%,rgba(142,155,147,0.5)_100%)]"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[70] h-[2px] origin-left bg-[linear-gradient(90deg,rgba(154,154,154,0.18)_0%,rgba(194,173,122,0.95)_36%,rgba(152,152,152,0.5)_100%)]"
         style={{ scaleX: progressScale }}
       />
 
-      <section ref={heroRef} className="relative overflow-hidden border-b border-foreground/8 bg-background pb-22 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(164,154,130,0.13),transparent_28%),radial-gradient(circle_at_88%_14%,rgba(142,155,147,0.12),transparent_32%)]" />
+      <section ref={heroRef} className="relative overflow-hidden border-b border-graphite/8 bg-paper pb-16 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28">
         {/* Acá había un hotlink a Unsplash de 2200px con opacity 0.12 sobre dos
             gradientes: invisible en la práctica, pero era el elemento del LCP
             de esta página, a 8.2 s. La textura la aportan el mesh y TechNodes. */}
         <div className="pointer-events-none absolute inset-0">
-          <AnimatedMeshBackground variant="full" className="opacity-[0.6]" />
+          <CoherenceField />
+
+        {/* Mismo velo que en el home: el campo es textura de fondo, no
+            puede competir con el texto que lo cruza. */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-paper)_86%,transparent)_0%,color-mix(in_srgb,var(--color-paper)_70%,transparent)_58%,transparent_100%)] lg:bg-[radial-gradient(115%_78%_at_16%_42%,var(--color-paper)_16%,color-mix(in_srgb,var(--color-paper)_60%,transparent)_50%,transparent_76%)]" />
         </div>
-        <TechNodes className="pointer-events-none absolute inset-0" />
         <div className="pointer-events-none absolute inset-0">
-          <motion.div
-            aria-hidden="true"
-            className="absolute inset-[-12%]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 14% 18%, rgba(191,168,118,0.32) 0%, transparent 34%), radial-gradient(circle at 84% 24%, rgba(191,168,118,0.24) 0%, transparent 36%), radial-gradient(circle at 52% 78%, rgba(154,164,144,0.2) 0%, transparent 42%)",
-              backgroundSize: "170% 170%",
-            }}
-            animate={{
-              backgroundPosition: ["0% 0%", "100% 18%", "16% 100%", "0% 0%"],
-              opacity: [0.56, 0.82, 0.68, 0.56],
-              scale: [1, 1.04, 1],
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          />
           <motion.div
             aria-hidden="true"
             className="absolute inset-0"
             style={{
               backgroundImage:
-                "linear-gradient(rgba(191,168,118,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(154,164,144,0.12) 1px, transparent 1px)",
+                "linear-gradient(rgba(191,168,118,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(160,160,160,0.12) 1px, transparent 1px)",
               backgroundSize: "78px 78px",
             }}
             animate={{
@@ -229,18 +215,6 @@ export default function AgenciaContent() {
             }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
           />
-          <motion.div
-            aria-hidden="true"
-            className="absolute inset-y-0 -left-1/3 w-2/3 bg-gradient-to-r from-transparent via-primary/25 to-transparent blur-3xl"
-            animate={{ x: ["-8%", "210%"], opacity: [0, 0.6, 0] }}
-            transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.2 }}
-          />
-          <motion.div
-            aria-hidden="true"
-            className="absolute inset-[-18%] bg-[radial-gradient(circle_at_50%_50%,rgba(245,246,242,0),rgba(245,246,242,0.36)_74%,rgba(245,246,242,0.64)_100%)]"
-            animate={{ rotate: [0, 3.2, -2.4, 0], scale: [1, 1.025, 1] }}
-            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          />
         </div>
         <div className="pointer-events-none absolute inset-y-0 right-[6%] hidden w-px bg-gradient-to-b from-transparent via-foreground/15 to-transparent lg:block" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
@@ -248,51 +222,51 @@ export default function AgenciaContent() {
               Con los variants de framer el h1 arrancaba en opacity 0 + blur y
               el LCP no se registraba hasta después de hidratar. */}
           <motion.div className="max-w-[50rem]" style={{ y: heroY, opacity: heroOpacity }}>
-              <p className="hero-rise flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/45">
+              <p className="hero-rise flex items-center gap-2 text-eyebrow uppercase text-stone">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-55" />
                 Estudio
               </p>
-              <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[18ch] font-heading text-balance text-display-xl tracking-[-0.02em] text-foreground">
+              <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[18ch] font-heading text-balance text-display-xl text-foreground">
                 Veinte años ordenando marcas que <span className="gold-reflect gold-reflect-slow font-medium">necesitaban dirección</span>.
               </h1>
-              <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[46rem] text-body text-foreground/68 md:text-body-lg">
+              <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[46rem] text-body text-stone md:text-body-lg">
                 Acompañamos compañías que necesitan elevar su posicionamiento con una dirección más clara, una ejecución más precisa y una presencia de marca más sólida.
               </p>
-              <p className="hero-rise hero-rise-delay-3 mt-6 flex w-full max-w-[48rem] flex-wrap items-center gap-x-2 gap-y-1 border border-foreground/12 bg-white/75 px-4 py-2 text-eyebrow font-medium uppercase tracking-[0.12em] text-foreground/64 md:w-fit">
+              <p className="hero-rise hero-rise-delay-3 mt-6 flex w-full max-w-[48rem] flex-wrap items-center gap-x-2 gap-y-1 border border-graphite/12 bg-paper-lift px-4 py-2 text-eyebrow font-medium uppercase text-stone md:w-fit">
                 <span>+20 años de experiencia</span>
-                <span className="text-foreground/30">/</span>
+                <span className="text-stone">/</span>
                 <span>Trabajo multidisciplinario</span>
-                <span className="text-foreground/30">/</span>
+                <span className="text-stone">/</span>
                 <span>Acompañamiento estratégico</span>
               </p>
           </motion.div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-b border-foreground/8 bg-surface-muted py-4">
+      <section className="relative overflow-hidden border-b border-graphite/8 bg-surface-muted py-4">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <div className="overflow-hidden border border-foreground/10 bg-white/70 py-2">
+          <div className="overflow-hidden border border-graphite/12 bg-paper-lift py-2">
             <motion.div
               className="flex w-max items-center gap-8 px-5"
               animate={{ x: ["0%", "-50%"] }}
               transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
             >
               {[...technicalSignature, ...technicalSignature].map((item, index) => (
-                <span key={`${item}-${index}`} className="inline-flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/52">
+                <span key={`${item}-${index}`} className="inline-flex items-center gap-2 text-eyebrow uppercase text-stone">
                   <span className="h-1 w-1 rounded-full bg-primary/70" />
                   {item}
                 </span>
               ))}
             </motion.div>
           </div>
-          <div className="mt-2 overflow-hidden border border-foreground/8 bg-[linear-gradient(90deg,rgba(255,255,255,0.72),rgba(245,247,241,0.82))] py-1.5">
+          <div className="mt-2 overflow-hidden border border-graphite/8 bg-[linear-gradient(90deg,rgba(255,255,255,0.72),rgba(245,247,241,0.82))] py-1.5">
             <motion.div
               className="flex w-max items-center gap-10 px-6"
               animate={{ x: ["-50%", "0%"] }}
               transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
             >
               {[...technicalSignature, ...technicalSignature].map((item, index) => (
-                <span key={`${item}-alt-${index}`} className="text-eyebrow uppercase tracking-[0.22em] text-foreground/42">
+                <span key={`${item}-alt-${index}`} className="text-eyebrow uppercase text-stone">
                   {item}
                 </span>
               ))}
@@ -301,9 +275,7 @@ export default function AgenciaContent() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-night py-20 text-background md:py-28 lg:py-32">
-        <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.14]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(164,154,130,0.14),transparent_42%)]" />
+      <section className="relative overflow-hidden bg-night py-16 text-paper md:py-16 lg:py-32">
         <Image
           src="/logos/icono-2.svg"
           alt=""
@@ -316,10 +288,10 @@ export default function AgenciaContent() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent via-band/30 to-band" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
-            <p className="text-eyebrow uppercase tracking-[0.2em] text-primary/75">Quiénes somos</p>
+            <p className="text-eyebrow uppercase text-primary/75">Quiénes somos</p>
           </Reveal>
           <Reveal delay={0.06}>
-            <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg tracking-[-0.02em] text-background">
+            <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg text-paper">
               Un estudio que diseña y también <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">implementa</span>.
             </h2>
           </Reveal>
@@ -348,11 +320,11 @@ export default function AgenciaContent() {
                   transition={{ duration: 0.9, delay: 0.15 + index * 0.08, ease: EASE_LUXURY }}
                   style={{ transformOrigin: "left center" }}
                 />
-                <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-primary/76">
+                <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase text-primary/76">
                   <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto" />
                   Capitulo {index + 1}
                 </p>
-                <p className="relative z-10 text-body text-background/84">{chapter}</p>
+                <p className="relative z-10 text-body text-ash">{chapter}</p>
                 <motion.span
                   aria-hidden="true"
                   className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-primary/18 blur-2xl"
@@ -365,16 +337,16 @@ export default function AgenciaContent() {
         </div>
       </section>
 
-      <section className="section-glow border-b border-foreground/8 bg-white py-20 md:py-26 lg:py-32">
+      <section className="section-glow border-b border-graphite/8 bg-white py-16 md:py-22 lg:py-32">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <div className="mb-12 grid grid-cols-1 items-end gap-8 lg:grid-cols-12 lg:gap-12">
             <Reveal className="lg:col-span-6">
-              <p className="text-eyebrow uppercase tracking-[0.2em] text-foreground/45">Cómo estamos conformados</p>
-              <h2 className="mt-4 font-heading text-balance text-display-lg tracking-[-0.02em] text-foreground">
+              <p className="text-eyebrow uppercase text-stone">Cómo estamos conformados</p>
+              <h2 className="mt-4 font-heading text-balance text-display-lg text-foreground">
                 Cuatro frentes de trabajo bajo una misma <span className="gold-reflect gold-reflect-slow font-medium">dirección</span>.
               </h2>
             </Reveal>
-            <Reveal className="max-w-[36rem] text-body text-foreground/62 lg:col-span-6 lg:justify-self-end" delay={0.1}>
+            <Reveal className="max-w-[36rem] text-body text-stone lg:col-span-6 lg:justify-self-end" delay={0.1}>
               Cada proyecto se arma con los perfiles que necesita. La dirección es siempre la misma, así que las piezas terminan hablando entre sí.
             </Reveal>
           </div>
@@ -392,7 +364,7 @@ export default function AgenciaContent() {
                 variants={STAGGER_ITEM_MEDIUM}
                 whileHover={{ y: -6, rotateX: 1.2, rotateY: -1.4, boxShadow: "0 32px 48px -30px rgba(50,50,47,0.46)" }}
                 transition={{ duration: 0.45, ease: EASE_LUXURY }}
-                className="edge-scan-card premium-grid-light relative border border-foreground/10 bg-white/88 p-7 shadow-premium-lift md:p-8"
+                className="edge-scan-card premium-grid-light relative border border-graphite/12 bg-paper-lift p-7 md:p-8"
                 style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
               >
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/55 to-transparent" />
@@ -402,20 +374,19 @@ export default function AgenciaContent() {
                   animate={{ opacity: [0.2, 0.8, 0.2] }}
                   transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: index * 0.16 }}
                 />
-                <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/48">
+                <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase text-stone">
                   <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto opacity-65" />
                   Eje {String(index + 1).padStart(2, "0")}
                 </p>
-                <h3 className="font-heading text-display-xs tracking-[-0.02em] text-foreground/92">{axis.title}</h3>
-                <p className="mt-4 text-body text-foreground/74">{axis.description}</p>
+                <h3 className="font-heading text-display-xs text-ink">{axis.title}</h3>
+                <p className="mt-4 text-body text-slate">{axis.description}</p>
               </motion.article>
             ))}
           </motion.div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-b border-foreground/8 bg-surface-muted py-20 md:py-24 lg:py-28">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_84%_16%,rgba(142,155,147,0.16),transparent_34%),radial-gradient(circle_at_12%_76%,rgba(164,154,130,0.14),transparent_38%)]" />
+      <section className="relative overflow-hidden border-b border-graphite/8 bg-surface-muted py-16 md:py-18 lg:py-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
@@ -426,7 +397,7 @@ export default function AgenciaContent() {
               transition={{ duration: 0.85, ease: EASE_LUXURY }}
               className="lg:col-span-5"
             >
-              <div className="relative aspect-[4/5] w-full overflow-hidden border border-foreground/12 bg-white shadow-premium-lift">
+              <div className="relative aspect-[4/5] w-full overflow-hidden border border-graphite/12 bg-white">
                 <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-black/18 via-black/6 to-transparent" />
                 <Image
                   src="/team/rodrigo.jpg"
@@ -437,19 +408,19 @@ export default function AgenciaContent() {
                   priority
                 />
                 <div className="absolute bottom-4 left-4 border border-white/32 bg-black/45 px-3 py-2 backdrop-blur-sm">
-                  <p className="text-eyebrow uppercase tracking-[0.16em] text-white/82">Rodrigo Zarza</p>
-                  <p className="mt-0.5 text-eyebrow uppercase tracking-[0.14em] text-white/72">Director creativo</p>
+                  <p className="text-eyebrow uppercase text-white/82">Rodrigo Zarza</p>
+                  <p className="mt-0.5 text-eyebrow uppercase text-white/72">Director creativo</p>
                 </div>
               </div>
             </motion.div>
 
             <Reveal className="lg:col-span-7" delay={0.08}>
               <article>
-                <p className="text-eyebrow uppercase tracking-[0.2em] text-foreground/45">Dirección creativa</p>
-                <h3 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg tracking-[-0.02em] text-foreground">
+                <p className="text-eyebrow uppercase text-stone">Dirección creativa</p>
+                <h3 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg text-foreground">
                   Rodrigo Zarza
                 </h3>
-                <p className="mt-2 text-eyebrow uppercase tracking-[0.16em] text-foreground/52">Director creativo</p>
+                <p className="mt-2 text-eyebrow uppercase text-stone">Director creativo</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
                   {directorHighlights.map((highlight, index) => (
@@ -459,14 +430,14 @@ export default function AgenciaContent() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-80px" }}
                       transition={{ duration: 0.55, delay: 0.18 + index * 0.05, ease: EASE_LUXURY }}
-                      className="border border-foreground/14 bg-white/72 px-3 py-1 text-eyebrow uppercase tracking-[0.14em] text-foreground/58"
+                      className="border border-graphite/12 bg-paper-lift px-3 py-1 text-eyebrow uppercase text-stone"
                     >
                       {highlight}
                     </motion.span>
                   ))}
                 </div>
 
-                <div className="mt-7 space-y-4 text-body text-foreground/72">
+                <div className="mt-7 space-y-4 text-body text-slate">
                   {directorBio.map((paragraph, index) => (
                     <motion.p
                       key={paragraph}
@@ -485,7 +456,7 @@ export default function AgenciaContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.7, delay: 0.38, ease: EASE_LUXURY }}
-                  className="mt-8 border-l-2 border-foreground/22 pl-4 text-body italic text-foreground/64"
+                  className="mt-8 border-l-2 border-graphite/20 pl-4 text-body italic text-stone"
                 >
                   &ldquo;La creatividad solo genera valor cuando tiene dirección, intención y una ejecución impecable.&rdquo;
                 </motion.blockquote>
@@ -497,10 +468,10 @@ export default function AgenciaContent() {
                   transition={{ duration: 0.7, delay: 0.48, ease: EASE_LUXURY }}
                   className="mt-8 flex flex-col gap-3 sm:flex-row"
                 >
-                  <Button asChild size="lg" className="btn-tide whitespace-normal text-center sm:whitespace-nowrap">
+                  <Button asChild size="lg" className="whitespace-normal text-center sm:whitespace-nowrap">
                     <Link href="/contacto">Pedir diagnóstico</Link>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="border-foreground/45 bg-white/55 text-foreground/86 hover:bg-white hover:text-foreground">
+                  <Button asChild size="lg" variant="outline" className="border-graphite/30 bg-paper-lift text-slate hover:bg-white hover:text-foreground">
                     <Link href="/servicios">Ver servicios</Link>
                   </Button>
                 </motion.div>
@@ -510,7 +481,7 @@ export default function AgenciaContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.6, delay: 0.56, ease: EASE_LUXURY }}
-                  className="mt-8 inline-flex border border-foreground/15 bg-white/75 px-4 py-2 text-eyebrow uppercase tracking-[0.15em] text-foreground/60"
+                  className="mt-8 inline-flex border border-graphite/20 bg-paper-lift px-4 py-2 text-eyebrow uppercase text-stone"
                 >
                   Biografía editorial en actualización
                 </motion.p>
@@ -520,8 +491,7 @@ export default function AgenciaContent() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-b border-foreground/8 bg-band py-16 md:py-20 lg:py-24">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(164,154,130,0.11),transparent_30%),radial-gradient(circle_at_82%_80%,rgba(142,155,147,0.1),transparent_36%)]" />
+      <section className="relative overflow-hidden border-b border-graphite/8 bg-band py-16 md:py-16 lg:py-18">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <motion.div
             initial="hidden"
@@ -536,20 +506,20 @@ export default function AgenciaContent() {
                 variants={STAGGER_ITEM_MEDIUM}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.4, ease: EASE_LUXURY }}
-                className="relative border border-foreground/10 bg-white p-5 text-center shadow-premium-lift md:p-6"
+                className="relative border border-graphite/12 bg-white p-5 text-center md:p-6"
               >
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-                <p className="font-heading text-display-md tracking-[-0.03em] text-foreground/92">
+                <p className="font-heading text-display-md text-ink">
                   <CountUp to={signal.value} prefix={signal.prefix} suffix={signal.suffix} />
                 </p>
-                <p className="mt-1 text-eyebrow uppercase tracking-[0.18em] text-foreground/48">{signal.label}</p>
+                <p className="mt-1 text-eyebrow uppercase text-stone">{signal.label}</p>
               </motion.article>
             ))}
           </motion.div>
 
           <Reveal delay={0.14}>
-            <div className="mt-8 border border-foreground/10 bg-white p-4 md:p-6">
-              <p className="mb-4 flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/48">
+            <div className="mt-8 border border-graphite/12 bg-white p-4 md:p-6">
+              <p className="mb-4 flex items-center gap-2 text-eyebrow uppercase text-stone">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto opacity-65" />
                 Marcas que confiaron en Impakto
               </p>
@@ -566,7 +536,7 @@ export default function AgenciaContent() {
                     variants={STAGGER_ITEM_FAST}
                     whileHover={{ y: -3 }}
                     transition={{ duration: 0.38, ease: EASE_LUXURY }}
-                    className="flex h-[6rem] items-center justify-center border border-foreground/8 bg-surface px-4"
+                    className="flex h-[6rem] items-center justify-center border border-graphite/8 bg-surface px-4"
                   >
                     <div className="relative h-[3.4rem] w-full max-w-[182px]">
                       <Image
@@ -587,23 +557,22 @@ export default function AgenciaContent() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-night-soft py-20 text-background md:py-24 lg:py-28">
+      <section className="relative overflow-hidden bg-night-soft py-16 text-paper md:py-18 lg:py-16">
         {/* Segundo hotlink a Unsplash de 2200px, a opacity 0.12 y debajo de un
             overlay de 0.82-0.92: no llegaba a verse. Queda la grilla. */}
-        <div className="pointer-events-none absolute inset-0 tech-grid-soft opacity-[0.14]" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-band via-band/50 to-transparent" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
             <div className="border border-white/14 bg-white/[0.03] p-9 md:p-12 lg:p-14">
-              <p className="text-eyebrow uppercase tracking-[0.2em] text-primary/78">Compromiso Impakto</p>
-              <h2 className="mt-4 max-w-[15ch] font-heading text-balance text-display-lg tracking-[-0.02em] text-background">
+              <p className="text-eyebrow uppercase text-primary/78">Compromiso Impakto</p>
+              <h2 className="mt-4 max-w-[15ch] font-heading text-balance text-display-lg text-paper">
                 Nos involucramos de verdad en cada marca para que avance con <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">más seguridad</span>.
               </h2>
-              <p className="mt-7 max-w-[44rem] text-body text-background/78 md:text-body-lg">
+              <p className="mt-7 max-w-[44rem] text-body text-ash md:text-body-lg">
                 Acompañamos todo el proceso con consultoría ejecutiva y dirección creativa para convertir decisiones estratégicas en resultados sostenibles.
               </p>
 
-              <p className="mt-5 inline-flex items-center gap-2 border border-white/24 bg-white/8 px-4 py-2 text-eyebrow uppercase tracking-[0.16em] text-white/82">
+              <p className="mt-5 inline-flex items-center gap-2 border border-white/24 bg-paper-lift px-4 py-2 text-eyebrow uppercase text-white/82">
                 <span>Sesiones de diagnóstico</span>
                 <span className="text-white/45">/</span>
                 <span>Respuesta inicial en 24h hábiles</span>
@@ -613,15 +582,15 @@ export default function AgenciaContent() {
                   <Button
                     asChild
                     size="lg"
-                  className="btn-gold-sweep-primary btn-tide whitespace-normal border border-primary/65 bg-primary text-foreground shadow-premium-gold [&::after]:bg-foreground hover:!text-background sm:whitespace-nowrap"
+                    variant="invert"
+                    className="whitespace-normal text-center sm:whitespace-nowrap"
                 >
                   <Link href="/contacto">Pedir diagnóstico</Link>
                 </Button>
                 <Button
                   asChild
                   size="lg"
-                  variant="outline"
-                  className="cta-secondary-dark"
+                  variant="invert-outline"
                 >
                   <Link href="/servicios">Ver servicios</Link>
                 </Button>

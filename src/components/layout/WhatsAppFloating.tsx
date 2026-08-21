@@ -53,14 +53,14 @@ export default function WhatsAppFloating() {
   return (
     <div ref={panelRef} className="fixed bottom-[calc(0.9rem+env(safe-area-inset-bottom))] right-[calc(0.9rem+env(safe-area-inset-right))] z-[65] md:bottom-6 md:right-6">
       {isOpen ? (
-        <div className="mb-2 w-[17.6rem] rounded-card border border-foreground/12 bg-white/95 p-3 shadow-premium-lift backdrop-blur-md sm:w-[19rem]">
+        <div className="mb-2 w-[17.6rem] rounded-card border border-graphite/12 bg-paper-lift p-3 backdrop-blur-md sm:w-[19rem]">
           <div className="mb-2 flex items-center justify-between px-1">
-            <p className="text-eyebrow uppercase tracking-[0.16em] text-foreground/52">
+            <p className="text-eyebrow uppercase text-stone">
               Contacto por WhatsApp
             </p>
             <button
               onClick={() => setIsOpen(false)}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-foreground/12 text-foreground/65"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-graphite/12 text-stone"
               aria-label="Cerrar opciones de WhatsApp"
             >
               <X size={14} />
@@ -74,23 +74,23 @@ export default function WhatsAppFloating() {
                 href={`https://wa.me/${contact.wa}?text=${encodeURIComponent("Hola, quiero consultar por una reunión estratégica con Impakto Creative.")}`}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex items-center gap-3 rounded-card border border-foreground/10 bg-white/90 px-3 py-2.5 transition-all duration-300 hover:-translate-y-px hover:border-whatsapp-strong hover:bg-[linear-gradient(145deg,#369b74_0%,#2f8d68_48%,#246f53_100%)] hover:shadow-whatsapp"
+                className="group flex items-center gap-3 rounded-card border border-graphite/12 bg-paper-lift px-3 py-2.5 transition-all duration-300 hover:-translate-y-px hover:border-whatsapp-strong hover:bg-[linear-gradient(145deg,#369b74_0%,#2f8d68_48%,#246f53_100%)] hover:shadow-whatsapp"
               >
                 <Image
                   src={contact.image}
                   alt={`Foto de ${contact.name}`}
                   width={44}
                   height={44}
-                  className="h-11 w-11 rounded-full object-cover ring-1 ring-foreground/10 transition-all duration-300 group-hover:ring-white/40"
+                  className="h-11 w-11 rounded-full object-cover ring-1 ring-graphite/12 transition-all duration-300 group-hover:ring-graphite/30/40"
                 />
                 <span className="min-w-0">
-                  <span className="block text-sm font-medium text-foreground/90 transition-colors duration-300 group-hover:text-white">
+                  <span className="block text-sm font-medium text-ink transition-colors duration-300 group-hover:text-white">
                     {contact.name}
                   </span>
-                  <span className="block text-eyebrow uppercase tracking-[0.14em] text-foreground/52 transition-colors duration-300 group-hover:text-white/85">
+                  <span className="block text-eyebrow uppercase text-stone transition-colors duration-300 group-hover:text-white/85">
                     {contact.role}
                   </span>
-                  <span className="block text-caption text-foreground/75 transition-colors duration-300 group-hover:text-white/90">
+                  <span className="block text-caption text-slate transition-colors duration-300 group-hover:text-white/90">
                     {contact.number}
                   </span>
                 </span>
@@ -103,7 +103,7 @@ export default function WhatsAppFloating() {
       <div className="flex items-center justify-end">
         <button
           onClick={() => setIsOpen((open) => !open)}
-          className="btn-premium inline-flex h-12 w-12 items-center justify-center rounded-full border border-whatsapp/45 bg-whatsapp text-white shadow-premium-lift transition-transform duration-300 hover:scale-[1.04] md:-ml-5 md:h-[3.2rem] md:w-[3.2rem]"
+          className="sheen inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-ink bg-ink text-paper transition-colors duration-300 hover:bg-ink-soft md:-ml-5 md:h-[3.2rem] md:w-[3.2rem]"
           aria-label="Abrir contacto por WhatsApp"
           aria-expanded={isOpen}
         >

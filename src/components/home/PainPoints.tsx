@@ -35,7 +35,7 @@ const painPoints = [
 
 export default function PainPoints() {
   return (
-    <section className="relative py-28 md:py-36 bg-surface-muted border-t border-foreground/7">
+    <section className="relative py-16 md:py-20 bg-surface-muted border-t border-graphite/8">
       <div className="pointer-events-none absolute inset-0 premium-grid-light opacity-35" />
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         <motion.div
@@ -45,13 +45,13 @@ export default function PainPoints() {
           transition={{ duration: 0.85, ease: EASE_LUXURY }}
           className="mx-auto max-w-4xl text-center"
         >
-          <p className="text-eyebrow uppercase tracking-[0.22em] text-foreground/42">Dónde aportamos más valor</p>
+          <p className="text-eyebrow uppercase text-stone">Dónde aportamos más valor</p>
           <h2
-            className="text-display-lg mt-4 font-heading tracking-[-0.02em] text-foreground text-balance"
+            className="text-display-lg mt-4 font-heading text-foreground text-balance"
           >
             Hay momentos en los que una marca necesita algo más que ejecución.
           </h2>
-          <p className="mx-auto mt-7 text-body md:text-body-lg text-foreground/62 max-w-[42rem]">
+          <p className="mx-auto mt-7 text-body md:text-body-lg text-stone max-w-[42rem]">
              En esos contextos intervenimos con dirección estratégica y ejecución
              integrada para recuperar claridad, consistencia y tracción comercial.
           </p>
@@ -68,19 +68,19 @@ export default function PainPoints() {
               <motion.div
                 key={item}
                 variants={LIST_ITEM}
-                className="group relative grid grid-cols-[3.3rem_1fr] gap-4 border-t border-foreground/10 py-6 md:py-7 items-start"
+                className="group relative grid grid-cols-[3.3rem_1fr] gap-4 border-t border-graphite/12 py-6 md:py-7 items-start"
               >
                 <div className="pointer-events-none absolute inset-y-2 left-[-0.55rem] w-px bg-primary/45 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 {/* Índice monumental */}
                 <span
-                  className="text-display-sm font-heading text-foreground/14 leading-none pt-[0.15rem] block transition-all duration-700 group-hover:text-foreground/45"
+                  className="text-display-sm font-heading text-stone leading-none pt-[0.15rem] block transition-all duration-700 group-hover:text-stone"
                   style={{ letterSpacing: "-0.02em" }}
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
 
                 {/* Texto */}
-                <p className="pt-1 text-body-sm text-foreground/68 transition-colors duration-500 group-hover:text-foreground/88 md:text-body">
+                <p className="pt-1 text-body-sm text-stone transition-colors duration-500 group-hover:text-ink md:text-body">
                   {item}
                 </p>
               </motion.div>

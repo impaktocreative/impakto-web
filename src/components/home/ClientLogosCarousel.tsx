@@ -4,15 +4,15 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const logos = [
-  { file: "cliente-01.jpg", name: "Cliente 01" },
-  { file: "cliente-02.jpg", name: "Cliente 02" },
-  { file: "cliente-03.jpg", name: "Cliente 03" },
-  { file: "cliente-04.jpg", name: "Cliente 04" },
-  { file: "cliente-05.jpg", name: "Cliente 05" },
-  { file: "cliente-06.jpg", name: "Cliente 06" },
-  { file: "cliente-07.jpg", name: "Cliente 07" },
-  { file: "cliente-08.jpg", name: "Cliente 08" },
-  { file: "cliente-09.jpg", name: "Cliente 09" },
+  { file: "cliente-01.jpg", name: "Vargas" },
+  { file: "cliente-02.jpg", name: "Restorando" },
+  { file: "cliente-03.jpg", name: "Black Donkey" },
+  { file: "cliente-04.jpg", name: "Carballal Propiedades" },
+  { file: "cliente-05.jpg", name: "Venfarma" },
+  { file: "cliente-06.jpg", name: "Neicha" },
+  { file: "cliente-07.jpg", name: "Red Argentina de Salud" },
+  { file: "cliente-08.jpg", name: "Honky Tonk" },
+  { file: "cliente-09.jpg", name: "Hotel San Martín" },
 ];
 
 // §Marquesinas Blueprint — duplicación estructural para loop infinito sin corte
@@ -20,7 +20,7 @@ const repeated = [...logos, ...logos];
 
 export default function ClientLogosCarousel() {
   return (
-    <section className="border-b border-foreground/7 bg-band py-5 md:py-6">
+    <section className="border-b border-graphite/8 bg-band py-5 md:py-6">
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -29,11 +29,11 @@ export default function ClientLogosCarousel() {
           transition={{ duration: 0.65 }}
           className="mb-4 flex items-center justify-between"
         >
-          <p className="flex items-center gap-2 text-eyebrow uppercase tracking-[0.2em] text-foreground/45">
+          <p className="flex items-center gap-2 text-eyebrow uppercase text-stone">
             <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
             Marcas que confiaron en Impakto
           </p>
-          <span className="rounded-full border border-foreground/12 px-3 py-1 text-eyebrow uppercase tracking-[0.16em] text-foreground/45">
+          <span className="rounded-full border border-graphite/12 px-3 py-1 text-eyebrow uppercase text-stone">
             40+ proyectos
           </span>
         </motion.div>
@@ -44,7 +44,7 @@ export default function ClientLogosCarousel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-70px" }}
           transition={{ duration: 0.75, delay: 0.08 }}
-          className="relative overflow-hidden rounded-card border border-foreground/10 bg-white/70 shadow-premium-lift logos-scroll-container"
+          className="relative overflow-hidden rounded-card border border-graphite/12 bg-paper-lift logos-scroll-container"
         >
           <div
             className="logos-track flex w-max items-stretch gap-0"
@@ -53,7 +53,7 @@ export default function ClientLogosCarousel() {
             {repeated.map((logo, index) => (
               <div
                 key={`${logo.file}-${index}`}
-                className="flex h-[6.2rem] w-44 items-center justify-center border-r border-foreground/8 bg-transparent px-5 md:h-[8.1rem] md:w-60 md:px-4"
+                className="flex h-[6.2rem] w-44 items-center justify-center border-r border-graphite/8 bg-transparent px-5 md:h-[8.1rem] md:w-60 md:px-4"
               >
                 <div className="relative h-[3.25rem] w-[94%] md:h-[5.2rem] md:w-[96%]">
                   <Image

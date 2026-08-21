@@ -58,8 +58,8 @@ export default function Navbar() {
           isScrolled ? "h-[3.95rem] md:h-[4.5rem]" : "h-[4.35rem] md:h-[5.1rem]"
         } ${
           isScrolled
-            ? "bg-background/90 shadow-premium-lift backdrop-blur-md"
-            : "bg-transparent"
+            ? "border-b border-graphite/10 bg-paper/88 backdrop-blur-xl"
+            : "border-b border-transparent bg-transparent"
         }`}
       />
 
@@ -70,7 +70,7 @@ export default function Navbar() {
           className={`hero-rise relative flex items-center px-0 transition-all duration-300 ${
             isScrolled ? "h-[3.95rem] md:h-[4.5rem]" : "h-[4.35rem] md:h-[5.1rem]"
           } ${
-            isScrolled ? "border-b border-transparent" : "border-b border-foreground/10"
+            isScrolled ? "" : "border-b border-graphite/8"
           }`}
         >
           <Link href="/" className="flex items-center">
@@ -96,10 +96,10 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       aria-current={isActive ? "page" : undefined}
-                      className={`relative inline-flex text-eyebrow uppercase tracking-[0.15em] transition-colors duration-300 after:absolute after:-bottom-[0.4rem] after:left-0 after:h-px after:transition-all after:duration-300 ${
+                      className={`relative inline-flex text-body-sm transition-colors duration-300 after:absolute after:-bottom-[0.45rem] after:left-0 after:h-px after:transition-all after:duration-500 ${
                         isActive
-                          ? "text-foreground after:w-full after:bg-foreground/38"
-                          : "text-foreground/56 hover:text-foreground/86 after:w-0 after:bg-foreground/30 hover:after:w-full"
+                          ? "text-ink after:w-full after:bg-[var(--hairline-gold)]"
+                          : "text-stone hover:text-ink after:w-0 after:bg-graphite/25 hover:after:w-full"
                       }`}
                     >
                       {link.name}
@@ -112,7 +112,7 @@ export default function Navbar() {
 
           <Link
             href="/contacto"
-            className="btn-premium hidden md:inline-flex items-center rounded-full border border-foreground/16 px-5 py-2.5 text-eyebrow uppercase tracking-[0.15em] text-foreground/76 transition-all duration-300 hover:-translate-y-px hover:border-foreground/35 hover:text-foreground"
+            className="btn-ink sheen hidden !min-h-[2.6rem] !px-6 !text-caption md:inline-flex"
           >
             Pedir diagnóstico
           </Link>
@@ -137,20 +137,20 @@ export default function Navbar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.28 }}
               aria-label="Navegación móvil"
-              className="fixed inset-0 z-40 bg-[linear-gradient(180deg,rgba(246,247,243,0.98)_0%,rgba(239,241,236,0.98)_58%,rgba(231,234,226,0.99)_100%)] backdrop-blur-xl md:hidden"
+              className="fixed inset-0 z-40 bg-paper/98 backdrop-blur-xl md:hidden"
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(169,156,126,0.18),transparent_42%),radial-gradient(circle_at_88%_82%,rgba(142,155,147,0.2),transparent_45%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(157,157,157,0.18),transparent_42%),radial-gradient(circle_at_88%_82%,rgba(152,152,152,0.2),transparent_45%)]" />
               <div className="container relative mx-auto flex h-full max-w-[1320px] flex-col px-7 pb-[calc(1.6rem+env(safe-area-inset-bottom))] pt-[calc(5.3rem+env(safe-area-inset-top))]">
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="absolute right-7 top-[calc(1rem+env(safe-area-inset-top))] inline-flex h-10 items-center justify-center rounded-full border border-foreground/16 bg-background/70 px-4 text-eyebrow uppercase tracking-[0.15em] text-foreground/82"
+                  className="btn-outline absolute right-7 top-[calc(1rem+env(safe-area-inset-top))] !min-h-[2.5rem] !px-5 !text-caption"
                   aria-label="Cerrar menú"
                 >
                   Cerrar
                 </button>
-                <p className="text-eyebrow uppercase tracking-[0.2em] text-foreground/44">Navegación</p>
+                <p className="text-eyebrow uppercase text-stone">Navegación</p>
 
-                <nav className="mt-5 border-t border-foreground/10 pt-5">
+                <nav className="mt-5 border-t border-graphite/12 pt-5">
                   <div className="space-y-2">
                     {navLinks.map((link) => {
                       const isActive = pathname === link.href;
@@ -162,13 +162,13 @@ export default function Navbar() {
                           aria-current={isActive ? "page" : undefined}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className={`group flex items-center justify-between rounded-card px-3 py-3.5 transition-colors duration-300 ${
-                            isActive ? "bg-foreground/8" : "hover:bg-foreground/6"
+                            isActive ? "bg-cloud" : "hover:bg-cloud/60"
                           }`}
                         >
-                          <span className="font-heading text-display-xs tracking-[-0.01em] text-foreground/92">
+                          <span className="font-heading text-display-sm text-ink">
                             {link.name}
                           </span>
-                          <span className="text-eyebrow uppercase tracking-[0.18em] text-foreground/42 transition-colors duration-300 group-hover:text-foreground/62">
+                          <span className="text-eyebrow uppercase text-stone transition-colors duration-300 group-hover:text-slate">
                             Ir
                           </span>
                         </Link>
@@ -177,15 +177,15 @@ export default function Navbar() {
                   </div>
                 </nav>
 
-                <div className="mt-auto border-t border-foreground/10 pt-6">
+                <div className="mt-auto border-t border-graphite/12 pt-6">
                   <Link
                     href="/contacto"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="btn-premium inline-flex w-full items-center justify-center rounded-full border border-foreground/16 bg-foreground px-6 py-3 text-eyebrow uppercase tracking-[0.15em] text-background"
+                    className="btn-ink sheen w-full"
                   >
                     Pedir diagnóstico
                   </Link>
-                  <p className="mt-3 text-center text-eyebrow uppercase tracking-[0.14em] text-foreground/52">
+                  <p className="mt-4 text-center text-eyebrow uppercase text-stone">
                     Buenos Aires / Argentina - Exterior
                   </p>
                 </div>
