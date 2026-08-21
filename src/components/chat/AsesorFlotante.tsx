@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ArrowUp, X } from 'lucide-react'
-import { abrirSesion, restaurarSesion } from '@/app/actions/chat'
+import { abrirSesion, asesorActivo, restaurarSesion } from '@/app/actions/chat'
 import { textoConEnlaces } from './textoConEnlaces'
 
 /**
@@ -41,10 +41,23 @@ export default function AsesorFlotante() {
   const [borrador, setBorrador] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [sessionId, setSessionId] = useState<string | null>(null)
+  const [activo, setActivo] = useState(false)
 
   const hiloRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const campoRef = useRef<HTMLTextAreaElement>(null)
+
+  // Sin llave cargada no se dibuja nada. Se consulta al montar porque la
+  // llave puede venir del panel de administración, no solo del entorno.
+  useEffect(() => {
+    let vivo = true
+    void asesorActivo()
+      .then((r) => vivo && setActivo(r))
+      .catch(() => {})
+    return () => {
+      vivo = false
+    }
+  }, [])
 
   // ── Hilo guardado ─────────────────────────────────────────────────────────
   // El id vive en el navegador, la conversación en la base. La primera versión
@@ -225,6 +238,8 @@ export default function AsesorFlotante() {
   )
 
   const conversacionEmpezada = mensajes.length > 1
+
+  if (!activo) return null
 
   return (
     <>

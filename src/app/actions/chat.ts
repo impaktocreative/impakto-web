@@ -1,6 +1,7 @@
 'use server'
 
 import { headers } from 'next/headers'
+import { getConfigIA } from '@/lib/chat/config'
 import { reclamarSesion } from '@/lib/chat/retention'
 import { clienteChat } from '@/lib/chat/supabase'
 
@@ -15,6 +16,19 @@ import { clienteChat } from '@/lib/chat/supabase'
  * evalúa un proyecto de este tamaño hace dos preguntas antes de decidir si se
  * identifica.
  */
+
+/**
+ * Si hay llave cargada. Lo consulta el widget al montar para decidir si
+ * dibuja el botón: un acceso flotante que abre un panel y contesta "no estoy
+ * disponible" es peor que no tener botón.
+ *
+ * Va por server action y no en el layout para no volver dinámicas todas las
+ * páginas de marketing por una consulta de configuración.
+ */
+export async function asesorActivo(): Promise<boolean> {
+  const { apiKey } = await getConfigIA()
+  return Boolean(apiKey)
+}
 
 export type ResultadoApertura = { ok: true; sessionId: string } | { ok: false; error: string }
 
