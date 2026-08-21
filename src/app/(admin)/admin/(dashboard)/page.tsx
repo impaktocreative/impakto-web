@@ -1,9 +1,10 @@
-import { differenceInDays, format } from 'date-fns'
+import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { createClient } from '@/utils/supabase/server'
 import { DashboardPayButton } from './DashboardPayButton'
 import { DashboardReminderButton } from './DashboardReminderButton'
 import { TestEmailForm } from './TestEmailForm'
+import { fechaLocal, diasHasta } from '@/lib/fecha'
 
 type RecentPayment = {
   amount: number | string
@@ -54,7 +55,7 @@ export default async function AdminDashboard() {
       .limit(10),
     supabase.from('clients').select('id', { count: 'exact', head: true }),
     supabase.from('client_services').select('id', { count: 'exact', head: true }).eq('status', 'activo'),
-    supabase.from('payments').select('amount, net_amount, payment_date').order('payment_date', { ascending: false }).limit(30),
+    supabase.from('payments').select('amount, net_amount, payment_date').eq('exclude_from_totals', false).order('payment_date', { ascending: false }).limit(30),
   ])
 
   const paymentRows = (recentPayments ?? []) as RecentPayment[]
@@ -74,7 +75,7 @@ export default async function AdminDashboard() {
 
   const expiringSoon = items.filter((service) => {
     if (!service.next_payment_date) return false
-    const days = differenceInDays(new Date(service.next_payment_date), new Date())
+    const days = diasHasta(service.next_payment_date)
     return days <= 10
   }).length
 
@@ -131,7 +132,7 @@ export default async function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {items.map((item) => {
-                const daysLeft = item.next_payment_date ? differenceInDays(new Date(item.next_payment_date), new Date()) : null
+                const daysLeft = item.next_payment_date ? diasHasta(item.next_payment_date) : null
                 let badgeClass = 'bg-green-50 text-green-700 ring-green-600/20'
 
                 if (daysLeft === null) badgeClass = 'bg-gray-50 text-gray-600 ring-gray-500/10'
@@ -152,7 +153,7 @@ export default async function AdminDashboard() {
                       {item.next_payment_date ? (
                         <>
                           <div className="text-sm font-medium text-gray-900 mb-1.5">
-                            {format(new Date(item.next_payment_date), "dd 'de' MMMM, yyyy", { locale: es })}
+                            {format(fechaLocal(item.next_payment_date), "dd 'de' MMMM, yyyy", { locale: es })}
                           </div>
                           <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${badgeClass}`}>
                             {daysLeft! < 0 ? `Vencido hace ${Math.abs(daysLeft!)} días` : daysLeft === 0 ? 'Vence hoy' : `Faltan ${daysLeft} días`}
@@ -201,7 +202,7 @@ export default async function AdminDashboard() {
 
         <div className="md:hidden divide-y divide-gray-100">
           {items.map((item) => {
-            const daysLeft = item.next_payment_date ? differenceInDays(new Date(item.next_payment_date), new Date()) : null
+            const daysLeft = item.next_payment_date ? diasHasta(item.next_payment_date) : null
             let badgeClass = 'bg-green-50 text-green-700 ring-green-600/20'
 
             if (daysLeft === null) badgeClass = 'bg-gray-50 text-gray-600 ring-gray-500/10'
@@ -240,7 +241,7 @@ export default async function AdminDashboard() {
                     {item.currency === 'USD' ? 'USD' : '$'} {Number(item.price).toLocaleString('es-AR')}
                   </span>
                   {item.next_payment_date ? (
-                    <span className="text-gray-600">{format(new Date(item.next_payment_date), 'dd/MM/yyyy', { locale: es })}</span>
+                    <span className="text-gray-600">{format(fechaLocal(item.next_payment_date), 'dd/MM/yyyy', { locale: es })}</span>
                   ) : (
                     <span className="text-gray-400 italic">Sin fecha</span>
                   )}

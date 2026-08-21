@@ -124,6 +124,21 @@ export function ManualIncomeButton() {
               </div>
             </div>
 
+            <label className="flex items-start gap-2.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-2.5">
+              <input
+                type="checkbox"
+                name="exclude_from_totals"
+                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+              />
+              <span className="text-sm text-gray-700">
+                No computar en los totales
+                <span className="mt-0.5 block text-xs text-gray-500">
+                  Queda registrado y visible, pero no suma al mes ni al balance. Para devoluciones,
+                  movimientos entre cuentas propias o plata que solo pasa.
+                </span>
+              </span>
+            </label>
+
             {error && <p className="text-sm text-red-600">{error}</p>}
 
             <div className="flex justify-end gap-2 pt-2">

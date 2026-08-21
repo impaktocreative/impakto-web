@@ -12,7 +12,8 @@ export default async function ClientsPage() {
     // desde acá: un cliente puede tener varios, con vencimientos y precios
     // distintos, y antes había que abrir la ficha de cada uno para verlos.
     .select(`
-      id, brand_name, contact_name, email, phone, website_url, notes, cuit,
+      id, brand_name, contact_name, email, phone, website_url, notes,
+      cuit, razon_social, cond_iva_receptor, facturar,
       client_services (
         id, domain_name, price, currency, next_payment_date, status,
         services ( name )

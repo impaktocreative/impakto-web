@@ -67,6 +67,7 @@ export async function registerExpensePaymentAction(prevState: unknown, formData:
   const payment_date = formData.get('payment_date') as string
   const paid_by = formData.get('paid_by') as string
   const notes = (formData.get('notes') as string) || null
+  const exclude_from_totals = formData.get('exclude_from_totals') === 'on'
 
   if (!expense_id || !amount || amount <= 0 || !currency || !payment_date || !paid_by) {
     return { success: false, message: 'Todos los campos son requeridos.' }
@@ -84,12 +85,19 @@ export async function registerExpensePaymentAction(prevState: unknown, formData:
     payment_date,
     paid_by,
     notes,
+    exclude_from_totals,
   })
 
   if (error) return { success: false, message: `Error al registrar pago: ${error.message}` }
 
   revalidatePath('/admin/expenses')
-  return { success: true, message: 'Pago registrado correctamente.' }
+  revalidatePath('/admin/balance')
+  return {
+    success: true,
+    message: exclude_from_totals
+      ? 'Pago registrado sin computar en los totales.'
+      : 'Pago registrado correctamente.',
+  }
 }
 
 export async function updateExpensePaymentAction(_prevState: ActionState | null, formData: FormData) {
@@ -98,6 +106,7 @@ export async function updateExpensePaymentAction(_prevState: ActionState | null,
   const payment_date = formData.get('payment_date') as string
   const paid_by = formData.get('paid_by') as string
   const notes = (formData.get('notes') as string) || null
+  const exclude_from_totals = formData.get('exclude_from_totals') === 'on'
 
   if (!id || !amount || amount <= 0 || !payment_date || !paid_by) {
     return { success: false, message: 'Todos los campos son requeridos.' }
@@ -110,12 +119,13 @@ export async function updateExpensePaymentAction(_prevState: ActionState | null,
   const supabase = await createClient()
   const { error } = await supabase
     .from('expense_payments')
-    .update({ amount, payment_date, paid_by, notes })
+    .update({ amount, payment_date, paid_by, notes, exclude_from_totals })
     .eq('id', id)
 
   if (error) return { success: false, message: `Error al actualizar pago: ${error.message}` }
 
   revalidatePath('/admin/expenses')
+  revalidatePath('/admin/balance')
   return { success: true, message: 'Pago de gasto actualizado correctamente.' }
 }
 
@@ -126,5 +136,6 @@ export async function deleteExpensePaymentAction(id: string) {
   if (error) return { success: false, message: `Error al eliminar pago: ${error.message}` }
 
   revalidatePath('/admin/expenses')
+  revalidatePath('/admin/balance')
   return { success: true }
 }

@@ -6,6 +6,7 @@ import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import { estadoPorVencimiento, sumarMeses } from '@/lib/billing'
 import type { ActionState } from '@/types/admin'
+import { diasHasta } from '@/lib/fecha'
 
 export async function assignServiceAction(prevState: ActionState | null, formData: FormData) {
   const client_id = formData.get('client_id') as string
@@ -158,7 +159,7 @@ export async function sendManualReminderAction(clientServiceId: string) {
   }
 
   const daysOverdue = data.next_payment_date
-    ? Math.max(Math.ceil((Date.now() - new Date(data.next_payment_date).getTime()) / 86400000), 1)
+    ? Math.max(-diasHasta(data.next_payment_date), 1)
     : 1
 
   const { data: dbTemplate } = await supabase

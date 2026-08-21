@@ -1,5 +1,6 @@
 import { createClientAction } from './actions'
 import Link from 'next/link'
+import { CONDICIONES_IVA_RECEPTOR } from '@/lib/arca-receptor'
 
 export default async function NewClientPage({
   searchParams,
@@ -70,17 +71,74 @@ export default async function NewClientPage({
                 placeholder="+54 9 11 1234-5678"
               />
             </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="cuit">
-                CUIT
+            <div className="md:col-span-2 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <p className="text-sm font-semibold text-gray-800">Facturación</p>
+              <p className="mt-0.5 text-xs text-gray-500">
+                Se completa una vez y queda cargado: al emitir una factura se elige el cliente y estos
+                datos van solos.
+              </p>
+
+              <label className="mt-3 flex items-start gap-2.5">
+                <input
+                  type="checkbox"
+                  name="facturar"
+                  
+                  className="mt-0.5 h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+                />
+                <span className="text-sm text-gray-700">
+                  Facturar a este cliente
+                  <span className="mt-0.5 block text-xs text-gray-500">
+                    Sin marcar, el cliente no aparece al emitir. No a todos se les factura.
+                  </span>
+                </span>
               </label>
-              <input
-                type="text"
-                id="cuit"
-                name="cuit"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="20-12345678-9"
-              />
+
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="cuit">
+                    CUIT
+                  </label>
+                  <input
+                    type="text"
+                    id="cuit"
+                    name="cuit"
+                    
+                    placeholder="20-12345678-9"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Sin CUIT se factura a consumidor final.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="cond_iva_receptor">
+                    Condición frente al IVA
+                  </label>
+                  <select
+                    id="cond_iva_receptor"
+                    name="cond_iva_receptor"
+                    defaultValue={5}
+                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  >
+                    {CONDICIONES_IVA_RECEPTOR.map(c => (
+                      <option key={c.codigo} value={c.codigo}>{c.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="razon_social">
+                    Razón social <span className="font-normal text-gray-400">(si difiere de la marca)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="razon_social"
+                    name="razon_social"
+                    
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Como figura en ARCA. Vacío usa el nombre de la marca.</p>
+                </div>
+              </div>
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="website_url">

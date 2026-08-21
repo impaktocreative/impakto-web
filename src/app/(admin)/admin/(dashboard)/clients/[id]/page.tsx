@@ -1,7 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Mail, Phone, Globe, FileText } from 'lucide-react'
+import { ArrowLeft, Mail, Phone, Globe, FileText, Receipt } from 'lucide-react'
+import { formatearCuit } from '@/lib/cuit'
+import { etiquetaCondicionIva } from '@/lib/arca-receptor'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { ClientServicesPanel } from './ClientServicesPanel'
@@ -15,7 +17,7 @@ export default async function ClientDetailPage({
   const supabase = await createClient()
 
   const [{ data: client }, { data: services }, { data: availableServices }] = await Promise.all([
-    supabase.from('clients').select('id, brand_name, contact_name, email, phone, cuit, website_url, notes, created_at').eq('id', id).single(),
+    supabase.from('clients').select('id, brand_name, contact_name, email, phone, cuit, razon_social, cond_iva_receptor, facturar, website_url, notes, created_at').eq('id', id).single(),
     supabase
       .from('client_services')
       .select(`id, domain_name, price, currency, next_payment_date, last_payment_date, status, duration_months, notes, receiver, deduct_bank_fee, services ( name )`)
@@ -68,10 +70,27 @@ export default async function ClientDetailPage({
                   <span>{client.phone}</span>
                 </div>
               )}
-              {client.cuit && (
+              {client.facturar && (
+                <div className="flex items-start gap-3 pt-2 border-t border-gray-100">
+                  <Receipt size={15} className="text-gray-400 flex-shrink-0 mt-0.5" />
+                  <div className="min-w-0 text-sm">
+                    <p className="font-medium text-gray-800">Se factura</p>
+                    <p className="font-mono text-xs text-gray-500 mt-0.5">
+                      {client.cuit ? formatearCuit(client.cuit) : 'Sin CUIT'}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {etiquetaCondicionIva(client.cond_iva_receptor)}
+                    </p>
+                    {client.razon_social && (
+                      <p className="text-xs text-gray-500 break-words">{client.razon_social}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+              {!client.facturar && client.cuit && (
                 <div className="flex items-center gap-3 text-sm text-gray-600">
-                  <span className="text-gray-400 flex-shrink-0 text-xs font-bold w-[15px] text-center">#</span>
-                  <span className="font-mono text-sm">CUIT: {client.cuit}</span>
+                  <Receipt size={15} className="text-gray-400 flex-shrink-0" />
+                  <span className="font-mono text-sm">{formatearCuit(client.cuit)}</span>
                 </div>
               )}
               {client.website_url && (

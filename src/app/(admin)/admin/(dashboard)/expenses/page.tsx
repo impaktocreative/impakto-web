@@ -9,6 +9,7 @@ type RawExpensePaymentRow = {
   payment_date: string
   paid_by: 'sergio' | 'rodrigo'
   notes: string | null
+  exclude_from_totals: boolean
   expenses: { name: string } | Array<{ name: string }> | null
 }
 
@@ -19,7 +20,7 @@ export default async function ExpensesPage() {
     supabase.from('expenses').select('*').order('name', { ascending: true }),
     supabase
       .from('expense_payments')
-      .select('id, expense_id, amount, currency, payment_date, paid_by, notes, expenses ( name )')
+      .select('id, expense_id, amount, currency, payment_date, paid_by, notes, exclude_from_totals, expenses ( name )')
       .order('payment_date', { ascending: false }),
   ])
 
@@ -32,6 +33,7 @@ export default async function ExpensesPage() {
     payment_date: p.payment_date,
     paid_by: p.paid_by,
     notes: p.notes,
+    exclude_from_totals: p.exclude_from_totals ?? false,
     expenses: Array.isArray(p.expenses) ? p.expenses[0] ?? null : p.expenses,
   }))
 

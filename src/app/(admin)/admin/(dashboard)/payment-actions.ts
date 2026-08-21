@@ -296,6 +296,7 @@ export async function registerManualIncomeAction(
   const payment_date = formData.get('payment_date') as string
   const currency = (formData.get('currency') as string) || 'ARS'
   const receiver = (formData.get('receiver') as string) || null
+  const exclude_from_totals = formData.get('exclude_from_totals') === 'on'
 
   if (!description) {
     return { success: false, message: 'Poné un concepto para saber de qué es el ingreso.' }
@@ -318,6 +319,7 @@ export async function registerManualIncomeAction(
     currency,
     payment_date,
     receiver,
+    exclude_from_totals,
   })
 
   if (error) return { success: false, message: `Error al registrar el ingreso: ${error.message}` }
@@ -325,5 +327,10 @@ export async function registerManualIncomeAction(
   revalidatePath('/admin')
   revalidatePath('/admin/income')
   revalidatePath('/admin/balance')
-  return { success: true, message: `Ingreso registrado: ${description}` }
+  return {
+    success: true,
+    message: exclude_from_totals
+      ? `Ingreso registrado sin computar: ${description}`
+      : `Ingreso registrado: ${description}`,
+  }
 }

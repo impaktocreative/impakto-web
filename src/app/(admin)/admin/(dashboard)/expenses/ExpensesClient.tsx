@@ -8,6 +8,7 @@ import { CreditCard, Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { updateExpensePaymentAction, deleteExpensePaymentAction } from './actions'
 import { Modal } from '@/components/ui/Modal'
 import { IconButton, IconButtonGroup } from '@/app/(admin)/admin/ui/IconButton'
+import { fechaLocal } from '@/lib/fecha'
 
 type Expense = {
   id: string
@@ -27,6 +28,7 @@ type ExpensePayment = {
   payment_date: string
   paid_by: 'sergio' | 'rodrigo'
   notes: string | null
+  exclude_from_totals: boolean
   expenses?: { name: string } | null
 }
 
@@ -179,6 +181,17 @@ function EditExpensePaymentForm({
         />
       </div>
 
+      <label className="flex items-start gap-2.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-2.5">
+        <input type="checkbox" name="exclude_from_totals" defaultChecked={payment.exclude_from_totals}
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-black focus:ring-black" />
+        <span className="text-sm text-gray-700">
+          No computar en los totales
+          <span className="mt-0.5 block text-xs text-gray-500">
+            Queda registrado y visible, pero no resta al mes ni al balance.
+          </span>
+        </span>
+      </label>
+
       {state && !state.success && (
         <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">{state.message}</p>
       )}
@@ -257,6 +270,17 @@ function RegisterPaymentForm({
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-none"
         />
       </div>
+
+      <label className="flex items-start gap-2.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-2.5">
+        <input type="checkbox" name="exclude_from_totals"
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-black focus:ring-black" />
+        <span className="text-sm text-gray-700">
+          No computar en los totales
+          <span className="mt-0.5 block text-xs text-gray-500">
+            Queda registrado y visible, pero no resta al mes ni al balance.
+          </span>
+        </span>
+      </label>
 
       {state && !state.success && (
         <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">{state.message}</p>
@@ -411,7 +435,7 @@ export function ExpensesClient({
                     <div className="text-sm font-semibold text-gray-900 break-words">{expense.name}</div>
                   </td>
                   <td className="px-6 py-4 align-top text-sm text-gray-600 break-words">{expense.description || '—'}</td>
-                  <td className="px-6 py-4 align-top text-sm text-gray-900">{format(new Date(expense.due_date), 'dd/MM/yyyy')}</td>
+                  <td className="px-6 py-4 align-top text-sm text-gray-900">{format(fechaLocal(expense.due_date), 'dd/MM/yyyy')}</td>
                   <td className="px-6 py-4 align-top text-sm text-gray-900">{expense.duration_months} mes(es)</td>
                   <td className="px-6 py-4 align-top text-sm text-gray-900">
                     {expense.currency === 'USD' ? 'USD' : '$'} {Number(expense.amount).toLocaleString('es-AR')}
@@ -455,7 +479,7 @@ export function ExpensesClient({
                 />
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Vence: {format(new Date(expense.due_date), 'dd/MM/yyyy')}</span>
+                <span className="text-gray-500">Vence: {format(fechaLocal(expense.due_date), 'dd/MM/yyyy')}</span>
                 <span className="font-semibold text-gray-900">
                   {expense.currency === 'USD' ? 'USD' : '$'} {Number(expense.amount).toLocaleString('es-AR')}
                 </span>
@@ -492,9 +516,14 @@ export function ExpensesClient({
             </thead>
             <tbody className="divide-y divide-gray-100">
               {initialPayments.map((p) => (
-                <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={p.id} className={`transition-colors ${p.exclude_from_totals ? 'bg-gray-50/60 hover:bg-gray-100/60' : 'hover:bg-gray-50/50'}`}>
                   <td className="px-6 py-4 align-top text-sm text-gray-900">
-                    {format(new Date(p.payment_date), 'dd/MM/yyyy')}
+                    {format(fechaLocal(p.payment_date), 'dd/MM/yyyy')}
+                    {p.exclude_from_totals && (
+                      <span className="mt-1 block w-fit rounded-full bg-gray-200 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                        No computa
+                      </span>
+                    )}
                   </td>
                   <td className="px-6 py-4 align-top text-sm font-medium text-gray-900">
                     {p.expenses?.name ?? 'Gasto eliminado'}
@@ -539,7 +568,7 @@ export function ExpensesClient({
           {initialPayments.map((p) => (
             <article key={p.id} className="p-4 space-y-2">
               <div className="flex items-center justify-between gap-3">
-                <span className="text-sm text-gray-600">{format(new Date(p.payment_date), 'dd/MM/yyyy')}</span>
+                <span className="text-sm text-gray-600">{format(fechaLocal(p.payment_date), 'dd/MM/yyyy')}</span>
                 <span className="text-sm font-semibold text-red-600">
                   {p.currency === 'USD' ? 'USD' : '$'} {Number(p.amount).toLocaleString('es-AR')}
                 </span>
@@ -553,6 +582,11 @@ export function ExpensesClient({
                 </span>
                 {p.notes && <span className="text-xs text-gray-500">{p.notes}</span>}
               </div>
+              {p.exclude_from_totals && (
+                <span className="inline-flex w-fit rounded-full bg-gray-200 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                  No computa
+                </span>
+              )}
               <div className="pt-1">
                 <IconButtonGroup alinear="izquierda">
                   <IconButton icon={Pencil} label="Editar pago" onClick={() => setEditingPayment(p)} />

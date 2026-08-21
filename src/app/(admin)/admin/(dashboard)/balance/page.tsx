@@ -8,6 +8,7 @@ type RawIncomeRow = {
   receiver: string | null
   currency: string
   payment_date: string
+  description: string | null
   client_services: {
     receiver: string | null
     services: { name: string } | null
@@ -52,17 +53,20 @@ export default async function BalancePage() {
         receiver,
         currency,
         payment_date,
+        description,
         client_services (
           receiver,
           services ( name ),
           clients ( brand_name )
         )
       `)
+      .eq('exclude_from_totals', false)
       .gte('payment_date', startDate)
       .order('payment_date', { ascending: false }),
     supabase
       .from('expense_payments')
       .select('id, expense_id, amount, currency, payment_date, paid_by, notes, expenses ( name )')
+      .eq('exclude_from_totals', false)
       .gte('payment_date', startDate)
       .order('payment_date', { ascending: false }),
   ])
@@ -76,8 +80,8 @@ export default async function BalancePage() {
       currency: p.currency,
       payment_date: p.payment_date,
       receiver: p.receiver ?? cs?.receiver ?? null,
-      service_name: cs?.services?.name ?? '—',
-      client_name: cs?.clients?.brand_name ?? '—',
+      service_name: cs?.services?.name ?? p.description ?? '—',
+      client_name: cs?.clients?.brand_name ?? 'Ingreso manual',
     }
   })
 

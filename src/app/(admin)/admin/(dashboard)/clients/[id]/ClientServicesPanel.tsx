@@ -10,6 +10,7 @@ import { es } from 'date-fns/locale'
 import { Modal } from '@/components/ui/Modal'
 import { IconButton, IconButtonGroup } from '@/app/(admin)/admin/ui/IconButton'
 import { EstadoBadge, ReceptorBadge, VencimientoBadge } from '@/app/(admin)/admin/ui/Badge'
+import { fechaLocal, diasHasta } from '@/lib/fecha'
 
 type Service = { id: string; name: string; duration_months: number; price: number; currency: string }
 type ClientService = {
@@ -252,7 +253,7 @@ function EditServiceForm({
   onSuccess: () => void
 }) {
   const [state, formAction, isPending] = useActionState(editClientServiceAction, null)
-  const [lastPaymentDate, setLastPaymentDate] = useState(clientService.last_payment_date ? new Date(clientService.last_payment_date).toISOString().split('T')[0] : '')
+  const [lastPaymentDate, setLastPaymentDate] = useState(clientService.last_payment_date ? fechaLocal(clientService.last_payment_date).toISOString().split('T')[0] : '')
   const [durationMonths] = useState<number>(clientService.duration_months)
 
   const computedNextDate = (() => {
@@ -383,7 +384,6 @@ export function ClientServicesPanel({
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [sendingReminderId, setSendingReminderId] = useState<string | null>(null)
   const [reminderMsg, setReminderMsg] = useState<{ id: string; text: string; ok: boolean } | null>(null)
-  const [nowMs] = useState(() => Date.now())
   const [isPending, startTransition] = useTransition()
 
   const handleRemove = (id: string) => {
@@ -427,9 +427,7 @@ export function ClientServicesPanel({
         {initialServices.length > 0 ? (
           <div className="divide-y divide-gray-100">
             {initialServices.map((svc) => {
-              const daysLeft = svc.next_payment_date
-                ? Math.ceil((new Date(svc.next_payment_date).getTime() - nowMs) / 86400000)
-                : null
+              const daysLeft = svc.next_payment_date ? diasHasta(svc.next_payment_date) : null
 
 
               return (
@@ -444,7 +442,7 @@ export function ClientServicesPanel({
                         </span>
                         {svc.next_payment_date && (
                           <span className="text-xs text-gray-400">
-                            Vence: {format(new Date(svc.next_payment_date), "dd MMM yyyy", { locale: es })}
+                            Vence: {format(fechaLocal(svc.next_payment_date), "dd MMM yyyy", { locale: es })}
                           </span>
                         )}
                         <EstadoBadge estado={svc.status} />

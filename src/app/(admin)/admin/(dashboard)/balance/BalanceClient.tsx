@@ -6,6 +6,7 @@ import { es } from 'date-fns/locale'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import { saveUsdRateAction } from './actions'
 import { cotizacionDe, type UsdRates } from '@/lib/usd-rate'
+import { fechaLocal } from '@/lib/fecha'
 
 type IncomeItem = {
   amount: number
@@ -64,7 +65,7 @@ function DetailRow({
     return (
       <tr className="bg-gray-50/50 text-xs">
         <td></td>
-        <td className="px-6 py-2 text-gray-500">{format(new Date(income.payment_date), 'dd/MM/yyyy')}</td>
+        <td className="px-6 py-2 text-gray-500">{format(fechaLocal(income.payment_date), 'dd/MM/yyyy')}</td>
         <td className="px-6 py-2">
           <span className="inline-flex items-center text-xs px-2 py-0.5 rounded-full font-medium bg-green-100 text-green-700">Ingreso</span>
         </td>
@@ -86,7 +87,7 @@ function DetailRow({
     return (
       <tr className="bg-gray-50/50 text-xs">
         <td></td>
-        <td className="px-6 py-2 text-gray-500">{format(new Date(expense.payment_date), 'dd/MM/yyyy')}</td>
+        <td className="px-6 py-2 text-gray-500">{format(fechaLocal(expense.payment_date), 'dd/MM/yyyy')}</td>
         <td className="px-6 py-2">
           <span className="inline-flex items-center text-xs px-2 py-0.5 rounded-full font-medium bg-red-100 text-red-700">Egreso</span>
         </td>

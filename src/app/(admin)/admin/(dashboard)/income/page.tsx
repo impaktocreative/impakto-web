@@ -3,6 +3,7 @@ import { endOfMonth, format, startOfMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { IncomePaymentActions } from './IncomePaymentActions'
 import { ManualIncomeButton } from './ManualIncomeButton'
+import { fechaLocal } from '@/lib/fecha'
 
 type PaymentRow = {
   id: string
@@ -11,6 +12,8 @@ type PaymentRow = {
   currency: string
   payment_date: string
   receiver: string | null
+  description: string | null
+  exclude_from_totals: boolean
   client_services:
     | {
         domain_name: string | null
@@ -27,6 +30,8 @@ type RawPaymentRow = {
   receiver: string | null
   currency: string
   payment_date: string
+  description: string | null
+  exclude_from_totals: boolean
   client_services:
     | {
         domain_name: string | null
@@ -86,6 +91,8 @@ export default async function IncomePage() {
         receiver,
         currency,
         payment_date,
+        description,
+        exclude_from_totals,
         client_services (
           domain_name,
           services ( name ),
@@ -121,6 +128,8 @@ export default async function IncomePage() {
       receiver: payment.receiver,
       currency: payment.currency,
       payment_date: payment.payment_date,
+      description: payment.description,
+      exclude_from_totals: payment.exclude_from_totals ?? false,
       client_services: service
         ? {
             domain_name: service.domain_name,
@@ -142,24 +151,28 @@ export default async function IncomePage() {
     services: normalizeRelation(service.services),
   }))
 
-  const totalIncomeARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
-  const totalIncomeUSD = paymentRows.filter((payment) => payment.currency === 'USD').reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
+  // Los marcados como "no computar" quedan en la lista pero fuera de toda suma:
+  // una devolución o un movimiento entre cuentas propias no es facturación.
+  const computables = paymentRows.filter((payment) => !payment.exclude_from_totals)
+
+  const totalIncomeARS = computables.filter((payment) => payment.currency === 'ARS').reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
+  const totalIncomeUSD = computables.filter((payment) => payment.currency === 'USD').reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
   const expectedIncomeARS = expectedRows.filter((service) => service.currency === 'ARS').reduce((acc, service) => acc + Number(service.price), 0)
   const expectedIncomeUSD = expectedRows.filter((service) => service.currency === 'USD').reduce((acc, service) => acc + Number(service.price), 0)
-  const collectedThisMonthARS = paymentRows
+  const collectedThisMonthARS = computables
     .filter((payment) => payment.currency === 'ARS' && payment.payment_date.startsWith(monthKey))
     .reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
-  const collectedThisMonthUSD = paymentRows
+  const collectedThisMonthUSD = computables
     .filter((payment) => payment.currency === 'USD' && payment.payment_date.startsWith(monthKey))
     .reduce((acc, payment) => acc + Number(payment.net_amount ?? payment.amount), 0)
 
   // Group by year-month and currency
-  const byMonthARS = paymentRows.filter((payment) => payment.currency === 'ARS').reduce((acc: Record<string, number>, payment) => {
+  const byMonthARS = computables.filter((payment) => payment.currency === 'ARS').reduce((acc: Record<string, number>, payment) => {
     const key = payment.payment_date.slice(0, 7)
     acc[key] = (acc[key] ?? 0) + Number(payment.net_amount ?? payment.amount)
     return acc
   }, {})
-  const byMonthUSD = paymentRows.filter((payment) => payment.currency === 'USD').reduce((acc: Record<string, number>, payment) => {
+  const byMonthUSD = computables.filter((payment) => payment.currency === 'USD').reduce((acc: Record<string, number>, payment) => {
     const key = payment.payment_date.slice(0, 7)
     acc[key] = (acc[key] ?? 0) + Number(payment.net_amount ?? payment.amount)
     return acc
@@ -190,7 +203,12 @@ export default async function IncomePage() {
         </div>
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Pagos Registrados</h3>
-          <p className="text-3xl font-bold text-gray-900">{paymentRows.length}</p>
+          <p className="text-3xl font-bold text-gray-900">{computables.length}</p>
+          {paymentRows.length > computables.length && (
+            <p className="mt-1 text-xs text-gray-400">
+              {paymentRows.length - computables.length} sin computar
+            </p>
+          )}
         </div>
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Mes Actual / Último mes</h3>
@@ -261,7 +279,7 @@ export default async function IncomePage() {
                   </p>
                   <p className="text-xs text-gray-500">
                     {service.next_payment_date
-                      ? format(new Date(service.next_payment_date), "dd 'de' MMM", { locale: es })
+                      ? format(fechaLocal(service.next_payment_date), "dd 'de' MMM", { locale: es })
                       : 'Sin fecha'}
                   </p>
                 </div>
@@ -362,15 +380,24 @@ export default async function IncomePage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {paymentRows.map((payment, index) => (
-                    <tr key={index} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={index} className={`transition-colors ${payment.exclude_from_totals ? 'bg-gray-50/60 hover:bg-gray-100/60' : 'hover:bg-gray-50/50'}`}>
                       <td className="px-6 py-4 align-top text-sm text-gray-900">
-                        {format(new Date(payment.payment_date), "dd 'de' MMM, yyyy", { locale: es })}
+                        {format(fechaLocal(payment.payment_date), "dd 'de' MMM, yyyy", { locale: es })}
+                        {payment.exclude_from_totals && (
+                          <span className="mt-1 block w-fit rounded-full bg-gray-200 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                            No computa
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-4 align-top">
-                        <div className="text-sm font-medium text-gray-900 break-words">{payment.client_services?.clients?.brand_name}</div>
+                        <div className="text-sm font-medium text-gray-900 break-words">
+                          {payment.client_services?.clients?.brand_name ?? <span className="text-gray-400">Ingreso manual</span>}
+                        </div>
                       </td>
                       <td className="px-6 py-4 align-top">
-                        <div className="text-sm text-gray-900 break-words">{payment.client_services?.services?.name}</div>
+                        <div className="text-sm text-gray-900 break-words">
+                          {payment.client_services?.services?.name ?? payment.description ?? '—'}
+                        </div>
                         {payment.client_services?.domain_name && (
                           <div className="text-sm text-gray-500 break-words">{payment.client_services.domain_name}</div>
                         )}
@@ -404,10 +431,15 @@ export default async function IncomePage() {
 
             <div className="md:hidden divide-y divide-gray-100">
               {paymentRows.map((payment, index) => (
-                <article key={index} className="p-4 space-y-2">
+                <article key={index} className={`p-4 space-y-2 ${payment.exclude_from_totals ? 'bg-gray-50/60' : ''}`}>
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-sm text-gray-600">
-                      {format(new Date(payment.payment_date), 'dd/MM/yyyy', { locale: es })}
+                      {format(fechaLocal(payment.payment_date), 'dd/MM/yyyy', { locale: es })}
+                      {payment.exclude_from_totals && (
+                        <span className="ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                          No computa
+                        </span>
+                      )}
                     </p>
                     <div className="text-right">
                       <p className="text-sm font-semibold text-green-600">
@@ -425,8 +457,12 @@ export default async function IncomePage() {
                       )}
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-gray-900 break-words">{payment.client_services?.clients?.brand_name}</p>
-                  <p className="text-sm text-gray-600 break-words">{payment.client_services?.services?.name}</p>
+                  <p className="text-sm font-semibold text-gray-900 break-words">
+                    {payment.client_services?.clients?.brand_name ?? <span className="text-gray-400">Ingreso manual</span>}
+                  </p>
+                  <p className="text-sm text-gray-600 break-words">
+                    {payment.client_services?.services?.name ?? payment.description ?? '—'}
+                  </p>
                   {payment.client_services?.domain_name && (
                     <p className="text-xs text-gray-500 break-words">{payment.client_services.domain_name}</p>
                   )}

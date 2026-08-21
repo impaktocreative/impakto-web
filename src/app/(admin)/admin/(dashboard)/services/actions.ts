@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ActionState } from '@/types/admin'
+import { sumarMeses } from '@/lib/billing'
 
 export async function createServiceAction(prevState: ActionState | null, formData: FormData) {
   const name = formData.get('name') as string
@@ -51,12 +52,11 @@ export async function updateServiceAction(prevState: ActionState | null, formDat
 
   if (!fetchError && clientServices && clientServices.length > 0) {
     for (const cs of clientServices) {
-      let next_payment_date: string | null = null
-      if (cs.last_payment_date) {
-        const d = new Date(cs.last_payment_date)
-        d.setMonth(d.getMonth() + duration_months)
-        next_payment_date = d.toISOString().split('T')[0]
-      }
+      // sumarMeses recorta al último día del mes destino y no corre un día por
+      // zona horaria, que es lo que hacía `new Date(iso)` + setMonth.
+      const next_payment_date = cs.last_payment_date
+        ? sumarMeses(cs.last_payment_date, duration_months)
+        : null
       
       await supabase.from('client_services').update({
         price,

@@ -6,6 +6,7 @@ import { Eye, Globe, Mail, Pencil, Phone, Search, Trash2, X } from 'lucide-react
 import { deleteClientAction, updateClientAction } from './actions'
 import { IconButton, IconButtonGroup, IconLink } from '@/app/(admin)/admin/ui/IconButton'
 import { EstadoBadge } from '@/app/(admin)/admin/ui/Badge'
+import { CONDICIONES_IVA_RECEPTOR } from '@/lib/arca-receptor'
 
 type ClientServiceRow = {
   id: string
@@ -26,6 +27,9 @@ type Client = {
   website_url?: string | null
   notes?: string | null
   cuit?: string | null
+  razon_social?: string | null
+  cond_iva_receptor?: number | null
+  facturar?: boolean | null
   client_services?: ClientServiceRow[] | null
 }
 
@@ -120,17 +124,77 @@ function EditClientModal({ client, onClose, onSuccess }: { client: Client; onClo
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">CUIT</label>
-              <input
-                type="text"
-                name="cuit"
-                defaultValue={client.cuit ?? ''}
-                placeholder="20-12345678-9"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
           </div>
+
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <p className="text-sm font-semibold text-gray-800">Facturación</p>
+              <p className="mt-0.5 text-xs text-gray-500">
+                Se completa una vez y queda cargado: al emitir una factura se elige el cliente y estos
+                datos van solos.
+              </p>
+
+              <label className="mt-3 flex items-start gap-2.5">
+                <input
+                  type="checkbox"
+                  name="facturar"
+                  defaultChecked={client.facturar ?? false}
+                  className="mt-0.5 h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+                />
+                <span className="text-sm text-gray-700">
+                  Facturar a este cliente
+                  <span className="mt-0.5 block text-xs text-gray-500">
+                    Sin marcar, el cliente no aparece al emitir. No a todos se les factura.
+                  </span>
+                </span>
+              </label>
+
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="edit-cuit">
+                    CUIT
+                  </label>
+                  <input
+                    type="text"
+                    id="edit-cuit"
+                    name="cuit"
+                    defaultValue={client.cuit ?? ''}
+                    placeholder="20-12345678-9"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Sin CUIT se factura a consumidor final.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="edit-cond_iva_receptor">
+                    Condición frente al IVA
+                  </label>
+                  <select
+                    id="edit-cond_iva_receptor"
+                    name="cond_iva_receptor"
+                    defaultValue={client.cond_iva_receptor ?? 5}
+                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  >
+                    {CONDICIONES_IVA_RECEPTOR.map(c => (
+                      <option key={c.codigo} value={c.codigo}>{c.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="edit-razon_social">
+                    Razón social <span className="font-normal text-gray-400">(si difiere de la marca)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="edit-razon_social"
+                    name="razon_social"
+                    defaultValue={client.razon_social ?? ''}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Como figura en ARCA. Vacío usa el nombre de la marca.</p>
+                </div>
+              </div>
+            </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Notas / Observaciones</label>
