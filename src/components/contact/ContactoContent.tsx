@@ -75,7 +75,7 @@ export default function ContactoContent() {
           <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[47rem] text-body text-slate md:text-body-lg">
             Si tu organización necesita mejorar posicionamiento, rendimiento comercial o estructura digital, este es el punto de partida para definir un plan de acción serio y viable.
           </p>
-          <p className="hero-rise hero-rise-delay-3 mt-6 inline-flex flex-wrap items-center gap-2 border border-graphite/12 bg-paper-lift px-4 py-2 text-eyebrow uppercase text-stone">
+          <p className="hero-rise hero-rise-delay-3 mt-6 inline-flex flex-wrap items-center gap-3 text-eyebrow uppercase text-stone">
             Respuesta inicial en 24h hábiles
             <span className="text-stone">/</span>
             Sesión de diagnóstico

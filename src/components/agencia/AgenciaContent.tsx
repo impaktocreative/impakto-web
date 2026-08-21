@@ -430,8 +430,11 @@ export default function AgenciaContent() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-80px" }}
                       transition={{ duration: 0.55, delay: 0.18 + index * 0.05, ease: EASE_LUXURY }}
-                      className="border border-graphite/12 bg-paper-lift px-3 py-1 text-eyebrow uppercase text-stone"
+                      className="inline-flex items-center gap-3 text-eyebrow uppercase text-stone"
                     >
+                      {index > 0 && (
+                        <span className="hairline-gold h-px w-6" aria-hidden="true" />
+                      )}
                       {highlight}
                     </motion.span>
                   ))}
@@ -572,9 +575,10 @@ export default function AgenciaContent() {
                 Acompañamos todo el proceso con consultoría ejecutiva y dirección creativa para convertir decisiones estratégicas en resultados sostenibles.
               </p>
 
-              <p className="mt-5 inline-flex items-center gap-2 border border-white/24 bg-paper-lift px-4 py-2 text-eyebrow uppercase text-white/82">
+              <p className="mt-6 inline-flex flex-wrap items-center gap-3 text-eyebrow uppercase text-paper/70">
+                <span className="hairline-gold h-px w-8" aria-hidden="true" />
                 <span>Sesiones de diagnóstico</span>
-                <span className="text-white/45">/</span>
+                <span className="text-paper/30" aria-hidden="true">·</span>
                 <span>Respuesta inicial en 24h hábiles</span>
               </p>
 

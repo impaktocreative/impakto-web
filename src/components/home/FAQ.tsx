@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Trama from "@/components/visual/Trama";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -105,11 +104,12 @@ export default function FAQ() {
               beneficios que aporta en cada etapa.
             </motion.p>
 
-            <motion.div variants={INTRO_ITEM} className="mt-8 overflow-hidden rounded-card border border-graphite/12">
-              {/* Trama: floja lejos del cursor, tensa donde uno se detiene. */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-band">
-                <Trama tono="tinta" />
-              </div>
+            {/* Acá había una trama dibujada dentro de una caja. Era pobre y no
+                decía nada que el texto no dijera ya, así que se va: en una
+                columna de preguntas, el aire vale más que un adorno. Queda un
+                filete dorado, que sí pertenece al sistema. */}
+            <motion.div variants={INTRO_ITEM} className="mt-10">
+              <span className="hairline-gold block h-px w-24" />
             </motion.div>
           </motion.div>
 

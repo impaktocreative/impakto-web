@@ -6,19 +6,14 @@ import { suave } from '@/lib/canvas-escena'
 /**
  * Lienzo vivo.
  *
- * Toma una imagen fija y la pone en movimiento: la dibuja en franjas que se
- * desplazan según dónde está el cursor y cuánto avanzó el scroll, con una
- * banda de luz dorada que sigue al puntero.
+ * Toma una imagen fija y la pone en movimiento sin tocarle la forma: se
+ * acerca y se aleja con el scroll, y una luz dorada la recorre siguiendo al
+ * puntero.
  *
- * La idea es que la pieza no sea una foto colgada sino una superficie que
- * responde. Una escultura de filamentos mirada a través de vidrio que se
- * mueve: los hilos se corren donde pasás la mano y vuelven a su sitio cuando
- * te alejás.
- *
- * Va en canvas 2D y no en WebGL a propósito. Un shader daría refracción de
- * verdad, pero cuesta un runtime entero en el bundle; el desplazamiento por
- * franjas da el noventa por ciento del efecto por unos pocos kilobytes, que
- * en un sitio que carga en 140ms es la diferencia que importa.
+ * La primera versión la dibujaba en franjas que se corrían con el cursor.
+ * Técnicamente funcionaba y visualmente era un error: deformaba la obra. Una
+ * escultura no se retuerce porque alguien pase la mano cerca; lo que cambia
+ * es cómo le pega la luz. Eso es lo que quedó.
  *
  * Sin JavaScript, con `prefers-reduced-motion` o mientras la imagen carga, se
  * ve la imagen tal cual debajo: el canvas es una capa encima, nunca la única
@@ -27,14 +22,10 @@ import { suave } from '@/lib/canvas-escena'
 
 type Props = {
   src: string
-  /** Alto de cada franja en píxeles CSS. Más chico, más suave y más caro. */
-  franja?: number
-  /** Desplazamiento máximo de una franja, en píxeles. */
-  desvio?: number
   className?: string
 }
 
-export default function LienzoVivo({ src, franja = 14, desvio = 26, className = '' }: Props) {
+export default function LienzoVivo({ src, className = '' }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
@@ -100,37 +91,20 @@ export default function LienzoVivo({ src, franja = 14, desvio = 26, className = 
       const py = puntero.activo && !tactil ? puntero.y : alto * (0.5 + Math.sin(tiempo * 0.00016) * 0.3)
       const fuerza = puntero.activo && !tactil ? 1 : 0.35
 
-      const franjas = Math.ceil(alto / franja)
-      const altoFuente = sh / franjas
-
-      for (let i = 0; i < franjas; i++) {
-        const y = i * franja
-        const centroFranja = y + franja / 2
-
-        // Cuanto más cerca del puntero, más se corre la franja. El signo sale
-        // del lado en el que está el cursor, así el material parece apartarse.
-        const d = Math.abs(centroFranja - py)
-        const cerca = suave(1 - d / (alto * 0.42))
-        const lado = px < ancho / 2 ? 1 : -1
-        const corrimiento =
-          lado * cerca * desvio * fuerza +
-          Math.sin(tiempo * 0.0005 + i * 0.22) * 2.2 * (0.4 + cerca)
-
-        const anchoDibujo = ancho * acercamiento
-        const altoDibujo = franja * acercamiento + 1
-
-        ctx.drawImage(
-          imagen,
-          sx,
-          sy + i * altoFuente,
-          sw,
-          altoFuente,
-          corrimiento - (anchoDibujo - ancho) / 2,
-          y + deriva - (altoDibujo - franja) / 2,
-          anchoDibujo,
-          altoDibujo,
-        )
-      }
+      // Un solo dibujo, sin trocear: la obra no se deforma.
+      const anchoDibujo = ancho * acercamiento
+      const altoDibujo = alto * acercamiento
+      ctx.drawImage(
+        imagen,
+        sx,
+        sy,
+        sw,
+        sh,
+        -(anchoDibujo - ancho) / 2,
+        deriva - (altoDibujo - alto) / 2,
+        anchoDibujo,
+        altoDibujo,
+      )
 
       // Banda de luz dorada siguiendo al puntero. Es el reflejo especular que
       // la imagen fija no puede tener: se mueve con quien mira.
@@ -223,7 +197,7 @@ export default function LienzoVivo({ src, franja = 14, desvio = 26, className = 
       window.removeEventListener('pointermove', alMover)
       window.removeEventListener('pointerout', alSalir)
     }
-  }, [src, franja, desvio])
+  }, [src])
 
   return (
     <canvas

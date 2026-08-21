@@ -5,7 +5,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealLine } from "@/components/ui/Reveal";
-import CoherenceField from "@/components/home/CoherenceField";
+// El campo de flechas dice dirección; acá el titular habla de estructura,
+// así que la pieza son módulos que encajan en retícula al acercarse el cursor.
+import Estructuras from "@/components/visual/Estructuras";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -228,7 +230,7 @@ export default function ServiciosContent() {
     <main id="contenido-principal" className="flex-grow pt-[88px]">
       <section className="relative overflow-hidden border-b border-graphite/8 bg-paper pb-16 pt-16 md:pb-24 md:pt-24 lg:pb-26 lg:pt-28">
         <div className="pointer-events-none absolute inset-0">
-          <CoherenceField />
+          <Estructuras />
 
         {/* Mismo velo que en el home: el campo es textura de fondo, no
             puede competir con el texto que lo cruza. */}
@@ -251,7 +253,7 @@ export default function ServiciosContent() {
             <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[50rem] text-body text-slate md:text-body-lg">
               Acompañamos organizaciones orientadas a resultados. En lugar de ejecutar herramientas aisladas, diseñamos planes estratégicos integrales para mejorar percepción, rendimiento comercial y sostenibilidad del crecimiento.
             </p>
-            <p className="hero-rise hero-rise-delay-3 mt-5 inline-flex flex-wrap items-center gap-2 border border-graphite/12 bg-paper-lift px-4 py-2 text-eyebrow uppercase text-stone">
+            <p className="hero-rise hero-rise-delay-3 mt-5 inline-flex flex-wrap items-center gap-2 text-eyebrow uppercase text-stone">
               Beneficios medibles
               <span className="text-stone">/</span>
               Dirección + implementación
@@ -446,45 +448,65 @@ export default function ServiciosContent() {
             </Reveal>
           </div>
 
+          {/* Este bloque eran tarjetas dentro de otra tarjeta: tres columnas
+              idénticas, cada una con su caja, su cita y su botón fantasma.
+              Es el patrón de plantilla. La caja no se maquilla, se saca: la
+              jerarquía la hacen el número, el tamaño de la cita y el espacio,
+              y las columnas se separan con filete en lugar de borde. */}
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-90px" }}
             variants={STAGGER_FAST}
-            className="mt-10 rounded-panel border border-graphite/12 bg-[linear-gradient(160deg,#ffffff_0%,#f5f7f1_100%)] p-4 md:p-5"
+            className="mt-16"
           >
-            <div className="pointer-events-none mb-4 hidden items-center px-3 md:flex">
-              <span className="h-px flex-1 bg-cloud" />
-              <span className="mx-3 text-eyebrow uppercase text-stone">Frente prioritario</span>
-              <span className="h-px flex-1 bg-cloud" />
+            <div className="flex items-center gap-4">
+              <span className="text-eyebrow uppercase text-stone">Frente prioritario</span>
+              <span className="hairline-gold h-px flex-1" />
             </div>
 
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3">
               {stageCtas.map((item, i) => (
                 <motion.article
                   key={item.stage}
                   variants={ITEM_FAST}
-                  whileHover={{ y: -3 }}
-                className="edge-scan-card group relative overflow-hidden rounded-card border border-graphite/12 bg-paper-lift p-5 transition-colors duration-300 hover:bg-white md:p-6"
+                  className="group relative border-t border-graphite/12 pt-7 md:border-l md:border-t-0 md:pl-8 md:pt-0 md:first:border-l-0 md:first:pl-0 [&:not(:first-child)]:mt-9 md:[&:not(:first-child)]:mt-0"
                 >
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/55 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="text-eyebrow uppercase text-stone">Usted hoy dice</p>
-                    <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-graphite/12 px-1.5 text-eyebrow uppercase text-stone">
+                  {/* El filete dorado se dibuja desde arriba al pasar por la
+                      columna: marca dónde está el lector sin encerrarla. */}
+                  <span className="pointer-events-none absolute -left-px top-0 hidden h-full w-px origin-top scale-y-0 bg-[linear-gradient(180deg,var(--color-gold),transparent)] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100 md:block" />
+
+                  <p className="text-eyebrow uppercase text-stone">Usted hoy dice</p>
+
+                  <div className="mt-5 flex items-start gap-5">
+                    <span className="font-heading text-display-md leading-none text-cloud tabular-nums">
                       0{i + 1}
                     </span>
+                    <p className="font-heading text-display-sm text-ink">
+                      &ldquo;{item.need}&rdquo;
+                    </p>
                   </div>
-                  <p className="mt-4 border-l border-primary/45 pl-4 font-heading text-display-xs text-slate">
-                    &ldquo;{item.need}&rdquo;
-                  </p>
-                  <p className="mt-4 text-eyebrow uppercase text-stone">{item.stage}</p>
-                  <Button
-                    asChild
-                    className="mt-6 w-full border-graphite/20 bg-paper-lift text-center text-foreground hover:border-graphite/30 hover:bg-white"
-                    variant="outline"
+
+                  <p className="mt-6 text-eyebrow uppercase text-primary-ink">{item.stage}</p>
+
+                  {/* El botón deja de ser una píldora dentro de una caja y pasa
+                      a ser enlace con filete que se dibuja: tres píldoras
+                      iguales en fila eran la marca más clara de plantilla. */}
+                  <Link
+                    href="/contacto"
+                    className="group/enlace mt-4 inline-flex items-center gap-2 pb-1 text-body-sm font-medium text-ink"
                   >
-                    <Link href="/contacto">{item.action}</Link>
-                  </Button>
+                    <span className="relative">
+                      {item.action}
+                      <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-[var(--hairline-gold)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/enlace:scale-x-100" />
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="text-primary-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/enlace:translate-x-1"
+                    >
+                      &rarr;
+                    </span>
+                  </Link>
                 </motion.article>
               ))}
             </div>

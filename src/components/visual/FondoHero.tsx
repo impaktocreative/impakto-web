@@ -38,7 +38,7 @@ export default function FondoHero({
 
       {/* El canvas usa el webp: es el formato que todos los navegadores saben
           dibujar en canvas sin sorpresas. */}
-      <LienzoVivo src={`/arte/${imagen}.webp`} franja={16} desvio={30} />
+      <LienzoVivo src={`/arte/${imagen}.webp`} />
 
       {/* Velo del lado del texto. En pantallas anchas se abre en diagonal
           hacia la derecha, que es donde está la pieza. */}
