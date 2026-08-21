@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
+import type { ActionState } from '@/types/admin'
 
 const PREVIEW_DATA: Record<string, string> = {
   '{{nombre}}': 'Juan García',
@@ -22,7 +23,7 @@ type Recipient = {
   email: string | null
 }
 
-export async function saveTemplateAction(prevState: any, formData: FormData) {
+export async function saveTemplateAction(prevState: ActionState | null, formData: FormData) {
   const type = formData.get('type') as string
   const subject = formData.get('subject') as string
   const body = formData.get('body') as string
@@ -42,7 +43,7 @@ export async function saveTemplateAction(prevState: any, formData: FormData) {
   return { success: true, message: 'Plantilla guardada correctamente.' }
 }
 
-export async function sendTestEmailAction(prevState: any, formData: FormData) {
+export async function sendTestEmailAction(prevState: ActionState | null, formData: FormData) {
   const email = formData.get('test_email') as string
   const subject = formData.get('subject') as string
   const body = formData.get('body') as string
@@ -68,7 +69,7 @@ export async function sendTestEmailAction(prevState: any, formData: FormData) {
   return { success: true, message: 'Email de prueba enviado a ' + email }
 }
 
-export async function sendMassEmailTestAction(prevState: any, formData: FormData) {
+export async function sendMassEmailTestAction(prevState: ActionState | null, formData: FormData) {
   const email = (formData.get('test_email') as string)?.trim()
   const subject = (formData.get('subject') as string)?.trim()
   const body = formData.get('body') as string
@@ -94,7 +95,7 @@ export async function sendMassEmailTestAction(prevState: any, formData: FormData
   return { success: true, message: `Prueba enviada correctamente a ${email}` }
 }
 
-export async function sendMassEmailAction(prevState: any, formData: FormData) {
+export async function sendMassEmailAction(prevState: ActionState | null, formData: FormData) {
   const subject = (formData.get('subject') as string)?.trim()
   const body = formData.get('body') as string
   const confirmed = formData.get('confirmed') === 'yes'

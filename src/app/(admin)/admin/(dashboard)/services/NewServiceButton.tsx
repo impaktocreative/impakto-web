@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useMemo, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { Pencil, Plus, Search, Trash2, X } from 'lucide-react'
+import { Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { createServiceAction, deleteServiceAction, updateServiceAction } from './actions'
 import { Modal } from '@/components/ui/Modal'
 

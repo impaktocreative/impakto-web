@@ -4,7 +4,7 @@ import { useActionState, useEffect, useMemo, useState, useTransition } from 'rea
 import { useRouter } from 'next/navigation'
 import { createExpenseAction, deleteExpenseAction, updateExpenseAction, registerExpensePaymentAction } from './actions'
 import { format } from 'date-fns'
-import { CreditCard, Pencil, Plus, Search, Trash2, X } from 'lucide-react'
+import { CreditCard, Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { updateExpensePaymentAction, deleteExpensePaymentAction } from './actions'
 import { Modal } from '@/components/ui/Modal'
 

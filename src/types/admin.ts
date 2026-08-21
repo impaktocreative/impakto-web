@@ -58,3 +58,22 @@ export function normalizeRelation<T>(value: T | T[] | null | undefined): T | nul
   if (!value) return null
   return Array.isArray(value) ? value[0] ?? null : value
 }
+
+/**
+ * Retorno uniforme de todas las server actions del panel.
+ *
+ * Ninguna acción lanza al cliente: los errores viajan en `message`.
+ * `warning` es para lo que conviene avisar sin frenar la operación, como
+ * un cobro que se parece a uno reciente.
+ */
+export type ActionState = {
+  success: boolean
+  message?: string
+  warning?: string
+}
+
+/**
+ * Los call sites arrancan con `null`, así que la firma de las acciones
+ * acepta `ActionState | null`.
+ */
+export type ActionStateInit = ActionState | null

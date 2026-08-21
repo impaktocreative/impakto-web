@@ -8,7 +8,16 @@ export default async function ClientsPage() {
 
   const { data: clients } = await supabase
     .from('clients')
-    .select('id, brand_name, contact_name, email, phone, website_url, notes, cuit')
+    // Se traen los servicios contratados con el cliente para poder buscarlos
+    // desde acá: un cliente puede tener varios, con vencimientos y precios
+    // distintos, y antes había que abrir la ficha de cada uno para verlos.
+    .select(`
+      id, brand_name, contact_name, email, phone, website_url, notes, cuit,
+      client_services (
+        id, domain_name, price, currency, next_payment_date, status,
+        services ( name )
+      )
+    `)
     .order('created_at', { ascending: false })
 
   return (

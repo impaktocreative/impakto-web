@@ -40,6 +40,12 @@ VALUES
   timezone('utc'::text, now())
 ),
 (
+  'suspension_warning',
+  'AVISO DE SUSPENSION: {{servicio}} - Impakto Creative',
+  'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} dias</strong> y no hemos recibido el pago correspondiente.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Por este motivo, el servicio sera SUSPENDIDO hasta recibir el pago. Si no recibimos el pago en los proximos 30 dias, el servicio sera suspendido de forma definitiva y eliminado de nuestro sistema.<br><br>Por favor, contactanos a la brevedad para regularizar tu situacion.<br><br>Saludos,<br>Impakto Creative',
+  timezone('utc'::text, now())
+),
+(
   'payment_registered',
   'Pago recibido - {{servicio}}',
   'Hola {{nombre}},<br><br>Te confirmamos que registramos correctamente tu pago para <strong>{{servicio}}</strong>.<br><br>Dominio: {{dominio}}<br>Monto: {{monto}}<br><br>Gracias por trabajar con Impakto Creative.',

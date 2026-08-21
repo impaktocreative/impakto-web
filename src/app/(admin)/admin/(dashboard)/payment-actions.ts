@@ -6,28 +6,70 @@ import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+import {
+  hoyIso,
+  montoNeto,
+  proximoVencimiento,
+  sumarMeses,
+} from '@/lib/billing'
+import type { ActionState } from '@/types/admin'
 
 const PAYMENT_TEMPLATE_FALLBACK = {
   subject: 'Pago recibido - {{servicio}}',
   body: 'Hola {{nombre}},<br><br>Te confirmamos que registramos correctamente tu pago para <strong>{{servicio}}</strong>.<br><br>Dominio: {{dominio}}<br>Monto: {{monto}}<br><br>Gracias por trabajar con Impakto Creative.',
 }
 
-function addMonthsToIsoDate(isoDate: string, monthsToAdd: number): string {
-  const [year, month, day] = isoDate.split('-').map(Number)
-  const baseMonthIndex = month - 1
-  const targetMonthIndex = baseMonthIndex + monthsToAdd
-  const targetYear = year + Math.floor(targetMonthIndex / 12)
-  const normalizedTargetMonth = ((targetMonthIndex % 12) + 12) % 12
-  const maxDay = new Date(Date.UTC(targetYear, normalizedTargetMonth + 1, 0)).getUTCDate()
-  const targetDay = Math.min(day, maxDay)
-
-  const y = String(targetYear)
-  const m = String(normalizedTargetMonth + 1).padStart(2, '0')
-  const d = String(targetDay).padStart(2, '0')
-  return `${y}-${m}-${d}`
+function formatearFecha(iso: string) {
+  return format(new Date(iso + 'T00:00:00'), "dd 'de' MMMM 'de' yyyy", { locale: es })
 }
 
-export async function registerPaymentAction(_prevState: unknown, formData: FormData) {
+/**
+ * Recalcula último pago, próximo vencimiento y estado de un servicio a
+ * partir de los pagos que quedan registrados.
+ *
+ * Se usa después de editar o borrar un pago: si el vencimiento solo se
+ * moviera al registrar, corregir un error dejaría al servicio marcado como
+ * al día sin estarlo.
+ */
+async function recalcularServicio(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  clientServiceId: string,
+) {
+  const { data: servicio } = await supabase
+    .from('client_services')
+    .select('duration_months, status')
+    .eq('id', clientServiceId)
+    .single()
+
+  if (!servicio) return
+
+  const { data: pagos } = await supabase
+    .from('payments')
+    .select('payment_date')
+    .eq('client_service_id', clientServiceId)
+    .order('payment_date', { ascending: false })
+    .limit(1)
+
+  const ultimoPago = pagos?.[0]?.payment_date ?? null
+  const duracion = Number(servicio.duration_months) || 1
+
+  const proximo = ultimoPago ? sumarMeses(ultimoPago, duracion) : null
+
+  // Un servicio dado de baja no vuelve solo por recalcular fechas.
+  const estado =
+    servicio.status === 'inactivo'
+      ? 'inactivo'
+      : proximo && proximo < hoyIso()
+        ? 'vencido'
+        : 'activo'
+
+  await supabase
+    .from('client_services')
+    .update({ last_payment_date: ultimoPago, next_payment_date: proximo, status: estado })
+    .eq('id', clientServiceId)
+}
+
+export async function registerPaymentAction(_prevState: ActionState | null, formData: FormData) {
   const client_service_id = formData.get('client_service_id') as string
   const amount = parseFloat(formData.get('amount') as string)
   const payment_date = formData.get('payment_date') as string
@@ -63,13 +105,36 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
     return { success: false, message: 'El servicio no tiene una duración válida en meses.' }
   }
 
-  const baseDate = (clientService as any).next_payment_date || payment_date
-  const nextDateStr = addMonthsToIsoDate(baseDate, durationMonths)
+  // El aviso de duplicado se busca ANTES de insertar. Consultarlo después
+  // encuentra siempre el pago recién creado y el aviso salta en todos los
+  // cobros, que es lo que venía pasando.
+  const hace10Dias = sumarMeses(payment_date, 0)
+  const desde = new Date(hace10Dias + 'T00:00:00')
+  desde.setDate(desde.getDate() - 10)
+  const desdeIso = desde.toISOString().slice(0, 10)
 
-  const deductBankFee = (clientService as any).deduct_bank_fee === true
-  const netAmount = deductBankFee ? Math.round(amount * 0.965 * 100) / 100 : null
+  const { data: pagosPrevios } = await supabase
+    .from('payments')
+    .select('payment_date')
+    .eq('client_service_id', client_service_id)
+    .gte('payment_date', desdeIso)
+    .lte('payment_date', payment_date)
+    .order('payment_date', { ascending: false })
+    .limit(1)
 
-  const receiver = (clientService as any).receiver ?? null
+  const duplicateWarning = pagosPrevios?.length
+    ? `Ojo: ya había un pago de este servicio el ${formatearFecha(pagosPrevios[0].payment_date)}.`
+    : ''
+
+  const nextDateStr = proximoVencimiento(
+    (clientService as { next_payment_date?: string | null }).next_payment_date ?? null,
+    payment_date,
+    durationMonths,
+  )
+
+  const deductBankFee = (clientService as { deduct_bank_fee?: boolean }).deduct_bank_fee === true
+  const netAmount = montoNeto(amount, deductBankFee)
+  const receiver = (clientService as { receiver?: string | null }).receiver ?? null
 
   const { error: paymentError } = await supabase.from('payments').insert({
     client_service_id,
@@ -89,26 +154,16 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
 
   if (updateError) return { success: false, message: `Pago guardado pero error al actualizar vencimiento: ${updateError.message}` }
 
-  let warningMessage = ''
-  let duplicateWarning = ''
-
-  const tenDaysAgo = new Date()
-  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10)
-  const tenDaysAgoStr = tenDaysAgo.toISOString().split('T')[0]
-
-  const { data: recentPayments } = await supabase
-    .from('payments')
-    .select('payment_date')
+  // La cadena de avisos de mora se cuenta desde el último pago. Sin esto los
+  // registros viejos se acumulan para siempre y el servicio deja de recibir
+  // recordatorios aunque se atrase de nuevo.
+  await supabase
+    .from('email_logs')
+    .delete()
     .eq('client_service_id', client_service_id)
-    .gte('payment_date', tenDaysAgoStr)
-    .order('payment_date', { ascending: false })
-    .limit(1)
+    .in('reminder_type', ['overdue_every_3_days', 'suspension_warning'])
 
-  if (recentPayments && recentPayments.length > 0) {
-    const lastDate = recentPayments[0].payment_date
-    const formatted = format(new Date(lastDate + 'T00:00:00'), "dd 'de' MMMM 'de' yyyy", { locale: es })
-    duplicateWarning = `Ya se registró un pago para este servicio el día ${formatted}.`
-  }
+  let warningMessage = ''
 
   const { data: paymentTemplateFromDb } = await supabase
     .from('email_templates')
@@ -143,15 +198,21 @@ export async function registerPaymentAction(_prevState: unknown, formData: FormD
     if (!emailResult.success) {
       warningMessage = ' (el pago se registró, pero no se pudo enviar el email de confirmación)'
     }
+  } else if (!clientEmail) {
+    warningMessage = ' (el cliente no tiene email cargado, no se envió confirmación)'
   }
 
   if (client_id) revalidatePath(`/admin/clients/${client_id}`)
   revalidatePath('/admin')
   revalidatePath('/admin/income')
-  return { success: true, message: `Próximo vencimiento actualizado a ${nextDateStr}${warningMessage}`, warning: duplicateWarning }
+  return {
+    success: true,
+    message: `Próximo vencimiento: ${formatearFecha(nextDateStr)}${warningMessage}`,
+    warning: duplicateWarning,
+  }
 }
 
-export async function updatePaymentAction(_prevState: unknown, formData: FormData) {
+export async function updatePaymentAction(_prevState: ActionState | null, formData: FormData) {
   const id = formData.get('id') as string
   const amount = parseFloat(formData.get('amount') as string)
   const payment_date = formData.get('payment_date') as string
@@ -161,25 +222,60 @@ export async function updatePaymentAction(_prevState: unknown, formData: FormDat
   }
 
   const supabase = await createClient()
+
+  // Hay que releer el servicio porque el neto depende de si ese servicio
+  // descuenta la retención bancaria. Si solo se guardara el monto, el neto
+  // quedaría calculado sobre el importe anterior.
+  const { data: pagoActual } = await supabase
+    .from('payments')
+    .select('client_service_id, client_services ( deduct_bank_fee )')
+    .eq('id', id)
+    .single()
+
+  const servicio = Array.isArray(pagoActual?.client_services)
+    ? pagoActual?.client_services[0]
+    : pagoActual?.client_services
+  const netAmount = montoNeto(amount, servicio?.deduct_bank_fee === true)
+
   const { error } = await supabase
     .from('payments')
-    .update({ amount, payment_date })
+    .update({ amount, net_amount: netAmount, payment_date })
     .eq('id', id)
 
   if (error) return { success: false, message: `Error al actualizar pago: ${error.message}` }
 
+  // Cambiar la fecha del pago mueve el vencimiento del servicio.
+  if (pagoActual?.client_service_id) {
+    await recalcularServicio(supabase, pagoActual.client_service_id)
+  }
+
   revalidatePath('/admin')
   revalidatePath('/admin/income')
-  return { success: true, message: 'Pago actualizado correctamente.' }
+  revalidatePath('/admin/clients')
+  return { success: true, message: 'Pago actualizado y vencimiento recalculado.' }
 }
 
 export async function deletePaymentAction(id: string) {
   const supabase = await createClient()
+
+  const { data: pago } = await supabase
+    .from('payments')
+    .select('client_service_id')
+    .eq('id', id)
+    .single()
+
   const { error } = await supabase.from('payments').delete().eq('id', id)
 
   if (error) return { success: false, message: `Error al eliminar pago: ${error.message}` }
 
+  // Sin esto el servicio queda con el vencimiento que le había dado el pago
+  // borrado: figura al día sin estarlo.
+  if (pago?.client_service_id) {
+    await recalcularServicio(supabase, pago.client_service_id)
+  }
+
   revalidatePath('/admin')
   revalidatePath('/admin/income')
+  revalidatePath('/admin/clients')
   return { success: true }
 }

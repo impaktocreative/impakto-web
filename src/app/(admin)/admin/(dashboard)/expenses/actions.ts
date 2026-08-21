@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import type { ActionState } from '@/types/admin'
 
 export async function createExpenseAction(prevState: unknown, formData: FormData) {
   const name = formData.get('name') as string
@@ -91,7 +92,7 @@ export async function registerExpensePaymentAction(prevState: unknown, formData:
   return { success: true, message: 'Pago registrado correctamente.' }
 }
 
-export async function updateExpensePaymentAction(_prevState: unknown, formData: FormData) {
+export async function updateExpensePaymentAction(_prevState: ActionState | null, formData: FormData) {
   const id = formData.get('id') as string
   const amount = parseFloat(formData.get('amount') as string)
   const payment_date = formData.get('payment_date') as string

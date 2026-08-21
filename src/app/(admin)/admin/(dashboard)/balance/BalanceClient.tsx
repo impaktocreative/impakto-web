@@ -49,11 +49,9 @@ function formatCurrency(value: number, currency: 'ARS' | 'USD'): string {
 function DetailRow({
   income,
   expense,
-  rate,
 }: {
   income?: IncomeItem
   expense?: ExpenseItem
-  rate: number
 }) {
   if (income) {
     const effectiveAmount = income.net_amount ?? income.amount
@@ -120,7 +118,6 @@ export function BalanceClient({
   const [expandedMonth, setExpandedMonth] = useState<string | null>(null)
 
   const monthsData = useMemo(() => {
-    const rate = parseFloat(usdRate) || 1
     const monthsMap = new Map<string, MonthData>()
 
     for (const item of initialIncome) {
@@ -190,7 +187,7 @@ export function BalanceClient({
     }
 
     return sorted
-  }, [initialIncome, initialExpenses, usdRate])
+  }, [initialIncome, initialExpenses])
 
   const totals = useMemo(() => {
     const rate = parseFloat(usdRate) || 1
@@ -343,14 +340,14 @@ export function BalanceClient({
                                     <td className="px-6 py-2 text-right">Monto</td>
                                   </tr>
                                   {m.incomeDetails.map((inc, i) => (
-                                    <DetailRow key={`inc-${i}`} income={inc} rate={rate} />
+                                    <DetailRow key={`inc-${i}`} income={inc} />
                                   ))}
                                 </>
                               )}
                               {m.expenseDetails.length > 0 && (
                                 <>
                                   {m.expenseDetails.map((exp, i) => (
-                                    <DetailRow key={`exp-${i}`} expense={exp} rate={rate} />
+                                    <DetailRow key={`exp-${i}`} expense={exp} />
                                   ))}
                                 </>
                               )}

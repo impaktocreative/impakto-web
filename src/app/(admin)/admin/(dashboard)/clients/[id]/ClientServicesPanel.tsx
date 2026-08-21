@@ -4,7 +4,7 @@ import { useActionState, useState, useTransition, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { assignServiceAction, removeClientServiceAction, editClientServiceAction, sendManualReminderAction } from './actions'
 import { registerPaymentAction } from '../../payment-actions'
-import { Plus, X, Trash2, CreditCard, Pencil, Bell } from 'lucide-react'
+import { Plus, Trash2, CreditCard, Pencil, Bell } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Modal } from '@/components/ui/Modal'
@@ -21,6 +21,7 @@ type ClientService = {
   duration_months: number
   notes?: string | null
   receiver?: string | null
+  deduct_bank_fee?: boolean | null
   services?: { name: string } | null
 }
 
@@ -250,7 +251,7 @@ function EditServiceForm({
 }) {
   const [state, formAction, isPending] = useActionState(editClientServiceAction, null)
   const [lastPaymentDate, setLastPaymentDate] = useState(clientService.last_payment_date ? new Date(clientService.last_payment_date).toISOString().split('T')[0] : '')
-  const [durationMonths, setDurationMonths] = useState<number>(clientService.duration_months)
+  const [durationMonths] = useState<number>(clientService.duration_months)
 
   const computedNextDate = (() => {
     if (!lastPaymentDate || !durationMonths) return null
@@ -323,7 +324,7 @@ function EditServiceForm({
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Recibe el pago</label>
-          <select name="receiver" defaultValue={(clientService as any).receiver || ''}
+          <select name="receiver" defaultValue={clientService.receiver || ''}
             className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black">
             <option value="">Sin asignar</option>
             <option value="sergio">Sergio</option>
@@ -334,7 +335,7 @@ function EditServiceForm({
 
       <div className="flex items-center gap-2">
         <input type="checkbox" id="deduct_bank_fee" name="deduct_bank_fee"
-          defaultChecked={(clientService as any).deduct_bank_fee === true}
+          defaultChecked={clientService.deduct_bank_fee === true}
           className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black" />
         <label htmlFor="deduct_bank_fee" className="text-sm text-gray-700">Descontar 3.5% por depósito/transferencia bancaria</label>
       </div>
@@ -465,7 +466,7 @@ export function ClientServicesPanel({
                             {svc.receiver === 'sergio' ? 'Sergio' : 'Rodrigo'}
                           </span>
                         )}
-                        {(svc as any).deduct_bank_fee && (
+                        {svc.deduct_bank_fee && (
                           <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-purple-100 text-purple-700">
                             3.5%
                           </span>

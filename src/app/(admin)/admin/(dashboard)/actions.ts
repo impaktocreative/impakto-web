@@ -1,8 +1,9 @@
 'use server'
 
 import { sendEmail } from '@/utils/brevo'
+import type { ActionState } from '@/types/admin'
 
-export async function sendTestEmailAction(prevState: any, formData: FormData) {
+export async function sendTestEmailAction(prevState: ActionState | null, formData: FormData) {
   const email = formData.get('email') as string
   
   if (!email) {

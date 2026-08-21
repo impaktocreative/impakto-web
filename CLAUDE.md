@@ -53,7 +53,8 @@ src/
 │   ├── layout/               # Navbar, Footer, SmoothScroll, WhatsAppFloating
 │   └── ui/                   # Button, Modal, Reveal, Magnetic, CustomCursor, ScrollStage, TechNodes
 ├── lib/site.ts               # resolución de URL canónica
-├── lib/fonts.ts              # next/font: Instrument Serif + Inter
+├── lib/fonts.ts              # next/font: Fraunces + Inter
+├── lib/billing.ts            # vencimientos, estados y retención bancaria
 ├── types/admin.ts            # tipos de filas + normalizeRelation()
 ├── utils/
 │   ├── supabase/{server,client,middleware}.ts
@@ -94,9 +95,9 @@ Todo en Supabase Postgres. No hay ORM: se usa el query builder de `supabase-js` 
 | Tabla | Rol |
 |---|---|
 | `clients` | contacto, marca, email, teléfono, web, CUIT, notas |
-| `services` | catálogo de servicios |
-| `client_services` | servicio contratado: `price_ars`, `duration_months`, `last_payment_date`, `next_payment_date`, `status` (`activo`/`inactivo`/`vencido`), `receiver` (`sergio`/`rodrigo`), `domain_name`, `server_info` |
-| `payments` | cobros — `amount`, `net_amount`, `receiver`, `payment_date` |
+| `services` | catálogo: `name`, `description`, `price`, `currency`, `duration_months` |
+| `client_services` | servicio contratado: `price`, `currency`, `duration_months`, `last_payment_date`, `next_payment_date`, `status` (`activo`/`vencido`/`suspendido`/`inactivo`), `receiver` (`sergio`/`rodrigo`), `deduct_bank_fee`, `domain_name`, `server_info` |
+| `payments` | cobros — `amount`, `currency`, `net_amount`, `receiver`, `payment_date` |
 | `expenses` | gastos recurrentes con `due_date` y `duration_months` |
 | `expense_payments` | pagos de gastos, `paid_by` (`sergio`/`rodrigo`) |
 | `email_templates` | PK `type`, `subject`, `body` — editables desde `/admin/settings` |
@@ -116,9 +117,33 @@ supabase_expenses_migration.sql
 supabase_add_due_date_expenses.sql
 supabase_bank_fee_deduction.sql
 supabase_email_automation_migration.sql
+supabase_esquema_real.sql               # refleja la base real
+supabase_arca_facturacion_migration.sql # facturación ARCA
 ```
 
 Al agregar una tabla o columna: escribir un `.sql` nuevo idempotente (`IF NOT EXISTS` / `ADD COLUMN IF NOT EXISTS`) y correrlo desde el SQL editor de Supabase.
+
+**Los `.sql` divergieron de la base.** Varias columnas se agregaron directo desde el editor de Supabase sin escribir el archivo. `supabase_schema.sql` dice `price_ars` donde la base tiene `price`, y no menciona `currency`, `receiver`, `deduct_bank_fee` ni `cuit`. `supabase_esquema_real.sql` documenta lo que hay de verdad y es idempotente. **Antes de asumir un nombre de columna, consultá la base, no los archivos.**
+
+### Reglas de facturación recurrente
+
+Viven en `src/lib/billing.ts` y son la única implementación. Antes estaban duplicadas entre `payment-actions.ts` y `clients/[id]/actions.ts`, con dos cuentas distintas para lo mismo.
+
+- `sumarMeses()` recorta al último día del mes destino. `new Date(iso)` + `setMonth` desbordaba los fines de mes (31 de enero + 1 mes daba 3 de marzo) y corría un día por zona horaria.
+- `proximoVencimiento()` cuenta desde el vencimiento anterior, no desde el pago: el cliente contrató un período. Si el atraso fue tan grande que el nuevo vencimiento también caería en el pasado, recalcula desde el pago.
+- `montoNeto()` aplica la retención bancaria del 3,5% cuando el servicio la tiene marcada.
+
+### Estados del servicio
+
+`activo` · `vencido` · `suspendido` · `inactivo`.
+
+El estado lo sincroniza **el cron**, no solo el registro de un cobro. Antes solo se movía al cobrar, así que un servicio que vencía y nadie pagaba figuraba activo para siempre.
+
+Pasados 15 días de mora el cron lo marca `suspendido` y manda **un solo mail** con todos los casos del día a los administradores (`ADMIN_ALERT_EMAILS`, por defecto `studio.impakto@gmail.com` y `rodrigo.zarza@gmail.com`). Un servicio suspendido deja de recibir recordatorios automáticos: pasa a gestión manual.
+
+### Cadena de recordatorios de mora
+
+Los avisos se cuentan **desde el último pago**, no desde siempre. Contando todo el historial, un servicio que se atrasó dos veces en su vida no volvía a recibir recordatorios nunca más: al detectarlo, 8 de 18 servicios estaban en ese estado. `registerPaymentAction` además borra los logs de mora al cobrar, para que el ciclo arranque limpio.
 
 ### Los tres clientes Supabase
 
@@ -212,7 +237,7 @@ Misma razón detrás del guard de primera carga en `(marketing)/template.tsx`: l
 
 ### Fuentes
 
-`src/lib/fonts.ts` carga Instrument Serif (titulares) e Inter (cuerpo) con `next/font/google`, las expone como CSS variables y `globals.css` las consume desde `--font-heading` y `--font-sans`. No agregar `@font-face` a mano ni `<link>` a Google Fonts.
+`src/lib/fonts.ts` carga Fraunces (titulares) e Inter (cuerpo) con `next/font/google`, las expone como CSS variables y `globals.css` las consume desde `--font-heading` y `--font-sans`. No agregar `@font-face` a mano ni `<link>` a Google Fonts.
 
 Antes había 5 `.woff2` en `public/fonts/` que nunca se cargaban — sin `@font-face` ni `next/font` — y el sitio renderizaba con los fallbacks del sistema. La fuente original (Season Serif) era una trial sin licencia.
 
@@ -251,7 +276,7 @@ Piso de 12px para cualquier texto. Los titulares no llevan escalera `sm:/md:/lg:
 --shadow-premium-gold · --shadow-node-glow · --shadow-whatsapp
 --duration-{fast,base,slow,slower,ambient}  150/300/500/700/1200ms
 --ease-luxury cubic-bezier(0.16, 1, 0.3, 1)  — el único easing
---font-heading Instrument Serif · --font-sans Inter
+--font-heading Fraunces · --font-sans Inter
 ```
 
 Antes de esta consolidación el home tenía 33 tamaños de fuente, 26 interlineados, 16 radios, 28 sombras y 19 colores escritos a mano.
@@ -314,7 +339,10 @@ Las env vars se cargan en el dashboard de Vercel o con `vercel env`. Las `.env.l
 - **Joins de Supabase devuelven objeto o array.** Sin `normalizeRelation()` el build de TS rompe o los datos llegan `undefined` en runtime.
 - **Las plantillas de email están duplicadas** entre la tabla `email_templates` y los `TEMPLATE_FALLBACKS` en código. Cambiar una sin la otra deja fallbacks desactualizados.
 - **No hay soft delete.** Un `delete` sobre `clients` arrastra en cascada `client_services` y `payments`. Confirmar antes de ejecutar borrados.
-- **`setup_db.js` y `setup_user.js` están versionados con credenciales en texto plano** (password de Postgres, service role key, password del admin). Rotar y sacarlos del repo — ver §10.
+- **`setup_db.js` y `setup_user.js` tenían credenciales en texto plano** y están en el historial de git. Ya leen de entorno (`setup_db.mjs`, `setup_user.mjs`), pero **la rotación sigue pendiente**: sacar el secreto del código no invalida lo que ya se publicó.
+- **El remoto de git tenía un token de GitHub embebido** en `.git/config`. Rotarlo también.
+- **Editar o borrar un pago mueve el vencimiento del servicio.** `recalcularServicio()` lo rehace desde los pagos que quedan. Antes solo se actualizaba al registrar, así que corregir un error dejaba al servicio figurando al día.
+- **El aviso de pago duplicado se consultaba después de insertar**, así que encontraba el pago recién creado y saltaba en todos los cobros.
 
 ---
 

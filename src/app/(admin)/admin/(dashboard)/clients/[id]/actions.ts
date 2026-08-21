@@ -4,8 +4,10 @@ import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
+import { estadoPorVencimiento, sumarMeses } from '@/lib/billing'
+import type { ActionState } from '@/types/admin'
 
-export async function assignServiceAction(prevState: any, formData: FormData) {
+export async function assignServiceAction(prevState: ActionState | null, formData: FormData) {
   const client_id = formData.get('client_id') as string
   const service_id = formData.get('service_id') as string
   const domain_name = (formData.get('domain_name') as string) || null
@@ -36,10 +38,12 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
   // Always compute next_payment_date from last_payment_date + duration_months
   let next_payment_date: string | null = null
   if (last_payment_date && duration_months) {
-    const d = new Date(last_payment_date)
-    d.setMonth(d.getMonth() + duration_months)
-    next_payment_date = d.toISOString().split('T')[0]
+    next_payment_date = sumarMeses(last_payment_date, duration_months)
   }
+
+  // Si se carga un servicio con un último pago viejo, el vencimiento
+  // calculado ya puede estar en el pasado: nace vencido, no activo.
+  const estadoInicial = estadoPorVencimiento(status, next_payment_date) ?? status
 
   const { error } = await supabase.from('client_services').insert({
     client_id,
@@ -51,7 +55,7 @@ export async function assignServiceAction(prevState: any, formData: FormData) {
     last_payment_date,
     next_payment_date,
     notes,
-    status,
+    status: estadoInicial,
     receiver,
     deduct_bank_fee,
   })
@@ -67,7 +71,7 @@ export async function removeClientServiceAction(id: string, client_id: string) {
   const supabase = await createClient()
   const { error } = await supabase
     .from('client_services')
-    .update({ status: 'archived' })
+    .update({ status: 'inactivo' })
     .eq('id', id)
 
   if (error) return { success: false, message: error.message }
@@ -77,7 +81,7 @@ export async function removeClientServiceAction(id: string, client_id: string) {
   return { success: true }
 }
 
-export async function editClientServiceAction(prevState: any, formData: FormData) {
+export async function editClientServiceAction(prevState: ActionState | null, formData: FormData) {
   const id = formData.get('id') as string
   const client_id = formData.get('client_id') as string
   const domain_name = (formData.get('domain_name') as string) || null
@@ -105,9 +109,7 @@ export async function editClientServiceAction(prevState: any, formData: FormData
 
   let next_payment_date: string | null = null
   if (last_payment_date && existingService.duration_months) {
-    const d = new Date(last_payment_date)
-    d.setMonth(d.getMonth() + existingService.duration_months)
-    next_payment_date = d.toISOString().split('T')[0]
+    next_payment_date = sumarMeses(last_payment_date, existingService.duration_months)
   }
 
   const { error } = await supabase.from('client_services').update({

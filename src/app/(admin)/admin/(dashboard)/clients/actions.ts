@@ -2,8 +2,9 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import type { ActionState } from '@/types/admin'
 
-export async function updateClientAction(prevState: any, formData: FormData) {
+export async function updateClientAction(prevState: ActionState | null, formData: FormData) {
   const id = formData.get('id') as string
   const contact_name = formData.get('contact_name') as string
   const brand_name = formData.get('brand_name') as string

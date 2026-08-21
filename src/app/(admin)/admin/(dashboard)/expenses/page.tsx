@@ -37,7 +37,11 @@ export default async function ExpensesPage() {
 
   return (
     <ExpensesClient
-      initialExpenses={(expenses ?? []) as any}
+      initialExpenses={(expenses ?? []).map((e) => ({
+        ...e,
+        amount: Number(e.amount),
+        duration_months: Number(e.duration_months),
+      }))}
       initialPayments={normalizedPayments}
     />
   )

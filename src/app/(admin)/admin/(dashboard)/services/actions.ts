@@ -2,8 +2,9 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import type { ActionState } from '@/types/admin'
 
-export async function createServiceAction(prevState: any, formData: FormData) {
+export async function createServiceAction(prevState: ActionState | null, formData: FormData) {
   const name = formData.get('name') as string
   const duration_months = parseInt(formData.get('duration_months') as string)
   const price = parseFloat(formData.get('price') as string)
@@ -23,7 +24,7 @@ export async function createServiceAction(prevState: any, formData: FormData) {
   return { success: true, message: 'Servicio creado correctamente.' }
 }
 
-export async function updateServiceAction(prevState: any, formData: FormData) {
+export async function updateServiceAction(prevState: ActionState | null, formData: FormData) {
   const id = formData.get('id') as string
   const name = formData.get('name') as string
   const duration_months = parseInt(formData.get('duration_months') as string)

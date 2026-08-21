@@ -6,6 +6,16 @@ import { useRouter } from 'next/navigation'
 import { Eye, Globe, Mail, Pencil, Phone, Search, Trash2, X } from 'lucide-react'
 import { deleteClientAction, updateClientAction } from './actions'
 
+type ClientServiceRow = {
+  id: string
+  domain_name?: string | null
+  price?: number | string | null
+  currency?: string | null
+  next_payment_date?: string | null
+  status?: string | null
+  services?: { name: string } | { name: string }[] | null
+}
+
 type Client = {
   id: string
   brand_name: string
@@ -15,6 +25,36 @@ type Client = {
   website_url?: string | null
   notes?: string | null
   cuit?: string | null
+  client_services?: ClientServiceRow[] | null
+}
+
+/** Supabase devuelve la relación anidada como objeto o como array. */
+function nombreServicio(s: ClientServiceRow): string {
+  const rel = Array.isArray(s.services) ? s.services[0] : s.services
+  return rel?.name ?? 'Servicio'
+}
+
+const ETIQUETA_ESTADO: Record<string, { texto: string; clase: string }> = {
+  activo: { texto: 'Activo', clase: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' },
+  vencido: { texto: 'Vencido', clase: 'bg-amber-50 text-amber-800 ring-amber-600/20' },
+  suspendido: { texto: 'Suspendido', clase: 'bg-red-50 text-red-700 ring-red-600/20' },
+  inactivo: { texto: 'Inactivo', clase: 'bg-gray-100 text-gray-600 ring-gray-500/20' },
+}
+
+function EstadoBadge({ estado }: { estado?: string | null }) {
+  const e = ETIQUETA_ESTADO[estado ?? 'activo'] ?? ETIQUETA_ESTADO.activo
+  return (
+    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset ${e.clase}`}>
+      {e.texto}
+    </span>
+  )
+}
+
+function formatoPrecio(s: ClientServiceRow): string {
+  if (s.price == null) return ''
+  const n = Number(s.price)
+  if (!Number.isFinite(n)) return ''
+  return `${s.currency === 'USD' ? 'USD' : '$'} ${n.toLocaleString('es-AR')}`
 }
 
 function EditClientModal({ client, onClose, onSuccess }: { client: Client; onClose: () => void; onSuccess: () => void }) {
@@ -196,11 +236,29 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
     const normalized = query.trim().toLowerCase()
     if (!normalized) return initialClients
 
-    return initialClients.filter((client) =>
-      [client.brand_name, client.contact_name, client.email, client.phone, client.website_url, client.cuit]
+    return initialClients.filter((client) => {
+      const delCliente = [
+        client.brand_name,
+        client.contact_name,
+        client.email,
+        client.phone,
+        client.website_url,
+        client.cuit,
+      ]
+
+      // Buscar también por servicio contratado, dominio y estado: encontrar
+      // "el hosting de tal marca" o "quién tiene tal dominio" era lo que
+      // obligaba a abrir ficha por ficha.
+      const deSusServicios = (client.client_services ?? []).flatMap((s) => [
+        nombreServicio(s),
+        s.domain_name,
+        s.status,
+      ])
+
+      return [...delCliente, ...deSusServicios]
         .filter(Boolean)
-        .some((value) => value!.toLowerCase().includes(normalized)),
-    )
+        .some((value) => String(value).toLowerCase().includes(normalized))
+    })
   }, [initialClients, query])
 
   const handleDelete = (client: Client) => {
@@ -223,7 +281,7 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Buscar marca, contacto, email, teléfono..."
+              placeholder="Buscar marca, contacto, servicio, dominio, estado..."
               className="w-full rounded-lg border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black"
             />
           </label>
@@ -237,11 +295,11 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
         <table className="w-full table-fixed divide-y divide-gray-200">
           <thead className="bg-gray-50/50">
             <tr>
-              <th className="w-[20%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Marca</th>
-              <th className="w-[23%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Contacto</th>
-              <th className="w-[23%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
-              <th className="w-[22%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Sitio Web</th>
-              <th className="w-[12%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
+              <th className="w-[17%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Marca</th>
+              <th className="w-[19%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Contacto</th>
+              <th className="w-[19%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
+              <th className="w-[35%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Servicios</th>
+              <th className="w-[10%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -256,7 +314,29 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
                   {client.cuit && <div className="mt-1 text-[11px] text-gray-400 font-mono">CUIT: {client.cuit}</div>}
                 </td>
                 <td className="px-6 py-4 align-top text-sm text-gray-600 break-all">{client.email || '—'}</td>
-                <td className="px-6 py-4 align-top text-sm text-gray-600">
+                <td className="px-6 py-4 align-top">
+                  {(client.client_services ?? []).length === 0 ? (
+                    <span className="text-sm text-gray-400">Sin servicios</span>
+                  ) : (
+                    <ul className="space-y-1.5">
+                      {(client.client_services ?? [])
+                        .slice()
+                        .sort((a, b) => (a.next_payment_date ?? '9999').localeCompare(b.next_payment_date ?? '9999'))
+                        .map((sv) => (
+                          <li key={sv.id} className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+                            <EstadoBadge estado={sv.status} />
+                            <span className="font-medium text-gray-800">{nombreServicio(sv)}</span>
+                            {sv.domain_name && <span className="text-gray-400">· {sv.domain_name}</span>}
+                            {sv.next_payment_date && (
+                              <span className="text-gray-500">· vence {sv.next_payment_date}</span>
+                            )}
+                            {formatoPrecio(sv) && <span className="text-gray-500">· {formatoPrecio(sv)}</span>}
+                          </li>
+                        ))}
+                    </ul>
+                  )}
+                </td>
+                <td className="hidden">
                   {client.website_url ? (
                     <a
                       href={client.website_url.startsWith('http') ? client.website_url : `https://${client.website_url}`}
@@ -307,6 +387,22 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
                 deleting={deletingId === client.id && isPending}
               />
             </div>
+
+            {(client.client_services ?? []).length > 0 && (
+              <ul className="space-y-1.5 rounded-lg bg-gray-50 p-3">
+                {(client.client_services ?? [])
+                  .slice()
+                  .sort((a, b) => (a.next_payment_date ?? '9999').localeCompare(b.next_payment_date ?? '9999'))
+                  .map((sv) => (
+                    <li key={sv.id} className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+                      <EstadoBadge estado={sv.status} />
+                      <span className="font-medium text-gray-800">{nombreServicio(sv)}</span>
+                      {sv.next_payment_date && <span className="text-gray-500">· vence {sv.next_payment_date}</span>}
+                      {formatoPrecio(sv) && <span className="text-gray-500">· {formatoPrecio(sv)}</span>}
+                    </li>
+                  ))}
+              </ul>
+            )}
 
             <div className="space-y-1.5 text-sm text-gray-600">
               {client.email && (

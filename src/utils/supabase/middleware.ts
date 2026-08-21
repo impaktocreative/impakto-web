@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -27,9 +27,10 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  // La llamada es el efecto: getUser() refresca la sesión y reescribe las
+  // cookies en supabaseResponse. El usuario en sí no se usa acá — el guard
+  // de rutas vive en el layout de (dashboard).
+  await supabase.auth.getUser()
 
   return supabaseResponse
 }

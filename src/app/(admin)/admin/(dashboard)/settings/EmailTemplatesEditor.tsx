@@ -34,6 +34,11 @@ const LABELS: Record<string, { title: string; desc: string; color: string }> = {
     desc: 'Aviso automático de servicio vencido desde el primer día de mora.',
     color: 'bg-orange-50 border-orange-200 text-orange-700',
   },
+  'suspension_warning': {
+    title: 'Aviso de suspensión (3er aviso)',
+    desc: 'Se envía automáticamente en el tercer aviso de vencimiento. Informa que el servicio será suspendido y eliminado en 30 días.',
+    color: 'bg-red-50 border-red-200 text-red-700',
+  },
   'payment_registered': {
     title: 'Pago registrado',
     desc: 'Confirmación automática cuando se registra un pago.',
@@ -57,6 +62,10 @@ const TEMPLATE_DEFAULTS: Record<string, { subject: string; body: string }> = {
   'overdue_every_3_days': {
     subject: 'Servicio vencido hace {{dias_vencido}} días: {{servicio}}',
     body: 'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} días</strong>.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Este aviso se enviara el primer dia de mora y luego cada 3 dias hasta registrar el pago.',
+  },
+  'suspension_warning': {
+    subject: 'AVISO DE SUSPENSIÓN: {{servicio}} - Impakto Creative',
+    body: 'Hola {{nombre}},<br><br>Tu servicio <strong>{{servicio}}</strong> se encuentra vencido desde hace <strong>{{dias_vencido}} días</strong> y no hemos recibido el pago correspondiente.<br><br>Dominio: {{dominio}}<br>Monto pendiente: {{monto}}<br><br>Por este motivo, el servicio será SUSPENDIDO hasta recibir el pago. Si no recibimos el pago en los próximos 30 días, el servicio será suspendido de forma definitiva y eliminado de nuestro sistema.<br><br>Por favor, contactanos a la brevedad para regularizar tu situación.<br><br>Saludos,<br>Impakto Creative',
   },
   'payment_registered': {
     subject: 'Pago recibido - {{servicio}}',
@@ -276,7 +285,7 @@ function TemplateEditor({ template }: { template: Template }) {
 }
 
 export function EmailTemplatesEditor({ templates }: { templates: Template[] }) {
-  const order = ['10_days', '5_days', '24_hours', 'overdue_every_3_days', 'payment_registered']
+  const order = ['10_days', '5_days', '24_hours', 'overdue_every_3_days', 'suspension_warning', 'payment_registered']
   const templateByType = new Map(templates.map(template => [template.type, template]))
   const sorted = order.map((type) => {
     const existing = templateByType.get(type)
