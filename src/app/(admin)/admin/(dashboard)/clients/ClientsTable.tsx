@@ -1,10 +1,11 @@
 'use client'
 
 import { useActionState, useEffect, useMemo, useState, useTransition } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Eye, Globe, Mail, Pencil, Phone, Search, Trash2, X } from 'lucide-react'
 import { deleteClientAction, updateClientAction } from './actions'
+import { IconButton, IconButtonGroup, IconLink } from '@/app/(admin)/admin/ui/IconButton'
+import { EstadoBadge } from '@/app/(admin)/admin/ui/Badge'
 
 type ClientServiceRow = {
   id: string
@@ -32,22 +33,6 @@ type Client = {
 function nombreServicio(s: ClientServiceRow): string {
   const rel = Array.isArray(s.services) ? s.services[0] : s.services
   return rel?.name ?? 'Servicio'
-}
-
-const ETIQUETA_ESTADO: Record<string, { texto: string; clase: string }> = {
-  activo: { texto: 'Activo', clase: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' },
-  vencido: { texto: 'Vencido', clase: 'bg-amber-50 text-amber-800 ring-amber-600/20' },
-  suspendido: { texto: 'Suspendido', clase: 'bg-red-50 text-red-700 ring-red-600/20' },
-  inactivo: { texto: 'Inactivo', clase: 'bg-gray-100 text-gray-600 ring-gray-500/20' },
-}
-
-function EstadoBadge({ estado }: { estado?: string | null }) {
-  const e = ETIQUETA_ESTADO[estado ?? 'activo'] ?? ETIQUETA_ESTADO.activo
-  return (
-    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset ${e.clase}`}>
-      {e.texto}
-    </span>
-  )
 }
 
 function formatoPrecio(s: ClientServiceRow): string {
@@ -195,33 +180,17 @@ function RowActions({
   deleting: boolean
 }) {
   return (
-    <div className="flex items-center justify-end gap-1.5">
-      <Link
-        href={`/admin/clients/${client.id}`}
-        aria-label={`Ver ficha de ${client.brand_name}`}
-        title="Ver ficha"
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-      >
-        <Eye size={14} />
-      </Link>
-      <button
-        onClick={() => onEdit(client)}
-        aria-label={`Editar ${client.brand_name}`}
-        title="Editar"
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-      >
-        <Pencil size={14} />
-      </button>
-      <button
+    <IconButtonGroup>
+      <IconLink icon={Eye} label={`Ver ficha de ${client.brand_name}`} href={`/admin/clients/${client.id}`} />
+      <IconButton icon={Pencil} label={`Editar ${client.brand_name}`} onClick={() => onEdit(client)} />
+      <IconButton
+        icon={Trash2}
+        label={`Eliminar ${client.brand_name}`}
+        tono="peligro"
+        ocupado={deleting}
         onClick={() => onDelete(client)}
-        disabled={deleting}
-        aria-label={`Eliminar ${client.brand_name}`}
-        title="Eliminar"
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-red-200 bg-white text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-      >
-        {deleting ? <span className="text-xs font-medium">...</span> : <Trash2 size={14} />}
-      </button>
-    </div>
+      />
+    </IconButtonGroup>
   )
 }
 

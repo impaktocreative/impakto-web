@@ -4,6 +4,7 @@ import { useActionState, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { HandCoins, X } from 'lucide-react'
 import { registerPaymentAction } from './payment-actions'
+import { IconButton } from '@/app/(admin)/admin/ui/IconButton'
 
 type DashboardItem = {
   id: string
@@ -103,15 +104,7 @@ export function DashboardPayButton({ item }: { item: DashboardItem }) {
 
   return (
     <>
-      <button
-        onClick={() => setPaying(true)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-blue-200 bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-800 transition-colors"
-        aria-label="Registrar pago"
-        title="Registrar pago"
-      >
-        <HandCoins size={14} />
-        <span className="sr-only">Registrar pago</span>
-      </button>
+      <IconButton icon={HandCoins} label="Registrar pago" tono="exito" onClick={() => setPaying(true)} />
       {paying && (
         <RegisterPaymentModal
           item={item}

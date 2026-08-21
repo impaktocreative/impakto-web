@@ -357,7 +357,7 @@ export default async function IncomePage() {
                     <th className="w-[13%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
                     <th className="w-[13%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Neto</th>
                     <th className="w-[12%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Receptor</th>
-                    <th className="w-[10%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acción</th>
+                    <th className="w-[10%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">

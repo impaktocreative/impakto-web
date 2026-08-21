@@ -8,6 +8,8 @@ import { Plus, Trash2, CreditCard, Pencil, Bell } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Modal } from '@/components/ui/Modal'
+import { IconButton, IconButtonGroup } from '@/app/(admin)/admin/ui/IconButton'
+import { EstadoBadge, ReceptorBadge, VencimientoBadge } from '@/app/(admin)/admin/ui/Badge'
 
 type Service = { id: string; name: string; duration_months: number; price: number; currency: string }
 type ClientService = {
@@ -429,10 +431,6 @@ export function ClientServicesPanel({
                 ? Math.ceil((new Date(svc.next_payment_date).getTime() - nowMs) / 86400000)
                 : null
 
-              let badgeClass = 'bg-green-100 text-green-700'
-              if (daysLeft === null) badgeClass = 'bg-gray-100 text-gray-500'
-              else if (daysLeft <= 0) badgeClass = 'bg-red-100 text-red-700'
-              else if (daysLeft <= 10) badgeClass = 'bg-yellow-100 text-yellow-700'
 
               return (
                 <div key={svc.id} className="px-6 py-4">
@@ -449,72 +447,38 @@ export function ClientServicesPanel({
                             Vence: {format(new Date(svc.next_payment_date), "dd MMM yyyy", { locale: es })}
                           </span>
                         )}
-                        {daysLeft !== null && (
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badgeClass}`}>
-                            {daysLeft <= 0 ? 'Vencido' : `${daysLeft} días`}
-                          </span>
-                        )}
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                          svc.status === 'activo' ? 'bg-green-100 text-green-700' :
-                          svc.status === 'vencido' ? 'bg-red-100 text-red-700' :
-                          'bg-gray-100 text-gray-500'
-                        }`}>{svc.status}</span>
-                        {svc.receiver && (
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                            svc.receiver === 'sergio' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
-                          }`}>
-                            {svc.receiver === 'sergio' ? 'Sergio' : 'Rodrigo'}
-                          </span>
-                        )}
+                        <EstadoBadge estado={svc.status} />
+                        {daysLeft !== null && <VencimientoBadge dias={daysLeft} />}
+                        {svc.receiver && <ReceptorBadge receptor={svc.receiver} />}
                         {svc.deduct_bank_fee && (
-                          <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-purple-100 text-purple-700">
-                            3.5%
+                          <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset bg-purple-50 text-purple-700 ring-purple-600/20">
+                            Retención 3,5%
                           </span>
                         )}
                       </div>
                       {svc.notes && <p className="text-xs text-gray-400 mt-1 italic">{svc.notes}</p>}
                     </div>
-                    <div className="flex items-center gap-1.5 sm:ml-4 flex-shrink-0">
-                      <button
-                        onClick={() => setPayingService(svc)}
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 bg-white text-green-700 hover:bg-green-600 hover:text-white transition-colors"
-                        aria-label="Registrar pago"
-                        title="Registrar pago"
-                      >
-                        <CreditCard size={14} />
-                        <span className="sr-only">Registrar pago</span>
-                      </button>
-                      <button
-                        onClick={() => setEditingService(svc)}
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-                        aria-label="Editar servicio"
-                        title="Editar"
-                      >
-                        <Pencil size={14} />
-                        <span className="sr-only">Editar</span>
-                      </button>
-                      {daysLeft !== null && daysLeft <= 0 && (
-                        <button
-                          onClick={() => handleSendReminder(svc.id)}
-                          disabled={sendingReminderId === svc.id}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-amber-200 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50"
-                          aria-label="Enviar aviso de vencimiento"
-                          title="Enviar aviso de vencimiento"
-                        >
-                          {sendingReminderId === svc.id ? <span className="text-xs font-medium">...</span> : <Bell size={14} />}
-                          <span className="sr-only">Enviar aviso de vencimiento</span>
-                        </button>
-                      )}
-                      <button
-                        onClick={() => handleRemove(svc.id)}
-                        disabled={deletingId === svc.id && isPending}
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-red-200 bg-white text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-                        aria-label="Quitar servicio"
-                        title="Quitar"
-                      >
-                        {deletingId === svc.id && isPending ? <span className="text-xs font-medium">...</span> : <Trash2 size={14} />}
-                        <span className="sr-only">Quitar</span>
-                      </button>
+                    <div className="sm:ml-4 flex-shrink-0">
+                      <IconButtonGroup alinear="izquierda">
+                        <IconButton icon={CreditCard} label="Registrar pago" tono="exito" onClick={() => setPayingService(svc)} />
+                        <IconButton icon={Pencil} label="Editar servicio" onClick={() => setEditingService(svc)} />
+                        {daysLeft !== null && daysLeft <= 0 && (
+                          <IconButton
+                            icon={Bell}
+                            label="Enviar aviso de vencimiento"
+                            tono="aviso"
+                            ocupado={sendingReminderId === svc.id}
+                            onClick={() => handleSendReminder(svc.id)}
+                          />
+                        )}
+                        <IconButton
+                          icon={Trash2}
+                          label="Quitar servicio"
+                          tono="peligro"
+                          ocupado={deletingId === svc.id && isPending}
+                          onClick={() => handleRemove(svc.id)}
+                        />
+                      </IconButtonGroup>
                     </div>
                   </div>
                   {reminderMsg && reminderMsg.id === svc.id && (

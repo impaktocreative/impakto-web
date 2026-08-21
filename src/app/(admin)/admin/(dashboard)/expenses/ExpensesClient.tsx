@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { CreditCard, Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { updateExpensePaymentAction, deleteExpensePaymentAction } from './actions'
 import { Modal } from '@/components/ui/Modal'
+import { IconButton, IconButtonGroup } from '@/app/(admin)/admin/ui/IconButton'
 
 type Expense = {
   id: string
@@ -293,33 +294,17 @@ function ExpenseActions({
   deleting: boolean
 }) {
   return (
-    <div className="flex items-center justify-end gap-1.5">
-      <button
-        onClick={() => onPay(expense)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 bg-white text-green-700 hover:bg-green-600 hover:text-white transition-colors"
-        aria-label="Registrar pago"
-        title="Registrar pago"
-      >
-        <CreditCard size={14} />
-      </button>
-      <button
-        onClick={() => onEdit(expense)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-        aria-label="Editar gasto"
-        title="Editar"
-      >
-        <Pencil size={14} />
-      </button>
-      <button
+    <IconButtonGroup>
+      <IconButton icon={CreditCard} label="Registrar pago" tono="exito" onClick={() => onPay(expense)} />
+      <IconButton icon={Pencil} label="Editar gasto" onClick={() => onEdit(expense)} />
+      <IconButton
+        icon={Trash2}
+        label="Eliminar gasto"
+        tono="peligro"
+        ocupado={deleting}
         onClick={() => onDelete(expense.id)}
-        disabled={deleting}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-red-200 bg-white text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-        aria-label="Eliminar gasto"
-        title="Eliminar"
-      >
-        {deleting ? <span className="text-xs font-medium">...</span> : <Trash2 size={14} />}
-      </button>
-    </div>
+      />
+    </IconButtonGroup>
   )
 }
 
@@ -502,7 +487,7 @@ export function ExpensesClient({
                 <th className="w-[17%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Pagado por</th>
                 <th className="w-[15%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Monto</th>
                 <th className="w-[18%] px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Notas</th>
-                <th className="w-[10%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acción</th>
+                <th className="w-[10%] px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -528,25 +513,16 @@ export function ExpensesClient({
                   </td>
                   <td className="px-6 py-4 align-top text-sm text-gray-500 break-words">{p.notes || '—'}</td>
                   <td className="px-6 py-4 align-top">
-                    <div className="flex items-center justify-end gap-1.5">
-                      <button
-                        onClick={() => setEditingPayment(p)}
-                        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-                        aria-label="Editar pago"
-                        title="Editar"
-                      >
-                        <Pencil size={12} />
-                      </button>
-                      <button
+                    <IconButtonGroup>
+                      <IconButton icon={Pencil} label="Editar pago" onClick={() => setEditingPayment(p)} />
+                      <IconButton
+                        icon={Trash2}
+                        label="Eliminar pago"
+                        tono="peligro"
+                        ocupado={deletingPaymentId === p.id && isPending}
                         onClick={() => handleDeletePayment(p.id)}
-                        disabled={deletingPaymentId === p.id && isPending}
-                        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-red-200 bg-white text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
-                        aria-label="Eliminar pago"
-                        title="Eliminar"
-                      >
-                        {deletingPaymentId === p.id && isPending ? <span className="text-xs font-medium">...</span> : <Trash2 size={12} />}
-                      </button>
-                    </div>
+                      />
+                    </IconButtonGroup>
                   </td>
                 </tr>
               ))}
@@ -577,24 +553,17 @@ export function ExpensesClient({
                 </span>
                 {p.notes && <span className="text-xs text-gray-500">{p.notes}</span>}
               </div>
-              <div className="flex items-center gap-1.5 pt-1">
-                <button
-                  onClick={() => setEditingPayment(p)}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-                  aria-label="Editar pago"
-                  title="Editar"
-                >
-                  <Pencil size={12} />
-                </button>
-                <button
-                  onClick={() => handleDeletePayment(p.id)}
-                  disabled={deletingPaymentId === p.id && isPending}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-red-200 bg-white text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
-                  aria-label="Eliminar pago"
-                  title="Eliminar"
-                >
-                  {deletingPaymentId === p.id && isPending ? <span className="text-xs font-medium">...</span> : <Trash2 size={12} />}
-                </button>
+              <div className="pt-1">
+                <IconButtonGroup alinear="izquierda">
+                  <IconButton icon={Pencil} label="Editar pago" onClick={() => setEditingPayment(p)} />
+                  <IconButton
+                    icon={Trash2}
+                    label="Eliminar pago"
+                    tono="peligro"
+                    ocupado={deletingPaymentId === p.id && isPending}
+                    onClick={() => handleDeletePayment(p.id)}
+                  />
+                </IconButtonGroup>
               </div>
             </article>
           ))}

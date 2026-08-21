@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Pencil, Trash2, X } from 'lucide-react'
 import { updatePaymentAction, deletePaymentAction } from '../payment-actions'
+import { IconButton, IconButtonGroup } from '@/app/(admin)/admin/ui/IconButton'
 
 type Payment = {
   id: string
@@ -89,25 +90,16 @@ export function IncomePaymentActions({ payment }: { payment: Payment }) {
 
   return (
     <>
-      <div className="flex items-center justify-end gap-1.5">
-        <button
-          onClick={() => setEditing(true)}
-          className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-          aria-label="Editar pago"
-          title="Editar"
-        >
-          <Pencil size={12} />
-        </button>
-        <button
+      <IconButtonGroup>
+        <IconButton icon={Pencil} label="Editar pago" onClick={() => setEditing(true)} />
+        <IconButton
+          icon={Trash2}
+          label="Eliminar pago"
+          tono="peligro"
+          ocupado={isPending}
           onClick={handleDelete}
-          disabled={isPending}
-          className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-red-200 bg-white text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
-          aria-label="Eliminar pago"
-          title="Eliminar"
-        >
-          {isPending ? <span className="text-xs font-medium">...</span> : <Trash2 size={12} />}
-        </button>
-      </div>
+        />
+      </IconButtonGroup>
       {editing && (
         <EditPaymentModal
           payment={payment}

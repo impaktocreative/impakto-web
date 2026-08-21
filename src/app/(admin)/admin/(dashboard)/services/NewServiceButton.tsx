@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { createServiceAction, deleteServiceAction, updateServiceAction } from './actions'
 import { Modal } from '@/components/ui/Modal'
+import { IconButton, IconButtonGroup } from '@/app/(admin)/admin/ui/IconButton'
 
 type Service = {
   id: string
@@ -154,25 +155,16 @@ function ServiceActions({
   deleting: boolean
 }) {
   return (
-    <div className="flex items-center justify-end gap-1.5">
-      <button
-        onClick={() => onEdit(service)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-        aria-label={`Editar ${service.name}`}
-        title="Editar"
-      >
-        <Pencil size={14} />
-      </button>
-      <button
+    <IconButtonGroup>
+      <IconButton icon={Pencil} label={`Editar ${service.name}`} onClick={() => onEdit(service)} />
+      <IconButton
+        icon={Trash2}
+        label={`Eliminar ${service.name}`}
+        tono="peligro"
+        ocupado={deleting}
         onClick={() => onDelete(service.id)}
-        disabled={deleting}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-red-200 bg-white text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-        aria-label={`Eliminar ${service.name}`}
-        title="Eliminar"
-      >
-        {deleting ? <span className="text-xs font-medium">...</span> : <Trash2 size={14} />}
-      </button>
-    </div>
+      />
+    </IconButtonGroup>
   )
 }
 

@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Bell } from 'lucide-react'
 import { sendManualReminderAction } from './clients/[id]/actions'
+import { IconButton } from '@/app/(admin)/admin/ui/IconButton'
 
 export function DashboardReminderButton({ clientServiceId }: { clientServiceId: string }) {
   const router = useRouter()
@@ -25,16 +26,13 @@ export function DashboardReminderButton({ clientServiceId }: { clientServiceId: 
 
   return (
     <div className="relative inline-flex">
-      <button
+      <IconButton
+        icon={Bell}
+        label="Enviar aviso de vencimiento"
+        tono="aviso"
+        ocupado={sending}
         onClick={handleClick}
-        disabled={sending}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-amber-200 bg-white text-amber-700 hover:bg-amber-50 transition-colors disabled:opacity-50"
-        aria-label="Enviar aviso de vencimiento"
-        title="Enviar aviso de vencimiento"
-      >
-        {sending ? <span className="text-xs font-medium">...</span> : <Bell size={14} />}
-        <span className="sr-only">Enviar aviso de vencimiento</span>
-      </button>
+      />
       {feedback && (
         <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap z-10 pointer-events-none">
           <p className={`text-xs px-2 py-1 rounded-md shadow-lg ${feedback.ok ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
