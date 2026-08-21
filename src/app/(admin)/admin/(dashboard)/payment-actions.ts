@@ -279,3 +279,51 @@ export async function deletePaymentAction(id: string) {
   revalidatePath('/admin/clients')
   return { success: true }
 }
+
+/**
+ * Ingreso suelto, sin cliente ni servicio.
+ *
+ * Va a la misma tabla que los cobros para que entre al balance sin lógica
+ * aparte. `client_service_id` queda en null y el concepto lo explica
+ * `description`, que es lo único que distingue una fila de la otra.
+ */
+export async function registerManualIncomeAction(
+  _prevState: ActionState | null,
+  formData: FormData,
+): Promise<ActionState> {
+  const description = String(formData.get('description') ?? '').trim()
+  const amount = parseFloat(formData.get('amount') as string)
+  const payment_date = formData.get('payment_date') as string
+  const currency = (formData.get('currency') as string) || 'ARS'
+  const receiver = (formData.get('receiver') as string) || null
+
+  if (!description) {
+    return { success: false, message: 'Poné un concepto para saber de qué es el ingreso.' }
+  }
+
+  if (Number.isNaN(amount) || amount <= 0 || !payment_date) {
+    return { success: false, message: 'Monto y fecha son requeridos.' }
+  }
+
+  if (!receiver) {
+    return { success: false, message: 'Elegí quién recibió el pago.' }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.from('payments').insert({
+    client_service_id: null,
+    description,
+    amount,
+    net_amount: null,
+    currency,
+    payment_date,
+    receiver,
+  })
+
+  if (error) return { success: false, message: `Error al registrar el ingreso: ${error.message}` }
+
+  revalidatePath('/admin')
+  revalidatePath('/admin/income')
+  revalidatePath('/admin/balance')
+  return { success: true, message: `Ingreso registrado: ${description}` }
+}

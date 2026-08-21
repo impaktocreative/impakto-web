@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { endOfMonth, format, startOfMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { IncomePaymentActions } from './IncomePaymentActions'
+import { ManualIncomeButton } from './ManualIncomeButton'
 
 type PaymentRow = {
   id: string
@@ -169,9 +170,12 @@ export default async function IncomePage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="mb-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Ingresos</h1>
         <p className="mt-1 text-sm text-gray-500">Seguimiento de facturación y pagos registrados por cliente y moneda.</p>
+        </div>
+        <ManualIncomeButton />
       </div>
 
       {/* Summary cards */}
@@ -267,9 +271,9 @@ export default async function IncomePage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="flex flex-col gap-6">
         {/* Monthly breakdown */}
-        <div className="lg:col-span-1 flex flex-col gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
             <div className="px-6 py-5 border-b border-gray-100">
               <h3 className="text-base font-semibold text-gray-900">Por Mes (ARS)</h3>
@@ -338,7 +342,7 @@ export default async function IncomePage() {
         </div>
 
         {/* Payment history */}
-        <div className="lg:col-span-2">
+        <div>
           <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
             <div className="px-6 py-5 border-b border-gray-100">
               <h3 className="text-base font-semibold text-gray-900">Historial de Pagos</h3>
@@ -368,7 +372,7 @@ export default async function IncomePage() {
                       <td className="px-6 py-4 align-top">
                         <div className="text-sm text-gray-900 break-words">{payment.client_services?.services?.name}</div>
                         {payment.client_services?.domain_name && (
-                          <div className="text-sm text-gray-500 break-all">{payment.client_services.domain_name}</div>
+                          <div className="text-sm text-gray-500 break-words">{payment.client_services.domain_name}</div>
                         )}
                       </td>
                       <td className="px-6 py-4 align-top text-sm font-semibold text-green-600">
@@ -424,7 +428,7 @@ export default async function IncomePage() {
                   <p className="text-sm font-semibold text-gray-900 break-words">{payment.client_services?.clients?.brand_name}</p>
                   <p className="text-sm text-gray-600 break-words">{payment.client_services?.services?.name}</p>
                   {payment.client_services?.domain_name && (
-                    <p className="text-xs text-gray-500 break-all">{payment.client_services.domain_name}</p>
+                    <p className="text-xs text-gray-500 break-words">{payment.client_services.domain_name}</p>
                   )}
                   <div className="pt-1">
                     <IncomePaymentActions payment={payment} />

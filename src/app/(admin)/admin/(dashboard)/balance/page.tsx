@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { BalanceClient } from './BalanceClient'
+import { getUsdRates } from '@/lib/settings'
 
 type RawIncomeRow = {
   amount: number | string
@@ -36,6 +37,7 @@ function normalize<T>(value: T | T[] | null | undefined): T | null {
 
 export default async function BalancePage() {
   const supabase = await createClient()
+  const usdRates = await getUsdRates()
 
   const twelveMonthsAgo = new Date()
   twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12)
@@ -92,6 +94,10 @@ export default async function BalancePage() {
   }))
 
   return (
-    <BalanceClient initialIncome={normalizedIncome} initialExpenses={normalizedExpenses} />
+    <BalanceClient
+      initialIncome={normalizedIncome}
+      initialExpenses={normalizedExpenses}
+      usdRates={usdRates}
+    />
   )
 }

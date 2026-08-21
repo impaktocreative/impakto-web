@@ -307,13 +307,24 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
               <tr key={client.id} className="hover:bg-gray-50/60 transition-colors">
                 <td className="px-6 py-4 align-top">
                   <div className="text-sm font-semibold text-gray-900 break-words">{client.brand_name}</div>
+                  {client.website_url && (
+                    <a
+                      href={client.website_url.startsWith('http') ? client.website_url : `https://${client.website_url}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-1 inline-flex items-center gap-1 text-xs text-blue-600 hover:underline break-words"
+                    >
+                      <Globe size={11} className="shrink-0" />
+                      {client.website_url.replace(/^https?:\/\//, '')}
+                    </a>
+                  )}
                 </td>
                 <td className="px-6 py-4 align-top">
                   <div className="text-sm text-gray-900 break-words">{client.contact_name}</div>
                   {client.phone && <div className="mt-1 text-xs text-gray-500">{client.phone}</div>}
                   {client.cuit && <div className="mt-1 text-[11px] text-gray-400 font-mono">CUIT: {client.cuit}</div>}
                 </td>
-                <td className="px-6 py-4 align-top text-sm text-gray-600 break-all">{client.email || '—'}</td>
+                <td className="px-6 py-4 align-top text-sm text-gray-600 break-words">{client.email || '—'}</td>
                 <td className="px-6 py-4 align-top">
                   {(client.client_services ?? []).length === 0 ? (
                     <span className="text-sm text-gray-400">Sin servicios</span>
@@ -334,21 +345,6 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
                           </li>
                         ))}
                     </ul>
-                  )}
-                </td>
-                <td className="hidden">
-                  {client.website_url ? (
-                    <a
-                      href={client.website_url.startsWith('http') ? client.website_url : `https://${client.website_url}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-blue-600 hover:underline break-all"
-                    >
-                      {client.website_url}
-                      <Globe size={12} className="shrink-0" />
-                    </a>
-                  ) : (
-                    '—'
                   )}
                 </td>
                 <td className="px-6 py-4 align-top">
@@ -406,7 +402,7 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
 
             <div className="space-y-1.5 text-sm text-gray-600">
               {client.email && (
-                <p className="flex items-center gap-2 break-all">
+                <p className="flex items-center gap-2 break-words">
                   <Mail size={14} className="text-gray-400 shrink-0" />
                   {client.email}
                 </p>
@@ -422,7 +418,7 @@ export function ClientsTable({ initialClients }: { initialClients: Client[] }) {
                   href={client.website_url.startsWith('http') ? client.website_url : `https://${client.website_url}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 text-blue-600 break-all"
+                  className="flex items-center gap-2 text-blue-600 break-words"
                 >
                   <Globe size={14} className="shrink-0" />
                   {client.website_url}

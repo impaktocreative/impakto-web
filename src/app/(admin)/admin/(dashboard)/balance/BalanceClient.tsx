@@ -1,9 +1,11 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useActionState, useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { ChevronDown, ChevronRight } from 'lucide-react'
+import { saveUsdRateAction } from './actions'
+import { cotizacionDe, type UsdRates } from '@/lib/usd-rate'
 
 type IncomeItem = {
   amount: number
@@ -42,8 +44,8 @@ type MonthData = {
 }
 
 function formatCurrency(value: number, currency: 'ARS' | 'USD'): string {
-  if (currency === 'USD') return `USD ${value.toLocaleString('es-AR', { maximumFractionDigits: 2 })}`
-  return `$ ${value.toLocaleString('es-AR', { maximumFractionDigits: 2 })}`
+  if (currency === 'USD') return `USD ${value.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
+  return `$ ${value.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
 }
 
 function DetailRow({
@@ -110,11 +112,16 @@ function DetailRow({
 export function BalanceClient({
   initialIncome,
   initialExpenses,
+  usdRates,
 }: {
   initialIncome: IncomeItem[]
   initialExpenses: ExpenseItem[]
+  usdRates: UsdRates
 }) {
-  const [usdRate, setUsdRate] = useState('1400')
+  // Cada mes convierte con su propia cotización: los dólares de mayo no valen
+  // los pesos de hoy. El total es la suma de los meses ya convertidos.
+  const [rateState, saveRate, savingRate] = useActionState(saveUsdRateAction, null)
+  const cotizacion = (mes: string) => cotizacionDe(mes, usdRates)
   const [expandedMonth, setExpandedMonth] = useState<string | null>(null)
 
   const monthsData = useMemo(() => {
@@ -190,22 +197,30 @@ export function BalanceClient({
   }, [initialIncome, initialExpenses])
 
   const totals = useMemo(() => {
-    const rate = parseFloat(usdRate) || 1
     let totalIncomeARS = 0
     let totalIncomeUSD = 0
     let totalExpenseARS = 0
     let totalExpenseUSD = 0
+    let totalNeto = 0
 
     for (const m of monthsData) {
-      totalIncomeARS += m.incomeSergioARS + m.incomeRodrigoARS
-      totalIncomeUSD += m.incomeSergioUSD + m.incomeRodrigoUSD
-      totalExpenseARS += m.expenseSergioARS + m.expenseRodrigoARS
-      totalExpenseUSD += m.expenseSergioUSD + m.expenseRodrigoUSD
+      const r = cotizacionDe(m.monthKey, usdRates)
+      const inArs = m.incomeSergioARS + m.incomeRodrigoARS
+      const inUsd = m.incomeSergioUSD + m.incomeRodrigoUSD
+      const exArs = m.expenseSergioARS + m.expenseRodrigoARS
+      const exUsd = m.expenseSergioUSD + m.expenseRodrigoUSD
+
+      totalIncomeARS += inArs
+      totalIncomeUSD += inUsd
+      totalExpenseARS += exArs
+      totalExpenseUSD += exUsd
+
+      // Cada mes se cierra con su cotización antes de sumarse al total.
+      totalNeto += (inArs - exArs) + (inUsd - exUsd) * r
     }
 
-    const totalNeto = (totalIncomeARS - totalExpenseARS) + (totalIncomeUSD - totalExpenseUSD) * rate
     return { totalIncomeARS, totalIncomeUSD, totalExpenseARS, totalExpenseUSD, totalNeto }
-  }, [monthsData, usdRate])
+  }, [monthsData, usdRates])
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -214,18 +229,14 @@ export function BalanceClient({
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Balance Mensual</h1>
           <p className="mt-1 text-sm text-gray-500">Historial de ingresos, egresos y balance de los últimos 12 meses.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div>
-            <label htmlFor="usdRate" className="block text-xs font-medium text-gray-500 mb-1">Cotización USD</label>
-            <input
-              type="number"
-              id="usdRate"
-              value={usdRate}
-              onChange={(e) => setUsdRate(e.target.value)}
-              min={1}
-              className="w-28 border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
-            />
-          </div>
+        <div className="text-right">
+          <p className="text-xs font-medium text-gray-500">Cotización USD</p>
+          <p className="mt-0.5 text-sm text-gray-900">
+            Una por mes · {Object.keys(usdRates.porMes).length} cargada(s)
+          </p>
+          <p className="text-[11px] text-gray-400">
+            Los meses sin cargar heredan la anterior. Se edita abriendo el mes.
+          </p>
         </div>
       </div>
 
@@ -250,7 +261,7 @@ export function BalanceClient({
         <div className="bg-black rounded-xl shadow-sm p-4">
           <h4 className="text-xs font-medium text-gray-400 uppercase tracking-wide">Neto Total (12m)</h4>
           <p className={`text-lg font-bold mt-1 ${totals.totalNeto >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-            $ {totals.totalNeto.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+            $ {totals.totalNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
           </p>
         </div>
       </div>
@@ -275,7 +286,7 @@ export function BalanceClient({
             </thead>
             <tbody className="divide-y divide-gray-100">
               {monthsData.map((m) => {
-                const rate = parseFloat(usdRate) || 1
+                const rate = cotizacion(m.monthKey)
                 const sergioIncome = m.incomeSergioARS + m.incomeSergioUSD * rate
                 const rodrigoIncome = m.incomeRodrigoARS + m.incomeRodrigoUSD * rate
                 const sergioExpenses = m.expenseSergioARS + m.expenseSergioUSD * rate
@@ -297,6 +308,48 @@ export function BalanceClient({
                     {isExpanded ? (
                       <>
                         <td colSpan={10} className="p-0">
+                          {/* Cotización del mes. Solo afecta la conversión de
+                              este mes: el total suma cada mes ya convertido. */}
+                          <form
+                            action={saveRate}
+                            className="flex flex-wrap items-end gap-2 border-b border-gray-200 bg-gray-50 px-6 py-3"
+                          >
+                            <input type="hidden" name="month" value={m.monthKey} />
+                            <div>
+                              <label
+                                htmlFor={`rate-${m.monthKey}`}
+                                className="block text-[11px] font-medium uppercase tracking-wide text-gray-500"
+                              >
+                                Cotización de {m.label}
+                              </label>
+                              <input
+                                type="number"
+                                id={`rate-${m.monthKey}`}
+                                name="rate"
+                                defaultValue={rate}
+                                min={1}
+                                step="any"
+                                className="mt-1 w-32 rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+                              />
+                            </div>
+                            <button
+                              type="submit"
+                              disabled={savingRate}
+                              className="rounded-md bg-black px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:bg-gray-300"
+                            >
+                              {savingRate ? 'Guardando...' : 'Guardar'}
+                            </button>
+                            {!usdRates.porMes[m.monthKey] && (
+                              <span className="text-[11px] text-gray-500">
+                                Heredada — este mes todavía no tiene una propia.
+                              </span>
+                            )}
+                            {rateState?.message && (
+                              <span className={`text-xs ${rateState.success ? 'text-emerald-600' : 'text-red-600'}`}>
+                                {rateState.message}
+                              </span>
+                            )}
+                          </form>
                           <table className="w-full">
                             <tbody>
                               <tr
@@ -312,19 +365,19 @@ export function BalanceClient({
                                 <td className="px-4 py-4 text-right text-red-600 font-medium">$ {totalExpenseArs.toLocaleString('es-AR')}</td>
                                 <td className="px-4 py-4 text-right text-red-600 font-medium">USD {totalExpenseUsd.toLocaleString('es-AR')}</td>
                                 <td className={`px-4 py-4 text-right font-medium ${sergioNeto >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                                  $ {sergioNeto.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                  $ {sergioNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                                 </td>
                                 <td className={`px-4 py-4 text-right font-medium ${rodrigoNeto >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                                  $ {rodrigoNeto.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                  $ {rodrigoNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                                 </td>
                                 <td className={`px-4 py-4 text-right font-bold ${netoTotal >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                                  $ {netoTotal.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                  $ {netoTotal.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                                 </td>
                                 <td className="px-4 py-4 text-right font-semibold text-gray-900">
                                   {liquidacion > 0
-                                    ? `R → S: $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 2 })}`
+                                    ? `R → S: $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
                                     : liquidacion < 0
-                                      ? `S → R: $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 2 })}`
+                                      ? `S → R: $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
                                       : '✓'}
                                 </td>
                               </tr>
@@ -371,19 +424,19 @@ export function BalanceClient({
                         <td className="px-4 py-4 text-right text-red-600 font-medium">$ {totalExpenseArs.toLocaleString('es-AR')}</td>
                         <td className="px-4 py-4 text-right text-red-600 font-medium">USD {totalExpenseUsd.toLocaleString('es-AR')}</td>
                         <td className={`px-4 py-4 text-right font-medium ${sergioNeto >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                          $ {sergioNeto.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                          $ {sergioNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                         </td>
                         <td className={`px-4 py-4 text-right font-medium ${rodrigoNeto >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                          $ {rodrigoNeto.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                          $ {rodrigoNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                         </td>
                         <td className={`px-4 py-4 text-right font-bold ${netoTotal >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                          $ {netoTotal.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                          $ {netoTotal.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                         </td>
                         <td className="px-4 py-4 text-right font-semibold text-gray-900">
                           {liquidacion > 0
-                            ? `R → S: $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 2 })}`
+                            ? `R → S: $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
                             : liquidacion < 0
-                              ? `S → R: $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 2 })}`
+                              ? `S → R: $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
                               : '✓'}
                         </td>
                       </>
@@ -403,7 +456,7 @@ export function BalanceClient({
         {/* Mobile view */}
         <div className="md:hidden divide-y divide-gray-100">
           {monthsData.map((m) => {
-            const rate = parseFloat(usdRate) || 1
+            const rate = cotizacion(m.monthKey)
             const sergioIncome = m.incomeSergioARS + m.incomeSergioUSD * rate
             const rodrigoIncome = m.incomeRodrigoARS + m.incomeRodrigoUSD * rate
             const sergioExpenses = m.expenseSergioARS + m.expenseSergioUSD * rate
@@ -439,15 +492,15 @@ export function BalanceClient({
                       </div>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span>Neto Sergio: <span className={sergioNeto >= 0 ? 'text-green-600' : 'text-red-600'}>${sergioNeto.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span></span>
-                      <span>Neto Rodrigo: <span className={rodrigoNeto >= 0 ? 'text-green-600' : 'text-red-600'}>${rodrigoNeto.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span></span>
+                      <span>Neto Sergio: <span className={sergioNeto >= 0 ? 'text-green-600' : 'text-red-600'}>${sergioNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span></span>
+                      <span>Neto Rodrigo: <span className={rodrigoNeto >= 0 ? 'text-green-600' : 'text-red-600'}>${rodrigoNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span></span>
                     </div>
                     <div className="bg-gray-100 rounded-lg p-2 text-sm">
                       <p className="font-semibold">
                         {liquidacion > 0
-                          ? `Rodrigo debe pagar $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 2 })} a Sergio`
+                          ? `Rodrigo debe pagar $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 0 })} a Sergio`
                           : liquidacion < 0
-                            ? `Sergio debe pagar $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 2 })} a Rodrigo`
+                            ? `Sergio debe pagar $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 0 })} a Rodrigo`
                             : 'Todo balanceado'}
                       </p>
                     </div>
