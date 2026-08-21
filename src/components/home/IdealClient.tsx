@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Convergencia from "@/components/visual/Convergencia";
+import LienzoVivo from "@/components/visual/LienzoVivo";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -47,12 +47,27 @@ export default function IdealClient() {
             transition={{ duration: 0.9, ease: EASE_LUXURY }}
             className="lg:col-span-5 min-h-[24rem] md:min-h-[36rem] overflow-hidden relative"
           >
-            {/* Convergencia: trayectorias dispersas que encuentran una misma
-                dirección. Reemplaza a la foto de stock que había acá, que era
-                un fondo de pantalla de celular tapado con capas de gris. */}
+            {/* La pieza. La imagen de abajo es la materia —escultura de
+                filamentos, refracción, luz volumétrica— y el lienzo de arriba
+                la pone en movimiento: las franjas se apartan donde pasa el
+                cursor y una luz dorada lo sigue.
+
+                La imagen va como <img> y no dentro del canvas: si el
+                JavaScript falla o el sistema pide menos movimiento, la obra
+                se ve igual. El canvas es una capa encima, nunca la única
+                forma de verla. */}
             <div className="absolute inset-0 bg-night">
-              <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_20%,rgba(247,246,242,0.06),transparent_70%)]" />
-              <Convergencia tono="papel" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/arte/escultura-01.webp"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <LienzoVivo src="/arte/escultura-01.webp" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(10,10,9,0.55)_100%)]" />
             </div>
 
             {/* Overlay de composición — número decorativo */}

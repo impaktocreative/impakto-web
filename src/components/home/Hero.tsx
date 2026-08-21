@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import CoherenceField from "@/components/home/CoherenceField";
+import EsculturaViva from "@/components/visual/EsculturaViva";
 import Magnetic from "@/components/ui/Magnetic";
 
 type Conversation = {
@@ -136,6 +137,14 @@ export default function Hero() {
   return (
     <section className="relative flex min-h-[92svh] flex-col justify-center overflow-hidden bg-paper pb-16 pt-[6.5rem] md:min-h-screen md:pb-24 md:pt-[9rem]">
       <CoherenceField />
+
+      {/* La escultura, calculada cuadro a cuadro y no traída como imagen: gira
+          con el puntero, se retuerce con el scroll y el eje de luz dorada la
+          atraviesa desde donde está el cursor. Ocupa el lado derecho, que es
+          el aire que deja el titular. */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] lg:block">
+        <EsculturaViva tono="claro" />
+      </div>
 
       {/* El campo se apaga hacia el pie de la sección para que el texto de
           abajo no compita con él. Un degradado del propio papel, sin color. */}
