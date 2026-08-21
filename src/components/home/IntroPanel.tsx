@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Cubismo from "@/components/visual/Cubismo";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -57,6 +58,12 @@ export default function IntroPanel() {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,transparent_24%,transparent_72%,rgba(255,255,255,0.04)_100%)]" />
             <div className="absolute -left-[18%] top-[8%] h-[42%] w-[120%] rotate-[12deg] bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.12)_48%,transparent_100%)] opacity-45 blur-md" />
             <div className="absolute inset-0 opacity-[0.18] mix-blend-screen" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 280 280' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
+
+            {/* La pieza. Planos que se separan y se recomponen con el scroll,
+                recorridos por una sola línea que se dibuja sin levantarse. El
+                fondo oscuro es lo que hace que el oro tenga reflejo en vez de
+                verse mostaza. */}
+            <Cubismo tono="papel" />
             <motion.div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 p-px"
