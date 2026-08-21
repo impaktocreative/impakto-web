@@ -4,6 +4,7 @@ import { feDummy, puntosDeVenta, ultimoAutorizado } from './wsfe'
 import { getTA } from './ta-cache'
 import { credencialesDe, hayCredenciales, nombresDeVariables } from './credenciales'
 import { CBTE } from './tipos'
+import { conReintentos } from './errores'
 import type { Emisor } from './emitir'
 
 /**
@@ -70,7 +71,7 @@ export async function verificarConexion(
   // 2. El servicio responde. No requiere ticket, así que separa "ARCA está
   //    caído" de "mi certificado no sirve".
   try {
-    const d = await feDummy(emisor.entorno)
+    const d = await conReintentos(() => feDummy(emisor.entorno))
     const ok = d.AppServer === 'OK' && d.DbServer === 'OK' && d.AuthServer === 'OK'
     if (
       !agregar(
@@ -103,7 +104,9 @@ export async function verificarConexion(
 
   // 4. Puntos de venta habilitados. Acá se ve cuál sirve para web service.
   try {
-    const lista = (await puntosDeVenta(emisor.entorno, ta, emisor.cuit)) as PtoVentaARCA[]
+    const lista = (await conReintentos(() =>
+      puntosDeVenta(emisor.entorno, ta, emisor.cuit),
+    )) as PtoVentaARCA[]
     puntos = lista
       .filter(p => !p.FchBaja)
       .map(p => ({
@@ -147,12 +150,8 @@ export async function verificarConexion(
 
   // 5. Último autorizado: confirma que se puede leer la serie.
   try {
-    ultimoNumero = await ultimoAutorizado(
-      emisor.entorno,
-      ta,
-      emisor.cuit,
-      emisor.ptoVta,
-      CBTE.FACTURA_C,
+    ultimoNumero = await conReintentos(() =>
+      ultimoAutorizado(emisor.entorno, ta, emisor.cuit, emisor.ptoVta, CBTE.FACTURA_C),
     )
     agregar(
       'Última factura C',

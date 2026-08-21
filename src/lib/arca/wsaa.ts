@@ -10,6 +10,7 @@
  */
 
 import 'server-only';
+import { detalleDeRed } from './errores';
 import forge from 'node-forge';
 import { XMLParser } from 'fast-xml-parser';
 import { endpoints, TIMEOUT_MS, type Entorno } from './config';
@@ -125,15 +126,18 @@ export async function solicitarTA(
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
+  const url = endpoints(entorno).wsaa;
   let texto: string;
   try {
-    const res = await fetch(endpoints(entorno).wsaa, {
+    const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'text/xml; charset=utf-8', SOAPAction: '' },
       body: envelope,
       signal: controller.signal,
     });
     texto = await res.text();
+  } catch (e) {
+    throw new Error(`No se pudo conectar con ${url}: ${detalleDeRed(e)}`);
   } finally {
     clearTimeout(timer);
   }

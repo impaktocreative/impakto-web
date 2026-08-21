@@ -7,6 +7,7 @@
  */
 
 import 'server-only';
+import { detalleDeRed } from './errores';
 import { XMLParser } from 'fast-xml-parser';
 import { endpoints, NS_WSFE, TIMEOUT_MS, type Entorno } from './config';
 import type { TicketAcceso } from './wsaa';
@@ -96,9 +97,10 @@ export async function llamarWSFE<T = unknown>(
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
+  const url = endpoints(entorno).wsfe;
   let texto: string;
   try {
-    const res = await fetch(endpoints(entorno).wsfe, {
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'text/xml; charset=utf-8',
@@ -108,6 +110,8 @@ export async function llamarWSFE<T = unknown>(
       signal: controller.signal,
     });
     texto = await res.text();
+  } catch (e) {
+    throw new Error(`No se pudo conectar con ${url} (${metodo}): ${detalleDeRed(e)}`);
   } finally {
     clearTimeout(timer);
   }
