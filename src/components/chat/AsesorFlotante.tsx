@@ -21,7 +21,7 @@ import { textoConEnlaces } from './textoConEnlaces'
 const CLAVE_SESION = 'impakto.asesor.sesion'
 
 const SALUDO =
-  'Hola. Soy el asesor de Impakto Creative. Contame en qué está tu marca hoy y te digo por dónde lo abordaríamos.'
+  'Soy Norte, el asesor de Impakto Creative. Contame en qué está tu marca hoy y te digo por dónde lo abordaríamos.'
 
 /**
  * Aperturas ancladas a lo que el sitio sabe responder de verdad, para que
@@ -42,6 +42,7 @@ export default function AsesorFlotante() {
   const [enviando, setEnviando] = useState(false)
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [activo, setActivo] = useState(false)
+  const [scrolleando, setScrolleando] = useState(false)
 
   const hiloRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -57,6 +58,34 @@ export default function AsesorFlotante() {
     return () => {
       vivo = false
     }
+  }, [])
+
+  // Mientras alguien recorre la página, el botón se corre y se apaga. Es la
+  // forma honesta de que no tape una llamada a la acción: en vez de adivinar
+  // dónde cae un botón en cada sección, el acceso cede el paso mientras el
+  // visitante está leyendo y vuelve en cuanto se detiene.
+  useEffect(() => {
+    let quieto = 0
+    const alScrollear = () => {
+      setScrolleando(true)
+      window.clearTimeout(quieto)
+      quieto = window.setTimeout(() => setScrolleando(false), 620)
+    }
+    window.addEventListener("scroll", alScrollear, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", alScrollear)
+      window.clearTimeout(quieto)
+    }
+  }, [])
+
+  // El teclado del teléfono empuja la vista y la última línea del hilo queda
+  // debajo del compositor. Al enfocar el campo se vuelve a pegar abajo, ya con
+  // el viewport visual achicado.
+  const alEnfocarCampo = useCallback(() => {
+    window.setTimeout(() => {
+      const el = hiloRef.current
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" })
+    }, 330)
   }, [])
 
   // ── Hilo guardado ─────────────────────────────────────────────────────────
@@ -247,7 +276,7 @@ export default function AsesorFlotante() {
       {abierto ? (
         <button
           type="button"
-          aria-label="Cerrar el asesor"
+          aria-label="Cerrar a Norte"
           onClick={() => setAbierto(false)}
           className="fixed inset-0 z-[78] bg-night/45 backdrop-blur-[2px] md:hidden"
         />
@@ -258,7 +287,7 @@ export default function AsesorFlotante() {
           ref={panelRef}
           role="dialog"
           aria-modal="false"
-          aria-label="Asesor de Impakto Creative"
+          aria-label="Norte, el asesor de Impakto Creative"
           className="fixed inset-x-0 top-0 z-[79] flex h-[100dvh] flex-col overflow-hidden bg-surface md:inset-x-auto md:inset-y-auto md:bottom-6 md:right-6 md:h-[min(34rem,calc(100vh-6rem))] md:w-[24.5rem] md:rounded-panel md:border md:border-graphite/12 md:shadow-float"
         >
           {/* Cabecera. Fondo tinta y filete dorado: el mismo par que separa las
@@ -275,16 +304,16 @@ export default function AsesorFlotante() {
                 className="h-4 w-auto"
               />
               <span className="min-w-0">
-                <span className="block text-body-sm font-medium text-paper">Asesor</span>
+                <span className="block text-body-sm font-medium text-paper">Norte</span>
                 <span className="block text-eyebrow uppercase text-gold/85">
-                  Impakto Creative
+                  Asesor de Impakto Creative
                 </span>
               </span>
             </span>
             <button
               type="button"
               onClick={() => setAbierto(false)}
-              aria-label="Cerrar el asesor"
+              aria-label="Cerrar a Norte"
               className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-paper/80 transition-colors duration-fast hover:border-gold/60 hover:text-gold"
             >
               <X size={16} />
@@ -358,6 +387,7 @@ export default function AsesorFlotante() {
                     void enviar(borrador)
                   }
                 }}
+                onFocus={alEnfocarCampo}
                 placeholder="Escribí tu consulta"
                 aria-label="Escribí tu consulta"
                 /* text-body es 16px justo. Por debajo de eso iOS hace zoom al
@@ -384,13 +414,21 @@ export default function AsesorFlotante() {
           sabe que una marca abre una conversación, así que en escritorio lleva
           etiqueta. En teléfono es disco, porque una píldora con texto tapa
           botones de la página. */}
-      <div className="fixed bottom-[calc(0.9rem+env(safe-area-inset-bottom))] right-[calc(0.9rem+env(safe-area-inset-right))] z-[70] md:bottom-6 md:right-6">
+      <div
+        className={`asesor-anclaje fixed bottom-[calc(0.9rem+env(safe-area-inset-bottom))] right-[calc(0.9rem+env(safe-area-inset-right))] z-[70] md:bottom-6 md:right-6 ${
+          abierto ? "asesor-anclaje-oculto" : ""
+        } ${scrolleando ? "asesor-anclaje-cede" : ""}`}
+      >
+        {/* El halo orbita alrededor del botón. Es luz que gira, no un borde de
+            color: sobre papel y sobre el pie oscuro se lee igual, y es lo que
+            hace que el acceso se note sin gritar. */}
+        <span aria-hidden="true" className="asesor-halo" />
         <button
           type="button"
           onClick={() => setAbierto(true)}
-          aria-label="Abrir el asesor de Impakto Creative"
+          aria-label="Hablar con Norte, el asesor de Impakto Creative"
           aria-expanded={abierto}
-          className={`btn-asesor inline-flex items-center gap-2.5 rounded-full ${abierto ? 'pointer-events-none opacity-0' : ''} h-12 w-12 justify-center md:h-[3.2rem] md:w-auto md:justify-start md:px-5`}
+          className="btn-asesor relative inline-flex h-12 w-12 items-center justify-center gap-2.5 rounded-full md:h-[3.2rem] md:w-auto md:justify-start md:px-5"
         >
           <Image
             src="/logos/icono-2.svg"
@@ -402,7 +440,7 @@ export default function AsesorFlotante() {
                llevarlo a tinta o desaparece. */
             className="h-4 w-auto shrink-0 brightness-0 opacity-85"
           />
-          <span className="hidden text-body-sm font-medium md:inline">Hablar con el asesor</span>
+          <span className="hidden text-body-sm font-medium md:inline">Hablar con Norte</span>
         </button>
       </div>
     </>

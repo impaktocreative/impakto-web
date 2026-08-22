@@ -1191,6 +1191,53 @@ a:focus-visible {
    El disparador tiene que verse igual sobre el hero claro y sobre el pie
    oscuro. Un disco tinta desaparece en media página, así que va en oro: es el
    único color de la marca que sostiene los dos fondos. */
+/* El anclaje del acceso a Norte. Cede mientras alguien recorre la página, así
+   que nunca queda encima de un botón sin que el visitante pueda apartarlo. */
+.asesor-anclaje {
+  transition:
+    opacity var(--duration-base) var(--ease-luxury),
+    transform var(--duration-base) var(--ease-luxury);
+}
+
+.asesor-anclaje-cede {
+  opacity: 0.42;
+  transform: translateY(6px) scale(0.9);
+}
+
+.asesor-anclaje-oculto {
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.85);
+}
+
+/* Luz en órbita. Un cónico girando detrás del botón, desenfocado: se lee como
+   un reflejo que da la vuelta, no como un borde de color. Es lo que lo hace
+   notar sobre el papel claro y sobre el pie oscuro sin cambiar de tratamiento. */
+.asesor-halo {
+  position: absolute;
+  inset: -7px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0turn,
+    transparent 0deg,
+    color-mix(in srgb, var(--color-gold-pale) 92%, transparent) 42deg,
+    transparent 108deg,
+    transparent 190deg,
+    color-mix(in srgb, var(--color-gold) 88%, transparent) 250deg,
+    transparent 320deg
+  );
+  filter: blur(8px);
+  opacity: 0.9;
+  animation: asesor-orbita 4.8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes asesor-orbita {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 .btn-asesor {
   background: linear-gradient(148deg, #c9ac70 0%, var(--color-gold-light) 44%, var(--color-gold) 100%);
   color: var(--color-ink);
@@ -1203,8 +1250,7 @@ a:focus-visible {
   overflow: hidden;
   transition:
     transform var(--duration-base) var(--ease-luxury),
-    box-shadow var(--duration-base) var(--ease-luxury),
-    opacity var(--duration-base) var(--ease-luxury);
+    box-shadow var(--duration-base) var(--ease-luxury);
 }
 
 /* El destello recorre el botón solo, cada tanto: es lo que lo hace notar sin
@@ -1304,6 +1350,14 @@ a:focus-visible {
   .btn-asesor::after {
     animation: none;
     opacity: 0;
+  }
+
+  .asesor-halo {
+    animation: none;
+  }
+
+  .asesor-anclaje {
+    transition: none;
   }
 
   .btn-asesor:hover {

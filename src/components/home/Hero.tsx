@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import CoherenceField from "@/components/home/CoherenceField";
-import EsculturaViva from "@/components/visual/EsculturaViva";
+import CampoArmonico from "@/components/visual/CampoArmonico";
 import Magnetic from "@/components/ui/Magnetic";
 
 type Conversation = {
@@ -209,18 +208,16 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[92svh] flex-col justify-center overflow-hidden bg-paper pb-16 pt-[6.5rem] md:min-h-screen md:pb-24 md:pt-[9rem]">
-      <CoherenceField />
 
-      {/* La escultura, calculada cuadro a cuadro y no traída como imagen: gira
-          con el puntero, se retuerce con el scroll y el eje de luz dorada la
-          atraviesa desde donde está el cursor.
+      {/* Filotaxis áurea encendida por una figura de Chladni. El detalle de
+          por qué esas dos matemáticas y no otras está en el componente.
 
-          Ocupa la sección entera y se desvanece hacia la izquierda con una
-          máscara. Antes vivía en un contenedor al 58% y se veía el corte
-          vertical a mitad de pantalla, como si la pieza estuviera recortada
-          con tijera. */}
-      <div className="mascara-escultura pointer-events-none absolute inset-0">
-        <EsculturaViva tono="claro" />
+          Reemplaza a la escultura de cintas, que a esta escala y sobre papel
+          se leía como una maraña gris: mucha densidad y ninguna estructura
+          visible, justo lo contrario de lo que tiene que decir un estudio que
+          vende criterio. */}
+      <div className="pointer-events-none absolute inset-0">
+        <CampoArmonico />
       </div>
 
       {/* El campo se apaga hacia el pie de la sección para que el texto de
@@ -229,7 +226,7 @@ export default function Hero() {
 
       {/* Los trazos cruzaban las letras del titular. Este velo del propio
           papel baja el campo justo detrás del texto, sin apagarlo del todo. */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-paper)_88%,transparent)_0%,color-mix(in_srgb,var(--color-paper)_72%,transparent)_62%,transparent_100%)] lg:bg-[radial-gradient(120%_75%_at_18%_38%,var(--color-paper)_18%,color-mix(in_srgb,var(--color-paper)_62%,transparent)_52%,transparent_78%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-paper)_72%,transparent)_0%,color-mix(in_srgb,var(--color-paper)_46%,transparent)_62%,transparent_100%)] lg:bg-[radial-gradient(105%_68%_at_16%_36%,color-mix(in_srgb,var(--color-paper)_88%,transparent)_12%,color-mix(in_srgb,var(--color-paper)_38%,transparent)_50%,transparent_76%)]" />
 
       <div className="container relative z-10 mx-auto w-full max-w-[75rem] px-7 md:px-10 lg:px-12">
         {/* El titular manda: se lleva su propia fila y todo el ancho útil.
