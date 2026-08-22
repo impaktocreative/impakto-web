@@ -100,16 +100,16 @@ export default function ClientLogosCarousel() {
             {repeated.map((logo, index) => (
               <div
                 key={`${logo.file}-${index}`}
-                className="flex h-[6.2rem] w-44 items-center justify-center border-r border-graphite/8 bg-transparent px-5 md:h-[8.1rem] md:w-60 md:px-4"
+                className="flex h-[5.6rem] w-36 items-center justify-center border-r border-graphite/8 bg-transparent px-3 md:h-[7rem] md:w-44"
               >
-                <div className="relative h-[3.25rem] w-[94%] md:h-[5.2rem] md:w-[96%]">
+                <div className="relative h-[3.25rem] w-[96%] md:h-[4.4rem]">
                   <Image
                     src={encodeURI(`/logos/clientes/cinta/${logo.file}`)}
                     alt={logo.name}
                     fill
                     // El slide mide 176px en mobile y 240px desde md. Sin esto
                     // `fill` asume 100vw y Next sirve la variante de 3840px.
-                    sizes="(min-width: 768px) 240px, 176px"
+                    sizes="(min-width: 768px) 176px, 144px"
                     className="object-contain object-center grayscale opacity-70 transition-all duration-500 hover:grayscale-0 hover:opacity-100"
                     loading="lazy"
                   />
