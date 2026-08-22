@@ -13,7 +13,7 @@ import ScrollStage from "@/components/ui/ScrollStage";
 import { siteUrl, openGraphDeRuta } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Inicio",
+  title: "Estrategia, marca y desarrollo digital",
   description:
     "Agencia estratégica para marcas que necesitan captar mejor, convertir con claridad y sostener crecimiento con estructura digital.",
   alternates: {
@@ -29,6 +29,8 @@ const organizationSchema = {
   "@type": "Organization",
   name: "Impakto Creative",
   url: siteUrl,
+  logo: `${siteUrl}/logos/logonegro.svg`,
+  image: `${siteUrl}/share.jpg`,
   email: "hola@impaktocreative.com",
   telephone: ["+54 9 11 7842-1357", "+1 615 282 9799"],
   address: {

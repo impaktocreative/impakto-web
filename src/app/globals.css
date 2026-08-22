@@ -209,6 +209,18 @@ body.is-admin::after {
   text-wrap: balance;
 }
 
+/* Ninguna última línea con una sola palabra. `pretty` reparte el texto para
+   evitar la huérfana sin tocar el resto del párrafo, que es lo que `balance`
+   sí haría y en un párrafo largo se nota. Los titulares siguen con balance,
+   que ahí sí es lo correcto. */
+p,
+li,
+dd,
+figcaption,
+blockquote {
+  text-wrap: pretty;
+}
+
 @keyframes premium-sheen {
   0% {
     transform: translateX(-130%) skewX(-18deg);
@@ -923,6 +935,10 @@ a:focus-visible {
 
 .gold-reflect {
   --reflect-base: var(--color-ink);
+  /* Sin esto, el recorte a texto corta la cola de la jota y la ge: la caja de
+     un inline-block mide line-height, y los display van por debajo de 1. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
   /* Bronce, no oro claro: sobre papel el oro de marca da 2.48 y el titular se
      borra justo cuando la luz lo cruza. Este llega a 4.3. */
   --reflect-gold: #8a6f37;

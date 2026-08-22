@@ -3,9 +3,9 @@ import ContactoContent from "@/components/contact/ContactoContent";
 import { siteUrl, openGraphDeRuta } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contacto",
+  title: "Pedir una sesión de diagnóstico",
   description:
-    "Escribinos para evaluar tu proyecto y definir una dirección clara.",
+    "Contanos en qué está tu marca y coordinamos una sesión de diagnóstico sin costo. Revisamos contexto, objetivos y prioridades. Respondemos dentro de las 24 horas hábiles.",
   alternates: {
     canonical: "/contacto",
   },

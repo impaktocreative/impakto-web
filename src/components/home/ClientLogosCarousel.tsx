@@ -6,36 +6,44 @@ import { motion } from "framer-motion";
 /**
  * Las marcas de la cinta.
  *
+ * Los archivos viven en `clientes/cinta/` y no son los originales: están
+ * normalizados por área de tinta. `object-contain` iguala la caja de cada logo
+ * pero no su peso visual, así que un logo cuadrado llenaba el alto y se veía
+ * enorme al lado de uno apaisado que usaba un tercio. En la carpeta `cinta`
+ * cada marca está escalada para cubrir la misma superficie de tinta, que es lo
+ * que mide el ojo. Una plancha maciza queda más chica que un lettering fino, y
+ * es correcto.
+ *
  * El orden no es alfabético ni cronológico: alterna rubros para que dos logos
  * del mismo sector no caigan pegados. En una cinta que corre, dos concesionarias
  * seguidas se leen como una sola.
  */
 const logos = [
-  { file: "cliente-01.jpg", name: "Vargas" },
+  { file: "vargas.webp", name: "Vargas" },
   { file: "chevrolet.webp", name: "Chevrolet" },
-  { file: "cliente-02.jpg", name: "Restorando" },
+  { file: "restorando.webp", name: "Restorando" },
   { file: "grupo-san-nicolas-salud.webp", name: "Grupo San Nicolás Salud" },
   { file: "salomon.webp", name: "Salomon" },
-  { file: "cliente-04.jpg", name: "Carballal Propiedades" },
+  { file: "carballal.webp", name: "Carballal Propiedades" },
   { file: "little-ranch-hotel-spa.webp", name: "Little Ranch Hotel & Spa" },
-  { file: "cliente-05.jpg", name: "Venfarma" },
+  { file: "venfarma.webp", name: "Venfarma" },
   { file: "llongueras.webp", name: "Llongueras" },
   { file: "3m-supermercados.webp", name: "3M Supermercados" },
-  { file: "cliente-03.jpg", name: "Black Donkey" },
+  { file: "black-donkey.webp", name: "Black Donkey" },
   { file: "san-jorge-automoviles.webp", name: "San Jorge Automóviles" },
   { file: "the-nails-bar.webp", name: "The Nails Bar" },
-  { file: "cliente-07.jpg", name: "Red Argentina de Salud" },
+  { file: "red-argentina-de-salud.webp", name: "Red Argentina de Salud" },
   { file: "terra-nostra.webp", name: "Terra Nostra" },
   { file: "multipasta.webp", name: "Multipasta" },
-  { file: "cliente-06.jpg", name: "Neicha" },
+  { file: "neicha.webp", name: "Neicha" },
   { file: "si-turismo-bariloche.webp", name: "Sí Turismo Bariloche" },
   { file: "doctor-k.webp", name: "Doctor K" },
-  { file: "cliente-08.jpg", name: "Honky Tonk" },
+  { file: "honky-tonk.webp", name: "Honky Tonk" },
   { file: "regala.webp", name: "Regala" },
   { file: "la-crockery.webp", name: "La Crockery" },
   { file: "thaun.webp", name: "Thaun" },
   { file: "you-mujer.webp", name: "You Mujer" },
-  { file: "cliente-09.jpg", name: "Hotel San Martín" },
+  { file: "hotel-san-martin.webp", name: "Hotel San Martín" },
   { file: "buttonia.webp", name: "Buttonia" },
   { file: "cirse.webp", name: "Cirse" },
   { file: "doris-machin.webp", name: "Doris Machin" },
@@ -96,7 +104,7 @@ export default function ClientLogosCarousel() {
               >
                 <div className="relative h-[3.25rem] w-[94%] md:h-[5.2rem] md:w-[96%]">
                   <Image
-                    src={encodeURI(`/logos/clientes/${logo.file}`)}
+                    src={encodeURI(`/logos/clientes/cinta/${logo.file}`)}
                     alt={logo.name}
                     fill
                     // El slide mide 176px en mobile y 240px desde md. Sin esto

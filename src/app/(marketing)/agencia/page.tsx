@@ -3,7 +3,7 @@ import AgenciaContent from "@/components/agencia/AgenciaContent";
 import { siteUrl, openGraphDeRuta } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Agencia",
+  title: "Estudio de dirección estratégica",
   description:
     "Impakto Creative es un estudio de Buenos Aires con más de 20 años ordenando la comunicación de marcas que necesitaban dirección.",
   alternates: {

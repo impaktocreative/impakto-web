@@ -3,7 +3,7 @@ import ServiciosContent from "@/components/servicios/ServiciosContent";
 import { siteUrl, openGraphDeRuta } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Servicios Estratégicos",
+  title: "Marca, web, contenido y automatización",
   description:
     "Servicios estratégicos para captar, convertir y retener mejor. Impakto integra marca, comunicación, desarrollo y sistemas en planes de crecimiento de alto valor.",
   alternates: {
