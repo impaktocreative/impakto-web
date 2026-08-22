@@ -348,20 +348,22 @@ export default function AsesorFlotante() {
         >
           {/* Cabecera. Fondo tinta y filete dorado: el mismo par que separa las
               secciones oscuras del sitio. */}
-          <header className="relative flex shrink-0 items-center justify-between gap-3 bg-night px-5 pb-4 pt-[calc(1rem+env(safe-area-inset-top))] text-paper md:rounded-t-panel md:py-4">
+          <header className="relative flex shrink-0 items-center justify-between gap-3 bg-night px-5 pb-3.5 pt-[calc(0.85rem+env(safe-area-inset-top))] text-paper md:rounded-t-panel md:py-3.5">
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/75 to-transparent" />
             <span className="flex min-w-0 items-center gap-3">
               <Image
                 src="/logos/icono-2.svg"
                 alt=""
                 aria-hidden="true"
-                width={14}
-                height={17}
-                className="h-4 w-auto"
+                width={16}
+                height={20}
+                className="h-[1.15rem] w-auto"
               />
               <span className="min-w-0">
-                <span className="block text-body-sm font-medium text-paper">Norte</span>
-                <span className="block text-eyebrow uppercase text-gold/85">
+                <span className="block text-body-lg font-semibold leading-none tracking-[-0.02em] text-paper">
+                  Norte
+                </span>
+                <span className="mt-1 block text-eyebrow tracking-[0.09em] text-gold/55">
                   Asesor de Impakto Creative
                 </span>
               </span>
@@ -378,7 +380,7 @@ export default function AsesorFlotante() {
 
           <div
             ref={hiloRef}
-            className="flex-1 touch-pan-y overflow-y-auto overscroll-contain px-5 py-5 [-webkit-overflow-scrolling:touch]"
+            className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-contain px-5 py-5 [-webkit-overflow-scrolling:touch]"
           >
             <div className="space-y-4">
               {mensajes.map((m, i) => (
@@ -386,8 +388,8 @@ export default function AsesorFlotante() {
                   key={i}
                   className={
                     m.role === 'user'
-                      ? 'ml-auto max-w-[85%] rounded-card bg-night px-4 py-3 text-body-sm text-paper'
-                      : 'max-w-[92%] text-body-sm leading-relaxed text-slate'
+                      ? 'ml-auto max-w-[85%] rounded-card rounded-br-sm bg-night px-3.5 py-2.5 text-caption leading-[1.5] text-paper'
+                      : 'max-w-[95%] text-caption leading-[1.62] text-slate'
                   }
                 >
                   {m.role === 'assistant' && !m.content ? (
@@ -412,7 +414,7 @@ export default function AsesorFlotante() {
                     key={a}
                     type="button"
                     onClick={() => void enviar(a)}
-                    className="group flex w-full items-center gap-3 border-t border-graphite/12 py-2.5 text-left text-body-sm text-stone transition-colors duration-fast hover:text-ink"
+                    className="group flex w-full items-center gap-3 border-t border-graphite/12 py-2.5 text-left text-caption text-stone transition-colors duration-fast hover:text-ink"
                   >
                     <span className="h-px w-4 shrink-0 bg-gold/55 transition-all duration-base group-hover:w-6 group-hover:bg-gold" />
                     {a}
@@ -451,7 +453,7 @@ export default function AsesorFlotante() {
                 aria-label="Escribí tu consulta"
                 /* text-body es 16px justo. Por debajo de eso iOS hace zoom al
                    enfocar y el panel entero se sale de cuadro. */
-                className="max-h-32 min-h-[2.75rem] flex-1 resize-none rounded-card border border-graphite/14 bg-paper-lift px-3.5 py-2.5 text-body text-ink outline-none transition-colors duration-fast placeholder:text-stone/70 focus:border-gold/60"
+                className="max-h-32 min-h-[2.75rem] flex-1 resize-none rounded-card border border-graphite/14 bg-paper-lift px-3.5 py-2.5 text-body text-ink outline-none transition-colors duration-fast placeholder:text-caption placeholder:text-stone/55 focus:border-gold/60"
               />
               <button
                 type="submit"
@@ -462,7 +464,7 @@ export default function AsesorFlotante() {
                 <ArrowUp size={18} />
               </button>
             </div>
-            <p className="mt-2 px-1 text-eyebrow uppercase text-stone/75">
+            <p className="mt-2 px-1 text-eyebrow tracking-normal text-stone/55">
               El alcance se define en el diagnóstico.
             </p>
           </form>
