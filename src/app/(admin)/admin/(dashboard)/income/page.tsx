@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { endOfMonth, format, startOfMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { IncomePaymentActions } from './IncomePaymentActions'
-import { ManualIncomeButton } from './ManualIncomeButton'
+import { ManualIncomeButton, type ClienteBreve } from './ManualIncomeButton'
 import { fechaLocal } from '@/lib/fecha'
 
 type PaymentRow = {
@@ -14,6 +14,8 @@ type PaymentRow = {
   receiver: string | null
   description: string | null
   exclude_from_totals: boolean
+  payment_method: string | null
+  clients: { brand_name: string | null; contact_name: string | null } | null
   client_services:
     | {
         domain_name: string | null
@@ -32,6 +34,11 @@ type RawPaymentRow = {
   payment_date: string
   description: string | null
   exclude_from_totals: boolean
+  payment_method: string | null
+  clients:
+    | { brand_name: string | null; contact_name: string | null }
+    | Array<{ brand_name: string | null; contact_name: string | null }>
+    | null
   client_services:
     | {
         domain_name: string | null
@@ -81,7 +88,7 @@ export default async function IncomePage() {
   const monthStart = format(startOfMonth(now), 'yyyy-MM-dd')
   const monthEnd = format(endOfMonth(now), 'yyyy-MM-dd')
 
-  const [{ data: payments }, { data: expectedServices }] = await Promise.all([
+  const [{ data: payments }, { data: expectedServices }, { data: clientes }] = await Promise.all([
     supabase
       .from('payments')
       .select(`
@@ -93,6 +100,8 @@ export default async function IncomePage() {
         payment_date,
         description,
         exclude_from_totals,
+        payment_method,
+        clients ( brand_name, contact_name ),
         client_services (
           domain_name,
           services ( name ),
@@ -115,6 +124,9 @@ export default async function IncomePage() {
       .gte('next_payment_date', monthStart)
       .lte('next_payment_date', monthEnd)
       .order('next_payment_date', { ascending: true }),
+    // Para el selector del ingreso manual: un cobro suelto puede ser de un
+    // cliente que ya existe aunque no corresponda a ningún servicio contratado.
+    supabase.from('clients').select('id, brand_name, contact_name').order('brand_name'),
   ])
 
   const rawPaymentRows = (payments ?? []) as unknown as RawPaymentRow[]
@@ -130,6 +142,8 @@ export default async function IncomePage() {
       payment_date: payment.payment_date,
       description: payment.description,
       exclude_from_totals: payment.exclude_from_totals ?? false,
+      payment_method: payment.payment_method ?? null,
+      clients: normalizeRelation(payment.clients),
       client_services: service
         ? {
             domain_name: service.domain_name,
@@ -188,7 +202,7 @@ export default async function IncomePage() {
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Ingresos</h1>
         <p className="mt-1 text-sm text-gray-500">Seguimiento de facturación y pagos registrados por cliente y moneda.</p>
         </div>
-        <ManualIncomeButton />
+        <ManualIncomeButton clientes={(clientes ?? []) as ClienteBreve[]} />
       </div>
 
       {/* Summary cards */}
@@ -391,7 +405,9 @@ export default async function IncomePage() {
                       </td>
                       <td className="px-6 py-4 align-top">
                         <div className="text-sm font-medium text-gray-900 break-words">
-                          {payment.client_services?.clients?.brand_name ?? <span className="text-gray-400">Ingreso manual</span>}
+                          {payment.client_services?.clients?.brand_name ??
+                            payment.clients?.brand_name ??
+                            payment.clients?.contact_name ?? <span className="text-gray-400">Ingreso manual</span>}
                         </div>
                       </td>
                       <td className="px-6 py-4 align-top">
@@ -458,7 +474,9 @@ export default async function IncomePage() {
                     </div>
                   </div>
                   <p className="text-sm font-semibold text-gray-900 break-words">
-                    {payment.client_services?.clients?.brand_name ?? <span className="text-gray-400">Ingreso manual</span>}
+                    {payment.client_services?.clients?.brand_name ??
+                            payment.clients?.brand_name ??
+                            payment.clients?.contact_name ?? <span className="text-gray-400">Ingreso manual</span>}
                   </p>
                   <p className="text-sm text-gray-600 break-words">
                     {payment.client_services?.services?.name ?? payment.description ?? '—'}

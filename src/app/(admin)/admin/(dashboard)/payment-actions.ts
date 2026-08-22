@@ -13,6 +13,7 @@ import {
   sumarMeses,
 } from '@/lib/billing'
 import type { ActionState } from '@/types/admin'
+import { aplicaRetencion, medioDePago } from '@/lib/medios-de-pago'
 
 const PAYMENT_TEMPLATE_FALLBACK = {
   subject: 'Pago recibido - {{servicio}}',
@@ -297,6 +298,10 @@ export async function registerManualIncomeAction(
   const currency = (formData.get('currency') as string) || 'ARS'
   const receiver = (formData.get('receiver') as string) || null
   const exclude_from_totals = formData.get('exclude_from_totals') === 'on'
+  const payment_method = (formData.get('payment_method') as string) || null
+  // Cadena vacía cuando el ingreso no corresponde a ningún cliente. Va a null
+  // y no a '' porque la columna es uuid y Postgres tira en el cast.
+  const client_id = (formData.get('client_id') as string) || null
 
   if (!description) {
     return { success: false, message: 'Poné un concepto para saber de qué es el ingreso.' }
@@ -310,14 +315,23 @@ export async function registerManualIncomeAction(
     return { success: false, message: 'Elegí quién recibió el pago.' }
   }
 
+  if (!payment_method || !medioDePago(payment_method)) {
+    return { success: false, message: 'Elegí por qué medio se recibió el pago.' }
+  }
+
   const supabase = await createClient()
   const { error } = await supabase.from('payments').insert({
     client_service_id: null,
+    client_id,
     description,
     amount,
-    net_amount: null,
+    // El neto solo existe cuando hay algo que descontar. Con retención se
+    // guarda ya calculado, igual que en los cobros de servicios; sin ella
+    // queda null y el balance usa el bruto.
+    net_amount: montoNeto(amount, aplicaRetencion(payment_method)),
     currency,
     payment_date,
+    payment_method,
     receiver,
     exclude_from_totals,
   })

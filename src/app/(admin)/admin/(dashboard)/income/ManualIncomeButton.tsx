@@ -5,15 +5,21 @@ import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { Modal } from '@/components/ui/Modal'
 import { registerManualIncomeAction } from '../payment-actions'
+import { MEDIOS_DE_PAGO, medioDePago } from '@/lib/medios-de-pago'
+import { RETENCION_BANCARIA } from '@/lib/billing'
+
+export type ClienteBreve = { id: string; brand_name: string | null; contact_name: string | null }
 
 /**
  * Ingreso suelto: un cobro que no corresponde a ningún servicio contratado
  * y que antes obligaba a inventar un cliente y un servicio para poder
  * cargarlo.
  */
-export function ManualIncomeButton() {
+export function ManualIncomeButton({ clientes = [] }: { clientes?: ClienteBreve[] }) {
   const [open, setOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [medio, setMedio] = useState('transferencia')
+  const [monto, setMonto] = useState('')
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
@@ -33,6 +39,15 @@ export function ManualIncomeButton() {
   }
 
   const hoy = new Date().toISOString().slice(0, 10)
+
+  // El neto se muestra antes de guardar. Ver el descuento en el momento evita
+  // la sorpresa de que el balance no coincida con lo que se tipeó.
+  const info = medioDePago(medio)
+  const numero = parseFloat(monto)
+  const neto =
+    info?.retencion && !Number.isNaN(numero) && numero > 0
+      ? Math.round(numero * (1 - RETENCION_BANCARIA) * 100) / 100
+      : null
 
   return (
     <>
@@ -59,7 +74,30 @@ export function ManualIncomeButton() {
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
               <p className="mt-1 text-xs text-gray-500">
-                No hace falta crear el cliente ni el servicio: este ingreso entra al balance por sí solo.
+                No hace falta que corresponda a un servicio contratado: este ingreso entra al balance por sí solo.
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="mi-client" className="mb-1 block text-sm font-medium text-gray-700">
+                Cliente <span className="font-normal text-gray-400">(opcional)</span>
+              </label>
+              <select
+                id="mi-client"
+                name="client_id"
+                defaultValue=""
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                <option value="">Sin cliente asociado</option>
+                {clientes.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.brand_name ?? c.contact_name ?? 'Sin nombre'}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-xs text-gray-500">
+                Atarlo a un cliente existente sirve para ver su historial completo en la ficha,
+                aunque el cobro no corresponda a ningún servicio del catálogo.
               </p>
             </div>
 
@@ -75,6 +113,8 @@ export function ManualIncomeButton() {
                   step="any"
                   min="0.01"
                   required
+                  value={monto}
+                  onChange={(e) => setMonto(e.target.value)}
                   className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                 />
               </div>
@@ -122,6 +162,41 @@ export function ManualIncomeButton() {
                   <option value="rodrigo">Rodrigo</option>
                 </select>
               </div>
+            </div>
+
+            <div>
+              <label htmlFor="mi-method" className="mb-1 block text-sm font-medium text-gray-700">
+                Medio de pago
+              </label>
+              <select
+                id="mi-method"
+                name="payment_method"
+                value={medio}
+                onChange={(e) => setMedio(e.target.value)}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                {MEDIOS_DE_PAGO.map((m) => (
+                  <option key={m.valor} value={m.valor}>
+                    {m.etiqueta}
+                  </option>
+                ))}
+              </select>
+              {info && (
+                <div className="mt-2 space-y-1 rounded-md bg-gray-50 px-3 py-2 text-xs">
+                  <p className={info.declarado ? 'text-gray-700' : 'text-gray-500'}>
+                    {info.declarado
+                      ? 'Entra al circuito declarado: computa para impuestos.'
+                      : 'Fuera del circuito declarado: no computa para impuestos.'}
+                  </p>
+                  {neto !== null && (
+                    <p className="text-gray-700">
+                      Retención bancaria del {(RETENCION_BANCARIA * 100).toFixed(1).replace('.', ',')}%.
+                      Neto acreditado:{' '}
+                      <strong>{neto.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</strong>
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
             <label className="flex items-start gap-2.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-2.5">

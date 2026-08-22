@@ -97,7 +97,7 @@ Todo en Supabase Postgres. No hay ORM: se usa el query builder de `supabase-js` 
 | `clients` | contacto, marca, email, teléfono, web, CUIT, notas |
 | `services` | catálogo: `name`, `description`, `price`, `currency`, `duration_months` |
 | `client_services` | servicio contratado: `price`, `currency`, `duration_months`, `last_payment_date`, `next_payment_date`, `status` (`activo`/`vencido`/`suspendido`/`inactivo`), `receiver` (`sergio`/`rodrigo`), `deduct_bank_fee`, `domain_name`, `server_info` |
-| `payments` | cobros — `amount`, `currency`, `net_amount`, `receiver`, `payment_date` |
+| `payments` | cobros — `amount`, `currency`, `net_amount`, `receiver`, `payment_date`, `payment_method`, `client_id` (ingreso suelto atado a una ficha) |
 | `expenses` | gastos recurrentes con `due_date` y `duration_months` |
 | `expense_payments` | pagos de gastos, `paid_by` (`sergio`/`rodrigo`) |
 | `email_templates` | PK `type`, `subject`, `body` — editables desde `/admin/settings` |
