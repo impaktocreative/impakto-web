@@ -83,13 +83,13 @@ export default function ContactoContent() {
                 <div className="premium-grid-light mt-8 rounded-card border border-graphite/12 bg-paper-lift p-6">
                   <h3 className="text-eyebrow uppercase text-stone">Contacto directo</h3>
                   <div className="mt-4 space-y-3 text-body text-slate">
-                    <a href="mailto:hola@impaktocreative.com" className="block transition-colors hover:text-primary">
+                    <a href="mailto:hola@impaktocreative.com" className="block transition-colors hover:text-ink">
                       hola@impaktocreative.com
                     </a>
-                    <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="block transition-colors hover:text-primary">
+                    <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="block transition-colors hover:text-ink">
                       Argentina: +54 9 11 7842-1357
                     </a>
-                    <a href="tel:+16152829799" className="block transition-colors hover:text-primary">
+                    <a href="tel:+16152829799" className="block transition-colors hover:text-ink">
                       Exterior: +1 615 282 9799
                     </a>
                     <p className="text-stone">Ciudad de Buenos Aires, Argentina.</p>
@@ -125,7 +125,7 @@ export default function ContactoContent() {
             <div className="lg:col-span-7 lg:col-start-6">
               <Reveal>
                 <div id="brief-contacto" className="relative overflow-hidden rounded-panel border border-graphite/12 bg-white p-6 md:p-9">
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
                   <p className="text-eyebrow uppercase text-stone">Brief inicial</p>
                   <h2 className="mt-4 font-heading text-display-md text-foreground">
                     Formulario de contacto
@@ -133,7 +133,7 @@ export default function ContactoContent() {
                   <p className="mt-4 text-body text-stone">
                     Dejanos la información clave del proyecto para responder con una propuesta clara, realista y alineada con tu objetivo.
                   </p>
-                  <RevealLine className="mt-6 block h-px w-24 bg-gradient-to-r from-primary/80 to-transparent" />
+                  <RevealLine className="mt-6 block h-px w-24 bg-gradient-to-r from-gold/85 to-transparent" />
                   <div className="mt-7 border-t border-graphite/12 pt-7">
                     <ContactForm />
                   </div>
@@ -148,7 +148,7 @@ export default function ContactoContent() {
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
             <div className="mx-auto max-w-[1120px] border border-white/18 bg-white/[0.035] p-9 md:p-12">
-              <p className="text-eyebrow uppercase text-primary/76">Perfil de trabajo</p>
+              <p className="text-eyebrow uppercase text-gold/85">Perfil de trabajo</p>
               <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg text-paper">
                 Trabajamos mejor con proyectos que ya decidieron invertir en el proceso.
               </h2>

@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-night pt-16 pb-8 text-paper">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(157,157,157,0.2)_0%,rgba(154,154,154,0.08)_16%,rgba(31,35,39,0)_52%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
       <motion.span
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-[3px] bg-[linear-gradient(100deg,rgba(194,173,122,0)_8%,rgba(214,191,132,0.2)_26%,rgba(233,214,165,0.95)_50%,rgba(214,191,132,0.2)_74%,rgba(194,173,122,0)_92%)] [background-size:220%_100%]"
@@ -50,10 +50,10 @@ export default function Footer() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.12 }} className="md:col-span-4 lg:col-span-3 lg:col-start-7">
             <h3 className="mb-5 text-eyebrow uppercase text-fog">Sitio</h3>
             <ul className="space-y-3">
-              <li><Link href="/" className="text-accent/80 transition-colors hover:text-primary">Inicio</Link></li>
-              <li><Link href="/agencia" className="text-accent/80 transition-colors hover:text-primary">Agencia</Link></li>
-              <li><Link href="/servicios" className="text-accent/80 transition-colors hover:text-primary">Servicios</Link></li>
-              <li><Link href="/contacto" className="text-accent/80 transition-colors hover:text-primary">Contacto</Link></li>
+              <li><Link href="/" className="text-accent/80 transition-colors hover:text-gold">Inicio</Link></li>
+              <li><Link href="/agencia" className="text-accent/80 transition-colors hover:text-gold">Agencia</Link></li>
+              <li><Link href="/servicios" className="text-accent/80 transition-colors hover:text-gold">Servicios</Link></li>
+              <li><Link href="/contacto" className="text-accent/80 transition-colors hover:text-gold">Contacto</Link></li>
             </ul>
           </motion.div>
 
@@ -61,19 +61,19 @@ export default function Footer() {
             <h3 className="mb-5 text-eyebrow uppercase text-fog">Contacto</h3>
             <ul className="space-y-3">
               <li>
-                <a href="mailto:hola@impaktocreative.com" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-primary">
+                <a href="mailto:hola@impaktocreative.com" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-gold">
                   <Mail size={14} className="opacity-70" />
                   hola@impaktocreative.com
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-primary">
+                <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-gold">
                   <MessageCircleMore size={14} className="opacity-70" />
                   Argentina: +54 9 11 7842-1357
                 </a>
               </li>
               <li>
-                <a href="tel:+16152829799" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-primary">
+                <a href="tel:+16152829799" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-gold">
                   <Phone size={14} className="opacity-70" />
                   Exterior: +1 615 282 9799
                 </a>
@@ -97,8 +97,8 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between pt-6 text-sm text-accent/58 md:flex-row">
           <p>© {new Date().getFullYear()} Impakto Creative. Todos los derechos reservados.</p>
           <div className="mt-4 space-x-6 md:mt-0">
-            <Link href="/privacidad" className="transition-colors hover:text-primary">Privacidad</Link>
-            <Link href="/terminos" className="transition-colors hover:text-primary">Términos</Link>
+            <Link href="/privacidad" className="transition-colors hover:text-gold">Privacidad</Link>
+            <Link href="/terminos" className="transition-colors hover:text-gold">Términos</Link>
           </div>
         </div>
       </div>

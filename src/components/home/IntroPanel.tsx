@@ -80,28 +80,18 @@ export default function IntroPanel() {
                 maskComposite: "exclude",
               }}
               animate={{ rotate: [0, 360] }}
-              transition={{ duration: 7.6, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 border border-primary/20"
-              animate={{ opacity: [0.28, 0.58, 0.28] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
             />
 
-            {/* Número decorativo interno */}
-            <div className="absolute top-6 right-6 pointer-events-none select-none">
-              <span
-                className="font-heading text-paper/65 leading-none block"
-                style={{ fontSize: "clamp(6rem, 12vw, 10rem)", letterSpacing: "-0.04em" }}
-              >
-                01
-              </span>
+            {/* Índice del panel. Perfilado y no relleno: marca la posición sin
+                taparle el trazo a la pieza ni pelearse con el titular. */}
+            <div className="absolute top-6 right-7 pointer-events-none select-none">
+              <span className="cifra-perfil font-heading tabular-nums leading-none block">01</span>
             </div>
 
             {/* Cita de composición en la base del panel */}
             <div className="relative z-10">
-              <p className="text-eyebrow uppercase text-primary/60 mb-3">Impakto Creative</p>
+              <p className="text-eyebrow uppercase text-gold/70 mb-3">Impakto Creative</p>
               <p className="font-heading text-fog text-lead">
                 Estrategia.<br />Estructura.<br />Presencia.
               </p>
@@ -116,7 +106,7 @@ export default function IntroPanel() {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-7 p-9 md:p-14 lg:p-[4.5rem] border border-white/10 border-l-0"
           >
-            <p className="text-eyebrow uppercase text-primary/75">Nuestra metodología</p>
+            <p className="text-eyebrow uppercase text-gold/85">Nuestra metodología</p>
             <h2
               className="text-display-lg mt-5 font-heading text-paper text-balance"
             >

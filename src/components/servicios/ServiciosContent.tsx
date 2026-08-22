@@ -9,6 +9,7 @@ import { Reveal, RevealLine } from "@/components/ui/Reveal";
 // así que la pieza son módulos que encajan en retícula al acercarse el cursor.
 import Estructuras from "@/components/visual/Estructuras";
 import { areasDeTrabajo, ejesDeCrecimiento, perfilesDeColaboracion, programasEstrategicos, senalesDeClienteIdeal } from "@/content/sitio";
+import { ArrowRight } from "lucide-react";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -118,7 +119,7 @@ export default function ServiciosContent() {
               Marco estratégico en tres frentes de crecimiento.
             </h2>
           </Reveal>
-          <RevealLine className="mt-6 block h-px w-28 bg-gradient-to-r from-primary/80 to-transparent" delay={0.06} />
+          <RevealLine className="mt-6 block h-px w-28 bg-gradient-to-r from-gold/85 to-transparent" delay={0.06} />
 
           <motion.div
             initial="hidden"
@@ -129,13 +130,13 @@ export default function ServiciosContent() {
           >
             {ejesDeCrecimiento.map((category) => (
               <motion.article key={category.title} variants={ITEM_MEDIUM} whileHover={{ y: -5 }} className="rounded-panel border border-white/16 bg-white/[0.035] p-6 md:p-7">
-                <p className="text-eyebrow uppercase text-primary/76">{category.id}</p>
+                <p className="text-eyebrow uppercase text-gold/85">{category.id}</p>
                 <h3 className="mt-3 font-heading text-display-xs">{category.title}</h3>
                 <p className="mt-4 text-body text-ash">{category.promise}</p>
                 <ul className="mt-6 space-y-2.5 border-t border-white/12 pt-5">
                   {category.benefits.map((benefit) => (
                     <li key={benefit} className="flex items-start gap-3 text-body text-ash">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/75" />
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-gold/80" />
                       <span>{benefit}</span>
                     </li>
                   ))}
@@ -161,48 +162,48 @@ export default function ServiciosContent() {
 
       <section className="section-glow relative overflow-hidden border-b border-graphite/8 bg-band py-18 md:py-22">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={STAGGER_MEDIUM} className="space-y-5 md:space-y-6">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={STAGGER_MEDIUM} className="border-b border-graphite/12">
             {programasEstrategicos.map((program, index) => (
               <motion.article
                 key={program.title}
                 variants={ITEM_MEDIUM}
-                whileHover={{ y: -4 }}
-                className={`relative overflow-hidden rounded-panel border border-graphite/12 p-6 md:p-8 lg:p-9 ${
-                  index % 2 === 0
-                    ? "bg-[linear-gradient(148deg,rgba(255,255,255,0.96),rgba(246,247,242,0.9))]"
-                    : "bg-[linear-gradient(148deg,rgba(250,251,247,0.96),rgba(241,243,237,0.9))]"
-                }`}
+                className="bloque-programa group relative py-10 md:py-14"
               >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/55 to-transparent" />
+                <span className="bloque-filete" aria-hidden="true" />
                 <div className="grid grid-cols-1 gap-7 lg:grid-cols-12 lg:gap-10">
                   <div className="lg:col-span-7">
-                    <p className="text-eyebrow uppercase text-stone">Programa {String(index + 1).padStart(2, "0")}</p>
+                    <p className="flex items-center gap-3 text-eyebrow uppercase text-stone">
+                      <span className="h-px w-6 bg-gold/70 transition-all duration-slow group-hover:w-10" />
+                      Programa {String(index + 1).padStart(2, "0")}
+                    </p>
                     <h3 className="mt-3 max-w-[18ch] font-heading text-balance text-display-md text-ink">
                       {program.title}
                     </h3>
                     <p className="mt-4 max-w-[44rem] text-body text-slate md:text-body-lg">{program.outcome}</p>
                   </div>
 
-                  <div className="lg:col-span-5">
-                    <div className="rounded-card border border-graphite/12 bg-paper-lift p-4 md:p-5">
-                      <p className="text-eyebrow uppercase text-stone">Incluye</p>
-                      <ul className="mt-4 space-y-2.5">
-                        {program.scope.map((item) => (
-                          <li key={item} className="flex items-start gap-3 border-t border-graphite/8 pt-2.5 first:border-t-0 first:pt-0">
-                            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/75" />
-                            <span className="text-body text-slate">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className="lg:col-span-4 lg:col-start-9">
+                    <p className="text-eyebrow uppercase text-stone">Incluye</p>
+                    <ul className="mt-4">
+                      {program.scope.map((item) => (
+                        <li key={item} className="flex items-start gap-3 border-t border-graphite/10 py-2.5 last:border-b last:border-graphite/10">
+                          <span className="mt-2.5 h-px w-3 shrink-0 bg-gold/70" />
+                          <span className="text-body-sm text-slate">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
-                <div className="mt-6 flex flex-col gap-3 border-t border-graphite/12 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-eyebrow uppercase text-stone">Implementación por etapas según prioridad de negocio</p>
-                  <Button asChild variant="outline" className="w-full border-graphite/30 bg-paper-lift text-center whitespace-normal sm:w-auto sm:min-w-[16rem]">
-                    <Link href="/contacto">{program.cta}</Link>
-                  </Button>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+                  <p className="text-eyebrow uppercase text-stone/80">Implementación por etapas según prioridad de negocio</p>
+                  <Link
+                    href="/contacto"
+                    className="enlace-flecha inline-flex items-center gap-2 text-body-sm font-medium text-ink"
+                  >
+                    {program.cta}
+                    <ArrowRight size={15} className="transition-transform duration-base" />
+                  </Link>
                 </div>
               </motion.article>
             ))}
@@ -231,7 +232,7 @@ export default function ServiciosContent() {
                 <ul className="mt-5 space-y-2.5 border-t border-graphite/12 pt-5">
                   {domain.items.map((item) => (
                     <li key={item} className="flex items-start gap-3 text-body text-slate">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/75" />
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-gold/80" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -367,7 +368,7 @@ export default function ServiciosContent() {
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
             <div className="mx-auto max-w-[1120px] border border-white/18 bg-white/[0.035] p-9 md:p-12">
-              <p className="text-eyebrow uppercase text-primary/76">Siguiente paso</p>
+              <p className="text-eyebrow uppercase text-gold/85">Siguiente paso</p>
               <h2 className="mt-4 max-w-[15ch] font-heading text-balance text-display-lg text-paper">
                 Definimos qué frentes priorizar para acelerar resultados con control.
               </h2>

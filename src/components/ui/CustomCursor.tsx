@@ -86,7 +86,7 @@ export default function CustomCursor() {
 
     return (
         <motion.div
-            className="fixed top-0 left-0 h-2.5 w-2.5 rounded-full bg-primary/85 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+            className="fixed top-0 left-0 h-2.5 w-2.5 rounded-full bg-white pointer-events-none z-[9999] mix-blend-difference hidden md:block"
             style={{ x, y }}
             animate={{
                 scale: isHovering ? 2.9 : 1,

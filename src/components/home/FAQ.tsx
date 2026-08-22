@@ -82,7 +82,7 @@ export default function FAQ() {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-8 lg:pl-2 space-y-4"
+            className="lg:col-span-8 lg:pl-2"
             variants={FAQ_CONTAINER}
             initial="hidden"
             whileInView="visible"
@@ -92,14 +92,13 @@ export default function FAQ() {
             <motion.details
               key={faq.question}
               variants={FAQ_ITEM}
-              whileHover={{ y: -2 }}
-               className="group border border-graphite/12 bg-paper-lift p-5 md:p-6 open:bg-white transition-all duration-300 rounded-card"
+               className="fila-faq group border-t border-graphite/12 py-6 last:border-b last:border-graphite/12"
              >
-               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-body-sm font-medium text-foreground md:text-body">
+               <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-body-sm font-medium text-foreground transition-colors duration-fast group-open:text-ink md:text-body">
                   {faq.question}
-                 <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-graphite/12 text-stone transition-all group-open:rotate-45 group-open:border-primary/40">+</span>
+                 <span className="mt-0.5 shrink-0 text-lead leading-none text-stone transition-all duration-base group-open:rotate-45 group-open:text-primary-ink">+</span>
                 </summary>
-              <p className="mt-4 text-body-sm text-slate md:text-body">{faq.answer}</p>
+              <p className="mt-4 max-w-[52rem] text-body-sm text-slate md:text-body">{faq.answer}</p>
             </motion.details>
           ))}
           </motion.div>

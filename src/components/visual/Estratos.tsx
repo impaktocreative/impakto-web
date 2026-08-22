@@ -41,7 +41,7 @@ function crearEstratos(tono: Tono): FabricaEscena {
       // La cantidad sale del alto disponible: en una banda baja, veintidós
       // capas se pisan entre sí y el corte deja de leerse.
       const techo = c.tactil || c.bajoConsumo ? CAPAS_TACTIL : CAPAS_ESCRITORIO
-      const cantidad = Math.max(6, Math.min(techo, Math.round(c.alto / 26)))
+      const cantidad = Math.max(6, Math.min(techo, Math.round(c.alto / 20)))
       capas = Array.from({ length: cantidad }, (_, i) => {
         const t = i / (cantidad - 1)
         return {
@@ -81,10 +81,10 @@ function crearEstratos(tono: Tono): FabricaEscena {
         const y0 = e.y + desplazamiento - alzado
 
         ctx.strokeStyle = e.dorado ? paleta.oro : paleta.base
-        ctx.lineWidth = e.dorado ? 1.4 : 0.9
+        ctx.lineWidth = e.dorado ? 1.6 : 1
         ctx.globalAlpha = e.dorado
-          ? 0.22 + alzado * 0.012
-          : paleta.alfaBase + e.profundidad * 0.1 + alzado * 0.006
+          ? 0.62 + alzado * 0.014
+          : paleta.alfaBase * 2.1 + e.profundidad * 0.16 + alzado * 0.008
 
         ctx.beginPath()
         const pasos = 42

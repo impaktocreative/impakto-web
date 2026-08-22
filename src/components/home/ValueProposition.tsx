@@ -44,7 +44,7 @@ export default function ValueProposition() {
         </div>
 
         {/* Editorial strip — filas con índice monumental, sin cajas */}
-        <div className="premium-grid-light rounded-panel border border-graphite/8 bg-paper-lift p-5 md:p-8">
+        <div className="mt-4">
           {propuestaDeValor.map((value, index) => (
             <motion.article
               key={value.index}
@@ -54,12 +54,12 @@ export default function ValueProposition() {
               transition={{ duration: 0.9, delay: index * 0.08, ease: EASE_LUXURY }}
               className="group relative grid grid-cols-12 gap-6 md:gap-10 items-start border-t border-graphite/8 py-10 md:py-12 last:border-b last:border-graphite/8"
             >
-              <div className="pointer-events-none absolute inset-y-3 left-0 w-px bg-gradient-to-b from-primary/0 via-primary/45 to-primary/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-y-3 left-0 w-px bg-gradient-to-b from-gold/0 via-gold/45 to-gold/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
               {/* Número índice monumental */}
               <div className="col-span-2 md:col-span-1 pt-1">
                 <span
-                  className="text-display-lg font-heading text-stone leading-none block transition-all duration-700 group-hover:text-stone"
+                  className="text-display-lg font-heading text-graphite/25 leading-none block transition-colors duration-slow group-hover:text-primary-ink"
                   style={{ letterSpacing: "-0.03em" }}
                 >
                   {value.index}
@@ -69,7 +69,7 @@ export default function ValueProposition() {
               {/* Título */}
               <div className="col-span-10 md:col-span-5 lg:col-span-4">
                 <h3
-                  className="text-display-md font-heading text-ink transition-colors duration-500 group-hover:text-foreground"
+                  className="text-display-md font-heading text-ink"
                 >
                   {value.title}
                 </h3>

@@ -910,7 +910,9 @@ a:focus-visible {
 
 .gold-reflect {
   --reflect-base: var(--color-ink);
-  --reflect-gold: var(--color-gold);
+  /* Bronce, no oro claro: sobre papel el oro de marca da 2.48 y el titular se
+     borra justo cuando la luz lo cruza. Este llega a 4.3. */
+  --reflect-gold: #8a6f37;
   display: inline-block;
   color: inherit;
 }
@@ -941,12 +943,116 @@ a:focus-visible {
   animation: icon-reflect-pass 6.8s var(--ease-luxury) infinite;
 }
 
+/* Para titulares sobre fondo oscuro: la base es papel y el reflejo, oro claro. */
 .gold-reflect-light {
   --reflect-base: var(--color-background);
+  --reflect-gold: var(--color-gold-light);
 }
 
+/* Solo velocidad. Antes también aclaraba el oro, y sobre papel eso dejaba el
+   titular en 1.7 de contraste mientras pasaba la luz. */
 .gold-reflect-slow {
-  --reflect-gold: #cbbd9e;
+  --reflect-duration: 11.8s;
+}
+
+/* Cifra de índice: perfil, no relleno.
+   Un numeral gigante en relleno sobre una pieza se lee como marca de agua y le
+   tapa el dibujo. Perfilado marca la posición y deja ver lo que hay detrás. */
+.cifra-perfil {
+  font-size: clamp(5rem, 10vw, 8.5rem);
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-paper) 26%, transparent);
+}
+
+/* Fila de pregunta. El filete de arriba se dora desde la izquierda al abrir:
+   el oro marca cuál está abierta, sin necesidad de una caja que lo diga. */
+.fila-faq {
+  position: relative;
+}
+
+.fila-faq::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-gold), transparent 70%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-luxury);
+}
+
+.fila-faq[open]::before,
+.fila-faq:hover::before {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fila-faq::before {
+    transition: none;
+  }
+}
+
+/* Bloque de programa. Un filete arriba que se dora desde la izquierda al pasar
+   por encima: reemplaza el borde de la tarjeta y además dice cuál está activo. */
+.bloque-programa > .bloque-filete {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-foreground) 12%, transparent);
+}
+
+.bloque-programa > .bloque-filete::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--color-gold), transparent 62%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-luxury);
+}
+
+.bloque-programa:hover > .bloque-filete::after,
+.bloque-programa:focus-within > .bloque-filete::after {
+  transform: scaleX(1);
+}
+
+/* Enlace con flecha: la flecha avanza, el texto se subraya en oro. Reemplaza a
+   la píldora cuando la misma llamada se repite varias veces en una página. */
+.enlace-flecha {
+  position: relative;
+  padding-bottom: 0.3rem;
+}
+
+.enlace-flecha::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-luxury);
+}
+
+.enlace-flecha:hover::after,
+.enlace-flecha:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.enlace-flecha:hover svg {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bloque-programa > .bloque-filete::after,
+  .enlace-flecha::after,
+  .enlace-flecha svg {
+    transition: none;
+  }
 }
 
 /* ── Asesor ─────────────────────────────────────────────────────────────────

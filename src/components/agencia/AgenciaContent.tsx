@@ -209,7 +209,7 @@ export default function AgenciaContent() {
               >
                 {[...firmaTecnica, ...firmaTecnica].map((item, index) => (
                   <span key={`${item}-${index}`} className="inline-flex items-center gap-3 text-eyebrow uppercase text-stone">
-                    <span className="h-px w-4 bg-primary/60" />
+                    <span className="h-px w-4 bg-gold/65" />
                     {item}
                   </span>
                 ))}
@@ -226,7 +226,7 @@ export default function AgenciaContent() {
               >
                 {[...firmaTecnica, ...firmaTecnica].map((item, index) => (
                   <span key={`${item}-eco-${index}`} className="inline-flex items-center gap-3 text-eyebrow uppercase text-stone">
-                    <span className="h-px w-4 bg-primary/60" />
+                    <span className="h-px w-4 bg-gold/65" />
                     {item}
                   </span>
                 ))}
@@ -249,14 +249,14 @@ export default function AgenciaContent() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent via-band/30 to-band" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
-            <p className="text-eyebrow uppercase text-primary/75">Quiénes somos</p>
+            <p className="text-eyebrow uppercase text-gold/85">Quiénes somos</p>
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg text-paper">
               Un estudio que diseña y también <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">implementa</span>.
             </h2>
           </Reveal>
-          <RevealLine className="mt-6 block h-px w-28 bg-gradient-to-r from-primary/80 to-transparent" delay={0.12} />
+          <RevealLine className="mt-6 block h-px w-28 bg-gradient-to-r from-gold/85 to-transparent" delay={0.12} />
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -274,21 +274,21 @@ export default function AgenciaContent() {
               >
                 <motion.div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/80 to-transparent"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/80 to-transparent"
                   initial={{ scaleX: 0, opacity: 0.2 }}
                   whileInView={{ scaleX: 1, opacity: 1 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.9, delay: 0.15 + index * 0.08, ease: EASE_LUXURY }}
                   style={{ transformOrigin: "left center" }}
                 />
-                <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase text-primary/76">
+                <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase text-gold/85">
                   <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto" />
                   Capitulo {index + 1}
                 </p>
                 <p className="relative z-10 text-body text-ash">{chapter}</p>
                 <motion.span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-primary/18 blur-2xl"
+                  className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gold/20 blur-2xl"
                   animate={{ opacity: [0.1, 0.42, 0.1], scale: [0.92, 1.05, 0.92] }}
                   transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: index * 0.24 }}
                 />
@@ -326,7 +326,7 @@ export default function AgenciaContent() {
                 className="indice-eje group relative grid grid-cols-[auto_1fr] gap-x-5 py-7 md:gap-x-7 md:py-9"
               >
                 <span className="indice-filete" aria-hidden="true" />
-                <p className="indice-cifra font-heading text-display-sm tabular-nums leading-none text-graphite/22 transition-colors duration-slow group-hover:text-primary/75">
+                <p className="indice-cifra font-heading text-display-sm tabular-nums leading-none text-graphite/22 transition-colors duration-slow group-hover:text-primary-ink">
                   {String(index + 1).padStart(2, "0")}
                 </p>
                 <div>
@@ -340,7 +340,7 @@ export default function AgenciaContent() {
       </section>
 
       <section className="relative overflow-hidden border-b border-graphite/8 bg-surface-muted py-16 md:py-18 lg:py-16">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
             <motion.div
@@ -464,7 +464,7 @@ export default function AgenciaContent() {
                 transition={{ duration: 0.4, ease: EASE_LUXURY }}
                 className="relative border border-graphite/12 bg-white p-5 text-center md:p-6"
               >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
                 <p className="font-heading text-display-md text-ink">
                   <CountUp to={signal.value} prefix={signal.prefix} suffix={signal.suffix} />
                 </p>
@@ -520,7 +520,7 @@ export default function AgenciaContent() {
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
             <div className="border border-white/14 bg-white/[0.03] p-9 md:p-12 lg:p-14">
-              <p className="text-eyebrow uppercase text-primary/78">Compromiso Impakto</p>
+              <p className="text-eyebrow uppercase text-gold/85">Compromiso Impakto</p>
               <h2 className="mt-4 max-w-[15ch] font-heading text-balance text-display-lg text-paper">
                 Nos involucramos de verdad en cada marca para que avance con <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">más seguridad</span>.
               </h2>

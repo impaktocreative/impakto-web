@@ -25,26 +25,26 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.75 }}
-          className="relative mx-auto max-w-5xl border border-graphite/12 bg-paper-lift p-9 md:p-14 lg:p-16 backdrop-blur-sm"
+          className="relative pt-12 md:pt-16"
         >
-          <div className="pointer-events-none absolute inset-x-10 top-0 hidden h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent lg:block" />
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
-            <div className="lg:col-span-8">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gold/70 via-graphite/12 to-transparent" />
+          <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12 lg:gap-14">
+            <div className="lg:col-span-7">
               <p className="mb-5 flex items-center gap-2 text-eyebrow uppercase text-stone">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
                 Impakto Creative
               </p>
-              <h2 className="mb-6 max-w-[10.5ch] text-balance font-heading text-display-lg text-foreground md:max-w-none">
+              <h2 className="mb-7 text-balance font-heading text-display-xl text-foreground">
                 Una presencia <span className="gold-reflect">mejor resuelta</span> cambia la forma en que una marca es
                 percibida.
               </h2>
-              <p className="max-w-3xl text-body-sm text-slate md:text-body">
+              <p className="max-w-[38rem] text-body-sm text-slate md:text-body-lg">
                 Si tu proyecto necesita una estructura más clara o una presencia digital
                 que esté a la altura de lo que vendés, esa base la construimos nosotros.
               </p>
             </div>
 
-            <div className="lg:col-span-4 flex flex-col gap-4 lg:pl-4">
+            <div className="flex flex-col gap-4 lg:col-span-4 lg:col-start-9">
               <Button
                 asChild
                 size="lg"

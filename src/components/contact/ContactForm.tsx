@@ -67,7 +67,7 @@ export default function ContactForm() {
             type="text"
             required
             placeholder="Nombre y apellido"
-            className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+            className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/55"
           />
         </div>
         <div>
@@ -80,7 +80,7 @@ export default function ContactForm() {
             type="text"
             required
             placeholder="Empresa u organización"
-            className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+            className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/55"
           />
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function ContactForm() {
           type="email"
           required
           placeholder="correo@empresa.com"
-          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/55"
         />
       </div>
 
@@ -108,7 +108,7 @@ export default function ContactForm() {
           name="tipoProyecto"
           required
           defaultValue=""
-          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/55"
         >
           <option value="" disabled>
             Seleccione una opción
@@ -131,7 +131,7 @@ export default function ContactForm() {
           rows={4}
           required
           placeholder="¿Cuál es el principal desafío que hoy necesita resolver?"
-          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/55"
         />
       </div>
 
@@ -145,7 +145,7 @@ export default function ContactForm() {
           rows={4}
           required
           placeholder="¿Qué resultado espera lograr en esta etapa?"
-          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55"
+          className="w-full border border-graphite/12 bg-surface px-4 py-3.5 text-body text-slate transition-colors duration-300 placeholder:text-stone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/55"
         />
       </div>
 

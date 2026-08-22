@@ -68,7 +68,7 @@ export default function ServicesOverview() {
             variants={SECTION_ITEM}
             className="lg:col-span-4 lg:pr-8"
           >
-            <motion.span variants={SECTION_ITEM} className="mb-6 flex items-center gap-2 text-eyebrow font-medium uppercase text-primary/82">
+            <motion.span variants={SECTION_ITEM} className="mb-6 flex items-center gap-2 text-eyebrow font-medium uppercase text-gold/85">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Áreas principales
             </motion.span>
@@ -82,11 +82,13 @@ export default function ServicesOverview() {
             <motion.div
               variants={SECTION_ITEM}
               whileHover={{ scale: 1.01 }}
-              className="mb-10 hidden lg:block overflow-hidden border border-white/14"
+              className="mb-10 hidden lg:block overflow-hidden border-y border-white/12"
             >
               {/* Estratos: capas que se separan con el scroll. Las áreas de
-                  trabajo se leen distintas pero son el mismo cuerpo. */}
-              <div className="relative h-44 w-full overflow-hidden">
+                  trabajo se leen distintas pero son el mismo cuerpo.
+                  Sin recuadro y a doble alto: encerrada en una caja de 176px se
+                  leía como un widget vacío. */}
+              <div className="relative h-64 w-full overflow-hidden">
                 <Estratos tono="papel" />
               </div>
             </motion.div>
@@ -105,14 +107,14 @@ export default function ServicesOverview() {
                   variants={CARD_ITEM}
                   className="group relative border-b border-white/12 py-11 md:py-16 bg-transparent transition-colors duration-500 hover:bg-white/[0.04] px-6 -mx-6"
                 >
-                  <span className="pointer-events-none absolute left-0 top-0 h-full w-px bg-gradient-to-b from-primary/0 via-primary/60 to-primary/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <span className="pointer-events-none absolute left-0 top-0 h-full w-px bg-gradient-to-b from-gold/0 via-gold/70 to-gold/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="mb-6 flex items-start justify-between gap-4">
-                    <h3 className="font-heading text-display-sm text-paper group-hover:text-primary/95 transition-colors duration-300">{service.title}</h3>
+                    <h3 className="font-heading text-display-sm text-paper group-hover:text-gold-light transition-colors duration-300">{service.title}</h3>
                     <motion.div
                       whileHover={{ scale: 1.1, x: 5 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     >
-                      <ArrowRight className="text-primary/55 -rotate-45 transition-all duration-300 group-hover:text-primary group-hover:rotate-0 w-8 h-8" />
+                      <ArrowRight className="text-paper/35 -rotate-45 transition-all duration-300 group-hover:text-gold group-hover:rotate-0 w-8 h-8" />
                     </motion.div>
                   </div>
                   <p className="text-ash max-w-xl text-body group-hover:text-paper transition-colors duration-300">{service.description}</p>

@@ -68,7 +68,7 @@ export default function Methodology() {
             variants={INTRO_CONTAINER}
             className="lg:col-span-5 lg:col-start-8"
           >
-            <motion.p variants={INTRO_ITEM} className="flex items-center gap-2 text-eyebrow uppercase text-primary/75">
+            <motion.p variants={INTRO_ITEM} className="flex items-center gap-2 text-eyebrow uppercase text-gold/85">
               <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={10} height={12} className="h-3 w-auto opacity-65" />
               Cómo trabajamos
             </motion.p>
@@ -88,7 +88,7 @@ export default function Methodology() {
             <motion.div
               variants={INTRO_ITEM}
               ref={imageRef}
-              className="mt-10 image-reveal-container border border-white/14"
+              className="mt-10 image-reveal-container border-y border-white/12"
             >
               {/* Los cinco pasos como recorrido: el pulso avanza con el
                   scroll, así que bajar por la página es avanzar el proceso. */}
@@ -103,7 +103,7 @@ export default function Methodology() {
 
           {/* §3 Blueprint — hairlines: border-bottom compartidos, último sin border-right */}
           <motion.div
-            className="lg:col-span-7 lg:row-start-1 border border-white/12 bg-white/[0.02]"
+            className="lg:col-span-7 lg:row-start-1 border-t border-white/12"
             variants={STEPS_CONTAINER}
             initial="hidden"
             whileInView="visible"
@@ -114,7 +114,7 @@ export default function Methodology() {
                 key={step.number}
                 variants={STEP_ITEM}
                 whileHover={{ x: 2 }}
-                className="grid grid-cols-[4.8rem_1fr] gap-4 md:gap-6 border-b border-white/12 p-6 md:p-7 last:border-b-0"
+                className="grid grid-cols-[4.8rem_1fr] gap-4 md:gap-6 border-b border-white/12 py-7 md:py-8 last:border-b-0"
               >
                 <p className="text-eyebrow uppercase text-fog pt-1">Paso {step.number}</p>
                 <div>

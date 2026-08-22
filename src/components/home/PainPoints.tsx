@@ -62,7 +62,7 @@ export default function PainPoints() {
                 variants={LIST_ITEM}
                 className="group relative grid grid-cols-[3.3rem_1fr] gap-4 border-t border-graphite/12 py-6 md:py-7 items-start"
               >
-                <div className="pointer-events-none absolute inset-y-2 left-[-0.55rem] w-px bg-primary/45 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-y-2 left-[-0.55rem] w-px bg-gold/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 {/* Índice monumental */}
                 <span
                   className="text-display-sm font-heading text-stone leading-none pt-[0.15rem] block transition-all duration-700 group-hover:text-stone"
