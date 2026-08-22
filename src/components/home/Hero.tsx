@@ -97,44 +97,45 @@ const conversations: Conversation[] = [
   {
     question: "Ya trabajamos con una agencia. ¿Qué harían distinto?",
     answer:
-      "Al principio, menos. Antes de producir miramos qué decisiones se están tomando sin criterio y por qué el mensaje cambia según **quién lo escriba**.",
+      "Revisamos las decisiones antes que las piezas. Rara vez el problema es el volumen de producción; casi siempre es que **el criterio cambia según quién ejecute**.",
   },
   {
-    question: "¿Cómo saben si el problema es la web o es lo que ofrecemos?",
+    question: "¿Cómo determinan si el problema es la web o es nuestra propuesta?",
     answer:
-      "Lo separamos en dos preguntas: quién llega y qué encuentra al llegar. Si llega la gente equivocada, la web no lo arregla. Si llega la correcta y no avanza, **ahí sí es la web**.",
+      "Lo evaluamos en dos planos: qué perfil llega y qué claridad encuentra al llegar. Si el perfil no es el correcto, el sitio no lo resuelve. Si lo es y no avanza, **el problema está en el sitio**.",
   },
   {
     question: "¿Por qué empiezan por estrategia y no directamente por diseño?",
     answer:
-      "Porque el diseño resuelve cómo se ve una decisión ya tomada. Si nadie la tomó, la toma el diseño solo, y después **no hay con qué defenderla** en una reunión de directorio.",
+      "Porque el diseño expresa una decisión ya tomada. Cuando esa decisión no existe, el diseño la define por defecto y la marca queda **sin argumento para sostenerla** ante su directorio.",
   },
   {
-    question: "Tenemos varias unidades y cada una comunica distinto.",
+    question: "Tenemos varias unidades de negocio y cada una comunica distinto.",
     answer:
-      "Eso se ordena con jerarquía, no con un manual. Se define qué decide la marca madre y qué queda a criterio de cada unidad. Sin esa línea, **el manual se incumple** en dos meses.",
+      "Eso se resuelve con jerarquía, no con un manual. Definimos qué determina la marca madre y qué queda a criterio de cada unidad. Sin ese límite explícito, **el manual deja de aplicarse** en semanas.",
   },
   {
-    question: "¿Cuánto tarda en verse un resultado?",
+    question: "¿En cuánto tiempo se ven resultados?",
     answer:
-      "La percepción cambia el día que sale. El rendimiento comercial depende de **cuántas conversaciones tengas por mes**: con poco volumen, un trimestre no alcanza para saber si funcionó.",
+      "La percepción cambia desde la salida. El impacto comercial depende del volumen de oportunidades que maneje la compañía: con ciclos de venta largos, **un trimestre no es muestra suficiente** para concluir.",
   },
   {
     question: "¿Trabajan con nuestro equipo interno o lo reemplazan?",
     answer:
-      "Con el equipo. Nosotros ponemos dirección y criterio; **ellos conocen el negocio** mejor que cualquier proveedor. Reemplazarlos sería tirar la parte más difícil de conseguir.",
+      "Trabajamos con el equipo. Aportamos dirección y criterio externo; **el conocimiento del negocio ya está adentro** y es lo más difícil de reconstruir desde afuera.",
   },
   {
-    question: "¿Qué necesitan de nuestro lado para empezar?",
+    question: "¿Qué necesitan de nuestra parte para comenzar?",
     answer:
-      "Una persona que pueda decidir. Es lo único que no se puede delegar hacia abajo, y es **lo que separa** un proyecto de seis semanas de uno de seis meses.",
+      "Un interlocutor con capacidad de decisión. Es la única condición que no se puede delegar, y **define el ritmo del proyecto** más que cualquier otro factor.",
   },
   {
-    question: "¿Cuánto sale?",
+    question: "¿Cómo definen la inversión de un proyecto?",
     answer:
-      "Depende del alcance, y el alcance sale del diagnóstico, que no tiene costo. Un número antes de esa conversación sería inventado, y después **alguien lo tiene que sostener**.",
+      "Por alcance, y el alcance surge del diagnóstico, que no tiene costo. Anticipar una cifra antes de esa conversación **sería un número sin respaldo**.",
   },
 ];
+
 
 /** Cuánto queda en pantalla cada turno, ya con la respuesta escrita. */
 const DURACION_TURNO = 10200;
