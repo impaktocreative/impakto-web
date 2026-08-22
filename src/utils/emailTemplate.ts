@@ -3,17 +3,29 @@
  * The `body` is plain text with \n for line breaks.
  */
 export function buildEmailHtml(body: string): string {
-  const hasHtml = /<[a-z][\\s\\S]*>/i.test(body)
-  
-  const htmlBody = hasHtml 
-    ? body 
+  // Las tres barras invertidas de este bloque estaban duplicadas, y eso rompía
+  // todos los correos del sistema.
+  //
+  // `[\\s\\S]` no era "cualquier carácter" sino la clase {barra, s, S}, así que
+  // la detección de HTML no acertaba nunca: los cuerpos con marcado se
+  // escapaban y llegaban al buzón mostrando las etiquetas. Y `split('\\n')`
+  // partía por la secuencia literal barra-ene en lugar de por el salto de
+  // línea, así que un cuerpo de texto plano terminaba en un solo párrafo.
+  const traeHtml = /<[a-z][\s\S]*>/i.test(body)
+
+  const htmlBody = traeHtml
+    ? body
     : body
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-        .split('\\n')
-        .map(line => line.trim() === '' ? '<br/>' : `<p style="margin:0 0 14px 0;line-height:1.6;">${line}</p>`)
-        .join('\\n')
+        .split('\n')
+        .map((line) =>
+          line.trim() === ''
+            ? '<br/>'
+            : `<p style="margin:0 0 14px 0;line-height:1.6;">${line}</p>`,
+        )
+        .join('\n')
 
   return `<!DOCTYPE html>
 <html lang="es">

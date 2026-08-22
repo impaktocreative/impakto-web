@@ -19,6 +19,7 @@ type UpcomingService = {
   price: number
   currency: string
   next_payment_date: string | null
+  status: string | null
   services: { name: string } | null
   clients: { id: string; contact_name: string; brand_name: string } | null
 }
@@ -30,6 +31,7 @@ type RawUpcomingService = {
   price: number | string
   currency: string
   next_payment_date: string | null
+  status: string | null
   services: { name: string } | Array<{ name: string }> | null
   clients: { id: string; contact_name: string; brand_name: string } | Array<{ id: string; contact_name: string; brand_name: string }> | null
 }
@@ -50,9 +52,9 @@ export default async function AdminDashboard() {
         services ( name ),
         clients ( id, contact_name, brand_name )
       `)
-      .eq('status', 'activo')
+      .in('status', ['activo', 'vencido', 'suspendido'])
       .order('next_payment_date', { ascending: true })
-      .limit(10),
+      .limit(14),
     supabase.from('clients').select('id', { count: 'exact', head: true }),
     supabase.from('client_services').select('id', { count: 'exact', head: true }).eq('status', 'activo'),
     supabase.from('payments').select('amount, net_amount, payment_date').eq('exclude_from_totals', false).order('payment_date', { ascending: false }).limit(30),
@@ -67,16 +69,29 @@ export default async function AdminDashboard() {
     price: Number(item.price),
     currency: item.currency,
     next_payment_date: item.next_payment_date,
+    status: item.status,
     services: normalizeRelation(item.services),
     clients: normalizeRelation(item.clients),
   }))
+  // Primero el que más mora acumula. Ordenar solo por fecha mezclaba lo urgente
+  // con lo que todavía no vence.
+  items.sort((a, b) => {
+    const da = a.next_payment_date ? diasHasta(a.next_payment_date) : Number.MAX_SAFE_INTEGER
+    const db = b.next_payment_date ? diasHasta(b.next_payment_date) : Number.MAX_SAFE_INTEGER
+    return da - db
+  })
+
+  const vencidos = items.filter(
+    (s) => s.next_payment_date !== null && diasHasta(s.next_payment_date) <= 0,
+  ).length
+
   const totalGrossIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.amount), 0)
   const totalNetIncome = paymentRows.reduce((sum, payment) => sum + Number(payment.net_amount ?? payment.amount), 0)
 
   const expiringSoon = items.filter((service) => {
     if (!service.next_payment_date) return false
     const days = diasHasta(service.next_payment_date)
-    return days <= 10
+    return days > 0 && days <= 10
   }).length
 
   return (
@@ -86,7 +101,7 @@ export default async function AdminDashboard() {
         <p className="mt-1 text-sm text-gray-500">Vista rápida de clientes, vencimientos y pagos para tomar acción en segundos.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-6">
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Clientes</p>
           <p className="text-3xl font-bold text-gray-900 mt-2">{totalClients ?? 0}</p>
@@ -94,6 +109,14 @@ export default async function AdminDashboard() {
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Servicios Activos</p>
           <p className="text-3xl font-bold text-gray-900 mt-2">{activeServices ?? 0}</p>
+        </div>
+        <div
+          className={`rounded-2xl shadow-sm ring-1 p-6 transition-all hover:shadow-md ${
+            vencidos > 0 ? 'bg-red-50 ring-red-500/20' : 'bg-white ring-gray-900/5'
+          }`}
+        >
+          <p className={`text-sm font-medium ${vencidos > 0 ? 'text-red-800' : 'text-gray-500'}`}>Vencidos</p>
+          <p className={`text-3xl font-bold mt-2 ${vencidos > 0 ? 'text-red-900' : 'text-gray-900'}`}>{vencidos}</p>
         </div>
         <div
           className={`rounded-2xl shadow-sm ring-1 p-6 transition-all hover:shadow-md ${
@@ -115,8 +138,8 @@ export default async function AdminDashboard() {
 
       <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 overflow-hidden">
         <div className="px-6 py-5 border-b border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900">Próximos Cobros</h3>
-          <p className="mt-1 text-sm text-gray-500">Servicios activos ordenados por fecha de vencimiento.</p>
+          <h3 className="text-lg font-semibold text-gray-900">Cobros pendientes</h3>
+          <p className="mt-1 text-sm text-gray-500">Vencidos primero, después los que están por vencer.</p>
         </div>
 
         <div className="hidden md:block">
@@ -192,7 +215,7 @@ export default async function AdminDashboard() {
               {items.length === 0 && (
                 <tr>
                   <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
-                    No hay cobros próximos. Asigná servicios a tus clientes desde su ficha.
+                    No hay cobros pendientes. Asigná servicios a tus clientes desde su ficha.
                   </td>
                 </tr>
               )}
