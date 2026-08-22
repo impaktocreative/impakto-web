@@ -27,8 +27,40 @@ const NOMBRES: Record<string, string> = {
   '/terminos': 'términos y condiciones',
 }
 
+/**
+ * Saca el markdown de la salida del modelo.
+ *
+ * El prompt lo prohíbe y el modelo lo pone igual: llegaban asteriscos a
+ * pantalla, "**05 Optimización.**" tal cual. Una regla de prompt es una
+ * preferencia, no una garantía, así que la garantía va acá.
+ *
+ * No se convierte a negrita: el panel es prosa plana a propósito, y una
+ * respuesta con jerarquías tipográficas se lee como documento, no como alguien
+ * contestando.
+ */
+function sinMarkdown(texto: string): string {
+  return (
+    texto
+      // Enlaces: queda el destino, para que el enlazador de abajo lo tome y le
+      // ponga su nombre propio.
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, etiqueta, destino) =>
+        /^(https?:\/\/|mailto:|tel:|\/)/.test(destino) ? destino : etiqueta,
+      )
+      .replace(/(\*\*|__)(.+?)\1/g, "$2")
+      .replace(/(?<![*\w])\*(?!\s)([^*\n]+?)(?<!\s)\*(?![*\w])/g, "$1")
+      .replace(/`{1,3}([^`]+)`{1,3}/g, "$1")
+      // Encabezados y viñetas al principio de línea.
+      .replace(/^\s{0,3}#{1,6}\s+/gm, "")
+      .replace(/^\s{0,3}[-*+]\s+/gm, "")
+      .replace(/^\s{0,3}>\s?/gm, "")
+      // Reglas horizontales, que quedaban como una fila de guiones sueltos.
+      .replace(/^\s{0,3}([-*_])\s?(?:\1\s?){2,}$/gm, "")
+      .trim()
+  )
+}
+
 export function textoConEnlaces(texto: string): ReactNode[] {
-  const partes = texto.split(ENLACE)
+  const partes = sinMarkdown(texto).split(ENLACE)
 
   return partes.map((parte, i) => {
     if (i % 2 === 0) return <Fragment key={i}>{parte}</Fragment>

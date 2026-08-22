@@ -159,14 +159,70 @@ export default function AsesorFlotante() {
     }
   }, [abierto])
 
-  // El bloqueo del fondo va por atributo y el breakpoint lo decide el CSS, no
-  // JavaScript: así ensanchar la ventana con el panel abierto no deja la
-  // página trabada.
+  // Bloqueo del fondo mientras el panel es hoja completa.
+  //
+  // `overflow: hidden` sobre html y body no alcanza en iOS: el dedo sobre el
+  // panel seguía arrastrando la página de atrás. Lo único que lo detiene es
+  // fijar el body y compensar el desplazamiento, que es lo que se hace acá; el
+  // atributo queda igual porque hay estilos que cuelgan de él.
+  //
+  // La condición de ancho se relee en cada resize y no una sola vez, así que
+  // ensanchar la ventana con el panel abierto libera la página en lugar de
+  // dejarla trabada.
   useEffect(() => {
     const raiz = document.documentElement
-    if (abierto) raiz.setAttribute('data-asesor-abierto', '')
-    else raiz.removeAttribute('data-asesor-abierto')
-    return () => raiz.removeAttribute('data-asesor-abierto')
+    if (!abierto) return
+
+    raiz.setAttribute('data-asesor-abierto', '')
+
+    let desplazamiento = 0
+    let fijado = false
+
+    const fijar = () => {
+      if (fijado) return
+      desplazamiento = window.scrollY
+      const s = document.body.style
+      s.position = 'fixed'
+      s.top = `-${desplazamiento}px`
+      s.left = '0'
+      s.right = '0'
+      s.width = '100%'
+      fijado = true
+    }
+
+    const liberar = () => {
+      if (!fijado) return
+      const s = document.body.style
+      s.position = ''
+      s.top = ''
+      s.left = ''
+      s.right = ''
+      s.width = ''
+      fijado = false
+    }
+
+    const evaluar = () => {
+      if (window.matchMedia('(max-width: 767px)').matches) fijar()
+      else {
+        const y = desplazamiento
+        liberar()
+        window.scrollTo(0, y)
+      }
+    }
+
+    evaluar()
+    window.addEventListener('resize', evaluar)
+
+    return () => {
+      window.removeEventListener('resize', evaluar)
+      const y = desplazamiento
+      const habiaQueRestaurar = fijado
+      liberar()
+      // El atributo se saca antes de devolver el scroll: con el overflow
+      // todavía bloqueado, scrollTo no tiene a dónde ir.
+      raiz.removeAttribute('data-asesor-abierto')
+      if (habiaQueRestaurar) window.scrollTo(0, y)
+    }
   }, [abierto])
 
   useEffect(() => {
@@ -320,7 +376,10 @@ export default function AsesorFlotante() {
             </button>
           </header>
 
-          <div ref={hiloRef} className="flex-1 overflow-y-auto overscroll-contain px-5 py-5">
+          <div
+            ref={hiloRef}
+            className="flex-1 touch-pan-y overflow-y-auto overscroll-contain px-5 py-5 [-webkit-overflow-scrolling:touch]"
+          >
             <div className="space-y-4">
               {mensajes.map((m, i) => (
                 <div
