@@ -31,7 +31,7 @@ export default function IdealClient() {
     <section className="bg-band py-16 md:py-20 border-t border-graphite/8">
       <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
         {/* §3 hairline border */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-graphite/12">
+        <div className="grid grid-cols-1 gap-0 border-y border-graphite/12 lg:grid-cols-12 lg:border">
 
           {/* Panel imagen — textura editorial (tela/lino, sin rostros) §5 cinematic hover */}
           <motion.div

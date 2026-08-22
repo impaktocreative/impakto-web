@@ -126,17 +126,18 @@ export default function ServiciosContent() {
             whileInView="show"
             viewport={{ once: true, margin: "0px 0px -90px 0px" }}
             variants={STAGGER_MEDIUM}
-            className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3"
+            className="mt-12 grid grid-cols-1 gap-x-10 gap-y-0 md:grid-cols-3"
           >
             {ejesDeCrecimiento.map((category) => (
-              <motion.article key={category.title} variants={ITEM_MEDIUM} whileHover={{ y: -5 }} className="rounded-panel border border-white/16 bg-white/[0.035] p-6 md:p-7">
-                <p className="text-eyebrow uppercase text-gold/85">{category.id}</p>
+              <motion.article key={category.title} variants={ITEM_MEDIUM} className="bloque-noche group relative py-8 md:py-9">
+                <span className="bloque-filete" aria-hidden="true" />
+                <p className="text-eyebrow uppercase tabular-nums text-gold/85">{category.id}</p>
                 <h3 className="mt-3 font-heading text-display-xs">{category.title}</h3>
                 <p className="mt-4 text-body text-ash">{category.promise}</p>
-                <ul className="mt-6 space-y-2.5 border-t border-white/12 pt-5">
+                <ul className="mt-6">
                   {category.benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-3 text-body text-ash">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-gold/80" />
+                    <li key={benefit} className="flex items-start gap-3 border-t border-white/10 py-2.5 text-body-sm text-ash last:border-b last:border-white/10">
+                      <span className="mt-2.5 h-px w-3 shrink-0 bg-gold/70" />
                       <span>{benefit}</span>
                     </li>
                   ))}

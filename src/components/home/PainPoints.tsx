@@ -35,15 +35,17 @@ export default function PainPoints() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.85, ease: EASE_LUXURY }}
-          className="mx-auto max-w-4xl text-center"
+          className="grid grid-cols-1 items-end gap-6 lg:grid-cols-12 lg:gap-14"
         >
-          <p className="text-eyebrow uppercase text-stone">Dónde aportamos más valor</p>
+          <div className="lg:col-span-6">
+          <p className="flex items-center gap-3 text-eyebrow uppercase text-stone"><span className="h-px w-6 bg-gold/70" />Dónde aportamos más valor</p>
           <h2
             className="text-display-lg mt-4 font-heading text-foreground text-balance"
           >
             Hay momentos en los que una marca necesita algo más que ejecución.
           </h2>
-          <p className="mx-auto mt-7 text-body md:text-body-lg text-stone max-w-[42rem]">
+          </div>
+          <p className="text-body text-stone md:text-body-lg lg:col-span-5 lg:col-start-8">
              En esos contextos intervenimos con dirección estratégica y ejecución
              integrada para recuperar claridad, consistencia y tracción comercial.
           </p>

@@ -1019,6 +1019,35 @@ a:focus-visible {
   transform: scaleX(1);
 }
 
+.bloque-noche > .bloque-filete {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.bloque-noche > .bloque-filete::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--color-gold), transparent 62%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-luxury);
+}
+
+.bloque-noche:hover > .bloque-filete::after,
+.bloque-noche:focus-within > .bloque-filete::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bloque-noche > .bloque-filete::after {
+    transition: none;
+  }
+}
+
 /* Enlace con flecha: la flecha avanza, el texto se subraya en oro. Reemplaza a
    la píldora cuando la misma llamada se repite varias veces en una página. */
 .enlace-flecha {
