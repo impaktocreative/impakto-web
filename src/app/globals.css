@@ -1502,3 +1502,50 @@ a:focus-visible {
   }
 
   }
+
+
+/* ── Impresión del comprobante ───────────────────────────────────────────────
+   Sin esto, imprimir un comprobante sacaba también la barra lateral del admin,
+   los botones y los avisos: el papel salía con la interfaz encima.
+
+   El truco de `visibility` y no `display` es a propósito. Ocultar por display
+   los ancestros de la hoja la sacaría a ella también; con visibility se apaga
+   todo el árbol y se vuelve a encender solo la hoja, que además se despega al
+   origen para que el margen lo ponga @page y no el layout. */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  body:has(.hoja-comprobante) * {
+    visibility: hidden;
+  }
+
+  body:has(.hoja-comprobante) .hoja-comprobante,
+  body:has(.hoja-comprobante) .hoja-comprobante * {
+    visibility: visible;
+  }
+
+  .hoja-comprobante {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 210mm;
+  }
+
+  /* Los navegadores descartan fondos al imprimir, y acá el negro del total y
+     la marca de agua son información, no decoración. */
+  .hoja-comprobante {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
