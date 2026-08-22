@@ -96,7 +96,7 @@ function CountUp({
   suffix?: string;
 }) {
   const ref = useRef<HTMLSpanElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: "-70px" });
+  const inView = useInView(ref, { once: true, margin: "0px 0px -70px 0px" });
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -245,8 +245,7 @@ export default function AgenciaContent() {
           height={260}
           className="pointer-events-none absolute -right-8 bottom-8 hidden h-auto w-36 opacity-[0.08] lg:block"
         />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-band via-band/40 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent via-band/30 to-band" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gold/70 via-white/12 to-transparent" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
             <p className="text-eyebrow uppercase text-gold/85">Quiénes somos</p>
@@ -260,38 +259,31 @@ export default function AgenciaContent() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-90px" }}
+            viewport={{ once: true, margin: "0px 0px -90px 0px" }}
             variants={STAGGER_MEDIUM_CONTAINER}
-            className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3"
+            className="mt-12 grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-3"
           >
             {relatoDeAgencia.map((chapter, index) => (
               <motion.article
                 key={chapter}
                 variants={STAGGER_ITEM_MEDIUM}
-                whileHover={{ y: -4 }}
                 transition={{ duration: 0.45, ease: EASE_LUXURY }}
-                className="edge-scan-card group relative overflow-hidden border border-white/12 bg-white/[0.03] p-6 md:p-7"
+                className="group relative pt-6"
               >
                 <motion.div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/80 to-transparent"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gold/80 to-white/10"
                   initial={{ scaleX: 0, opacity: 0.2 }}
                   whileInView={{ scaleX: 1, opacity: 1 }}
-                  viewport={{ once: true, margin: "-80px" }}
+                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                   transition={{ duration: 0.9, delay: 0.15 + index * 0.08, ease: EASE_LUXURY }}
                   style={{ transformOrigin: "left center" }}
                 />
                 <p className="mb-3 flex items-center gap-2 text-eyebrow uppercase text-gold/85">
                   <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto" />
-                  Capitulo {index + 1}
+                  Capítulo {index + 1}
                 </p>
                 <p className="relative z-10 text-body text-ash">{chapter}</p>
-                <motion.span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gold/20 blur-2xl"
-                  animate={{ opacity: [0.1, 0.42, 0.1], scale: [0.92, 1.05, 0.92] }}
-                  transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: index * 0.24 }}
-                />
               </motion.article>
             ))}
           </motion.div>
@@ -315,7 +307,7 @@ export default function AgenciaContent() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-90px" }}
+            viewport={{ once: true, margin: "0px 0px -90px 0px" }}
             variants={STAGGER_MEDIUM_CONTAINER}
             className="grid grid-cols-1 gap-x-12 gap-y-0 md:grid-cols-2"
           >
@@ -346,7 +338,7 @@ export default function AgenciaContent() {
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.985 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: true, margin: "0px 0px -80px 0px" }}
               transition={{ duration: 0.85, ease: EASE_LUXURY }}
               className="lg:col-span-5"
             >
@@ -381,7 +373,7 @@ export default function AgenciaContent() {
                       key={highlight}
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-80px" }}
+                      viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                       transition={{ duration: 0.55, delay: 0.18 + index * 0.05, ease: EASE_LUXURY }}
                       className="inline-flex items-center gap-3 text-eyebrow uppercase text-stone"
                     >
@@ -399,7 +391,7 @@ export default function AgenciaContent() {
                       key={paragraph}
                       initial={{ opacity: 0, y: 14 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-80px" }}
+                      viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                       transition={{ duration: 0.65, delay: 0.2 + index * 0.07, ease: EASE_LUXURY }}
                     >
                       {paragraph}
@@ -410,7 +402,7 @@ export default function AgenciaContent() {
                 <motion.blockquote
                   initial={{ opacity: 0, y: 14 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
+                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                   transition={{ duration: 0.7, delay: 0.38, ease: EASE_LUXURY }}
                   className="mt-8 border-l-2 border-graphite/20 pl-4 text-body italic text-stone"
                 >
@@ -420,7 +412,7 @@ export default function AgenciaContent() {
                 <motion.div
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
+                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                   transition={{ duration: 0.7, delay: 0.48, ease: EASE_LUXURY }}
                   className="mt-8 flex flex-col gap-3 sm:flex-row"
                 >
@@ -435,7 +427,7 @@ export default function AgenciaContent() {
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
+                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                   transition={{ duration: 0.6, delay: 0.56, ease: EASE_LUXURY }}
                   className="mt-8 inline-flex border border-graphite/20 bg-paper-lift px-4 py-2 text-eyebrow uppercase text-stone"
                 >
@@ -452,29 +444,38 @@ export default function AgenciaContent() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-90px" }}
+            viewport={{ once: true, margin: "0px 0px -90px 0px" }}
             variants={STAGGER_MEDIUM_CONTAINER}
-            className="grid grid-cols-2 gap-4 md:grid-cols-4"
+            className="grid grid-cols-2 border-t border-graphite/14 md:grid-cols-4"
           >
-            {decisionSignals.map((signal) => (
+            {decisionSignals.map((signal, index) => (
               <motion.article
                 key={signal.label}
                 variants={STAGGER_ITEM_MEDIUM}
-                whileHover={{ y: -4 }}
                 transition={{ duration: 0.4, ease: EASE_LUXURY }}
-                className="relative border border-graphite/12 bg-white p-5 text-center md:p-6"
+                className={`relative py-7 md:py-8 ${index % 2 === 1 ? "pl-6 md:pl-0" : ""} ${
+                  index === 0 ? "" : "md:pl-8"
+                }`}
               >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
-                <p className="font-heading text-display-md text-ink">
+                {index === 0 ? null : (
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-6 left-0 hidden w-px bg-graphite/12 md:block"
+                  />
+                )}
+                <p className="font-heading text-display-md tabular-nums text-ink">
                   <CountUp to={signal.value} prefix={signal.prefix} suffix={signal.suffix} />
                 </p>
-                <p className="mt-1 text-eyebrow uppercase text-stone">{signal.label}</p>
+                <p className="mt-2 flex items-center gap-2.5 text-eyebrow uppercase text-stone">
+                  <span className="h-px w-4 bg-gold/70" />
+                  {signal.label}
+                </p>
               </motion.article>
             ))}
           </motion.div>
 
           <Reveal delay={0.14}>
-            <div className="mt-8 border border-graphite/12 bg-white p-4 md:p-6">
+            <div className="mt-14 border-t border-graphite/14 pt-8">
               <p className="mb-4 flex items-center gap-2 text-eyebrow uppercase text-stone">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto opacity-65" />
                 Marcas que confiaron en Impakto
@@ -482,17 +483,16 @@ export default function AgenciaContent() {
               <motion.div
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, margin: "-90px" }}
+                viewport={{ once: true, margin: "0px 0px -90px 0px" }}
                 variants={STAGGER_FAST_CONTAINER}
-                className="grid grid-cols-2 gap-3 md:grid-cols-4"
+                className="grid grid-cols-2 gap-x-10 gap-y-2 md:grid-cols-4"
               >
                 {trustLogos.map((logo) => (
                   <motion.div
                     key={logo.file}
                     variants={STAGGER_ITEM_FAST}
-                    whileHover={{ y: -3 }}
                     transition={{ duration: 0.38, ease: EASE_LUXURY }}
-                    className="flex h-[6rem] items-center justify-center border border-graphite/8 bg-surface px-4"
+                    className="group flex h-[6.5rem] items-center justify-center"
                   >
                     <div className="relative h-[3.4rem] w-full max-w-[182px]">
                       <Image
@@ -501,7 +501,7 @@ export default function AgenciaContent() {
                         fill
                         // La celda topea en 182px de ancho.
                         sizes="182px"
-                        className={`object-contain object-center grayscale opacity-75 ${logoOpticalScale[logo.file] ?? "scale-100"}`}
+                        className={`object-contain object-center grayscale opacity-60 mix-blend-multiply transition-opacity duration-slow group-hover:opacity-100 ${logoOpticalScale[logo.file] ?? "scale-100"}`}
                         loading="lazy"
                       />
                     </div>
@@ -516,10 +516,11 @@ export default function AgenciaContent() {
       <section className="relative overflow-hidden bg-night-soft py-16 text-paper md:py-18 lg:py-16">
         {/* Segundo hotlink a Unsplash de 2200px, a opacity 0.12 y debajo de un
             overlay de 0.82-0.92: no llegaba a verse. Queda la grilla. */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-band via-band/50 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gold/70 via-white/12 to-transparent" />
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
-            <div className="border border-white/14 bg-white/[0.03] p-9 md:p-12 lg:p-14">
+            <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12 lg:gap-14">
+              <div className="lg:col-span-7">
               <p className="text-eyebrow uppercase text-gold/85">Compromiso Impakto</p>
               <h2 className="mt-4 max-w-[15ch] font-heading text-balance text-display-lg text-paper">
                 Nos involucramos de verdad en cada marca para que avance con <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">más seguridad</span>.
@@ -535,7 +536,9 @@ export default function AgenciaContent() {
                 <span>Respuesta inicial en 24h hábiles</span>
               </p>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              </div>
+
+              <div className="flex flex-col gap-4 lg:col-span-4 lg:col-start-9">
                   <Button
                     asChild
                     size="lg"

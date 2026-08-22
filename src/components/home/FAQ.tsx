@@ -56,7 +56,7 @@ export default function FAQ() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             variants={INTRO_CONTAINER}
             className="lg:col-span-4 lg:pr-6 lg:sticky lg:top-28"
           >
@@ -86,7 +86,7 @@ export default function FAQ() {
             variants={FAQ_CONTAINER}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
           >
           {preguntasFrecuentes.map((faq) => (
             <motion.details

@@ -52,7 +52,7 @@ const INTRO_ITEM = {
 
 export default function Methodology() {
   const imageRef = useRef<HTMLDivElement>(null);
-  const imageInView = useInView(imageRef, { once: true, margin: "-80px" });
+  const imageInView = useInView(imageRef, { once: true, margin: "0px 0px -80px 0px" });
 
   return (
     <section id="metodo" className="relative overflow-hidden py-16 md:py-20 bg-night-soft text-paper border-t border-white/8">
@@ -64,7 +64,7 @@ export default function Methodology() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             variants={INTRO_CONTAINER}
             className="lg:col-span-5 lg:col-start-8"
           >
@@ -107,7 +107,7 @@ export default function Methodology() {
             variants={STEPS_CONTAINER}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
           >
             {metodologia.map((step) => (
               <motion.article

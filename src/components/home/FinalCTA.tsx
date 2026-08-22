@@ -23,7 +23,7 @@ export default function FinalCTA() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.75 }}
           className="relative pt-12 md:pt-16"
         >

@@ -21,7 +21,7 @@ export default function Footer() {
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "0px 0px -80px 0px" }}
           transition={{ duration: 0.75 }}
           className="grid grid-cols-1 gap-10 border-b border-white/12 pb-12 md:grid-cols-12 lg:gap-6"
         >

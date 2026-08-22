@@ -37,7 +37,7 @@ export default function IdealClient() {
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.9, ease: EASE_LUXURY }}
             className="lg:col-span-5 min-h-[24rem] md:min-h-[36rem] overflow-hidden relative"
           >
@@ -78,7 +78,7 @@ export default function IdealClient() {
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-7 p-9 md:p-14 lg:p-16"
           >
@@ -102,7 +102,7 @@ export default function IdealClient() {
               variants={LIST_CONTAINER}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: true, margin: "0px 0px -80px 0px" }}
             >
               {perfilDeCliente.map((item, i) => (
                 <motion.li

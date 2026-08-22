@@ -20,7 +20,7 @@ export function Reveal({
   delay = 0,
   y = 18,
   duration = 0.75,
-  margin = "-90px",
+  margin = "0px 0px -90px 0px",
 }: RevealProps) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -48,7 +48,7 @@ type RevealLineProps = {
   margin?: string;
 };
 
-export function RevealLine({ className, delay = 0, duration = 0.8, margin = "-80px" }: RevealLineProps) {
+export function RevealLine({ className, delay = 0, duration = 0.8, margin = "0px 0px -80px 0px" }: RevealLineProps) {
   const prefersReducedMotion = useReducedMotion();
 
   return (

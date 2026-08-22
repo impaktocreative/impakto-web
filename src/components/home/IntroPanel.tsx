@@ -22,22 +22,6 @@ export default function IntroPanel() {
         }}
       />
 
-      {/* Elemento tipográfico decorativo monumental */}
-      <div className="pointer-events-none absolute -right-12 top-1/2 -translate-y-1/2 select-none overflow-hidden">
-        <span
-          className="font-heading text-paper block leading-none"
-          style={{
-            fontSize: "clamp(18rem, 32vw, 38rem)",
-            opacity: 0.028,
-            letterSpacing: "-0.06em",
-            transform: "rotate(-6deg)",
-            lineHeight: 0.82,
-          }}
-        >
-          I.
-        </span>
-      </div>
-
       {/* Hairline vertical de composición */}
       <div className="pointer-events-none absolute left-[38%] inset-y-0 w-px bg-white/[0.06] hidden lg:block" />
 
@@ -48,7 +32,7 @@ export default function IntroPanel() {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.9, ease: EASE_LUXURY }}
             className="lg:col-span-5 relative min-h-[24rem] md:min-h-[36rem] border border-white/10 overflow-hidden flex items-end p-8 md:p-12"
           >
@@ -102,7 +86,7 @@ export default function IntroPanel() {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE_LUXURY }}
             className="lg:col-span-7 p-9 md:p-14 lg:p-[4.5rem] border border-white/10 border-l-0"
           >

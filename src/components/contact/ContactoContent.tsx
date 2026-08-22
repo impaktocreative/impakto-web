@@ -103,7 +103,7 @@ export default function ContactoContent() {
                   variants={PROCESS_CONTAINER}
                   initial="hidden"
                   whileInView="show"
-                  viewport={{ once: true, margin: "-80px" }}
+                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                 >
                   {procesoDeDiagnostico.map((item) => (
                     <motion.article

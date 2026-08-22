@@ -124,7 +124,7 @@ export default function ServiciosContent() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-90px" }}
+            viewport={{ once: true, margin: "0px 0px -90px 0px" }}
             variants={STAGGER_MEDIUM}
             className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3"
           >
@@ -162,7 +162,7 @@ export default function ServiciosContent() {
 
       <section className="section-glow relative overflow-hidden border-b border-graphite/8 bg-band py-18 md:py-22">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={STAGGER_MEDIUM} className="border-b border-graphite/12">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "0px 0px -100px 0px" }} variants={STAGGER_MEDIUM} className="border-b border-graphite/12">
             {programasEstrategicos.map((program, index) => (
               <motion.article
                 key={program.title}
@@ -225,7 +225,7 @@ export default function ServiciosContent() {
             </Reveal>
           </div>
 
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-90px" }} variants={STAGGER_FAST} className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "0px 0px -90px 0px" }} variants={STAGGER_FAST} className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
             {areasDeTrabajo.map((domain) => (
               <motion.article key={domain.title} variants={ITEM_FAST} whileHover={{ y: -4 }} className="rounded-panel border border-graphite/12 bg-band p-6">
                 <h3 className="font-heading text-display-xs text-slate">{domain.title}</h3>
@@ -273,11 +273,19 @@ export default function ServiciosContent() {
             </Reveal>
           </div>
 
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-90px" }} variants={STAGGER_FAST} className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {senalesDeClienteIdeal.map((signal) => (
-              <motion.article key={signal.title} variants={ITEM_FAST} whileHover={{ y: -4 }} className="rounded-card border border-graphite/12 bg-white p-6">
-                <h3 className="font-heading text-display-xs text-slate">{signal.title}</h3>
-                <p className="mt-4 text-body text-stone">{signal.description}</p>
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "0px 0px -90px 0px" }} variants={STAGGER_FAST} className="mt-12 grid grid-cols-1 gap-x-10 gap-y-0 md:grid-cols-3">
+            {senalesDeClienteIdeal.map((signal, index) => (
+              <motion.article
+                key={signal.title}
+                variants={ITEM_FAST}
+                className="bloque-programa group relative py-7 md:py-8"
+              >
+                <span className="bloque-filete" aria-hidden="true" />
+                <p className="text-eyebrow uppercase text-stone/80 tabular-nums">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-3 font-heading text-display-xs text-ink">{signal.title}</h3>
+                <p className="mt-3 text-body-sm text-stone">{signal.description}</p>
               </motion.article>
             ))}
           </motion.div>
@@ -306,7 +314,7 @@ export default function ServiciosContent() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-90px" }}
+            viewport={{ once: true, margin: "0px 0px -90px 0px" }}
             variants={STAGGER_FAST}
             className="mt-16"
           >
@@ -367,7 +375,9 @@ export default function ServiciosContent() {
       <section className="relative overflow-hidden bg-night-soft py-18 text-paper md:py-20">
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
-            <div className="mx-auto max-w-[1120px] border border-white/18 bg-white/[0.035] p-9 md:p-12">
+            <div className="relative grid grid-cols-1 items-end gap-10 pt-12 lg:grid-cols-12 lg:gap-14">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gold/75 via-white/12 to-transparent" />
+              <div className="lg:col-span-7">
               <p className="text-eyebrow uppercase text-gold/85">Siguiente paso</p>
               <h2 className="mt-4 max-w-[15ch] font-heading text-balance text-display-lg text-paper">
                 Definimos qué frentes priorizar para acelerar resultados con control.
@@ -375,7 +385,8 @@ export default function ServiciosContent() {
               <p className="mt-8 max-w-[40rem] text-body text-ash">
                 Si hoy la marca necesita mejorar captación, conversión o retención, una sesión estratégica permite ordenar el mapa de decisiones y establecer una hoja de ruta concreta.
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              </div>
+              <div className="flex flex-col gap-3 lg:col-span-4 lg:col-start-9">
                 <Button
                   asChild
                   size="lg"

@@ -33,7 +33,7 @@ export default function PainPoints() {
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.85, ease: EASE_LUXURY }}
           className="mx-auto max-w-4xl text-center"
         >
@@ -54,7 +54,7 @@ export default function PainPoints() {
           variants={LIST_CONTAINER}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "0px 0px -80px 0px" }}
         >
             {situacionesQueAtendemos.map((item, index) => (
               <motion.div

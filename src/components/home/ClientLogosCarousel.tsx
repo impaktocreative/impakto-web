@@ -25,7 +25,7 @@ export default function ClientLogosCarousel() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-70px" }}
+          viewport={{ once: true, margin: "0px 0px -70px 0px" }}
           transition={{ duration: 0.65 }}
           className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
         >
@@ -43,7 +43,7 @@ export default function ClientLogosCarousel() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-70px" }}
+          viewport={{ once: true, margin: "0px 0px -70px 0px" }}
           transition={{ duration: 0.75, delay: 0.08 }}
           className="relative overflow-hidden rounded-card border border-graphite/12 bg-paper-lift logos-scroll-container"
         >
@@ -64,7 +64,7 @@ export default function ClientLogosCarousel() {
                     // El slide mide 176px en mobile y 240px desde md. Sin esto
                     // `fill` asume 100vw y Next sirve la variante de 3840px.
                     sizes="(min-width: 768px) 240px, 176px"
-                    className="object-contain object-center grayscale opacity-68 transition-all duration-500 hover:grayscale-0 hover:opacity-95"
+                    className="object-contain object-center grayscale mix-blend-multiply opacity-68 transition-all duration-500 hover:grayscale-0 hover:opacity-95"
                     loading="lazy"
                   />
                 </div>

@@ -62,7 +62,7 @@ export default function ServicesOverview() {
           variants={SECTION_STAGGER}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-90px" }}
+          viewport={{ once: true, margin: "0px 0px -90px 0px" }}
         >
           <motion.div
             variants={SECTION_ITEM}
