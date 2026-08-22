@@ -10,7 +10,7 @@ import IdealClient from "@/components/home/IdealClient";
 import FAQ from "@/components/home/FAQ";
 import FinalCTA from "@/components/home/FinalCTA";
 import ScrollStage from "@/components/ui/ScrollStage";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, openGraphDeRuta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Inicio",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    url: "/",
+    ...openGraphDeRuta("/"),
   },
 };
 

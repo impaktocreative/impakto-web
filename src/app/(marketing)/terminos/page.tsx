@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, openGraphDeRuta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Términos",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: "/terminos",
   },
   openGraph: {
-    url: "/terminos",
+    ...openGraphDeRuta("/terminos"),
   },
 };
 

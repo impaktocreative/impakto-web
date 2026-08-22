@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ContactoContent from "@/components/contact/ContactoContent";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, openGraphDeRuta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: "/contacto",
   },
   openGraph: {
-    url: "/contacto",
+    ...openGraphDeRuta("/contacto"),
   },
 };
 
