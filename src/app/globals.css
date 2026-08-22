@@ -1390,6 +1390,39 @@ a:focus-visible {
   mask-composite: intersect;
 }
 
+/* Columnas de frentes de trabajo.
+   Mismo mecanismo que el índice de ejes, pero el filete corona una columna
+   entera en lugar de una fila: al pasar por encima crece desde la izquierda y
+   se vuelve oro, así que el oro sigue siendo consecuencia de la atención. */
+.columna-frente > .columna-filete {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: color-mix(in srgb, var(--color-foreground) 14%, transparent);
+}
+
+.columna-frente > .columna-filete::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light) 70%, transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slower) var(--ease-luxury);
+}
+
+.columna-frente:hover > .columna-filete::after,
+.columna-frente:focus-within > .columna-filete::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .columna-frente > .columna-filete::after {
+    transition: none;
+  }
+}
+
 /* Índice de ejes.
    El filete es la única línea: no hay caja. Al pasar por encima crece desde la
    izquierda y se vuelve oro, así que el oro sigue siendo una consecuencia de la

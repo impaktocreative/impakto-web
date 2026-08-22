@@ -226,15 +226,28 @@ export default function ServiciosContent() {
             </Reveal>
           </div>
 
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "0px 0px -90px 0px" }} variants={STAGGER_FAST} className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {areasDeTrabajo.map((domain) => (
-              <motion.article key={domain.title} variants={ITEM_FAST} whileHover={{ y: -4 }} className="rounded-panel border border-graphite/12 bg-band p-6">
-                <h3 className="font-heading text-display-xs text-slate">{domain.title}</h3>
-                <ul className="mt-5 space-y-2.5 border-t border-graphite/12 pt-5">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "0px 0px -90px 0px" }} variants={STAGGER_FAST} className="mt-14 grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 xl:grid-cols-4 xl:gap-x-8">
+            {areasDeTrabajo.map((domain, indice) => (
+              <motion.article
+                key={domain.title}
+                variants={ITEM_FAST}
+                className={`columna-frente group relative pt-5 ${indice % 2 === 1 ? "xl:mt-14" : ""}`}
+              >
+                <span className="columna-filete" aria-hidden="true" />
+
+                <span className="block font-heading text-display-sm tabular-nums leading-none text-graphite/20 transition-colors duration-slow group-hover:text-gold/70">
+                  {String(indice + 1).padStart(2, "0")}
+                </span>
+
+                <h3 className="mt-5 font-heading text-display-xs text-ink">{domain.title}</h3>
+
+                <ul className="mt-6">
                   {domain.items.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-body text-slate">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-gold/80" />
-                      <span>{item}</span>
+                    <li
+                      key={item}
+                      className="border-t border-graphite/10 py-2.5 text-body-sm text-slate last:border-b last:border-graphite/10"
+                    >
+                      {item}
                     </li>
                   ))}
                 </ul>
@@ -243,18 +256,24 @@ export default function ServiciosContent() {
           </motion.div>
 
           <Reveal delay={0.12}>
-            <div className="mt-8 rounded-card border border-graphite/12 bg-white p-5 md:p-6">
-              <p className="text-eyebrow uppercase text-stone">Modalidad de colaboración</p>
-              <p className="mt-3 max-w-[62rem] text-body text-stone">
+            <div className="mt-10 border-t border-graphite/15 pt-6">
+              <p className="flex items-center gap-3 text-eyebrow uppercase text-stone">
+                <span aria-hidden="true" className="h-px w-6 bg-gold/70" />
+                Modalidad de colaboración
+              </p>
+              <p className="mt-4 max-w-[62rem] text-body text-stone">
                 Podemos liderar el frente estratégico completo o integrarnos con equipos internos y agencias asociadas para ejecutar proyectos en conjunto, manteniendo dirección, criterio y estándar de implementación.
               </p>
-              <div className="mt-5 flex flex-wrap gap-2.5">
+              <ul className="mt-7 grid grid-cols-1 gap-x-12 sm:grid-cols-2">
                 {perfilesDeColaboracion.map((profile) => (
-                  <span key={profile} className="border border-graphite/12 bg-surface px-3.5 py-2 text-eyebrow uppercase text-stone">
+                  <li
+                    key={profile}
+                    className="border-t border-graphite/12 py-3 text-body-sm text-stone last:border-b sm:last:border-b-0 sm:[&:nth-last-child(2)]:border-b"
+                  >
                     {profile}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </Reveal>
         </div>

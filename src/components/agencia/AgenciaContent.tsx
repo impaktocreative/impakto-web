@@ -187,13 +187,18 @@ export default function AgenciaContent() {
               <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[46rem] text-body text-stone md:text-body-lg">
                 Acompañamos compañías que necesitan elevar su posicionamiento con una dirección más clara, una ejecución más precisa y una presencia de marca más sólida.
               </p>
-              <p className="hero-rise hero-rise-delay-3 mt-6 flex w-full max-w-[48rem] flex-wrap items-center gap-x-2 gap-y-1 border border-graphite/12 bg-paper-lift px-4 py-2 text-eyebrow font-medium uppercase text-stone md:w-fit">
-                <span>+20 años de experiencia</span>
-                <span className="text-stone">/</span>
-                <span>Trabajo multidisciplinario</span>
-                <span className="text-stone">/</span>
-                <span>Acompañamiento estratégico</span>
-              </p>
+              <div className="hero-rise hero-rise-delay-3 mt-9 max-w-[44rem] border-t border-graphite/15 pt-4">
+                <p className="flex flex-col gap-x-10 gap-y-2.5 text-eyebrow uppercase text-stone sm:flex-row sm:flex-wrap">
+                  {["+20 años de experiencia", "Trabajo multidisciplinario", "Acompañamiento estratégico"].map(
+                    (credencial) => (
+                      <span key={credencial} className="flex items-center gap-2.5">
+                        <span aria-hidden="true" className="h-px w-4 shrink-0 bg-gold/70" />
+                        {credencial}
+                      </span>
+                    ),
+                  )}
+                </p>
+              </div>
           </motion.div>
         </div>
       </section>
@@ -429,7 +434,7 @@ export default function AgenciaContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "0px 0px -80px 0px" }}
                   transition={{ duration: 0.6, delay: 0.56, ease: EASE_LUXURY }}
-                  className="mt-8 inline-flex border border-graphite/20 bg-paper-lift px-4 py-2 text-eyebrow uppercase text-stone"
+                  className="mt-8 border-t border-graphite/12 pt-3 text-caption text-stone/70"
                 >
                   Biografía editorial en actualización
                 </motion.p>
