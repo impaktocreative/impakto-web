@@ -1084,6 +1084,109 @@ a:focus-visible {
   }
 }
 
+/* ── Conversación del hero ──────────────────────────────────────────────────
+   La burbuja del estudio lleva luz propia: un halo dorado bajo y una línea
+   clara en el borde superior interno. Sobre papel, una caja tinta plana se
+   lee como un bloque de texto; con el halo se lee como una pieza encendida. */
+.burbuja-impakto {
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--color-gold) 30%, var(--color-ink));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-gold-light) 26%, transparent),
+    0 20px 44px -22px rgba(10, 10, 9, 0.6),
+    0 0 48px -12px color-mix(in srgb, var(--color-gold) 58%, transparent);
+}
+
+/* Un barrido de luz cruza la burbuja al aparecer, una sola vez. Es el mismo
+   material dorado que usan los botones del sitio; acá marca el momento en que
+   el estudio toma la palabra. El elemento se remonta en cada turno, así que la
+   animación arranca sola sin tener que reiniciarla desde JavaScript. */
+.burbuja-impakto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sheen-gold);
+  transform: translateX(-115%);
+  animation: burbuja-barrido 1.5s var(--ease-luxury) 0.18s 1 both;
+  pointer-events: none;
+}
+
+@keyframes burbuja-barrido {
+  to {
+    transform: translateX(115%);
+  }
+}
+
+/* Luz ambiente detrás de las dos burbujas. Respira muy lento: es lo que
+   engancha la mirada después del titular sin competir con él. */
+.aura-conversacion {
+  background: radial-gradient(
+    62% 52% at 60% 48%,
+    color-mix(in srgb, var(--color-gold) 42%, transparent) 0%,
+    color-mix(in srgb, var(--color-gold) 16%, transparent) 40%,
+    transparent 74%
+  );
+  filter: blur(18px);
+  animation: aura-respira 9s ease-in-out infinite;
+}
+
+@keyframes aura-respira {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+/* Caret. Barra fina en oro, del alto de una mayúscula, que parpadea mientras
+   entra el texto. Es el detalle que dice "hay alguien escribiendo esto". */
+.cursor-tipeo {
+  display: inline-block;
+  width: 2px;
+  height: 0.95em;
+  margin-left: 0.12em;
+  vertical-align: -0.12em;
+}
+
+.cursor-tipeo-barra {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-gold-light);
+  animation: cursor-parpadeo 1s steps(2, start) infinite;
+}
+
+@keyframes cursor-parpadeo {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aura-conversacion {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .cursor-tipeo-barra {
+    animation: none;
+    opacity: 0;
+  }
+
+  .burbuja-impakto::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 /* ── Asesor ─────────────────────────────────────────────────────────────────
    El disparador tiene que verse igual sobre el hero claro y sobre el pie
    oscuro. Un disco tinta desaparece en media página, así que va en oro: es el

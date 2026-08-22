@@ -40,12 +40,19 @@ function TypedText({
   text,
   delay = 0,
   stagger = 0.018,
+  cursor = false,
 }: {
   text: string;
   delay?: number;
   stagger?: number;
+  /** Caret dorado que parpadea mientras se escribe y se apaga al terminar. */
+  cursor?: boolean;
 }) {
   const words = parseMarkedWords(text);
+  // Cuándo termina de entrar la última palabra. Se calcula acá porque es el
+  // único lugar que conoce el escalonado real; pasarlo desde afuera se
+  // desincroniza en cuanto alguien cambia el stagger.
+  const finDelTipeo = delay + Math.max(0, words.length - 1) * stagger + 0.14;
 
   return (
     <motion.span
@@ -77,6 +84,17 @@ function TypedText({
           {index < words.length - 1 && !/^[.,;:!?)\]]/.test(words[index + 1]!.text) ? " " : ""}
         </motion.span>
       ))}
+      {cursor ? (
+        <motion.span
+          aria-hidden="true"
+          className="cursor-tipeo"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ delay: finDelTipeo + 0.6, duration: 0.35 }}
+        >
+          <span className="cursor-tipeo-barra" />
+        </motion.span>
+      ) : null}
     </motion.span>
   );
 }
@@ -263,6 +281,10 @@ export default function Hero() {
             onBlurCapture={() => setPausado(false)}
           >
             <div className="relative w-full lg:ml-auto lg:max-w-[24rem]">
+              {/* Luz dorada muy baja detrás de la conversación. Sobre papel se
+                  lee como calidez, no como color, y es lo que hace que el ojo
+                  vaya ahí después del titular. */}
+              <div aria-hidden="true" className="aura-conversacion pointer-events-none absolute -inset-x-10 -inset-y-8 -z-10" />
               <p className="mb-4 flex items-center gap-2.5 text-eyebrow uppercase text-stone">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold/70" />
@@ -299,9 +321,19 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.34 }}
-                        className="relative mr-auto w-fit max-w-[20.5rem] rounded-card rounded-bl-sm border border-ink bg-ink px-4 py-4 text-paper sm:max-w-[22rem]"
+                        className="burbuja-impakto relative z-10 -mt-1 mr-auto w-fit max-w-[20.5rem] rounded-card rounded-bl-sm border border-ink bg-ink px-4 py-4 text-paper sm:max-w-[22rem]"
                       >
-                        <span aria-hidden="true" className="hairline-gold absolute inset-x-4 top-0 h-px" />
+                        {/* El filete se dibuja de izquierda a derecha justo
+                            cuando aparece la burbuja, en vez de estar puesto
+                            desde el principio. Es lo que hace que la respuesta
+                            se sienta emitida y no revelada. */}
+                        <motion.span
+                          aria-hidden="true"
+                          className="hairline-gold absolute inset-x-4 top-0 h-px origin-left"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+                        />
                         <span className="mb-2 flex items-center gap-2 text-eyebrow uppercase text-fog">
                           <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={12} className="h-3 w-auto" />
                           Impakto
@@ -314,7 +346,7 @@ export default function Hero() {
                           </span>
                         ) : (
                           <p className="text-body-sm text-ash">
-                            <TypedText text={currentConversation.answer} stagger={0.015} />
+                            <TypedText text={currentConversation.answer} stagger={0.015} cursor />
                           </p>
                         )}
                       </motion.div>
@@ -338,11 +370,17 @@ export default function Hero() {
                       indice === activeConversation ? "w-7" : "w-3.5"
                     }`}
                   >
-                    <span
-                      className={`block h-px w-full transition-colors duration-slow ${
-                        indice === activeConversation ? "bg-gold" : "bg-graphite/25"
-                      }`}
-                    />
+                    <span className="relative block h-px w-full overflow-hidden bg-graphite/25">
+                      {indice === activeConversation ? (
+                        <motion.span
+                          key={`${activeConversation}-${pausado}`}
+                          className="absolute inset-0 origin-left bg-gold"
+                          initial={{ scaleX: pausado ? 1 : 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: pausado ? 0 : DURACION_TURNO / 1000, ease: "linear" }}
+                        />
+                      ) : null}
+                    </span>
                   </button>
                 ))}
               </div>
