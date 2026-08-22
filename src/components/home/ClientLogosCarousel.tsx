@@ -3,20 +3,57 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+/**
+ * Las marcas de la cinta.
+ *
+ * El orden no es alfabético ni cronológico: alterna rubros para que dos logos
+ * del mismo sector no caigan pegados. En una cinta que corre, dos concesionarias
+ * seguidas se leen como una sola.
+ */
 const logos = [
   { file: "cliente-01.jpg", name: "Vargas" },
+  { file: "chevrolet.webp", name: "Chevrolet" },
   { file: "cliente-02.jpg", name: "Restorando" },
-  { file: "cliente-03.jpg", name: "Black Donkey" },
+  { file: "grupo-san-nicolas-salud.webp", name: "Grupo San Nicolás Salud" },
+  { file: "salomon.webp", name: "Salomon" },
   { file: "cliente-04.jpg", name: "Carballal Propiedades" },
+  { file: "little-ranch-hotel-spa.webp", name: "Little Ranch Hotel & Spa" },
   { file: "cliente-05.jpg", name: "Venfarma" },
-  { file: "cliente-06.jpg", name: "Neicha" },
+  { file: "llongueras.webp", name: "Llongueras" },
+  { file: "3m-supermercados.webp", name: "3M Supermercados" },
+  { file: "cliente-03.jpg", name: "Black Donkey" },
+  { file: "san-jorge-automoviles.webp", name: "San Jorge Automóviles" },
+  { file: "the-nails-bar.webp", name: "The Nails Bar" },
   { file: "cliente-07.jpg", name: "Red Argentina de Salud" },
+  { file: "terra-nostra.webp", name: "Terra Nostra" },
+  { file: "multipasta.webp", name: "Multipasta" },
+  { file: "cliente-06.jpg", name: "Neicha" },
+  { file: "si-turismo-bariloche.webp", name: "Sí Turismo Bariloche" },
+  { file: "doctor-k.webp", name: "Doctor K" },
   { file: "cliente-08.jpg", name: "Honky Tonk" },
+  { file: "regala.webp", name: "Regala" },
+  { file: "la-crockery.webp", name: "La Crockery" },
+  { file: "thaun.webp", name: "Thaun" },
+  { file: "you-mujer.webp", name: "You Mujer" },
   { file: "cliente-09.jpg", name: "Hotel San Martín" },
+  { file: "buttonia.webp", name: "Buttonia" },
+  { file: "cirse.webp", name: "Cirse" },
+  { file: "doris-machin.webp", name: "Doris Machin" },
+  { file: "san-carlos.webp", name: "San Carlos" },
+  { file: "rebecca.webp", name: "Rebecca" },
+  { file: "honky-tonk-woman.webp", name: "Honky Tonk Woman" },
 ];
 
 // §Marquesinas Blueprint — duplicación estructural para loop infinito sin corte
 const repeated = [...logos, ...logos];
+
+/**
+ * Segundos que tarda cada logo en cruzar. La duración total se deriva de la
+ * cantidad y no es un número fijo: con un valor fijo, sumar marcas alarga la
+ * cinta y la vuelve más lenta, que es exactamente lo contrario de lo que se
+ * busca al agregar clientes.
+ */
+const SEGUNDOS_POR_LOGO = 3;
 
 export default function ClientLogosCarousel() {
   return (
@@ -35,7 +72,7 @@ export default function ClientLogosCarousel() {
           </p>
           <span className="flex items-center gap-3 text-eyebrow uppercase text-stone">
             <span className="hairline-gold h-px w-6" aria-hidden="true" />
-            40+ proyectos
+            +30 marcas
           </span>
         </motion.div>
 
@@ -45,10 +82,11 @@ export default function ClientLogosCarousel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -70px 0px" }}
           transition={{ duration: 0.75, delay: 0.08 }}
-          className="relative overflow-hidden rounded-card border border-graphite/12 bg-paper-lift logos-scroll-container"
+          className="logos-scroll-container relative overflow-hidden rounded-card border border-graphite/12 bg-white"
         >
           <div
             className="logos-track flex w-max items-stretch gap-0"
+            style={{ "--marquesina-duracion": `${logos.length * SEGUNDOS_POR_LOGO}s` } as React.CSSProperties}
             aria-label="Logos de clientes"
           >
             {repeated.map((logo, index) => (
@@ -64,7 +102,7 @@ export default function ClientLogosCarousel() {
                     // El slide mide 176px en mobile y 240px desde md. Sin esto
                     // `fill` asume 100vw y Next sirve la variante de 3840px.
                     sizes="(min-width: 768px) 240px, 176px"
-                    className="object-contain object-center grayscale mix-blend-multiply opacity-68 transition-all duration-500 hover:grayscale-0 hover:opacity-95"
+                    className="object-contain object-center grayscale opacity-70 transition-all duration-500 hover:grayscale-0 hover:opacity-100"
                     loading="lazy"
                   />
                 </div>

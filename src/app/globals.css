@@ -846,7 +846,20 @@ a:focus-visible {
 }
 
 .logos-track {
-  animation: logos-marquee 48s linear infinite;
+  /* La duración la fija el componente a partir de la cantidad de marcas. El 48s
+     de antes era para nueve logos; con treinta, ese mismo número dejaba la
+     cinta corriendo a más del triple de velocidad. */
+  animation: logos-marquee var(--marquesina-duracion, 48s) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logos-track {
+    animation: none;
+  }
+
+  .logos-scroll-container {
+    overflow-x: auto;
+  }
 }
 
 @keyframes logos-marquee {

@@ -49,3 +49,7 @@ next-env.d.ts
 # Credenciales sueltas — nunca al repo
 DATA.txt
 *.credentials.txt
+
+# Originales de logos de clientes. Las versiones optimizadas viven en
+# public/logos/clientes; estos JPG son la materia prima y pesan 2,6 MB.
+/NUEVOS LOGOS/
