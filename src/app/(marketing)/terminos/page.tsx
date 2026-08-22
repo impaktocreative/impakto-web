@@ -48,11 +48,12 @@ export default function TerminosPage() {
         </div>
       </section>
 
-      <section className="bg-band py-16 md:py-16">
+      <section className="bg-band py-14 md:py-16">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <article className="max-w-4xl border border-graphite/12 bg-white p-7 md:p-10">
-            <h2 className="font-heading text-display-xs text-foreground">Alcance informativo</h2>
-            <p className="mt-5 text-body text-slate">
+          <article className="grid grid-cols-1 gap-6 border-t border-graphite/14 pt-8 lg:grid-cols-12 lg:gap-14">
+            <h2 className="font-heading text-display-xs text-foreground lg:col-span-4">Alcance informativo</h2>
+            <div className="lg:col-span-7 lg:col-start-6">
+            <p className="text-body text-slate">
               El contenido publicado en este sitio tiene fines informativos y de
               presentación de servicios de Impakto Creative.
             </p>
@@ -60,6 +61,7 @@ export default function TerminosPage() {
               Toda propuesta comercial, alcance final y condiciones de trabajo se
               define en instancias de contacto y acuerdo directo con cada cliente.
             </p>
+            </div>
           </article>
         </div>
       </section>

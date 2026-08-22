@@ -80,9 +80,9 @@ export default function ContactoContent() {
               </Reveal>
 
               <Reveal delay={0.08}>
-                <div className="premium-grid-light mt-8 rounded-card border border-graphite/12 bg-paper-lift p-6">
-                  <h3 className="text-eyebrow uppercase text-stone">Contacto directo</h3>
-                  <div className="mt-4 space-y-3 text-body text-slate">
+                <div className="mt-10 border-t border-graphite/14 pt-6">
+                  <h3 className="flex items-center gap-3 text-eyebrow uppercase text-stone"><span className="h-px w-5 bg-gold/70" />Contacto directo</h3>
+                  <div className="mt-4 space-y-2.5 text-body text-slate">
                     <a href="mailto:hola@impaktocreative.com" className="block transition-colors hover:text-ink">
                       hola@impaktocreative.com
                     </a>
@@ -99,7 +99,7 @@ export default function ContactoContent() {
 
               <Reveal delay={0.12}>
                 <motion.div
-                  className="mt-8 space-y-4 border-t border-graphite/12 pt-6"
+                  className="mt-10"
                   variants={PROCESS_CONTAINER}
                   initial="hidden"
                   whileInView="show"
@@ -109,12 +109,15 @@ export default function ContactoContent() {
                     <motion.article
                       key={item.step}
                       variants={PROCESS_ITEM}
-                      className="grid grid-cols-[2.8rem_1fr] gap-3 rounded-card border border-graphite/12 bg-paper-lift p-4"
+                      className="bloque-programa group relative grid grid-cols-[2.8rem_1fr] gap-4 py-5"
                     >
-                      <p className="font-heading text-display-xs leading-none text-stone">{item.step}</p>
+                      <span className="bloque-filete" aria-hidden="true" />
+                      <p className="font-heading text-display-xs tabular-nums leading-none text-graphite/25 transition-colors duration-slow group-hover:text-primary-ink">
+                        {item.step}
+                      </p>
                       <div>
                         <h3 className="font-heading text-lead text-ink">{item.title}</h3>
-                        <p className="mt-2 text-body text-stone">{item.description}</p>
+                        <p className="mt-2 text-body-sm text-stone">{item.description}</p>
                       </div>
                     </motion.article>
                   ))}
@@ -124,8 +127,8 @@ export default function ContactoContent() {
 
             <div className="lg:col-span-7 lg:col-start-6">
               <Reveal>
-                <div id="brief-contacto" className="relative overflow-hidden rounded-panel border border-graphite/12 bg-white p-6 md:p-9">
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
+                <div id="brief-contacto" className="relative pt-8">
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gold/75 via-graphite/12 to-transparent" />
                   <p className="text-eyebrow uppercase text-stone">Brief inicial</p>
                   <h2 className="mt-4 font-heading text-display-md text-foreground">
                     Formulario de contacto
@@ -147,7 +150,9 @@ export default function ContactoContent() {
       <section className="relative overflow-hidden bg-night-soft py-18 text-paper md:py-20">
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
-            <div className="mx-auto max-w-[1120px] border border-white/18 bg-white/[0.035] p-9 md:p-12">
+            <div className="relative grid grid-cols-1 items-end gap-10 pt-12 lg:grid-cols-12 lg:gap-14">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gold/75 via-white/12 to-transparent" />
+              <div className="lg:col-span-7">
               <p className="text-eyebrow uppercase text-gold/85">Perfil de trabajo</p>
               <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg text-paper">
                 Trabajamos mejor con proyectos que ya decidieron invertir en el proceso.
@@ -155,7 +160,9 @@ export default function ContactoContent() {
               <p className="mt-7 max-w-[40rem] text-body text-ash">
                 Priorizamos relaciones profesionales con objetivos definidos y decisiones oportunas. Esa alineación permite construir soluciones con mayor coherencia, calidad y sostenibilidad.
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-stretch">
+              </div>
+
+              <div className="flex flex-col gap-3 lg:col-span-4 lg:col-start-9">
                 <Button
                   asChild
                   size="lg"

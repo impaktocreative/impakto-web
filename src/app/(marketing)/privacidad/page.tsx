@@ -48,11 +48,12 @@ export default function PrivacidadPage() {
         </div>
       </section>
 
-      <section className="bg-band py-16 md:py-16">
+      <section className="bg-band py-14 md:py-16">
         <div className="container mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
-          <article className="max-w-4xl border border-graphite/12 bg-white p-7 md:p-10">
-            <h2 className="font-heading text-display-xs text-foreground">Tratamiento de datos</h2>
-            <p className="mt-5 text-body text-slate">
+          <article className="grid grid-cols-1 gap-6 border-t border-graphite/14 pt-8 lg:grid-cols-12 lg:gap-14">
+            <h2 className="font-heading text-display-xs text-foreground lg:col-span-4">Tratamiento de datos</h2>
+            <div className="lg:col-span-7 lg:col-start-6">
+            <p className="text-body text-slate">
               Impakto Creative utiliza los datos de contacto recibidos para
               responder consultas, coordinar reuniones y dar seguimiento a
               conversaciones de trabajo solicitadas por el usuario.
@@ -62,6 +63,7 @@ export default function PrivacidadPage() {
               previo. Para solicitar la modificación o eliminación de tus datos,
               escribinos a <a className="text-foreground underline underline-offset-4" href="mailto:hola@impaktocreative.com">hola@impaktocreative.com</a>.
             </p>
+            </div>
           </article>
         </div>
       </section>

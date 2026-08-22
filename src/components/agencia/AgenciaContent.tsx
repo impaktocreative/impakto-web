@@ -476,10 +476,11 @@ export default function AgenciaContent() {
 
           <Reveal delay={0.14}>
             <div className="mt-14 border-t border-graphite/14 pt-8">
-              <p className="mb-4 flex items-center gap-2 text-eyebrow uppercase text-stone">
-                <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto opacity-65" />
+              <p className="mb-6 flex items-center gap-2 text-eyebrow uppercase text-stone">
+                <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto" />
                 Marcas que confiaron en Impakto
               </p>
+              <div className="-mx-7 border-y border-graphite/10 bg-white px-7 py-8 md:-mx-12 md:px-12 lg:-mx-14 lg:px-14 xl:-mx-16 xl:px-16">
               <motion.div
                 initial="hidden"
                 whileInView="show"
@@ -508,6 +509,7 @@ export default function AgenciaContent() {
                   </motion.div>
                 ))}
               </motion.div>
+              </div>
             </div>
           </Reveal>
         </div>
