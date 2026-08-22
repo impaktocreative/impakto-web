@@ -1200,8 +1200,7 @@ a:focus-visible {
 }
 
 .asesor-anclaje-cede {
-  opacity: 0.42;
-  transform: translateY(6px) scale(0.9);
+  transform: translateY(4px) scale(0.92);
 }
 
 .asesor-anclaje-oculto {

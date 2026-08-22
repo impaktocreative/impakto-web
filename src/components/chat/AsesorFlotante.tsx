@@ -380,6 +380,7 @@ export default function AsesorFlotante() {
 
           <div
             ref={hiloRef}
+            data-lenis-prevent
             className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-contain px-5 py-5 [-webkit-overflow-scrolling:touch]"
           >
             <div className="space-y-4">
