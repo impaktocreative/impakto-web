@@ -88,7 +88,7 @@ export function buildEmailHtml(body: string): string {
                         </td>
                         <td style="color:#d1d5db;font-size:12px;">|</td>
                         <td style="padding-left:12px;">
-                          <a href="mailto:hola@impaktocreative.com" style="font-size:12px;color:#374151;text-decoration:none;border-bottom:1px solid #d1d5db;">hola@impaktocreative.com</a>
+                          <a href="mailto:impaktoagency@gmail.com" style="font-size:12px;color:#374151;text-decoration:none;border-bottom:1px solid #d1d5db;">impaktoagency@gmail.com</a>
                         </td>
                       </tr>
                     </table>

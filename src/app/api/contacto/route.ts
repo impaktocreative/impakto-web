@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { REMITENTE, paraElEquipo } from "@/lib/correos"
+import { remitente, paraElEquipo } from "@/lib/correos"
 
 type ContactPayload = {
   nombre: string;
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
   }
 
   const message = {
-    sender: REMITENTE,
+    sender: remitente(),
     to: destinatarios,
     ...(enCopia.length > 0 ? { cc: enCopia } : {}),
     replyTo: { email: payload.email, name: payload.nombre },

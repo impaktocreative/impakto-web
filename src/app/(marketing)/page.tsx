@@ -31,7 +31,7 @@ const organizationSchema = {
   url: siteUrl,
   logo: `${siteUrl}/logos/logonegro.svg`,
   image: `${siteUrl}/share.jpg`,
-  email: "hola@impaktocreative.com",
+  email: "impaktoagency@gmail.com",
   telephone: ["+54 9 11 7842-1357", "+1 615 282 9799"],
   address: {
     "@type": "PostalAddress",

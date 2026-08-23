@@ -83,8 +83,8 @@ export default function ContactoContent() {
                 <div className="mt-10 border-t border-graphite/14 pt-6">
                   <h3 className="flex items-center gap-3 text-eyebrow uppercase text-stone"><span className="h-px w-5 bg-gold/70" />Contacto directo</h3>
                   <div className="mt-4 space-y-2.5 text-body text-slate">
-                    <a href="mailto:hola@impaktocreative.com" className="block transition-colors hover:text-ink">
-                      hola@impaktocreative.com
+                    <a href="mailto:impaktoagency@gmail.com" className="block transition-colors hover:text-ink">
+                      impaktoagency@gmail.com
                     </a>
                     <a href="https://wa.me/5491178421357" target="_blank" rel="noreferrer" className="block transition-colors hover:text-ink">
                       Argentina: +54 9 11 7842-1357

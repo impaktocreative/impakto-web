@@ -61,9 +61,9 @@ export default function Footer() {
             <h3 className="mb-5 text-eyebrow uppercase text-fog">Contacto</h3>
             <ul className="space-y-3">
               <li>
-                <a href="mailto:hola@impaktocreative.com" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-gold">
+                <a href="mailto:impaktoagency@gmail.com" className="inline-flex items-center gap-2 text-accent/80 transition-colors hover:text-gold">
                   <Mail size={14} className="opacity-70" />
-                  hola@impaktocreative.com
+                  impaktoagency@gmail.com
                 </a>
               </li>
               <li>

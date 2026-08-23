@@ -24,7 +24,7 @@ const contactSchema = {
     {
       "@type": "ContactPoint",
       contactType: "customer support",
-      email: "hola@impaktocreative.com",
+      email: "impaktoagency@gmail.com",
       availableLanguage: ["es", "en"],
     },
     {

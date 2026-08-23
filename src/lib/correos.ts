@@ -18,13 +18,33 @@
 /** Casilla principal del estudio. Todo llega acá. */
 export const EQUIPO = 'impaktoagency@gmail.com'
 
+/**
+ * La dirección que se muestra en el sitio: pie, contacto, privacidad y datos
+ * estructurados. Es la misma que recibe, para que nadie escriba a una casilla
+ * que no se lee.
+ *
+ * No confundir con el remitente. Esta se publica y recibe; aquella sale y no
+ * puede cambiarse a una casilla de Gmail sin romper la entrega.
+ */
+export const CORREO_PUBLICO = EQUIPO
+
 /** Copia de todo lo anterior. */
 export const COPIA = 'studio.impakto@gmail.com'
 
-/** Desde dónde sale cada correo. Debe estar verificado en Brevo. */
-export const REMITENTE = {
-  email: process.env.BREVO_SENDER_EMAIL || 'hola@impaktocreative.com',
-  name: process.env.BREVO_SENDER_NAME || 'Impakto Creative',
+/**
+ * Desde dónde sale cada correo. Debe estar verificado en Brevo, y por eso sigue
+ * siendo la dirección del dominio: mandar "desde" gmail.com a través de Brevo
+ * falla SPF y DMARC y termina en correo no deseado.
+ *
+ * Es una función y no una constante a propósito: leer process.env al cargar el
+ * módulo lo haría inservible desde un componente de cliente, y la dirección
+ * pública de acá abajo sí se usa en el pie y en contacto.
+ */
+export function remitente(): { email: string; name: string } {
+  return {
+    email: process.env.BREVO_SENDER_EMAIL || 'hola@impaktocreative.com',
+    name: process.env.BREVO_SENDER_NAME || 'Impakto Creative',
+  }
 }
 
 const NOMBRE = 'Impakto Creative'

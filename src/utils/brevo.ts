@@ -1,5 +1,5 @@
 import { BrevoClient } from '@getbrevo/brevo'
-import { REMITENTE, copiaOculta, respuestasA } from '@/lib/correos'
+import { remitente, copiaOculta, respuestasA } from '@/lib/correos'
 
 const brevo = new BrevoClient({
   apiKey: process.env.BREVO_API_KEY!
@@ -22,7 +22,7 @@ export async function sendEmail({
     const result = await brevo.transactionalEmails.sendTransacEmail({
       subject,
       htmlContent,
-      sender: REMITENTE,
+      sender: remitente(),
       // Si el cliente responde, la respuesta va a la casilla que el estudio
       // lee, no a la del dominio que se usa solo para salir.
       replyTo: respuestasA(),
