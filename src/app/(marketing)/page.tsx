@@ -11,7 +11,7 @@ import FAQ from "@/components/home/FAQ";
 import FinalCTA from "@/components/home/FinalCTA";
 import ScrollStage from "@/components/ui/ScrollStage";
 import { siteUrl, openGraphDeRuta } from "@/lib/site";
-import { preguntasFrecuentes } from "@/content/sitio";
+import { consultasDelHero, preguntasFrecuentes } from "@/content/sitio";
 
 export const metadata: Metadata = {
   title: "Estrategia, marca y desarrollo digital",
@@ -28,10 +28,13 @@ export const metadata: Metadata = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: preguntasFrecuentes.map((p) => ({
+  mainEntity: [...consultasDelHero, ...preguntasFrecuentes].map((p) => ({
     "@type": "Question",
     name: p.question,
-    acceptedAnswer: { "@type": "Answer", text: p.answer },
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: ("answer" in p ? p.answer : "").replace(/\*\*/g, ""),
+    },
   })),
 };
 
