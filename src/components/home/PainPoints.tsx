@@ -46,8 +46,7 @@ export default function PainPoints() {
           </h2>
           </div>
           <p className="text-body text-stone md:text-body-lg lg:col-span-5 lg:col-start-8">
-             En esos contextos intervenimos con dirección estratégica y ejecución
-             integrada para recuperar claridad, consistencia y tracción comercial.
+             Ahí hace falta alguien que decida qué se hace y en qué orden.
           </p>
         </motion.div>
 

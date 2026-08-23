@@ -76,7 +76,7 @@ export default function ClientLogosCarousel() {
         >
           <p className="flex items-center gap-2 text-eyebrow uppercase text-stone">
             <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
-            Marcas que confiaron en Impakto
+            Marcas que confiaron en <span className="marca-impakto">Impakto</span>
           </p>
           <span className="flex items-center gap-3 text-eyebrow uppercase text-stone">
             <span className="hairline-gold h-px w-6" aria-hidden="true" />

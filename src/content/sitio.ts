@@ -33,7 +33,7 @@ export const propuestaDeValor = [
     index: "03",
     title: "Impacto comercial",
     description:
-      "Ordenamos la comunicación para atraer mejor, convertir con más claridad y retener con más consistencia.",
+      "El esfuerzo cae donde el negocio lo necesita: en cómo llegan, en qué encuentran o en por qué se quedan.",
   },
 ];
 
@@ -97,8 +97,8 @@ export const situacionesQueAtendemos = [
   "La marca evolucionó y su presentación actual ya no representa su nivel.",
   "El ecosistema digital quedó por debajo del estándar de la organización.",
   "La comunicación perdió coherencia entre unidades, canales y soportes.",
-  "Existen activos dispersos, pero falta un sistema de dirección integral.",
-  "El equipo directivo necesita una agencia que piense y ejecute con precisión.",
+  "La inversión en marketing no se está notando en las ventas.",
+  "La operación creció y faltan herramientas: gestión interna, seguimiento de clientes, venta online.",
   "Los equipos de marketing y ventas no operan con un marco unificado de comunicación.",
 ];
 

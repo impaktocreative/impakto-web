@@ -53,7 +53,7 @@ export default function ContactoContent() {
             Contacto estratégico
           </p>
           <h1 className="hero-rise hero-rise-delay-1 mt-5 max-w-[17ch] font-heading text-balance text-display-xl text-foreground">
-            Conversemos sobre el próximo paso de tu marca.
+            Contanos en qué está tu marca y te decimos por dónde conviene empezar.
           </h1>
           <p className="hero-rise hero-rise-delay-2 mt-7 max-w-[47rem] text-body text-slate md:text-body-lg">
             Si tu organización necesita mejorar posicionamiento, rendimiento comercial o estructura digital, este es el punto de partida para definir un plan de acción serio y viable.
@@ -155,10 +155,10 @@ export default function ContactoContent() {
               <div className="lg:col-span-7">
               <p className="text-eyebrow uppercase text-gold/85">Perfil de trabajo</p>
               <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg text-paper">
-                Trabajamos mejor con proyectos que ya decidieron invertir en el proceso.
+                Trabajamos con empresas que ya decidieron invertir en resolverlo bien.
               </h2>
               <p className="mt-7 max-w-[40rem] text-body text-ash">
-                Priorizamos relaciones profesionales con objetivos definidos y decisiones oportunas. Esa alineación permite construir soluciones con mayor coherencia, calidad y sostenibilidad.
+                No somos la opción más barata y no intentamos serlo: acá se paga la decisión además de la ejecución. Esa es la diferencia entre un proveedor y un socio.
               </p>
               </div>
 

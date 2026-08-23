@@ -104,7 +104,7 @@ export default function ServiciosContent() {
               Acompañamos organizaciones orientadas a resultados. En lugar de ejecutar herramientas aisladas, diseñamos planes estratégicos integrales para mejorar percepción, rendimiento comercial y sostenibilidad del crecimiento.
             </p>
             <p className="hero-rise hero-rise-delay-3 mt-5 inline-flex flex-wrap items-center gap-2 text-eyebrow uppercase text-stone">
-              Beneficios medibles
+              Qué mejora
               <span className="text-stone">/</span>
               Dirección + implementación
             </p>
@@ -116,7 +116,7 @@ export default function ServiciosContent() {
         <div className="container relative mx-auto max-w-[1320px] px-7 md:px-12 lg:px-14 xl:px-16">
           <Reveal>
             <h2 className="max-w-[18ch] font-heading text-balance text-display-lg">
-              Marco estratégico en tres frentes de crecimiento.
+              Los tres lugares donde una marca gana o pierde.
             </h2>
           </Reveal>
           <RevealLine className="mt-6 block h-px w-28 bg-gradient-to-r from-gold/85 to-transparent" delay={0.06} />
@@ -152,7 +152,7 @@ export default function ServiciosContent() {
         <div className="container mx-auto grid max-w-[1320px] gap-8 px-7 md:px-12 lg:grid-cols-12 lg:items-end lg:px-14 xl:px-16">
           <Reveal className="lg:col-span-7">
             <h2 className="font-heading text-balance text-display-lg text-foreground">
-              Programas diseñados para impacto comercial medible.
+              Cuatro programas que resuelven qué hacer y además lo hacen.
             </h2>
           </Reveal>
           <Reveal className="max-w-[34rem] text-body text-stone lg:col-span-5 lg:justify-self-end" delay={0.08}>
@@ -318,7 +318,7 @@ export default function ServiciosContent() {
             <Reveal className="lg:col-span-6">
               <p className="text-eyebrow uppercase text-stone">Punto de partida</p>
               <h2 className="mt-4 font-heading text-balance text-display-lg text-foreground">
-                Definí el frente que hoy necesita mayor impacto.
+                Elegí dónde apuntar primero.
               </h2>
             </Reveal>
             <Reveal className="max-w-[35rem] text-body text-stone lg:col-span-6 lg:justify-self-end md:text-body-lg" delay={0.08}>
@@ -354,7 +354,7 @@ export default function ServiciosContent() {
                       columna: marca dónde está el lector sin encerrarla. */}
                   <span className="pointer-events-none absolute -left-px top-0 hidden h-full w-px origin-top scale-y-0 bg-[linear-gradient(180deg,var(--color-gold),transparent)] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100 md:block" />
 
-                  <p className="text-eyebrow uppercase text-stone">Usted hoy dice</p>
+                  <p className="text-eyebrow uppercase text-stone">Si hoy decís</p>
 
                   <div className="mt-5 flex items-start gap-5">
                     <span className="font-heading text-display-md leading-none text-cloud tabular-nums">

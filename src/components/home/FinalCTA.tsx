@@ -32,11 +32,10 @@ export default function FinalCTA() {
             <div className="lg:col-span-7">
               <p className="mb-5 flex items-center gap-2 text-eyebrow uppercase text-stone">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={9} height={11} className="h-3 w-auto opacity-55" />
-                Impakto Creative
+                <span className="marca-impakto">Impakto</span> Creative
               </p>
               <h2 className="mb-7 text-balance font-heading text-display-xl text-foreground">
-                Una presencia <span className="gold-reflect">mejor resuelta</span> cambia la forma en que una marca es
-                percibida.
+                El primer golpe bien puesto <span className="gold-reflect">cambia todos los que siguen.</span>
               </h2>
               <p className="max-w-[38rem] text-body-sm text-slate md:text-body-lg">
                 Si tu proyecto necesita una estructura más clara o una presencia digital

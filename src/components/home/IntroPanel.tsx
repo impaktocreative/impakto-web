@@ -75,7 +75,7 @@ export default function IntroPanel() {
 
             {/* Cita de composición en la base del panel */}
             <div className="relative z-10">
-              <p className="text-eyebrow uppercase text-gold/70 mb-3">Impakto Creative</p>
+              <p className="text-eyebrow uppercase text-gold/70 mb-3"><span className="marca-impakto marca-impakto-oscuro">Impakto</span> Creative</p>
               <p className="font-heading text-fog text-lead">
                 Estrategia.<br />Estructura.<br />Presencia.
               </p>

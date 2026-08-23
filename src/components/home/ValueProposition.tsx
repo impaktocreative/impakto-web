@@ -27,7 +27,7 @@ export default function ValueProposition() {
             <h2
               className="text-display-lg mt-4 font-heading text-foreground text-balance"
             >
-              Decisiones mejor pensadas. <span className="gold-reflect">Resultados mejor sostenidos.</span>
+              Primero se decide dónde. <span className="gold-reflect">Después se produce.</span>
             </h2>
           </motion.div>
 

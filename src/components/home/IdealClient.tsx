@@ -86,7 +86,7 @@ export default function IdealClient() {
             <h2
               className="text-display-lg mt-4 font-heading text-foreground text-balance"
             >
-              Proyectos donde nuestra forma de trabajo genera mayor impacto.
+              Proyectos donde una decisión bien puesta cambia el año.
             </h2>
             <p className="mt-6 text-body md:text-body-lg text-stone max-w-[40rem]">
               Los mejores resultados aparecen cuando hay una decisión real de

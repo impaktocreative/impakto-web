@@ -972,6 +972,80 @@ a:focus-visible {
   animation: icon-reflect-pass 6.8s var(--ease-luxury) infinite;
 }
 
+/* La marca, siempre en oro.
+   Donde el nombre aparece en un titular o un rótulo va con reflejo especular
+   propio: es la única palabra del sitio que se trata como material y no como
+   texto, y eso la separa del resto de la línea sin cambiarle el cuerpo.
+
+   Sobre papel el oro de marca (#b99a5b) da 2.48 de contraste y no pasa AA, así
+   que la base es bronce y el destello solo cruza. Sobre tinta el mismo oro da
+   7.39 y puede brillar de verdad: para eso está la variante oscura. */
+.marca-impakto {
+  display: inline-block;
+  font-weight: 600;
+  color: #8a6f37;
+  background-image: linear-gradient(
+    100deg,
+    #8a6f37 0%,
+    #8a6f37 38%,
+    #c9ac70 48%,
+    #efe3c4 52%,
+    #c9ac70 56%,
+    #8a6f37 66%,
+    #8a6f37 100%
+  );
+  background-size: 280% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Igual que en gold-reflect: la caja de un inline-block mide line-height y
+     los display van por debajo de 1, así que el recorte cortaría los rabos. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+  animation: marca-destello 7.2s var(--ease-luxury) infinite;
+}
+
+/* Sobre tinta el oro pleno pasa AA de sobra, así que acá sí brilla. */
+.marca-impakto-oscuro {
+  color: var(--color-gold);
+  background-image: linear-gradient(
+    100deg,
+    var(--color-gold) 0%,
+    var(--color-gold) 38%,
+    var(--color-gold-light) 48%,
+    #fff6e0 52%,
+    var(--color-gold-light) 56%,
+    var(--color-gold) 66%,
+    var(--color-gold) 100%
+  );
+}
+
+@keyframes marca-destello {
+  0%,
+  58% {
+    background-position: 100% 0;
+  }
+  84%,
+  100% {
+    background-position: 0 0;
+  }
+}
+
+/* Sin soporte de recorte a texto queda el color plano, que ya es oro legible. */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .marca-impakto {
+    -webkit-text-fill-color: currentColor;
+    background-image: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marca-impakto {
+    animation: none;
+  }
+}
+
 /* Para titulares sobre fondo oscuro: la base es papel y el reflejo, oro claro. */
 .gold-reflect-light {
   --reflect-base: var(--color-background);

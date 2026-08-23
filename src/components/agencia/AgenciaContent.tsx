@@ -428,16 +428,6 @@ export default function AgenciaContent() {
                     <Link href="/servicios">Ver servicios</Link>
                   </Button>
                 </motion.div>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-                  transition={{ duration: 0.6, delay: 0.56, ease: EASE_LUXURY }}
-                  className="mt-8 border-t border-graphite/12 pt-3 text-caption text-stone/70"
-                >
-                  Biografía editorial en actualización
-                </motion.p>
               </article>
             </Reveal>
           </div>
@@ -483,7 +473,7 @@ export default function AgenciaContent() {
             <div className="mt-14 border-t border-graphite/14 pt-8">
               <p className="mb-6 flex items-center gap-2 text-eyebrow uppercase text-stone">
                 <Image src="/logos/icono-2.svg" alt="" aria-hidden="true" width={8} height={10} className="h-2.5 w-auto" />
-                Marcas que confiaron en Impakto
+                Marcas que confiaron en <span className="marca-impakto marca-impakto-oscuro">Impakto</span>
               </p>
               <div className="-mx-7 border-y border-graphite/10 bg-white px-7 py-8 md:-mx-12 md:px-12 lg:-mx-14 lg:px-14 xl:-mx-16 xl:px-16">
               <motion.div
@@ -528,12 +518,12 @@ export default function AgenciaContent() {
           <Reveal>
             <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12 lg:gap-14">
               <div className="lg:col-span-7">
-              <p className="text-eyebrow uppercase text-gold/85">Compromiso Impakto</p>
-              <h2 className="mt-4 max-w-[15ch] font-heading text-balance text-display-lg text-paper">
-                Nos involucramos de verdad en cada marca para que avance con <span className="gold-reflect gold-reflect-light gold-reflect-slow font-medium">más seguridad</span>.
+              <p className="text-eyebrow uppercase text-gold/85">Por qué se escribe con K</p>
+              <h2 className="mt-4 max-w-[16ch] font-heading text-balance text-display-lg text-paper">
+                El impacto lo tiene cualquier acción. El <span className="marca-impakto marca-impakto-oscuro">impakto</span> se decide antes.
               </h2>
               <p className="mt-7 max-w-[44rem] text-body text-ash md:text-body-lg">
-                Acompañamos todo el proceso con consultoría ejecutiva y dirección creativa para convertir decisiones estratégicas en resultados sostenibles.
+                Impacto, con C, lo tiene cualquier acción: una campaña que hizo ruido, un rediseño que se vio bien, un presupuesto que se ejecutó completo. Nosotros trabajamos sobre el otro, el que se decidió antes de darlo y cae en el punto donde mueve el negocio. Esa diferencia es todo el trabajo.
               </p>
 
               <p className="mt-6 inline-flex flex-wrap items-center gap-3 text-eyebrow uppercase text-paper/70">

@@ -238,16 +238,16 @@ export default function Hero() {
         </p>
 
         <h1 className="hero-rise hero-rise-delay-1 mt-6 max-w-[60rem] text-balance font-heading text-display-2xl text-ink md:mt-7">
-          Construimos estrategias de comunicación para que tu marca{" "}
-          <span className="gold-reflect">venda mejor, online y offline.</span>
+          Hacemos que la inversión en tu marca se note{" "}
+          <span className="gold-reflect">donde importa: en las ventas.</span>
         </h1>
 
         <div className="mt-11 grid gap-y-12 md:mt-14 lg:grid-cols-12 lg:items-end lg:gap-x-16">
           <div className="lg:col-span-6">
             <p className="hero-rise hero-rise-delay-2 max-w-[44ch] text-body-lg text-slate">
-              Ordenamos el mensaje y la presencia de tu marca para que atraiga mejores
-              oportunidades y las convierta con menos fricción. Después trabajamos para
-              que esas relaciones duren.
+              Estrategia, marca y desarrollo digital para empresas que ya tienen un
+              negocio andando. Decidimos dónde poner el esfuerzo antes de producir,
+              para que cada acción sume a la que sigue.
             </p>
 
             <div className="hero-rise hero-rise-delay-3 mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
