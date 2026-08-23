@@ -1,5 +1,5 @@
 import { BrevoClient } from '@getbrevo/brevo'
-import { REMITENTE, copiaOculta } from '@/lib/correos'
+import { REMITENTE, copiaOculta, respuestasA } from '@/lib/correos'
 
 const brevo = new BrevoClient({
   apiKey: process.env.BREVO_API_KEY!
@@ -23,6 +23,9 @@ export async function sendEmail({
       subject,
       htmlContent,
       sender: REMITENTE,
+      // Si el cliente responde, la respuesta va a la casilla que el estudio
+      // lee, no a la del dominio que se usa solo para salir.
+      replyTo: respuestasA(),
       to: [{ email: to, name: name }],
       // Copia oculta: el cliente ve solo su dirección y no puede responderle
       // por error a una casilla interna.

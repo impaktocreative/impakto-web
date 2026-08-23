@@ -47,6 +47,19 @@ export function paraElEquipo(): { to: { email: string; name: string }[]; cc: { e
 }
 
 /**
+ * A dónde vuelve la respuesta de un correo que va a un cliente.
+ *
+ * Sin esto, responder un recordatorio manda el mensaje a la dirección
+ * remitente, que es la del dominio y no la casilla que el estudio lee. El
+ * remitente no se puede cambiar a una casilla de Gmail: mandar "desde"
+ * gmail.com a través de Brevo falla SPF y DMARC y termina en correo no
+ * deseado. Así que el remitente queda como está y la conversación se redirige.
+ */
+export function respuestasA(): { email: string; name: string } {
+  return { email: EQUIPO, name: NOMBRE }
+}
+
+/**
  * Copia oculta de un correo que va a un cliente. El cliente ve solo su propia
  * dirección; el estudio recibe el mismo mensaje sin aparecer en la cabecera.
  */
