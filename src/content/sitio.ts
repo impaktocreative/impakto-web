@@ -142,6 +142,52 @@ export const preguntasFrecuentes = [
   },
 ];
 
+/**
+ * Las marcas de clientes.
+ *
+ * Fuente única: la lee la cinta de la home y la grilla de la página de agencia.
+ * Antes cada una tenía su propia lista, y la de agencia se quedó en ocho marcas
+ * con correcciones de escala escritas a mano mientras la otra ya iba por
+ * treinta y una normalizadas.
+ *
+ * Los archivos viven en `logos/clientes/cinta/`: están normalizados por área de
+ * tinta, así que ninguna necesita ajuste individual. El orden alterna rubros
+ * para que dos marcas del mismo sector no caigan pegadas.
+ */
+export const marcasClientes = [
+  { file: "vargas.webp", name: "Vargas" },
+  { file: "chevrolet.webp", name: "Chevrolet" },
+  { file: "restorando.webp", name: "Restorando" },
+  { file: "grupo-san-nicolas-salud.webp", name: "Grupo San Nicolás Salud" },
+  { file: "salomon.webp", name: "Salomon" },
+  { file: "carballal.webp", name: "Carballal Propiedades" },
+  { file: "little-ranch-hotel-spa.webp", name: "Little Ranch Hotel & Spa" },
+  { file: "venfarma.webp", name: "Venfarma" },
+  { file: "llongueras.webp", name: "Llongueras" },
+  { file: "3m-supermercados.webp", name: "3M Supermercados" },
+  { file: "black-donkey.webp", name: "Black Donkey" },
+  { file: "san-jorge-automoviles.webp", name: "San Jorge Automóviles" },
+  { file: "the-nails-bar.webp", name: "The Nails Bar" },
+  { file: "red-argentina-de-salud.webp", name: "Red Argentina de Salud" },
+  { file: "terra-nostra.webp", name: "Terra Nostra" },
+  { file: "multipasta.webp", name: "Multipasta" },
+  { file: "neicha.webp", name: "Neicha" },
+  { file: "si-turismo-bariloche.webp", name: "Sí Turismo Bariloche" },
+  { file: "doctor-k.webp", name: "Doctor K" },
+  { file: "honky-tonk.webp", name: "Honky Tonk" },
+  { file: "regala.webp", name: "Regala" },
+  { file: "la-crockery.webp", name: "La Crockery" },
+  { file: "thaun.webp", name: "Thaun" },
+  { file: "you-mujer.webp", name: "You Mujer" },
+  { file: "hotel-san-martin.webp", name: "Hotel San Martín" },
+  { file: "buttonia.webp", name: "Buttonia" },
+  { file: "cirse.webp", name: "Cirse" },
+  { file: "doris-machin.webp", name: "Doris Machin" },
+  { file: "san-carlos.webp", name: "San Carlos" },
+  { file: "rebecca.webp", name: "Rebecca" },
+  { file: "honky-tonk-woman.webp", name: "Honky Tonk Woman" },
+];
+
 // ── Servicios ───────────────────────────────────────────────────────────────
 
 export const ejesDeCrecimiento = [

@@ -7,7 +7,7 @@ import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealLine } from "@/components/ui/Reveal";
 import CoherenceField from "@/components/home/CoherenceField";
-import { bioDirector, ejesDelEquipo, firmaTecnica, relatoDeAgencia } from "@/content/sitio";
+import { bioDirector, ejesDelEquipo, firmaTecnica, marcasClientes, relatoDeAgencia } from "@/content/sitio";
 
 const EASE_LUXURY: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -53,28 +53,6 @@ const STAGGER_ITEM_FAST = {
     filter: "blur(0px)",
     transition: { duration: 0.5, ease: EASE_LUXURY },
   },
-};
-
-const trustLogos = [
-  { file: "venfarma.jpeg", name: "Venfarma" },
-  { file: "rebecca.webp", name: "Rebecca" },
-  { file: "ras.png", name: "RAS" },
-  { file: "neicha.jpg", name: "Neicha" },
-  { file: "hsm.jpg", name: "HSM" },
-  { file: "hk-logo.webp", name: "HK" },
-  { file: "carballal-prop.jpg", name: "Carballal" },
-  { file: "Floyd-logo.svg", name: "Floyd" },
-];
-
-const logoOpticalScale: Record<string, string> = {
-  "venfarma.jpeg": "scale-[0.9]",
-  "rebecca.webp": "scale-[0.92]",
-  "ras.png": "scale-[0.84]",
-  "neicha.jpg": "scale-[0.88]",
-  "hsm.jpg": "scale-[0.86]",
-  "hk-logo.webp": "scale-[0.9]",
-  "carballal-prop.jpg": "scale-[0.87]",
-  "Floyd-logo.svg": "scale-[0.94]",
 };
 
 const decisionSignals = [
@@ -481,23 +459,27 @@ export default function AgenciaContent() {
                 whileInView="show"
                 viewport={{ once: true, margin: "0px 0px -90px 0px" }}
                 variants={STAGGER_FAST_CONTAINER}
-                className="grid grid-cols-2 gap-x-10 gap-y-2 md:grid-cols-4"
+                className="grid grid-cols-2 gap-x-8 gap-y-1 md:grid-cols-4 xl:grid-cols-5"
               >
-                {trustLogos.map((logo) => (
+                {marcasClientes.map((logo) => (
                   <motion.div
                     key={logo.file}
                     variants={STAGGER_ITEM_FAST}
                     transition={{ duration: 0.38, ease: EASE_LUXURY }}
-                    className="group flex h-[6.5rem] items-center justify-center"
+                    className="group flex h-[6.8rem] items-center justify-center"
                   >
-                    <div className="relative h-[3.4rem] w-full max-w-[182px]">
+                    {/* La caja mide 176 × 77, o sea 2.28 de proporción, por
+                        debajo del 2.32 del lienzo en el que se normalizaron los
+                        archivos. Eso obliga a object-contain a ajustar siempre
+                        por ancho, que es lo que hace que todas se reduzcan por
+                        el mismo factor y conserven el mismo peso óptico. */}
+                    <div className="relative h-[4.8rem] w-full max-w-[176px]">
                       <Image
-                        src={encodeURI(`/logos/clientes/${logo.file}`)}
+                        src={encodeURI(`/logos/clientes/cinta/${logo.file}`)}
                         alt={logo.name}
                         fill
-                        // La celda topea en 182px de ancho.
-                        sizes="182px"
-                        className={`object-contain object-center grayscale opacity-60 mix-blend-multiply transition-opacity duration-slow group-hover:opacity-100 ${logoOpticalScale[logo.file] ?? "scale-100"}`}
+                        sizes="176px"
+                        className="object-contain object-center grayscale opacity-60 transition-opacity duration-slow group-hover:opacity-100"
                         loading="lazy"
                       />
                     </div>
