@@ -11,6 +11,7 @@ import FAQ from "@/components/home/FAQ";
 import FinalCTA from "@/components/home/FinalCTA";
 import ScrollStage from "@/components/ui/ScrollStage";
 import { siteUrl, openGraphDeRuta } from "@/lib/site";
+import { preguntasFrecuentes } from "@/content/sitio";
 
 export const metadata: Metadata = {
   title: "Estrategia, marca y desarrollo digital",
@@ -22,6 +23,16 @@ export const metadata: Metadata = {
   openGraph: {
     ...openGraphDeRuta("/"),
   },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: preguntasFrecuentes.map((p) => ({
+    "@type": "Question",
+    name: p.question,
+    acceptedAnswer: { "@type": "Answer", text: p.answer },
+  })),
 };
 
 const organizationSchema = {
@@ -45,6 +56,10 @@ const organizationSchema = {
 export default function Home() {
   return (
     <main id="contenido-principal" className="flex-grow">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

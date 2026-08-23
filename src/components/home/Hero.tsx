@@ -6,11 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import EsculturaViva from "@/components/visual/EsculturaViva";
 import Magnetic from "@/components/ui/Magnetic";
-
-type Conversation = {
-  question: string;
-  answer: string;
-};
+import { consultasDelHero } from "@/content/sitio";
 
 type MarkedWord = {
   text: string;
@@ -98,60 +94,6 @@ function TypedText({
   );
 }
 
-/**
- * El guion del hero.
- *
- * Es una conversación real, no un carrusel de argumentos. Las preguntas son
- * las que hace alguien que ya evaluó proveedores y llega con reparos, no las
- * que le convendría hacer al vendedor. Cada respuesta arranca con un criterio
- * concreto, una distinción o un límite, porque eso es lo único que demuestra
- * oficio en dos líneas. Un adjetivo no demuestra nada.
- *
- * Regla al agregar una: si la respuesta se puede copiar y pegar en el sitio de
- * cualquier otra agencia sin cambiarle una palabra, no sirve.
- */
-const conversations: Conversation[] = [
-  {
-    question: "Ya trabajamos con una agencia. ¿Qué harían distinto?",
-    answer:
-      "Revisamos las decisiones antes que las piezas. Rara vez el problema es el volumen de producción; casi siempre es que **el criterio cambia según quién ejecute**.",
-  },
-  {
-    question: "¿Cómo determinan si el problema es la web o es nuestra propuesta?",
-    answer:
-      "Lo evaluamos en dos planos: qué perfil llega y qué claridad encuentra al llegar. Si el perfil no es el correcto, el sitio no lo resuelve. Si lo es y no avanza, **el problema está en el sitio**.",
-  },
-  {
-    question: "¿Por qué empiezan por estrategia y no directamente por diseño?",
-    answer:
-      "Porque el diseño expresa una decisión ya tomada. Cuando esa decisión no existe, el diseño la define por defecto y la marca queda **sin argumento para sostenerla** ante su directorio.",
-  },
-  {
-    question: "Tenemos varias unidades de negocio y cada una comunica distinto.",
-    answer:
-      "Eso se resuelve con jerarquía, no con un manual. Definimos qué determina la marca madre y qué queda a criterio de cada unidad. Sin ese límite explícito, **el manual deja de aplicarse** en semanas.",
-  },
-  {
-    question: "¿En cuánto tiempo se ven resultados?",
-    answer:
-      "La percepción cambia desde la salida. El impacto comercial depende del volumen de oportunidades que maneje la compañía: con ciclos de venta largos, **un trimestre no es muestra suficiente** para concluir.",
-  },
-  {
-    question: "¿Trabajan con nuestro equipo interno o lo reemplazan?",
-    answer:
-      "Trabajamos con el equipo. Aportamos dirección y criterio externo; **el conocimiento del negocio ya está adentro** y es lo más difícil de reconstruir desde afuera.",
-  },
-  {
-    question: "¿Qué necesitan de nuestra parte para comenzar?",
-    answer:
-      "Un interlocutor con capacidad de decisión. Es la única condición que no se puede delegar, y **define el ritmo del proyecto** más que cualquier otro factor.",
-  },
-  {
-    question: "¿Cómo definen la inversión de un proyecto?",
-    answer:
-      "Por alcance, y el alcance surge del diagnóstico, que no tiene costo. Anticipar una cifra antes de esa conversación **sería un número sin respaldo**.",
-  },
-];
 
 
 /** Cuánto queda en pantalla cada turno, ya con la respuesta escrita. */
@@ -173,7 +115,7 @@ export default function Hero() {
   const activeConversation = turno.indice;
   const fase: Fase = menosMovimiento ? "respuesta" : turno.fase;
   const currentConversation =
-    conversations[activeConversation] ?? conversations[0] ?? { question: "", answer: "" };
+    consultasDelHero[activeConversation] ?? consultasDelHero[0] ?? { question: "", answer: "" };
 
   // Lo que hace que se lea como dos personas y no como un carrusel: la
   // pregunta se termina de escribir, pasa un momento, aparecen los tres puntos
@@ -201,7 +143,7 @@ export default function Hero() {
   useEffect(() => {
     if (pausado) return;
     const siguiente = window.setTimeout(() => {
-      setTurno((t) => ({ indice: (t.indice + 1) % conversations.length, fase: "pregunta" }));
+      setTurno((t) => ({ indice: (t.indice + 1) % consultasDelHero.length, fase: "pregunta" }));
     }, DURACION_TURNO);
     return () => window.clearTimeout(siguiente);
   }, [activeConversation, pausado]);
@@ -357,12 +299,12 @@ export default function Hero() {
                   puede saltar a cualquiera, que es la razón de que sean botones
                   y no adornos. */}
               <div className="mt-5 flex items-center gap-1.5">
-                {conversations.map((c, indice) => (
+                {consultasDelHero.map((c, indice) => (
                   <button
                     key={c.question}
                     type="button"
                     onClick={() => setTurno({ indice, fase: "pregunta" })}
-                    aria-label={`Ver consulta ${indice + 1} de ${conversations.length}`}
+                    aria-label={`Ver consulta ${indice + 1} de ${consultasDelHero.length}`}
                     aria-current={indice === activeConversation}
                     className={`h-px py-2 transition-all duration-slow ${
                       indice === activeConversation ? "w-7" : "w-3.5"

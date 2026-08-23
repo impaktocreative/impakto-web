@@ -7,6 +7,7 @@ import {
   metodologia,
   perfilDeCliente,
   perfilesDeColaboracion,
+  consultasDelHero,
   preguntasFrecuentes,
   procesoDeDiagnostico,
   programasEstrategicos,
@@ -110,6 +111,13 @@ function desdeElContenido(): string {
   bloques.push(
     'Preguntas frecuentes:\n' +
       preguntasFrecuentes.map((p) => `P: ${p.question}\nR: ${p.answer}`).join('\n\n'),
+  )
+
+  // Las consultas del hero son las objeciones que llegan de verdad, con la
+  // respuesta que da el estudio. Para un modelo son lo más citable del sitio.
+  bloques.push(
+    'Consultas frecuentes de quien está evaluando contratar:\n' +
+      consultasDelHero.map((c) => `P: ${c.question}\nR: ${c.answer.replace(/\*\*/g, '')}`).join('\n\n'),
   )
 
   bloques.push('Dirección creativa:\n' + bioDirector.map((p) => `- ${p}`).join('\n'))

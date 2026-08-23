@@ -2,6 +2,7 @@ import {
   areasDeTrabajo,
   ejesDeCrecimiento,
   metodologia,
+  consultasDelHero,
   preguntasFrecuentes,
   procesoDeDiagnostico,
   programasEstrategicos,
@@ -78,6 +79,13 @@ function construir(): string {
   b.push(
     '## Con qué perfil de cliente encajan\n' +
       senalesDeClienteIdeal.map((s) => `- **${s.title}**: ${s.description}`).join('\n'),
+  )
+
+  b.push(
+    '## Lo que preguntan antes de contratar\n' +
+      consultasDelHero
+        .map((c) => `### ${c.question}\n${c.answer.replace(/\*\*/g, '')}`)
+        .join('\n\n'),
   )
 
   b.push(

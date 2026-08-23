@@ -188,6 +188,66 @@ export const marcasClientes = [
   { file: "honky-tonk-woman.webp", name: "Honky Tonk Woman" },
 ];
 
+/**
+ * Las consultas del hero.
+ *
+ * Es una conversación real, no un carrusel de argumentos. Las preguntas son
+ * las que hace alguien que ya evaluó proveedores y llega con reparos, no las
+ * que le convendría hacer al vendedor. Cada respuesta arranca con un criterio
+ * concreto, una distinción o un límite, porque eso es lo único que demuestra
+ * oficio en dos líneas. Un adjetivo no demuestra nada.
+ *
+ * Regla al agregar una: si la respuesta se puede copiar y pegar en el sitio de
+ * cualquier otra agencia sin cambiarle una palabra, no sirve.
+ *
+ * Vive acá y no dentro del componente porque el hero muestra una sola a la vez
+ * y la respuesta espera un cambio de estado: en el HTML servido no hay ninguna
+ * completa. Derivándolas desde acá entran al llms.txt y al conocimiento del
+ * asesor, que es donde un modelo puede leerlas y citarlas.
+ */
+export const consultasDelHero = [
+  {
+    question: "Ya trabajamos con una agencia. ¿Qué harían distinto?",
+    answer:
+      "Revisamos las decisiones antes que las piezas. Rara vez el problema es el volumen de producción; casi siempre es que **el criterio cambia según quién ejecute**.",
+  },
+  {
+    question: "¿Cómo determinan si el problema es la web o es nuestra propuesta?",
+    answer:
+      "Lo evaluamos en dos planos: qué perfil llega y qué claridad encuentra al llegar. Si el perfil no es el correcto, el sitio no lo resuelve. Si lo es y no avanza, **el problema está en el sitio**.",
+  },
+  {
+    question: "¿Por qué empiezan por estrategia y no directamente por diseño?",
+    answer:
+      "Porque el diseño expresa una decisión ya tomada. Cuando esa decisión no existe, el diseño la define por defecto y la marca queda **sin argumento para sostenerla** ante su directorio.",
+  },
+  {
+    question: "Tenemos varias unidades de negocio y cada una comunica distinto.",
+    answer:
+      "Eso se resuelve con jerarquía, no con un manual. Definimos qué determina la marca madre y qué queda a criterio de cada unidad. Sin ese límite explícito, **el manual deja de aplicarse** en semanas.",
+  },
+  {
+    question: "¿En cuánto tiempo se ven resultados?",
+    answer:
+      "La percepción cambia desde la salida. El impacto comercial depende del volumen de oportunidades que maneje la compañía: con ciclos de venta largos, **un trimestre no es muestra suficiente** para concluir.",
+  },
+  {
+    question: "¿Trabajan con nuestro equipo interno o lo reemplazan?",
+    answer:
+      "Trabajamos con el equipo. Aportamos dirección y criterio externo; **el conocimiento del negocio ya está adentro** y es lo más difícil de reconstruir desde afuera.",
+  },
+  {
+    question: "¿Qué necesitan de nuestra parte para comenzar?",
+    answer:
+      "Un interlocutor con capacidad de decisión. Es la única condición que no se puede delegar, y **define el ritmo del proyecto** más que cualquier otro factor.",
+  },
+  {
+    question: "¿Cómo definen la inversión de un proyecto?",
+    answer:
+      "Por alcance, y el alcance surge del diagnóstico, que no tiene costo. Anticipar una cifra antes de esa conversación **sería un número sin respaldo**.",
+  },
+];
+
 // ── Servicios ───────────────────────────────────────────────────────────────
 
 export const ejesDeCrecimiento = [
