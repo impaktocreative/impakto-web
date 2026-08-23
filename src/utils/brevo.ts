@@ -1,4 +1,5 @@
 import { BrevoClient } from '@getbrevo/brevo'
+import { REMITENTE, copiaOculta } from '@/lib/correos'
 
 const brevo = new BrevoClient({
   apiKey: process.env.BREVO_API_KEY!
@@ -21,9 +22,11 @@ export async function sendEmail({
     const result = await brevo.transactionalEmails.sendTransacEmail({
       subject,
       htmlContent,
-      sender: { name: 'Impakto Creative', email: 'hola@impaktocreative.com' },
+      sender: REMITENTE,
       to: [{ email: to, name: name }],
-      bcc: [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }],
+      // Copia oculta: el cliente ve solo su dirección y no puede responderle
+      // por error a una casilla interna.
+      bcc: copiaOculta(),
       ...(cc && cc.length > 0 ? { cc } : {}),
     })
     return { success: true, result }

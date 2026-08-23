@@ -3,6 +3,7 @@ import { sendEmail } from '@/utils/brevo'
 import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { differenceInCalendarDays, parseISO, startOfDay } from 'date-fns'
+import { avisosInternos, copiaOculta } from '@/lib/correos'
 
 const UPCOMING_DAYS_MAP = {
   '10_days': 10,
@@ -51,7 +52,7 @@ const TEMPLATE_FALLBACKS: Record<ReminderType, { subject: string; body: string }
   },
 }
 
-const CC_RECIPIENTS_24H = [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }]
+const CC_RECIPIENTS_24H = copiaOculta()
 
 /** Días de mora a partir de los cuales el servicio se suspende. */
 const DIAS_PARA_SUSPENDER = 15
@@ -60,10 +61,7 @@ const DIAS_PARA_SUSPENDER = 15
  * Destinatarios del aviso interno de suspensión. Se pueden pisar con
  * ADMIN_ALERT_EMAILS, separados por coma, sin tocar el código.
  */
-const ADMINS = (process.env.ADMIN_ALERT_EMAILS ?? 'studio.impakto@gmail.com,rodrigo.zarza@gmail.com')
-  .split(',')
-  .map((e) => e.trim())
-  .filter(Boolean)
+const ADMINS = avisosInternos()
 
 function createAdminSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL

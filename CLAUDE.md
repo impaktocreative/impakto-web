@@ -200,7 +200,17 @@ Opcionales, con fallback en código:
 
 `VERCEL_URL` y `VERCEL_PROJECT_PRODUCTION_URL` las inyecta Vercel.
 
-Nota: `utils/brevo.ts` tiene sender y BCC hardcodeados (`hola@impaktocreative.com`, `impaktoagency@gmail.com`), a diferencia de `api/contacto` que sí lee de env.
+**Todas las direcciones del estudio viven en `src/lib/correos.ts`.** Antes estaban
+repartidas en cinco archivos y ya habían divergido: el formulario iba a una casilla,
+los avisos de suspensión a otras dos y la copia oculta de los recordatorios a una
+tercera. Hoy todo llega a `impaktoagency@gmail.com` con copia a `studio.impakto@gmail.com`.
+
+La distinción entre `cc` y `bcc` es deliberada: en un correo que va a un cliente las
+casillas internas van ocultas, para que el cliente no las vea ni le responda por error
+a una de ellas. En un correo dirigido al equipo van visibles.
+
+`CONTACT_TO_EMAIL` y `ADMIN_ALERT_EMAILS` siguen pudiendo redirigir sin desplegar, y si
+están cargadas con otro valor **ese valor gana**.
 
 ---
 

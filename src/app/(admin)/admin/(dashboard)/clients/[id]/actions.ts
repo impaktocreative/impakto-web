@@ -195,7 +195,8 @@ export async function sendManualReminderAction(clientServiceId: string) {
     name: clientData.contact_name ?? clientData.brand_name ?? 'Cliente',
     subject,
     htmlContent,
-    cc: [{ email: 'impaktoagency@gmail.com', name: 'Impakto Creative' }],
+    // La copia al equipo ya va oculta desde sendEmail; acá no hace falta
+    // repetirla en visible, que le mostraba al cliente una casilla interna.
   })
 
   if (!emailResult.success) {

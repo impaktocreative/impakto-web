@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { REMITENTE, paraElEquipo } from "@/lib/correos"
 
 type ContactPayload = {
   nombre: string;
@@ -48,9 +49,7 @@ function validatePayload(payload: ContactPayload) {
 
 export async function POST(request: Request) {
   const apiKey = process.env.BREVO_API_KEY;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL ?? "hola@impaktocreative.com";
-  const senderName = process.env.BREVO_SENDER_NAME ?? "Impakto Creative";
-  const recipientEmail = process.env.CONTACT_TO_EMAIL ?? "impaktoagency@gmail.com";
+  const { to: destinatarios, cc: enCopia } = paraElEquipo();
 
   if (!apiKey) {
     return NextResponse.json(
@@ -84,8 +83,9 @@ export async function POST(request: Request) {
   }
 
   const message = {
-    sender: { email: senderEmail, name: senderName },
-    to: [{ email: recipientEmail, name: "Equipo Impakto" }],
+    sender: REMITENTE,
+    to: destinatarios,
+    ...(enCopia.length > 0 ? { cc: enCopia } : {}),
     replyTo: { email: payload.email, name: payload.nombre },
     subject: `Nuevo brief de contacto - ${payload.empresa.replace(/[\r\n]/g, " ")}`,
     htmlContent: `
