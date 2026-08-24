@@ -101,14 +101,14 @@ export default async function AdminDashboard() {
         <p className="mt-1 text-sm text-gray-500">Vista rápida de clientes, vencimientos y pagos para tomar acción en segundos.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-8">
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Clientes</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">{totalClients ?? 0}</p>
+          <p className="mt-2 text-3xl font-bold tabular-nums text-gray-900">{totalClients ?? 0}</p>
         </div>
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
           <p className="text-sm font-medium text-gray-500">Servicios Activos</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">{activeServices ?? 0}</p>
+          <p className="mt-2 text-3xl font-bold tabular-nums text-gray-900">{activeServices ?? 0}</p>
         </div>
         <div
           className={`rounded-2xl shadow-sm ring-1 p-6 transition-all hover:shadow-md ${
@@ -116,7 +116,7 @@ export default async function AdminDashboard() {
           }`}
         >
           <p className={`text-sm font-medium ${vencidos > 0 ? 'text-red-800' : 'text-gray-500'}`}>Vencidos</p>
-          <p className={`text-3xl font-bold mt-2 ${vencidos > 0 ? 'text-red-900' : 'text-gray-900'}`}>{vencidos}</p>
+          <p className={`mt-2 text-3xl font-bold tabular-nums ${vencidos > 0 ? 'text-red-900' : 'text-gray-900'}`}>{vencidos}</p>
         </div>
         <div
           className={`rounded-2xl shadow-sm ring-1 p-6 transition-all hover:shadow-md ${
@@ -124,15 +124,19 @@ export default async function AdminDashboard() {
           }`}
         >
           <p className={`text-sm font-medium ${expiringSoon > 0 ? 'text-orange-800' : 'text-gray-500'}`}>Por Vencer (10 días)</p>
-          <p className={`text-3xl font-bold mt-2 ${expiringSoon > 0 ? 'text-orange-900' : 'text-gray-900'}`}>{expiringSoon}</p>
+          <p className={`mt-2 text-3xl font-bold tabular-nums ${expiringSoon > 0 ? 'text-orange-900' : 'text-gray-900'}`}>{expiringSoon}</p>
         </div>
-        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/5 p-6 transition-all hover:shadow-md">
+        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5 transition-all hover:shadow-md xl:col-span-2">
           <p className="text-sm font-medium text-gray-500">Ingreso Bruto</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">${totalGrossIncome.toLocaleString('es-AR')}</p>
+          <p className="mt-2 text-2xl font-bold tabular-nums text-gray-900 xl:text-3xl">
+            ${totalGrossIncome.toLocaleString('es-AR')}
+          </p>
         </div>
-        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-emerald-50 ring-emerald-500/20 p-6 transition-all hover:shadow-md">
+        <div className="rounded-2xl bg-emerald-50/40 p-6 shadow-sm ring-1 ring-emerald-500/20 transition-all hover:shadow-md xl:col-span-2">
           <p className="text-sm font-medium text-emerald-800">Ingreso Neto</p>
-          <p className="text-3xl font-bold text-emerald-900 mt-2">${totalNetIncome.toLocaleString('es-AR')}</p>
+          <p className="mt-2 text-2xl font-bold tabular-nums text-emerald-900 xl:text-3xl">
+            ${totalNetIncome.toLocaleString('es-AR')}
+          </p>
         </div>
       </div>
 
