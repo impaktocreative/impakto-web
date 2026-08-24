@@ -89,34 +89,36 @@ export default function AsesorFlotante() {
   }, [])
 
   // ── Hilo guardado ─────────────────────────────────────────────────────────
-  // El id vive en el navegador, la conversación en la base. La primera versión
-  // guardaba el id y después nunca pedía la transcripción: quien volvía se
-  // encontraba un saludo vacío mientras su historial seguía guardado.
+  // Al abrir el panel solo se restaura, nunca se crea. Antes se abría una
+  // sesión acá mismo, así que cualquiera que abriera el panel por curiosidad y
+  // lo cerrara dejaba una fila vacía en la base y una línea en la pantalla de
+  // conversaciones, que terminaba llena de hilos sin una sola palabra.
+  //
+  // La sesión se crea al enviar el primer mensaje, en `enviar`, donde ya estaba
+  // el reintento. Una conversación sin mensajes no es una conversación.
+  //
+  // El id vive en el navegador y la transcripción en la base: la primera
+  // versión guardaba el id y después nunca pedía la transcripción, así que
+  // quien volvía se encontraba un saludo vacío con su historial guardado.
   useEffect(() => {
     if (!abierto || sessionId) return
 
-    let cancelado = false
+    const guardado = localStorage.getItem(CLAVE_SESION)
+    if (!guardado) return
 
-    const arrancar = async () => {
-      const guardado = localStorage.getItem(CLAVE_SESION)
-      if (guardado) {
-        const r = await restaurarSesion(guardado).catch(() => null)
+    let cancelado = false
+    void restaurarSesion(guardado)
+      .then((r) => {
         if (cancelado) return
         if (r?.ok) {
           setSessionId(guardado)
           if (r.messages.length) setMensajes(r.messages)
-          return
+        } else {
+          localStorage.removeItem(CLAVE_SESION)
         }
-        localStorage.removeItem(CLAVE_SESION)
-      }
+      })
+      .catch(() => {})
 
-      const nueva = await abrirSesion().catch(() => null)
-      if (cancelado || !nueva?.ok) return
-      localStorage.setItem(CLAVE_SESION, nueva.sessionId)
-      setSessionId(nueva.sessionId)
-    }
-
-    void arrancar()
     return () => {
       cancelado = true
     }
