@@ -4,6 +4,7 @@ import { buildEmailHtml, interpolate } from '@/utils/emailTemplate'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { differenceInCalendarDays, parseISO, startOfDay } from 'date-fns'
 import { avisosInternos, copiaOculta } from '@/lib/correos'
+import { purgarSesionesVencidas } from '@/lib/chat/retention'
 
 const UPCOMING_DAYS_MAP = {
   '10_days': 10,
@@ -367,5 +368,19 @@ export async function GET(request: Request) {
     emailsFailed++
   }
 
-  return NextResponse.json({ success: true, emailsSent, emailsFailed, estadosCorregidos, suspendidos })
+  let purgadas = { vencidas: 0, vacias: 0 }
+  try {
+    purgadas = await purgarSesionesVencidas()
+  } catch (e) {
+    console.error('[cron] purga de conversaciones', e)
+  }
+
+  return NextResponse.json({
+    success: true,
+    emailsSent,
+    emailsFailed,
+    estadosCorregidos,
+    suspendidos,
+    purgadas,
+  })
 }

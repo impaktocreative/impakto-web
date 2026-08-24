@@ -61,16 +61,58 @@ export async function reclamarSesion(sessionId: string): Promise<SesionChat | nu
 /**
  * Recupera espacio. Es seguro llamarla siempre y seguro no llamarla nunca: la
  * corrección la garantiza `reclamarSesion`, esto solo limpia.
+ *
+ * Dos barridos distintos:
+ *
+ *   vencidas  pasaron los sesenta días sin actividad.
+ *   vacías    se abrió el hilo y nunca entró un mensaje. Con la sesión
+ *             creándose recién al enviar no debería pasar, pero queda el caso
+ *             de que el envío falle después de crearla. Se espera un día antes
+ *             de tocarlas para no pisar una conversación en curso.
  */
-export async function purgarSesionesVencidas(): Promise<number> {
+export async function purgarSesionesVencidas(): Promise<{ vencidas: number; vacias: number }> {
   const supabase = clienteChat()
-  if (!supabase) return 0
+  if (!supabase) return { vencidas: 0, vacias: 0 }
 
-  const { data } = await supabase
+  const { data: vencidas } = await supabase
     .from('chat_sessions')
     .delete()
     .lt('last_active_at', corte().toISOString())
     .select('id')
 
-  return data?.length ?? 0
+  const ayer = new Date()
+  ayer.setDate(ayer.getDate() - 1)
+
+  // Candidatas: viejas, anónimas y sin derivar. El filtro de "sin mensajes" se
+  // aplica después, contra la tabla de mensajes, porque PostgREST no expresa
+  // un NOT EXISTS en una sola consulta.
+  const { data: candidatas } = await supabase
+    .from('chat_sessions')
+    .select('id')
+    .lt('started_at', ayer.toISOString())
+    .is('nombre', null)
+    .is('email', null)
+    .is('telefono', null)
+    .is('empresa', null)
+    .eq('handoff', false)
+
+  if (!candidatas?.length) return { vencidas: vencidas?.length ?? 0, vacias: 0 }
+
+  const ids = candidatas.map((c) => c.id)
+  const { data: conMensajes } = await supabase
+    .from('chat_messages')
+    .select('session_id')
+    .in('session_id', ids)
+
+  const ocupadas = new Set((conMensajes ?? []).map((m) => m.session_id))
+  const aBorrar = ids.filter((id) => !ocupadas.has(id))
+  if (!aBorrar.length) return { vencidas: vencidas?.length ?? 0, vacias: 0 }
+
+  const { data: vacias } = await supabase
+    .from('chat_sessions')
+    .delete()
+    .in('id', aBorrar)
+    .select('id')
+
+  return { vencidas: vencidas?.length ?? 0, vacias: vacias?.length ?? 0 }
 }
