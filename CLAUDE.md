@@ -102,6 +102,7 @@ Todo en Supabase Postgres. No hay ORM: se usa el query builder de `supabase-js` 
 | `expense_payments` | pagos de gastos, `paid_by` (`sergio`/`rodrigo`) |
 | `email_templates` | PK `type`, `subject`, `body` — editables desde `/admin/settings` |
 | `email_logs` | auditoría de envíos, evita recordatorios duplicados |
+| `balance_adjustments` | ajustes de liquidación entre socios: `month` (`YYYY-MM`), `favor` (`sergio`/`rodrigo`), `amount` (siempre positivo), `currency`, `description` |
 
 FKs con `ON DELETE CASCADE` (client → client_services → payments) y `ON DELETE RESTRICT` en `services`. **Borrado físico, no hay soft delete** — no existe `deleted_at` en ninguna tabla.
 
@@ -120,6 +121,7 @@ supabase_email_automation_migration.sql
 supabase_esquema_real.sql               # refleja la base real
 supabase_pendientes.sql                 # ARCA + ajustes + ingreso manual — aplicado
 supabase_movimientos_excluidos.sql      # exclude_from_totals — aplicado
+supabase_ajustes_balance.sql            # balance_adjustments — aplicado
 ```
 
 Marcados como supersedidos, se conservan solo como registro y **no hay que correrlos**: `supabase_arca_facturacion_migration.sql`, `supabase_arca_clientes_fix.sql`, `supabase_arca_dos_emisores.sql`. Los tres asumen un emisor único o parten de tablas que nunca existieron; `supabase_pendientes.sql` los reemplaza y crea el esquema directamente con los dos emisores.
@@ -152,6 +154,26 @@ Viven en `src/lib/billing.ts` y son la única implementación. Antes estaban dup
 - `sumarMeses()` recorta al último día del mes destino. `new Date(iso)` + `setMonth` desbordaba los fines de mes (31 de enero + 1 mes daba 3 de marzo) y corría un día por zona horaria.
 - `proximoVencimiento()` cuenta desde el vencimiento anterior, no desde el pago: el cliente contrató un período. Si el atraso fue tan grande que el nuevo vencimiento también caería en el pasado, recalcula desde el pago.
 - `montoNeto()` aplica la retención bancaria del 3,5% cuando el servicio la tiene marcada.
+
+### Liquidación entre socios
+
+El mes se reparte por mitades: `liquidación = neto total / 2 − neto de Sergio`.
+Positivo, le transfiere Rodrigo a Sergio. La cuenta vive en `BalanceClient.tsx`
+y sale de `filas`, un `useMemo` que hace la aritmética de cada mes una sola vez
+— antes escritorio y móvil la repetían por separado.
+
+**Los ajustes se aplican enteros y después del reparto.** Un ajuste de 100.000 a
+favor de Sergio mueve la liquidación 100.000 hacia Sergio, punto. Si entrara
+como un ingreso más, el reparto se llevaría la mitad y movería 50.000 para el
+lado contrario: "a favor de" dejaría de significar lo que dice. Por eso tampoco
+tocan ingresos, egresos ni el neto total — mueven plata de un socio al otro, no
+cambian cuánto entró al estudio.
+
+El monto va siempre positivo y la dirección la lleva `favor`. Un monto con signo
+más una dirección son dos formas de decir lo mismo y terminan contradiciéndose.
+
+El mes en curso siempre aparece en la tabla aunque no tenga movimiento: es la
+única forma de cargarle un ajuste el día 1.
 
 ### Estados del servicio
 

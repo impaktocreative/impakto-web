@@ -1,10 +1,11 @@
 'use client'
 
-import { useActionState, useMemo, useState } from 'react'
+import { useActionState, useMemo, useState, useTransition } from 'react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { ChevronDown, ChevronRight } from 'lucide-react'
-import { saveUsdRateAction } from './actions'
+import { ChevronDown, ChevronRight, Trash2 } from 'lucide-react'
+import { crearAjusteAction, eliminarAjusteAction, saveUsdRateAction } from './actions'
+import { IconButton } from '../../ui/IconButton'
 import { cotizacionDe, type UsdRates } from '@/lib/usd-rate'
 import { fechaLocal } from '@/lib/fecha'
 
@@ -29,6 +30,16 @@ type ExpenseItem = {
   expense_name: string
 }
 
+type AdjustmentItem = {
+  id: string
+  month: string
+  favor: 'sergio' | 'rodrigo'
+  amount: number
+  currency: string
+  description: string
+  created_at: string
+}
+
 type MonthData = {
   monthKey: string
   label: string
@@ -42,6 +53,25 @@ type MonthData = {
   expenseRodrigoUSD: number
   incomeDetails: IncomeItem[]
   expenseDetails: ExpenseItem[]
+  adjustments: AdjustmentItem[]
+}
+
+function mesVacio(monthKey: string): MonthData {
+  return {
+    monthKey,
+    label: '',
+    incomeSergioARS: 0,
+    incomeRodrigoARS: 0,
+    incomeSergioUSD: 0,
+    incomeRodrigoUSD: 0,
+    expenseSergioARS: 0,
+    expenseRodrigoARS: 0,
+    expenseSergioUSD: 0,
+    expenseRodrigoUSD: 0,
+    incomeDetails: [],
+    expenseDetails: [],
+    adjustments: [],
+  }
 }
 
 function formatCurrency(value: number, currency: 'ARS' | 'USD'): string {
@@ -110,42 +140,227 @@ function DetailRow({
   return null
 }
 
+/** Cómo se lee la liquidación del mes: quién le transfiere a quién. */
+function textoLiquidacion(liquidacion: number, largo = false): string {
+  const monto = Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 0 })
+  if (Math.round(liquidacion) === 0) return largo ? 'Todo balanceado' : '✓'
+  const deudor = liquidacion > 0 ? 'rodrigo' : 'sergio'
+  if (largo) {
+    return deudor === 'rodrigo'
+      ? `Rodrigo debe pagar $${monto} a Sergio`
+      : `Sergio debe pagar $${monto} a Rodrigo`
+  }
+  return deudor === 'rodrigo' ? `R → S: $${monto}` : `S → R: $${monto}`
+}
+
+/**
+ * Ajustes de liquidación del mes.
+ *
+ * Todo lo que se acordó entre los socios y no pasó por ingresos ni por gastos:
+ * un adelanto, algo que uno puso de su bolsillo, la mitad de un acuerdo de
+ * palabra. El monto se aplica entero a la liquidación.
+ */
+function AjustesDelMes({
+  month,
+  label,
+  adjustments,
+  rate,
+  ajusteNeto,
+  crearAjuste,
+  guardando,
+  estado,
+  onEliminar,
+  borrando,
+}: {
+  month: string
+  label: string
+  adjustments: AdjustmentItem[]
+  rate: number
+  ajusteNeto: number
+  crearAjuste: (formData: FormData) => void
+  guardando: boolean
+  estado: { success: boolean; message?: string } | null
+  onEliminar: (id: string) => void
+  borrando: boolean
+}) {
+  const campo =
+    'mt-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 ' +
+    'focus:outline-none focus:ring-2 focus:ring-black'
+  const etiqueta = 'block text-[11px] font-medium uppercase tracking-wide text-gray-500'
+
+  return (
+    <div className="border-b border-gray-200 bg-amber-50/40 px-6 py-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        {/* El mes va en el título: el panel se dibuja arriba de su propia fila,
+            así que sin nombrarlo se lee como si fuera del mes de más arriba. */}
+        <h4 className="text-[11px] font-semibold uppercase tracking-wide text-gray-600">
+          Ajustes de liquidación de {label}
+        </h4>
+        {ajusteNeto !== 0 && (
+          <span className="text-xs text-gray-600">
+            Neto:{' '}
+            <span className="font-semibold text-gray-900">
+              $ {Math.abs(ajusteNeto).toLocaleString('es-AR', { maximumFractionDigits: 0 })} a favor
+              de {ajusteNeto > 0 ? 'Sergio' : 'Rodrigo'}
+            </span>
+          </span>
+        )}
+      </div>
+
+      {adjustments.length > 0 && (
+        <ul className="mt-2 divide-y divide-amber-200/60 border-y border-amber-200/60">
+          {adjustments.map((a) => (
+            // En el teléfono la descripción baja a su propio renglón. Apretada
+            // entre el monto y la fecha quedaba en una columna de cuatro
+            // palabras por línea.
+            // El botón vive fuera del bloque que envuelve: si entra en el
+            // mismo flex, un monto en dólares con su conversión lo empuja a un
+            // renglón propio.
+            <li key={a.id} className="flex items-start gap-2 py-2 text-xs">
+              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+                <span
+                  className={`order-1 inline-flex shrink-0 items-center rounded-full px-2 py-0.5 font-medium ${
+                    a.favor === 'sergio' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
+                  }`}
+                >
+                  {a.favor === 'sergio' ? 'Sergio' : 'Rodrigo'}
+                </span>
+                <span className="order-4 w-full min-w-0 text-gray-700 sm:order-2 sm:w-auto sm:flex-1">
+                  {a.description}
+                </span>
+                <span className="order-2 shrink-0 text-[11px] text-gray-400 sm:order-3">
+                  {format(new Date(a.created_at), 'dd/MM/yy')}
+                </span>
+                <span className="order-3 shrink-0 font-semibold tabular-nums text-gray-900 sm:order-4">
+                  {a.currency === 'USD'
+                    ? `USD ${a.amount.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
+                    : `$ ${a.amount.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`}
+                  {a.currency === 'USD' && (
+                    <span className="ml-1 text-[11px] font-normal text-gray-400">
+                      ≈ $ {(a.amount * rate).toLocaleString('es-AR', { maximumFractionDigits: 0 })}
+                    </span>
+                  )}
+                </span>
+              </div>
+              <IconButton
+                icon={Trash2}
+                label="Eliminar ajuste"
+                tono="peligro"
+                ocupado={borrando}
+                onClick={() => onEliminar(a.id)}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <form action={crearAjuste} className="mt-3 flex flex-wrap items-end gap-2">
+        <input type="hidden" name="month" value={month} />
+        <div className="flex flex-col">
+          <label htmlFor={`favor-${month}`} className={etiqueta}>
+            A favor de
+          </label>
+          <select id={`favor-${month}`} name="favor" defaultValue="sergio" className={campo}>
+            <option value="sergio">Sergio</option>
+            <option value="rodrigo">Rodrigo</option>
+          </select>
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor={`monto-${month}`} className={etiqueta}>
+            Monto
+          </label>
+          <input
+            type="number"
+            id={`monto-${month}`}
+            name="amount"
+            min={1}
+            step="any"
+            required
+            placeholder="0"
+            className={`${campo} w-32`}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor={`moneda-${month}`} className={etiqueta}>
+            Moneda
+          </label>
+          <select id={`moneda-${month}`} name="currency" defaultValue="ARS" className={campo}>
+            <option value="ARS">ARS</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+        <div className="flex min-w-[16rem] flex-1 flex-col">
+          <label htmlFor={`detalle-${month}`} className={etiqueta}>
+            De qué se trata
+          </label>
+          <input
+            type="text"
+            id={`detalle-${month}`}
+            name="description"
+            required
+            maxLength={200}
+            placeholder={`Ej: adelanto de ${label.split(' ')[0]}`}
+            className={campo}
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={guardando}
+          className="rounded-md bg-black px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:bg-gray-300"
+        >
+          {guardando ? 'Guardando...' : 'Agregar'}
+        </button>
+        {estado?.message && (
+          <span className={`text-xs ${estado.success ? 'text-emerald-600' : 'text-red-600'}`}>
+            {estado.message}
+          </span>
+        )}
+      </form>
+
+      <p className="mt-2 text-[11px] text-gray-500">
+        El monto se suma entero a la liquidación, después del reparto por mitades. No cambia
+        ingresos ni egresos.
+      </p>
+    </div>
+  )
+}
+
 export function BalanceClient({
   initialIncome,
   initialExpenses,
+  initialAdjustments,
   usdRates,
 }: {
   initialIncome: IncomeItem[]
   initialExpenses: ExpenseItem[]
+  initialAdjustments: AdjustmentItem[]
   usdRates: UsdRates
 }) {
   // Cada mes convierte con su propia cotización: los dólares de mayo no valen
   // los pesos de hoy. El total es la suma de los meses ya convertidos.
   const [rateState, saveRate, savingRate] = useActionState(saveUsdRateAction, null)
-  const cotizacion = (mes: string) => cotizacionDe(mes, usdRates)
+  const [ajusteState, crearAjuste, guardandoAjuste] = useActionState(crearAjusteAction, null)
+  const [borrando, iniciarBorrado] = useTransition()
   const [expandedMonth, setExpandedMonth] = useState<string | null>(null)
+
+  const eliminarAjuste = (id: string) => {
+    if (!confirm('¿Eliminar este ajuste? La liquidación del mes vuelve a calcularse sin él.')) return
+    iniciarBorrado(async () => {
+      await eliminarAjusteAction(id)
+    })
+  }
 
   const monthsData = useMemo(() => {
     const monthsMap = new Map<string, MonthData>()
 
+    // El mes en curso siempre está, aunque todavía no haya movimiento: es el
+    // único modo de poder cargarle un ajuste el día 1.
+    const mesActual = new Date().toISOString().slice(0, 7)
+    monthsMap.set(mesActual, mesVacio(mesActual))
+
     for (const item of initialIncome) {
       const monthKey = item.payment_date.slice(0, 7)
-      if (!monthsMap.has(monthKey)) {
-        monthsMap.set(monthKey, {
-          monthKey,
-          label: '',
-          incomeSergioARS: 0,
-          incomeRodrigoARS: 0,
-          incomeSergioUSD: 0,
-          incomeRodrigoUSD: 0,
-          expenseSergioARS: 0,
-          expenseRodrigoARS: 0,
-          expenseSergioUSD: 0,
-          expenseRodrigoUSD: 0,
-          incomeDetails: [],
-          expenseDetails: [],
-        })
-      }
+      if (!monthsMap.has(monthKey)) monthsMap.set(monthKey, mesVacio(monthKey))
       const m = monthsMap.get(monthKey)!
       const effective = item.net_amount ?? item.amount
       if (item.receiver === 'sergio') {
@@ -160,22 +375,7 @@ export function BalanceClient({
 
     for (const item of initialExpenses) {
       const monthKey = item.payment_date.slice(0, 7)
-      if (!monthsMap.has(monthKey)) {
-        monthsMap.set(monthKey, {
-          monthKey,
-          label: '',
-          incomeSergioARS: 0,
-          incomeRodrigoARS: 0,
-          incomeSergioUSD: 0,
-          incomeRodrigoUSD: 0,
-          expenseSergioARS: 0,
-          expenseRodrigoARS: 0,
-          expenseSergioUSD: 0,
-          expenseRodrigoUSD: 0,
-          incomeDetails: [],
-          expenseDetails: [],
-        })
-      }
+      if (!monthsMap.has(monthKey)) monthsMap.set(monthKey, mesVacio(monthKey))
       const m = monthsMap.get(monthKey)!
       if (item.paid_by === 'sergio') {
         if (item.currency === 'ARS') m.expenseSergioARS += item.amount
@@ -187,6 +387,11 @@ export function BalanceClient({
       m.expenseDetails.push(item)
     }
 
+    for (const a of initialAdjustments) {
+      if (!monthsMap.has(a.month)) monthsMap.set(a.month, mesVacio(a.month))
+      monthsMap.get(a.month)!.adjustments.push(a)
+    }
+
     const sorted = Array.from(monthsMap.values()).sort((a, b) => b.monthKey.localeCompare(a.monthKey))
 
     for (const m of sorted) {
@@ -195,7 +400,53 @@ export function BalanceClient({
     }
 
     return sorted
-  }, [initialIncome, initialExpenses])
+  }, [initialIncome, initialExpenses, initialAdjustments])
+
+  /**
+   * Las cuentas de cada mes, hechas una sola vez.
+   *
+   * Escritorio y móvil muestran lo mismo con distinta forma. Cuando cada uno
+   * repetía la aritmética, cualquier cambio había que acertarlo dos veces.
+   */
+  const filas = useMemo(() => {
+    return monthsData.map((m) => {
+      const rate = cotizacionDe(m.monthKey, usdRates)
+
+      const sergioNeto =
+        m.incomeSergioARS + m.incomeSergioUSD * rate -
+        (m.expenseSergioARS + m.expenseSergioUSD * rate)
+      const rodrigoNeto =
+        m.incomeRodrigoARS + m.incomeRodrigoUSD * rate -
+        (m.expenseRodrigoARS + m.expenseRodrigoUSD * rate)
+      const netoTotal = sergioNeto + rodrigoNeto
+
+      // El ajuste se aplica entero y después del reparto por mitades. Si
+      // entrara como un ingreso más, la mitad se le iría al otro socio y el
+      // número que se cargó no sería el que termina moviéndose.
+      const ajusteNeto = m.adjustments.reduce((suma, a) => {
+        const enPesos = a.currency === 'USD' ? a.amount * rate : a.amount
+        return suma + (a.favor === 'sergio' ? enPesos : -enPesos)
+      }, 0)
+
+      const liquidacionBase = netoTotal / 2 - sergioNeto
+      const liquidacion = liquidacionBase + ajusteNeto
+
+      return {
+        ...m,
+        rate,
+        sergioNeto,
+        rodrigoNeto,
+        netoTotal,
+        ajusteNeto,
+        liquidacionBase,
+        liquidacion,
+        totalIncomeArs: m.incomeSergioARS + m.incomeRodrigoARS,
+        totalIncomeUsd: m.incomeSergioUSD + m.incomeRodrigoUSD,
+        totalExpenseArs: m.expenseSergioARS + m.expenseRodrigoARS,
+        totalExpenseUsd: m.expenseSergioUSD + m.expenseRodrigoUSD,
+      }
+    })
+  }, [monthsData, usdRates])
 
   const totals = useMemo(() => {
     let totalIncomeARS = 0
@@ -204,24 +455,20 @@ export function BalanceClient({
     let totalExpenseUSD = 0
     let totalNeto = 0
 
-    for (const m of monthsData) {
-      const r = cotizacionDe(m.monthKey, usdRates)
-      const inArs = m.incomeSergioARS + m.incomeRodrigoARS
-      const inUsd = m.incomeSergioUSD + m.incomeRodrigoUSD
-      const exArs = m.expenseSergioARS + m.expenseRodrigoARS
-      const exUsd = m.expenseSergioUSD + m.expenseRodrigoUSD
+    for (const f of filas) {
+      totalIncomeARS += f.totalIncomeArs
+      totalIncomeUSD += f.totalIncomeUsd
+      totalExpenseARS += f.totalExpenseArs
+      totalExpenseUSD += f.totalExpenseUsd
 
-      totalIncomeARS += inArs
-      totalIncomeUSD += inUsd
-      totalExpenseARS += exArs
-      totalExpenseUSD += exUsd
-
-      // Cada mes se cierra con su cotización antes de sumarse al total.
-      totalNeto += (inArs - exArs) + (inUsd - exUsd) * r
+      // Cada mes se cierra con su cotización antes de sumarse al total. Los
+      // ajustes no entran acá: mueven plata de un socio al otro, no cambian
+      // cuánto entró al estudio.
+      totalNeto += f.netoTotal
     }
 
     return { totalIncomeARS, totalIncomeUSD, totalExpenseARS, totalExpenseUSD, totalNeto }
-  }, [monthsData, usdRates])
+  }, [filas])
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -286,23 +533,10 @@ export function BalanceClient({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {monthsData.map((m) => {
-                const rate = cotizacion(m.monthKey)
-                const sergioIncome = m.incomeSergioARS + m.incomeSergioUSD * rate
-                const rodrigoIncome = m.incomeRodrigoARS + m.incomeRodrigoUSD * rate
-                const sergioExpenses = m.expenseSergioARS + m.expenseSergioUSD * rate
-                const rodrigoExpenses = m.expenseRodrigoARS + m.expenseRodrigoUSD * rate
-                const sergioNeto = sergioIncome - sergioExpenses
-                const rodrigoNeto = rodrigoIncome - rodrigoExpenses
-                const netoTotal = sergioNeto + rodrigoNeto
-                const mitad = netoTotal / 2
-                const liquidacion = mitad - sergioNeto
+              {filas.map((m) => {
+                const { rate, sergioNeto, rodrigoNeto, netoTotal, liquidacion } = m
+                const { totalIncomeArs, totalIncomeUsd, totalExpenseArs, totalExpenseUsd } = m
                 const isExpanded = expandedMonth === m.monthKey
-
-                const totalIncomeArs = m.incomeSergioARS + m.incomeRodrigoARS
-                const totalIncomeUsd = m.incomeSergioUSD + m.incomeRodrigoUSD
-                const totalExpenseArs = m.expenseSergioARS + m.expenseRodrigoARS
-                const totalExpenseUsd = m.expenseSergioUSD + m.expenseRodrigoUSD
 
                 return (
                   <tr key={m.monthKey}>
@@ -351,6 +585,18 @@ export function BalanceClient({
                               </span>
                             )}
                           </form>
+                          <AjustesDelMes
+                            month={m.monthKey}
+                            label={m.label}
+                            adjustments={m.adjustments}
+                            rate={rate}
+                            ajusteNeto={m.ajusteNeto}
+                            crearAjuste={crearAjuste}
+                            guardando={guardandoAjuste}
+                            estado={ajusteState}
+                            onEliminar={eliminarAjuste}
+                            borrando={borrando}
+                          />
                           <table className="w-full">
                             <tbody>
                               <tr
@@ -375,11 +621,12 @@ export function BalanceClient({
                                   $ {netoTotal.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                                 </td>
                                 <td className="px-4 py-4 text-right font-semibold text-gray-900">
-                                  {liquidacion > 0
-                                    ? `R → S: $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
-                                    : liquidacion < 0
-                                      ? `S → R: $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
-                                      : '✓'}
+                                  {textoLiquidacion(liquidacion)}
+                                  {m.ajusteNeto !== 0 && (
+                                    <span className="ml-1 text-[11px] font-normal text-amber-600">
+                                      · ajustada
+                                    </span>
+                                  )}
                                 </td>
                               </tr>
                               {m.incomeDetails.length > 0 && (
@@ -434,18 +681,19 @@ export function BalanceClient({
                           $ {netoTotal.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
                         </td>
                         <td className="px-4 py-4 text-right font-semibold text-gray-900">
-                          {liquidacion > 0
-                            ? `R → S: $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
-                            : liquidacion < 0
-                              ? `S → R: $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 0 })}`
-                              : '✓'}
+                          {textoLiquidacion(liquidacion)}
+                          {m.ajusteNeto !== 0 && (
+                            <span className="ml-1 text-[11px] font-normal text-amber-600">
+                              · ajustada
+                            </span>
+                          )}
                         </td>
                       </>
                     )}
                   </tr>
                 )
               })}
-              {monthsData.length === 0 && (
+              {filas.length === 0 && (
                 <tr>
                   <td colSpan={10} className="px-6 py-10 text-center text-gray-500">No hay datos en los últimos 12 meses.</td>
                 </tr>
@@ -456,17 +704,8 @@ export function BalanceClient({
 
         {/* Mobile view */}
         <div className="md:hidden divide-y divide-gray-100">
-          {monthsData.map((m) => {
-            const rate = cotizacion(m.monthKey)
-            const sergioIncome = m.incomeSergioARS + m.incomeSergioUSD * rate
-            const rodrigoIncome = m.incomeRodrigoARS + m.incomeRodrigoUSD * rate
-            const sergioExpenses = m.expenseSergioARS + m.expenseSergioUSD * rate
-            const rodrigoExpenses = m.expenseRodrigoARS + m.expenseRodrigoUSD * rate
-            const sergioNeto = sergioIncome - sergioExpenses
-            const rodrigoNeto = rodrigoIncome - rodrigoExpenses
-            const netoTotal = sergioNeto + rodrigoNeto
-            const mitad = netoTotal / 2
-            const liquidacion = mitad - sergioNeto
+          {filas.map((m) => {
+            const { rate, sergioNeto, rodrigoNeto, liquidacion } = m
             const isExpanded = expandedMonth === m.monthKey
 
             return (
@@ -497,20 +736,34 @@ export function BalanceClient({
                       <span>Neto Rodrigo: <span className={rodrigoNeto >= 0 ? 'text-green-600' : 'text-red-600'}>${rodrigoNeto.toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span></span>
                     </div>
                     <div className="bg-gray-100 rounded-lg p-2 text-sm">
-                      <p className="font-semibold">
-                        {liquidacion > 0
-                          ? `Rodrigo debe pagar $${liquidacion.toLocaleString('es-AR', { maximumFractionDigits: 0 })} a Sergio`
-                          : liquidacion < 0
-                            ? `Sergio debe pagar $${Math.abs(liquidacion).toLocaleString('es-AR', { maximumFractionDigits: 0 })} a Rodrigo`
-                            : 'Todo balanceado'}
-                      </p>
+                      <p className="font-semibold">{textoLiquidacion(liquidacion, true)}</p>
+                      {m.ajusteNeto !== 0 && (
+                        <p className="mt-0.5 text-xs text-amber-700">
+                          Incluye ${Math.abs(m.ajusteNeto).toLocaleString('es-AR', { maximumFractionDigits: 0 })} de
+                          ajustes a favor de {m.ajusteNeto > 0 ? 'Sergio' : 'Rodrigo'}.
+                        </p>
+                      )}
+                    </div>
+                    <div className="-mx-4 overflow-hidden">
+                      <AjustesDelMes
+                        month={m.monthKey}
+                        label={m.label}
+                        adjustments={m.adjustments}
+                        rate={rate}
+                        ajusteNeto={m.ajusteNeto}
+                        crearAjuste={crearAjuste}
+                        guardando={guardandoAjuste}
+                        estado={ajusteState}
+                        onEliminar={eliminarAjuste}
+                        borrando={borrando}
+                      />
                     </div>
                   </div>
                 )}
               </div>
             )
           })}
-          {monthsData.length === 0 && (
+          {filas.length === 0 && (
             <div className="px-4 py-10 text-center text-gray-500 text-sm">No hay datos en los últimos 12 meses.</div>
           )}
         </div>
