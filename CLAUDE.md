@@ -38,7 +38,7 @@ src/
 │   │   └── (dashboard)/      # todo lo protegido
 │   │       ├── layout.tsx    # ← guard de auth
 │   │       ├── page.tsx      # dashboard principal
-│   │       ├── clients/[id]/ · services/ · income/ · expenses/ · balance/ · settings/
+│   │       ├── clients/[id]/ · services/ · income/ · expenses/ · balance/ · notas/ · settings/
 │   │       ├── actions.ts    # server actions por carpeta
 │   │       └── payment-actions.ts
 │   ├── api/
@@ -103,6 +103,7 @@ Todo en Supabase Postgres. No hay ORM: se usa el query builder de `supabase-js` 
 | `email_templates` | PK `type`, `subject`, `body` — editables desde `/admin/settings` |
 | `email_logs` | auditoría de envíos, evita recordatorios duplicados |
 | `balance_adjustments` | ajustes de liquidación entre socios: `month` (`YYYY-MM`), `favor` (`sergio`/`rodrigo`), `amount` (siempre positivo), `currency`, `description` |
+| `notes` | bloc interno del panel: `body`, `created_at`, `updated_at` — sin título ni autor |
 
 FKs con `ON DELETE CASCADE` (client → client_services → payments) y `ON DELETE RESTRICT` en `services`. **Borrado físico, no hay soft delete** — no existe `deleted_at` en ninguna tabla.
 
@@ -122,6 +123,7 @@ supabase_esquema_real.sql               # refleja la base real
 supabase_pendientes.sql                 # ARCA + ajustes + ingreso manual — aplicado
 supabase_movimientos_excluidos.sql      # exclude_from_totals — aplicado
 supabase_ajustes_balance.sql            # balance_adjustments — aplicado
+supabase_notas.sql                      # notes — aplicado
 ```
 
 Marcados como supersedidos, se conservan solo como registro y **no hay que correrlos**: `supabase_arca_facturacion_migration.sql`, `supabase_arca_clientes_fix.sql`, `supabase_arca_dos_emisores.sql`. Los tres asumen un emisor único o parten de tablas que nunca existieron; `supabase_pendientes.sql` los reemplaza y crea el esquema directamente con los dos emisores.
