@@ -43,6 +43,7 @@ src/
 │   │       └── payment-actions.ts
 │   ├── api/
 │   │   ├── contacto/route.ts        # POST — form público
+│   │   ├── contacto/token/route.ts  # GET — token anti-bots del form
 │   │   └── cron/reminders/route.ts  # GET — cron diario
 │   ├── auth/signout/route.ts        # POST
 │   ├── layout.tsx            # root: metadata SEO, fuentes, SmoothScroll, CustomCursor
@@ -221,6 +222,7 @@ Opcionales, con fallback en código:
 | `BREVO_SENDER_EMAIL` | `hola@impaktocreative.com` | `api/contacto/route.ts` |
 | `BREVO_SENDER_NAME` | `Impakto Creative` | `api/contacto/route.ts` |
 | `CONTACT_TO_EMAIL` | `impaktoagency@gmail.com` | `api/contacto/route.ts` |
+| `CONTACTO_SECRET` | `CRON_SECRET` | `lib/contacto/antispam.ts` — firma el token de tiempo del formulario |
 
 `VERCEL_URL` y `VERCEL_PROJECT_PRODUCTION_URL` las inyecta Vercel.
 
@@ -349,6 +351,9 @@ Antes de escribir un botón de icono o una etiqueta de estado a mano: usar estos
 ### API Routes
 
 - `POST /api/contacto` — valida campos requeridos, `sanitize()` + `escapeHtml()` sobre todo input antes de meterlo en el HTML del mail, chequea formato de email por regex, y envía por Brevo.
+- `GET /api/contacto/token` — token firmado con la hora de emisión. El formulario lo pide al montar; la página es estática y no puede hornearlo.
+
+**Filtro anti-bots del formulario** en `src/lib/contacto/antispam.ts`. Cuatro capas, cada una alcanza sola contra el spam observado (campos con letras al azar, POST directo a la ruta): token obligatorio (sin token nunca cargó la página), tiempo mínimo de 4 s desde el token, campo trampa `website` oculto con `sr-only`, y heurística de galimatías (≥2 campos de texto sin espacios y con mayúsculas que no abren sílaba). **Al bot se le contesta 200 con el mismo mensaje que a una persona**: un bot que recibe error aprende, uno que cree que pasó sigue mandando lo mismo. Lo descartado queda en los logs de Vercel con prefijo `[contacto] descartado:`. No limita por IP — eso va en el Firewall del proyecto.
 - `GET /api/cron/reminders` — exige `Authorization: Bearer ${CRON_SECRET}`, devuelve 401 sin él.
 - `POST /auth/signout` — cierra sesión y redirige a `/admin/login`.
 

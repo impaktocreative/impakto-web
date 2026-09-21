@@ -1,13 +1,43 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
+/**
+ * Token de tiempo del filtro anti-bots.
+ *
+ * Se pide al montar, no se hornea en el HTML: la página es estática y el
+ * servidor tiene que saber cuándo se abrió el formulario de verdad. Si el
+ * pedido falla se reintenta al enviar, así una conexión floja no deja a una
+ * persona sin poder escribir.
+ */
+async function pedirToken(): Promise<string | null> {
+  try {
+    const r = await fetch("/api/contacto/token", { cache: "no-store" });
+    if (!r.ok) return null;
+    const d = (await r.json()) as { token?: string };
+    return d.token ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [feedback, setFeedback] = useState("");
+  const tokenRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    let cancelado = false;
+    void pedirToken().then((t) => {
+      if (!cancelado) tokenRef.current = t;
+    });
+    return () => {
+      cancelado = true;
+    };
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,6 +54,9 @@ export default function ContactForm() {
       tipoProyecto: String(formData.get("tipoProyecto") ?? "").trim(),
       situacion: String(formData.get("situacion") ?? "").trim(),
       objetivo: String(formData.get("objetivo") ?? "").trim(),
+      // El campo trampa viaja tal cual: vacío en una persona, lleno en un bot.
+      website: String(formData.get("website") ?? ""),
+      token: tokenRef.current ?? (await pedirToken()),
     };
 
     try {
@@ -56,6 +89,21 @@ export default function ContactForm() {
       className="space-y-6"
       aria-describedby="contacto-ayuda"
     >
+      {/* Trampa para bots. Una persona no lo ve ni lo alcanza con Tab; un bot
+          que llena todo lo que encuentra lo llena, y con eso alcanza. No va
+          con display:none porque algunos bots lo detectan y lo saltean. */}
+      <div className="sr-only" aria-hidden="true">
+        <label htmlFor="website">Sitio web</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          className="sr-only"
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label htmlFor="nombre" className="mb-2 block text-eyebrow uppercase text-stone">

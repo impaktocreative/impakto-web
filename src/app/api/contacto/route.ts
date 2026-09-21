@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { remitente, paraElEquipo } from "@/lib/correos"
+import { CAMPO_TRAMPA, evaluarEnvio } from "@/lib/contacto/antispam"
 
 type ContactPayload = {
   nombre: string;
@@ -18,6 +19,9 @@ const REQUIRED_FIELDS: Array<keyof ContactPayload> = [
   "situacion",
   "objetivo",
 ];
+
+const RESPUESTA_OK =
+  "Gracias. Recibimos su mensaje y responderemos por correo con los próximos pasos.";
 
 function sanitize(value: unknown) {
   return String(value ?? "").trim();
@@ -58,9 +62,9 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: Partial<ContactPayload>;
+  let body: Partial<ContactPayload> & { token?: unknown; [CAMPO_TRAMPA]?: unknown };
   try {
-    body = (await request.json()) as Partial<ContactPayload>;
+    body = (await request.json()) as typeof body;
   } catch {
     return NextResponse.json(
       { message: "No se pudo interpretar el formulario enviado." },
@@ -80,6 +84,23 @@ export async function POST(request: Request) {
   const validationError = validatePayload(payload);
   if (validationError) {
     return NextResponse.json({ message: validationError }, { status: 400 });
+  }
+
+  const veredicto = await evaluarEnvio({
+    token: body.token,
+    trampa: body[CAMPO_TRAMPA],
+    textos: [payload.nombre, payload.empresa, payload.situacion, payload.objetivo],
+  });
+
+  if (veredicto.spam) {
+    // Queda en los logs de Vercel para poder ver qué se está tirando y ajustar
+    // el filtro si algún día tira algo real.
+    console.warn(
+      `[contacto] descartado: ${veredicto.motivo} · ${payload.email} · "${payload.nombre.slice(0, 40)}"`,
+    );
+    // Misma respuesta que un envío real. Un bot que recibe un error aprende;
+    // uno que cree que pasó sigue mandando lo mismo.
+    return NextResponse.json({ message: RESPUESTA_OK }, { status: 200 });
   }
 
   const message = {
@@ -123,8 +144,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: detail }, { status: 502 });
   }
 
-  return NextResponse.json(
-    { message: "Gracias. Recibimos su mensaje y responderemos por correo con los próximos pasos." },
-    { status: 200 }
-  );
+  return NextResponse.json({ message: RESPUESTA_OK }, { status: 200 });
 }
